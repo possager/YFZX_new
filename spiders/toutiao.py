@@ -285,8 +285,11 @@ class toutiao:
             #问答里边的title和index中获得的title不一样。
             Re_find_question = re.compile(r"__question = .*?\|\| \[\]\;")
             Re_find_answer = re.compile(r"__answer = .*?\|\| \[\]\;")
+            Re_find_qid = re.compile(r'qid: \'.*?\'')
+
             question_result=Re_find_question.findall(str(htmldata))
             answer_result=Re_find_answer.findall(str(htmldata))
+            qid=Re_find_qid.findall(str(htmldata))
 
             question_detail=question_result[0].replace(' || [];','').replace('__question = ','')
             answer_detail=answer_result[0].replace(' || [];','').replace('__question = ','')
@@ -304,7 +307,7 @@ class toutiao:
             reply_nodes=[]
 
 
-            for comment_content_all in answer_result:#这里边的时间格式有问题
+            for comment_content_all in answer_json:#这里边的时间格式有问题
                 comment_content=comment_content_all['content']
                 comment_publish_time=comment_content_all['show_time']
                 comment_publish_user=comment_content_all['user']['uname']
@@ -329,7 +332,10 @@ class toutiao:
                 reply_nodes.append(one_node)
 
             #开始判断评论是否还有下一页：
-            get_content_in_wenda_comments_more({'id':id,})
+            try:
+                get_content_in_wenda_comments_more({'id':qid[0].split("'")[1],'reply_nodes':reply_nodes,'next_comment_url':None})
+            except Exception as e:
+                print e
             #---------------------------上边这部分的代码是前边没爬完的评论的延续
 
             data['title']=title
@@ -350,7 +356,8 @@ class toutiao:
 
         def get_content_in_wenda_comments_comments(htmldata,data=None):#获取评论中的评论
             pass
-        def get_content_in_wenda_comments_more(comments_data,data=None):
+        def get_content_in_wenda_comments_more(id_replynodes,data=None):
+            #这里边的id跟url中的id不一样
             #https://www.wukong.com/wenda/web/question/loadmorev1/?count=10&qid=6370458749798187265&offset=10&t=1501814522809&req_type=1
 
             session1 = requests.session()
@@ -362,8 +369,13 @@ class toutiao:
             session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
             while True:  # 强制请求
                 try:
-                    response_in_function = session1.request(method='get', url=data['url'], headers=headers,
+                    if not id_replynodes['next_comment_url']:
+                        #https://www.wukong.com/wenda/web/question/loadmorev1/?count=10&qid=6407060007531053314&offset=20&req_type=1
+                        url_comments_more='https://www.wukong.com/wenda/web/question/loadmorev1/?count=10&qid='+id_replynodes['id']+'&offset=10&req_type=1'
+                        response_in_function = session1.request(method='get', url=url_comments_more, headers=headers,
                                                             timeout=5)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
+                    else:
+                        response_in_function=session1.request(method='get',url=id_replynodes['next_comment_url'],headers=headers,timeout=5)
                     break
                 except Exception as e:
                     session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
@@ -375,6 +387,7 @@ class toutiao:
             if timeb - timea < 3:
                 proxy_sendback(proxy_here)
 
+            
 
             
             
