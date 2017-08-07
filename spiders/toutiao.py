@@ -19,30 +19,30 @@ class toutiao:
             'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
         }
         self.urls = [
-            # 'http://www.toutiao.com/api/pc/feed/?category=%E7%BB%84%E5%9B%BE&utm_source=toutiao&as=A15579D7AFA0EB3&cp=597FF0BECBF3EE1',
+            'http://www.toutiao.com/api/pc/feed/?category=%E7%BB%84%E5%9B%BE&utm_source=toutiao&as=A15579D7AFA0EB3&cp=597FF0BECBF3EE1',
             'https://www.toutiao.com/api/pc/feed/?max_behot_time=1499133489&category=__all__&utm_source=toutiao&widen=1&tadrequire=false',
             'https://www.toutiao.com/api/pc/feed/?category=news_hot&utm_source=toutiao&widen=1&max_behot_time_tmp=1499131781&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=%E7%BB%84%E5%9B%BE&utm_source=toutiao&as=A1F5F9655ABFB36&cp=595A5F6BB3262E1',#这个是照片的链接
+            'https://www.toutiao.com/api/pc/feed/?category=%E7%BB%84%E5%9B%BE&utm_source=toutiao&as=A1F5F9655ABFB36&cp=595A5F6BB3262E1',#这个是照片的链接
 
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_society&utm_source=toutiao&widen=1&max_behot_time_tmp=1499130277&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_entertainment&utm_source=toutiao&widen=1&max_behot_time_tmp=1499127310&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_tech&utm_source=toutiao&widen=1&mmax_behot_time_tmp=1499126716&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_sports&utm_source=toutiao&widen=1&max_behot_time_tmp=1499129717&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_car&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128582&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_finance&utm_source=toutiao&widen=1&max_behot_time_tmp=1499127720&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=funny&utm_source=toutiao&widen=1&max_behot_time_tmp=1499121867&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_military&utm_source=toutiao&widen=1&max_behot_time_tmp=1499130314&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_fashion&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128255&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_discovery&utm_source=toutiao&widen=1&mmax_behot_time_tmp=1499128281&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_regimen&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128301&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_essay&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125173&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_history&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125194&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_world&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128221&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_travel&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125233&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_baby&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128468&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_story&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125336&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_game&utm_source=toutiao&widen=1&max_behot_time_tmp=1499131054&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_food&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128522&tadrequire=true'
+            'https://www.toutiao.com/api/pc/feed/?category=news_society&utm_source=toutiao&widen=1&max_behot_time_tmp=1499130277&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_entertainment&utm_source=toutiao&widen=1&max_behot_time_tmp=1499127310&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_tech&utm_source=toutiao&widen=1&mmax_behot_time_tmp=1499126716&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_sports&utm_source=toutiao&widen=1&max_behot_time_tmp=1499129717&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_car&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128582&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_finance&utm_source=toutiao&widen=1&max_behot_time_tmp=1499127720&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=funny&utm_source=toutiao&widen=1&max_behot_time_tmp=1499121867&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_military&utm_source=toutiao&widen=1&max_behot_time_tmp=1499130314&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_fashion&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128255&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_discovery&utm_source=toutiao&widen=1&mmax_behot_time_tmp=1499128281&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_regimen&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128301&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_essay&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125173&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_history&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125194&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_world&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128221&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_travel&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125233&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_baby&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128468&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_story&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125336&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_game&utm_source=toutiao&widen=1&max_behot_time_tmp=1499131054&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_food&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128522&tadrequire=true'
         ]
         self.global_status_num_index = 1
         self.global_status_num_content = 2
@@ -57,77 +57,79 @@ class toutiao:
         self.result_list = []  # 这个存储的是已经跑完了的内容
 
     def get_Index(self):
-        for url_to_get_index in self.urls:
-            for i in range(2):
-                try:#SyntaxError: unexpected EOF while parsing
-                    self.session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
-                    timea=time.time()
-                    while True:
-                        try:
-                            response_in_function=self.session1.request(method='get',url=url_to_get_index,headers=self.headers)
-                            break
-                        except:
-                            self.session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
-                            timea=time.time()
-                    timeb=time.time()
-                    proxy_here = self.session1.proxies.values()[0].split('//')[1]
-                    if timeb - timea < 3:
-                        proxy_sendback(proxy_here)
-                        
-                    response_text= response_in_function.text.encode('utf-8')
-                    datajson=json.loads(response_text)
-                    datajson_index_data = datajson['data']
-                    for one_index in datajson_index_data:
-                        try:
-                            title = one_index['title']
-                        except:
-                            title = ''
-                        try:
-                            reply_count = int(one_index['comments_count'])
-                        except:
-                            reply_count = 0
-                        url = 'http://www.toutiao.com' + one_index['source_url']
-                        try:
-                            publish_user = one_index['source']  # publisher
-                        except:
-                            publish_user = ''
-                        try:
-                            publish_user_photo = one_index['media_avatar_url']
-                        except:
-                            publish_user_photo = ''
-                        try:
-                            vedio_id = one_index['video_id']
-                        except:
-                            vedio_id = None
-                        try:
-                            is_ad = one_index['label']
-                        except:
-                            is_ad = False
+        while True:
+            for url_to_get_index in self.urls:
+                for i in range(2):
+                    try:#SyntaxError: unexpected EOF while parsing
+                        self.session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+                        timea=time.time()
+                        while True:
+                            try:
+                                response_in_function=self.session1.request(method='get',url=url_to_get_index,headers=self.headers)
+                                break
+                            except:
+                                self.session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+                                timea=time.time()
+                        timeb=time.time()
+                        proxy_here = self.session1.proxies.values()[0].split('//')[1]
+                        if timeb - timea < 3:
+                            proxy_sendback(proxy_here)
 
-                        if vedio_id:
-                            continue  # 如果是视频，直接舍弃
-                        if is_ad == u'广告':
-                            continue
+                        response_text= response_in_function.text.encode('utf-8')
+                        datajson=json.loads(response_text)
+                        datajson_index_data = datajson['data']
+                        for one_index in datajson_index_data:
+                            try:
+                                title = one_index['title']
+                            except:
+                                title = ''
+                            try:
+                                reply_count = int(one_index['comments_count'])
+                            except:
+                                reply_count = 0
+                            url = 'http://www.toutiao.com' + one_index['source_url']
+                            try:
+                                publish_user = one_index['source']  # publisher
+                            except:
+                                publish_user = ''
+                            try:
+                                publish_user_photo = one_index['media_avatar_url']
+                            except:
+                                publish_user_photo = ''
+                            try:
+                                vedio_id = one_index['video_id']
+                            except:
+                                vedio_id = None
+                            try:
+                                is_ad = one_index['label']
+                            except:
+                                is_ad = False
 
-                        id = one_index['group_id']
+                            if vedio_id:
+                                continue  # 如果是视频，直接舍弃
+                            if is_ad == u'广告':
+                                continue
 
-                        self.content_data_list.append({ 'id':id,
-                                'url':url,
-                                'reply_count':reply_count,
-                                'title':title,
-                                'publish_user':publish_user,
-                                'publish_user_photo':publish_user_photo,
-                                })
+                            id = one_index['group_id']
 
-                except Exception as e:
-                    print e
-                print '\n\n'
-                # time.sleep(10)
+                            self.content_data_list.append({ 'id':id,
+                                    'url':url,
+                                    'reply_count':reply_count,
+                                    'title':title,
+                                    'publish_user':publish_user,
+                                    'publish_user_photo':publish_user_photo,
+                                    })
 
+                    except Exception as e:
+                        print e
+                    print '\n\n'
+                    # time.sleep(10)
+            time.sleep(10)
         self.global_status_num_index=0
 
     def get_content(self):
         def get_content_inside(data):#这个函数用来获得html文件，并在判断它是那种类型的网页，之后调用相应的函数就可以。
+            #因为comments处理部分需要一个groupid和itemid
             img_urls=[]
             content=''
             url = data['url']
@@ -161,25 +163,35 @@ class toutiao:
                         url=real_url#这是跳转过后的url
 
             Re_find_chineseTag = re.compile(r"chineseTag: '.*?'")
+
+            #8-7日添加的评论抓取模块，里边需要groupid和item_id
+            Re_find_itmeId=re.compile(r'itemId: \'.*?\'')#普通头条
+            Re_find_itme_Id = re.compile(r'item_id:\'.*?\'')#图片
+            if Re_find_itmeId.findall(response_in_function.text):
+                item_id=Re_find_itmeId.findall(response_in_function.text)[0].split("'")[1]
+            else:
+                try:
+                    item_id=Re_find_itme_Id.findall(response_in_function.text)[0].split("'")[1]
+                except Exception as e:
+                    print e
+                    print response_in_function.url
+                    return
+            #######################################################
+
+
             chineseTag=Re_find_chineseTag.findall(response_in_function.text)
             if chineseTag:
                 chineseTag=chineseTag[0].split("'")[1]
                 if chineseTag==u'图片':
                     content_time_img=get_content_picture(response_in_function)
                 elif chineseTag==u'问答':
-                    content_time_img=get_content_wenda(response_in_function)
+                    content_time_img=get_content_wenda(htmldata=response_in_function,data={})
+                    return #进入问答之后就不用返回了，也不需要传入dict类型的参数
                 else:
                     content_time_img=get_content_news(response_in_function)
             else:
                 print chineseTag
                 return
-
-
-
-
-
-
-
 
             # datasoup = BeautifulSoup(response_in_function.text, 'lxml')
             # Re_find_pattern1 = re.compile(r'\bvar gallery =.*?\]\}')
@@ -226,6 +238,8 @@ class toutiao:
                 data['img_urls']=content_time_img['img_urls']
                 data['content']=content_time_img['content']
                 data['publish_time']=content_time_img['publish_time']
+                data['item_id']=item_id
+                data['reply_nodes']=[]
             except Exception as e:
                 print e
 
@@ -251,10 +265,7 @@ class toutiao:
                     img_url_split= img_url.split('"')[1]
                     img_urls.append(img_url_split)
 
-
                 publish_time = Re_find_time2.findall(text_content)[0].split("'")[1]+':00'
-
-                # content_nochange=content
                 return {'content':content,'img_urls':img_urls,'publish_time':publish_time}
             except Exception as e:
                 print e
@@ -279,7 +290,7 @@ class toutiao:
                 title = datajson['sub_titles'][0]
                 Re_find_time = re.compile(r'publish_time:.*?\,')
                 publish_time = Re_find_time.findall(htmldata.text)[0].split("'")[1].replace('/', '-')
-            return {'content': content, 'img_urls': img_urls, 'publish_time': publish_time}
+                return {'content': content, 'img_urls': img_urls, 'publish_time': publish_time}
         def get_content_wenda(htmldata,data=None):#评论里边有评论，评论的评论里边还有评论，所以后边要有两个评论replynode获取函数，第一层评论可以根据has_more字段来判断遍历完了没有
             #这个函数获取评论是从首页来的，因为首页里边有提问的问题，所以要抓，但是后边调用的话，就调用另外一个函数来启动后续的评论获取。
             #问答里边的title和index中获得的title不一样。
@@ -307,6 +318,7 @@ class toutiao:
             reply_nodes=[]
 
 
+
             for comment_content_all in answer_json:#这里边的时间格式有问题
                 comment_content=comment_content_all['content']
                 comment_publish_time=comment_content_all['show_time']
@@ -317,7 +329,16 @@ class toutiao:
                 comment_reply_count=comment_content_all['comment_count']
                 comment_id=comment_content_all['ansid']
                 comment_url='https://www.wukong.com/wenda/web/question/loadmorev1/?qid='+id+'&count=10&req_type=1&offset=3&enter_ansid='+comment_id#每次请求下一次链接的时候offset+10就可以
-                comment_reply_nodes=[]
+                comment_reply_nodes = get_content_in_wenda_comments_comments(
+                    {'id': comment_id, 'reply_nodes': [], 'next_comment_url': None})
+
+                # comment_reply_nodes=[]
+                #这里需要调用后边的comment_comment模块
+
+                ######################################
+
+
+
                 one_node={
                     'content':comment_content,
                     'publish_time':comment_publish_time,
@@ -327,7 +348,7 @@ class toutiao:
                     'like_count':comment_like_count,
                     'reply_nodes':comment_reply_nodes,
                     'reply_count':comment_reply_count,
-                    #缺少url
+                    'url':comment_url
                 }
                 reply_nodes.append(one_node)
 
@@ -354,8 +375,68 @@ class toutiao:
 
 
 
-        def get_content_in_wenda_comments_comments(htmldata,data=None):#获取评论中的评论
-            pass
+        def get_content_in_wenda_comments_comments(id_replynodes,data=None):#获取评论中的评论,传入的东西里边包括：id，reply_nodes,next_comment_url
+
+            session1 = requests.session()
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
+            }
+            timea = time.time()
+            session1.cookies = cookielib.MozillaCookieJar()
+            session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+            while True:  # 强制请求
+                try:
+                    if not id_replynodes['next_comment_url']:
+                        # https://www.wukong.com/wenda/web/question/loadmorev1/?count=10&qid=6407060007531053314&offset=20&req_type=1
+                        url_comments_more = 'https://www.wukong.com/wenda/web/comment/brow/?ansid=' + \
+                                            id_replynodes['id'] + '&count=10&offset=0'
+                        response_in_function = session1.request(method='get', url=url_comments_more, headers=headers,
+                                                                timeout=5)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
+                    else:
+                        response_in_function = session1.request(method='get', url=id_replynodes['next_comment_url'],
+                                                                headers=headers, timeout=5)
+                    break
+                except Exception as e:
+                    session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+                    timea = time.time()
+                    print e
+            timeb = time.time()
+            response_in_function.encoding = 'utf-8'
+            proxy_here = session1.proxies.values()[0].split('//')[1]
+            if timeb - timea < 3:
+                proxy_sendback(proxy_here)
+
+
+            datajson_comment2=json.loads(response_in_function.text)
+            for comment2 in datajson_comment2['comments']:
+                id=comment2['comment_id']
+                like_count=comment2['digg_count']
+                content=comment2['content']
+                publish_user_id=comment2['user_info']['user_id']
+                publish_user=comment2['user_info']['uname']
+                publish_user_photo=comment2['user_info']['avatar_url']
+                publish_time=comment2['create_time']
+
+                thisnode={
+                    'id':id,
+                    'like_count':like_count,
+                    'content':content,
+                    'publish_user_id':publish_user_id,
+                    'publish_user':publish_user,
+                    'publish_user_photo':publish_user_photo,
+                    'publish_time':publish_time
+                }
+                id_replynodes['reply_nodes'].append(thisnode)
+            if datajson_comment2['has_more']:
+                url_offset=response_in_function.url.split('&offset=')
+                offset=int(url_offset[1].split('&')[0])+10
+                url=url_offset+'&offset='+str(offset)
+                id_replynodes['next_comment_url']=url
+                reply_nodes2=get_content_in_wenda_comments_comments(id_replynodes)
+                return reply_nodes2
+            else:
+                return id_replynodes['reply_nodes']
+
         def get_content_in_wenda_comments_more(id_replynodes,data=None):
             #这里边的id跟url中的id不一样
             #https://www.wukong.com/wenda/web/question/loadmorev1/?count=10&qid=6370458749798187265&offset=10&t=1501814522809&req_type=1
@@ -386,6 +467,57 @@ class toutiao:
             proxy_here = session1.proxies.values()[0].split('//')[1]
             if timeb - timea < 3:
                 proxy_sendback(proxy_here)
+
+            datajson=json.loads(response_in_function.text)
+            for one_comment in datajson['data']['ans_list']:
+                # publish_time=one_comment['show_time']#没有年代的时间
+                # content=one_comment['content']#带有html标签
+                datasoup_content=BeautifulSoup(one_comment['content'],'lxml')
+                content=datasoup_content.text
+                #------------------------------8-7
+                img_urls=[]
+                Re_find_img = re.compile(r'src=".*?"')
+                img_urls_find_by_re = Re_find_img.findall(one_comment['content'])
+                for img_url in img_urls_find_by_re:
+                    img_url_split = img_url.split('"')[1]
+                    img_urls.append(img_url_split)
+                #------------------------------8-7
+                like_count=one_comment['digg_count']
+                id=one_comment['id']
+                publish_time=one_comment['create_time']#时间戳
+                reply_count=one_comment['comment_count']
+                publish_user_photo=one_comment['user']['avatar_url']
+                publish_user=one_comment['user']['uname']
+                publish_user_id=one_comment['user']['user_id']
+                reply_nodes=[]
+
+
+                this_node={
+                    'publish_time':publish_time,
+                    'content':content,
+                    'like_count':like_count,
+                    'id':id,
+                    'reply_count':reply_count,
+                    'publish_user_photo':publish_user_photo,
+                    'publish_user':publish_user,
+                    'publish_user_id':publish_user_id,
+                    'reply_nodes':reply_nodes
+                }
+                id_replynodes['reply_nodes'].append(this_node)
+
+            if datajson['data']['has_more']:
+                url_offset = response_in_function.url.split('&offset=')
+                offset = int(url_offset[1].split('&')[0]) + 10
+                url = url_offset + '&offset=' + str(offset)
+                id_replynodes['next_comment_url'] = url
+                reply_nodes2 = get_content_in_wenda_comments_comments(id_replynodes)
+                return reply_nodes2
+            else:
+                return id_replynodes['reply_nodes']
+
+
+
+
 
 
 
@@ -422,27 +554,59 @@ class toutiao:
                 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
             }
 
-            timea = time.time()
-            session1.cookies = cookielib.MozillaCookieJar()
-            session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+
             while True:  # 强制请求
                 try:
-                    comment_url = ''
+                    timea = time.time()
+                    session1.cookies = cookielib.MozillaCookieJar()
+                    session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+                    comment_url = 'http://www.toutiao.com/api/comment/list/?group_id='+str(data['id'])+'&item_id='+str(data['item_id'])+'&offset=5&count=10'
                     response_in_function = session1.request(method='get', url=comment_url, headers=headers,
                                                             timeout=5)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
+                    data_json = json.loads(response_in_function.text.encode('utf-8'))#因为这里可能会204,在抓包中也可以看到
                     break
                 except Exception as e:
                     print e
+                    if 'item_id' in e:
+                        return
             timeb = time.time()
             proxy_here = session1.proxies.values()[0].split('//')[1]
             if timeb - timea < 3:
                 proxy_sendback(proxy_here)
             comments_data = []
-            data_json = json.loads(response_in_function.text.encode('utf-8'))
+            try:
+                data_json = json.loads(response_in_function.text.encode('utf-8'))
+            except Exception as e:
+                print e
+            for one_comment in data_json['data']['comments']:
+                content=one_comment['text']
+                like_count=one_comment['digg_count']
+                publish_time=one_comment['create_time']
+                publish_user_photo=one_comment['user']['avatar_url']
+                publish_user_id=one_comment['user']['user_id']
+                publish_user=one_comment['user']['user_id']
+                id=one_comment['id']
+                reply_count=one_comment['reply_count']
+                if reply_count>0:
+                    reply_nodes=get_comment_comment({'id':id})
+                else:
+                    reply_nodes=[]
 
+                thisnode={
+                    'content':content,
+                    'like_count':like_count,
+                    'publish_time':publish_time,
+                    'publish_user_photo':publish_user_photo,
+                    'publish_user_id':publish_user_id,
+                    'publish_user':publish_user,
+                    'id':id,
+                    'reply_count':reply_count,
+                    'reply_nodes':reply_nodes
+                }
+                # data['reply_nodes'].append(thisnode)
+                comments_data.append(thisnode)
 
-
-
+            #这里的评论能获取的就20个,所以不设计下一页,评论中的评论也是不设计下一页
 
 
 
@@ -452,6 +616,61 @@ class toutiao:
                 time.sleep(1)
                 print 'is waiting the lenth of the result_list to decrease to 300'
             self.result_list.append(data)
+
+        def get_comment_comment(data):#评论中有评论
+            id=data['id']
+            session1 = requests.session()
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
+            }
+
+            timea = time.time()
+            session1.cookies = cookielib.MozillaCookieJar()
+            session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+            while True:  # 强制请求
+                try:
+                    session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+                    #http://www.toutiao.com/api/comment/get_reply/?comment_id=1574954012827661&dongtai_id=1574954012827661&offset=0&count=20
+                    comment_url = 'http://www.toutiao.com/api/comment/get_reply/?comment_id=' + str(
+                        id) + '&item_id=' + str(id) + '&offset=5&count=10'
+                    response_in_function = session1.request(method='get', url=comment_url, headers=headers,
+                                                            timeout=5)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
+                    datajson = json.loads(response_in_function.text)
+
+                    break
+                except Exception as e:
+                    print e
+            timeb = time.time()
+            proxy_here = session1.proxies.values()[0].split('//')[1]
+            if timeb - timea < 3:
+                proxy_sendback(proxy_here)
+
+            reply_nodes=[]
+            datajson=json.loads(response_in_function.text)
+            for one_comment in datajson['data']['data']:
+                content=one_comment['text']
+                like_count=one_comment['digg_count']
+                publish_time=one_comment['create_time']
+                publish_user_id=one_comment['user']['user_id']
+                publish_user=one_comment['user']['screen_name']
+                publish_user_photo=one_comment['user']['avatar_url']
+                id=one_comment['id']
+                thisnode={
+                    'publish_user':publish_user,
+                    'content':content,
+                    'like_count':like_count,
+                    'publish_time':publish_time,
+                    'publish_user_id':publish_user_id,
+                    'publish_user_photo':publish_user_photo,
+                    'id':id
+                }
+                reply_nodes.append(thisnode)
+
+
+            return reply_nodes
+
+
+
 
         threadlist = []
         while self.global_status_num_content > 0 or self.comments_url_list:  # content没有完，就别想完，
@@ -469,6 +688,27 @@ class toutiao:
                     print len(self.comments_url_list)
         self.global_status_num_comments = 0
 
+    def save_result(self):
+        def save_result(data):
+            print 'deal result'
+            Save_result(plantform='toutiao',date_time=data['publish_time'],urlOruid=data['url'],newsidOrtid=data['id'],datatype='news',full_data=data)
+        threadlist = []
+        while self.global_status_num_comments > 0 or self.result_list:
+            while self.result_list or threadlist:
+                for threadi in threadlist:
+                    if not threadi.is_alive():
+                        threadlist.remove(threadi)
+                while len(threadlist) < CONTENT_THREADING_NUM and self.result_list:
+                    print len(self.result_list)
+                    data_in_while = self.result_list.pop()
+                    thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
+                    thread_in_while.setDaemon(True)
+                    thread_in_while.start()
+                    threadlist.append(thread_in_while)
+                    print len(threadlist)
+                    print len(self.result_list)
+        self.global_status_num_comments = 0
+
 
 
     def run(self):
@@ -477,11 +717,11 @@ class toutiao:
         time.sleep(5)
         thread2=threading.Thread(target=self.get_content,args=())
         thread2.start()
-        # # time.sleep(3)
-        # thread3=threading.Thread(target=self.get_comments,args=())
-        # thread3.start()
-        # thread4=threading.Thread(target=self.save_result,args=())
-        # thread4.start()
+        # time.sleep(3)
+        thread3=threading.Thread(target=self.get_comments,args=())
+        thread3.start()
+        thread4=threading.Thread(target=self.save_result,args=())
+        thread4.start()
         pass
 
 
