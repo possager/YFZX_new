@@ -10,7 +10,8 @@ session1=requests.session()
 headers={
     'User-Agent':'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
 }
-response1=session1.request(method='get',url='https://apiv2.sohu.com/api/topic/load?page_size=10&topic_source_id=505790957&page_no=10&hot_size=5',headers=headers)
+response1=session1.request(method='get',url='https://apiv2.sohu.com/api/topic/load?page_size=10&topic_source_id=505790957&page_no=10',headers=headers)
+#https://apiv2.sohu.com/api/comment/list?page_size=10&topic_id=3613216966&page_no=2
 # print response1.text
 # datasoup=BeautifulSoup(response1.text,'lxml')
 # print str(datasoup)
@@ -25,7 +26,7 @@ response1=session1.request(method='get',url='https://apiv2.sohu.com/api/topic/lo
 datajson=json.loads(response1.text)
 print datajson
 for one in datajson['jsonObject']['comments']:
-    print one
+    print one['content']
     # print one['authorName']
     # print one['']
 # print response1.text

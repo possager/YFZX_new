@@ -55,7 +55,7 @@ class sohu:
                     'id':i['id'],
                     'url':url_index,
                     'cmsid':i['cmsId'],
-                    'which_website':1#
+                    # 'which_website':1
                          }
                 self.content_data_list.append(data_index)
             time.sleep(1)
@@ -128,7 +128,7 @@ class sohu:
         self.global_status_num_content = 0
 
     def get_comments(self):
-        def get_comment_inside(data,cmspagenum=0,comments_data=[]):
+        def get_comment_inside(data,cmspagenum=1,comments_data=[],topicid=None,cmspage_taotalnum=0):
             session1 = requests.session()
             headers = {
                 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
@@ -139,8 +139,11 @@ class sohu:
             session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
             while True:  # 强制请求
                 try:
-                    comment_url = 'http://changyan.sohu.com/api/3/topic/liteload?&client_id=cysYw3AKM&page_size=30&hot_size=10&topic_source_id=' + \
-                                  data['id']
+                    if not topicid:
+                        comment_url = 'https://apiv2.sohu.com/api/topic/load?page_size=10&topic_source_id=' + \
+                                  str(data['id'])+'&page_no=10'
+                    else:
+                        comment_url='https://apiv2.sohu.com/api/comment/list?page_size=10&topic_id='+topicid+'&page_no='+cmspagenum
                     response_in_function = session1.request(method='get', url=comment_url, headers=headers,
                                                             timeout=5)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
                     break
@@ -150,9 +153,10 @@ class sohu:
             proxy_here = session1.proxies.values()[0].split('//')[1]
             if timeb - timea < 3:
                 proxy_sendback(proxy_here)
-            comments_data = []
+            # comments_data = []
             data_json = json.loads(response_in_function.text.encode('utf-8'))
-            cmspage_taotalnum=data_json['jsonObject']['total_page_no']
+            if cmspagenum==1:
+                cmspage_taotalnum=data_json['jsonObject']['total_page_no']
             for one_comment in data_json['jsonObject']['comments']:
                 id=one_comment['comment_id']
                 content=one_comment['content']
@@ -184,6 +188,12 @@ class sohu:
 
                 comments_data.append(thisnode)
 
+            cmspagenum+=1
+            if cmspagenum<cmspage_taotalnum+1:
+                get_comment_inside(data,cmspagenum,comments_data,cmspage_taotalnum)
+            else:
+                data['reply_nodes']=comments_data
+                self.result_list.append(comments_data)
 
 
 
@@ -191,7 +201,8 @@ class sohu:
 
 
 
-            self.result_list.append(data)
+
+            # self.result_list.append(data)
 
         threadlist = []
         while self.global_status_num_content > 0 or self.comments_url_list:  # content没有完，就别想完，
