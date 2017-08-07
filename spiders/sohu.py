@@ -21,7 +21,7 @@ class sohu:
         }
         self.urls = [
             'http://v2.sohu.com/public-api/feed?scene=CHANNEL&sceneId=8&page=',#1&size=20
-            'https://api.m.sohu.com/autonews/cpool/?n=%E6%96%B0%E9%97%BB&s='#0&c=20&dc=1
+            # 'https://api.m.sohu.com/autonews/cpool/?n=%E6%96%B0%E9%97%BB&s='#0&c=20&dc=1#这里边貌似都是汽车新闻
         ]
         self.global_status_num_index = 1
         self.global_status_num_content = 2
@@ -37,26 +37,30 @@ class sohu:
 
     def get_Index(self):
         url_to_get_index1=self.urls[0]
-        url_to_get_index2=self.urls[1]#带type的
-        for i in range(1,900,20):
-            response_index_all=self.session1.request(method='get',url=url_to_get_index2+str(i)+'&c=20&dc=1',headers=self.headers)
+        # url_to_get_index2=self.urls[1]#带type的
+        for i in range(1,900):
+            response_index_all=self.session1.request(method='get',url=url_to_get_index1+str(i)+'&size=20',headers=self.headers)
             datajson=json.loads(response_index_all.text)
             for i in datajson['data']['news']:
-                url_index='https://m.sohu.com/'+str(i['type'])+'/'+str(i['id'])
+                url_index='https://m.sohu.com/a/'+str(i['id'])+'_'++str(i['authorId'])
+                publish_time=i['publicTime']
+                publish_time = int(publish_time) / 1000
+                time_format = '%Y-%m-%d'
+                publish_time_stamp_9 = time.localtime(float(publish_time))
+                publish_time = time.strftime(time_format, publish_time_stamp_9)
                 data_index={
-                    'publish_user':i['media'],
-                    'title':i['medium_title'],
-                    'read_count':int(i['view_count']),
-                    'publish_time':i['created_time'].replace('T',' '),
+                    'publish_user':i['authorName'],
+                    'title':i['title'],
+                    'publish_time':publish_time,
                     'id':i['id'],
                     'url':url_index,
+                    'cmsid':i['cmsId'],
                     'which_website':1#
                          }
                 self.content_data_list.append(data_index)
             time.sleep(1)
 
-        # for j in range(900):#一共有两种网页新闻，现在先设计一种
-        #     url_index=
+
 
 
         self.global_status_num_index=0
@@ -68,9 +72,7 @@ class sohu:
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
             }
-            # timea = time.time()
             session1.cookies = cookielib.MozillaCookieJar()
-            # session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
             while True:  # 强制请求
                 try:
                     timea = time.time()
@@ -92,12 +94,18 @@ class sohu:
             img_urls=[]
             content=''
             datasoup=BeautifulSoup(response_in_function.text,'lxml')
-            for i in datasoup.select('body > section.article-wrapper > article > p'):
+            for i in datasoup.select('#articleContent > div.display-content > p'):
                 content+= i.text
-            content_data=str(datasoup.select('body > section.article-wrapper > article')[0])
+            content_data=str(datasoup.select('#articleContent > div.display-content > p')[0])
             Re_find_img=re.compile(r'img src=".*?"')
             for img_url in Re_find_img.findall(content_data):
                 img_urls.append(img_url)
+            data['content']=content
+            data['img_urls']=img_urls
+            data['reply_nodes']=[]
+
+            self.comments_url_list.append(data)
+
 
 
 
@@ -118,6 +126,93 @@ class sohu:
                     # time.sleep(1)
 
         self.global_status_num_content = 0
+
+    def get_comments(self):
+        def get_comment_inside(data,cmspagenum=0,comments_data=[]):
+            session1 = requests.session()
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
+            }
+
+            timea = time.time()
+            session1.cookies = cookielib.MozillaCookieJar()
+            session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+            while True:  # 强制请求
+                try:
+                    comment_url = 'http://changyan.sohu.com/api/3/topic/liteload?&client_id=cysYw3AKM&page_size=30&hot_size=10&topic_source_id=' + \
+                                  data['id']
+                    response_in_function = session1.request(method='get', url=comment_url, headers=headers,
+                                                            timeout=5)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
+                    break
+                except Exception as e:
+                    print e
+            timeb = time.time()
+            proxy_here = session1.proxies.values()[0].split('//')[1]
+            if timeb - timea < 3:
+                proxy_sendback(proxy_here)
+            comments_data = []
+            data_json = json.loads(response_in_function.text.encode('utf-8'))
+            cmspage_taotalnum=data_json['jsonObject']['total_page_no']
+            for one_comment in data_json['jsonObject']['comments']:
+                id=one_comment['comment_id']
+                content=one_comment['content']
+                url=response_in_function.url
+                publish_time=one_comment['create_time']
+                publish_time = int(publish_time) / 1000
+                time_format = '%Y-%m-%d'
+                publish_time_stamp_9 = time.localtime(float(publish_time))
+                publish_time = time.strftime(time_format, publish_time_stamp_9)
+                publish_user_id=one_comment['user_id']
+                like_count=one_comment['support_count']
+                reply_count=one_comment['reply_count']
+                publish_user=one_comment['passport']['nickname']
+                publish_user_photo=one_comment['passport']['img_url']
+
+
+                thisnode={
+                    'id':id,
+                    'content':content,
+                    'url':url,
+                    'publish_time':publish_time,
+                    'publish_user_id':publish_user_id,
+                    'like_count':like_count,
+                    'reply_count':reply_count,
+                    'publish_user':publish_user,
+                    'publish_user_photo':publish_user_photo
+                }
+
+
+                comments_data.append(thisnode)
+
+
+
+
+
+
+
+
+            self.result_list.append(data)
+
+        threadlist = []
+        while self.global_status_num_content > 0 or self.comments_url_list:  # content没有完，就别想完，
+            while self.comments_url_list or threadlist:
+                for threadi in threadlist:
+                    if not threadi.is_alive():
+                        threadlist.remove(threadi)
+                while len(threadlist) < CONTENT_THREADING_NUM and self.comments_url_list:
+                    data_in_while = self.comments_url_list.pop()
+                    thread_in_while = threading.Thread(target=get_comment_inside, args=(data_in_while,))
+                    thread_in_while.setDaemon(True)
+                    thread_in_while.start()
+                    threadlist.append(thread_in_while)
+                    print len(threadlist)
+                    print len(self.comments_url_list)
+        self.global_status_num_comments = 0
+
+
+
+
+
 
     def run(self):
         thread1=threading.Thread(target=self.get_Index,args=())
