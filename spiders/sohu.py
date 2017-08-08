@@ -41,11 +41,11 @@ class sohu:
         for i in range(1,900):
             response_index_all=self.session1.request(method='get',url=url_to_get_index1+str(i)+'&size=20',headers=self.headers)
             datajson=json.loads(response_index_all.text)
-            for i in datajson['data']['news']:
-                url_index='https://m.sohu.com/a/'+str(i['id'])+'_'++str(i['authorId'])
+            for i in datajson:
+                url_index='https://m.sohu.com/a/'+str(i['id'])+'_'+str(i['authorId'])
                 publish_time=i['publicTime']
                 publish_time = int(publish_time) / 1000
-                time_format = '%Y-%m-%d'
+                time_format = '%Y-%m-%d %h:%m:%s'
                 publish_time_stamp_9 = time.localtime(float(publish_time))
                 publish_time = time.strftime(time_format, publish_time_stamp_9)
                 data_index={
@@ -94,9 +94,21 @@ class sohu:
             img_urls=[]
             content=''
             datasoup=BeautifulSoup(response_in_function.text,'lxml')
-            for i in datasoup.select('#articleContent > div.display-content > p'):
-                content+= i.text
-            content_data=str(datasoup.select('#articleContent > div.display-content > p')[0])
+            if datasoup.select('#articleContent > div.display-content > p'):
+                for i in datasoup.select('#articleContent > div.display-content > p'):
+                    content+= i.text
+            else:
+                for i in datasoup.select('#articleContent > div.display-content'):
+                    content+=i
+
+            try:
+                content_data=str(datasoup.select('#articleContent > div.display-content')[0])
+            except Exception as e:
+                print e
+                try:
+                    content_data=str(datasoup.select('#articleContent')[0])
+                except:
+                    return
             Re_find_img=re.compile(r'img src=".*?"')
             for img_url in Re_find_img.findall(content_data):
                 img_urls.append(img_url)
@@ -153,10 +165,12 @@ class sohu:
             proxy_here = session1.proxies.values()[0].split('//')[1]
             if timeb - timea < 3:
                 proxy_sendback(proxy_here)
-            # comments_data = []
             data_json = json.loads(response_in_function.text.encode('utf-8'))
             if cmspagenum==1:
-                cmspage_taotalnum=data_json['jsonObject']['total_page_no']
+                try:
+                    cmspage_taotalnum=data_json['jsonObject']['total_page_no']
+                except:
+                    cmspage_taotalnum=data_json['jsonObject']['outer_cmt_sum']
             for one_comment in data_json['jsonObject']['comments']:
                 id=one_comment['comment_id']
                 content=one_comment['content']
@@ -193,7 +207,7 @@ class sohu:
                 get_comment_inside(data,cmspagenum,comments_data,cmspage_taotalnum)
             else:
                 data['reply_nodes']=comments_data
-                self.result_list.append(comments_data)
+                self.result_list.append(data)
 
 
 
@@ -220,6 +234,27 @@ class sohu:
                     print len(self.comments_url_list)
         self.global_status_num_comments = 0
 
+    def save_result(self):
+        def save_result(data):
+            print 'deal result'
+            print data
+            Save_result(plantform='sohu',date_time=data['publish_time'],urlOruid=data['url'],newsidOrtid=data['id'],datatype='news',full_data=data)
+        threadlist = []
+        while self.global_status_num_comments > 0 or self.result_list:
+            while self.result_list or threadlist:
+                for threadi in threadlist:
+                    if not threadi.is_alive():
+                        threadlist.remove(threadi)
+                while len(threadlist) < CONTENT_THREADING_NUM and self.result_list:
+                    print len(self.result_list)
+                    data_in_while = self.result_list.pop()
+                    thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
+                    thread_in_while.setDaemon(True)
+                    thread_in_while.start()
+                    threadlist.append(thread_in_while)
+                    print len(threadlist)
+                    print len(self.result_list)
+        self.global_status_num_comments = 0
 
 
 
@@ -231,11 +266,11 @@ class sohu:
         time.sleep(5)
         thread2=threading.Thread(target=self.get_content,args=())
         thread2.start()
-        # time.sleep(3)
-        # thread3=threading.Thread(target=self.get_comments,args=())
-        # thread3.start()
-        # thread4=threading.Thread(target=self.save_result,args=())
-        # thread4.start()
+        time.sleep(3)
+        thread3=threading.Thread(target=self.get_comments,args=())
+        thread3.start()
+        thread4=threading.Thread(target=self.save_result,args=())
+        thread4.start()
         pass
 
 if __name__ == '__main__':

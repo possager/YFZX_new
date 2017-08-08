@@ -53,23 +53,23 @@ def fillte_Proxy():
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
     }
     while True:
-        print 'in True'
+        print 'has get 600 websites proxy_good,now is waiting'
         while redis1.llen('proxy_good') < 600:
-            print 'in while'
+            print 'is examing the proxy where fron proxy_original'
             proxy1 = redis1.lpop('proxy_original')
             session1 = requests.session()
             session1.proxies = {
                 "http": "http://" + proxy1,
             }
-            time1 = time.time()
+            # time1 = time.time()
             response1 = session1.request(method='get', url=url_to_examing, headers=headers)
+            session1.close()
+            # response1.elapsed
             time.sleep(1)
-            time2 = time.time()
-            timeused = time2 - time1
-            if timeused < 3:
+            if response1.elapsed < 2:
                 redis1.rpush('proxy_good', proxy1)
-                # print 'has push one,timeused is ',timeused
-        time.sleep(5)
+                print 'has push one,timeused is ',response1.elapsed
+        time.sleep(2)
 
 def mult_thread_to_fillte_Proxy():
     print '\n'
@@ -102,19 +102,25 @@ def examing_Proxy():
             session2.proxies = {
                 "http": "http://" + proxy,
             }
-            time1 = time.time()
+            # time1 = time.time()
             response1 = session2.request(method='get', url=url_to_examing, headers=headers)
-            time2 = time.time()
-            timeused = time2 - time1
+            session2.close()
+            # time2 = time.time()
+            # timeused = time2 - time1
             # print timeused
-            if timeused < 5:
+            if response1.elapsed < 5:
                 redis1.lpush('proxy_good', proxy)
                 print 'has examing one'
-        time.sleep(60)
+        time.sleep(10)
 
 
 def get_proxy_from_redis():
+
+    while redis1.llen('proxy_good')<300:
+        time.sleep(1)
+        print 'proxy is less than 200!!!!!!!!!!!!   is waiting'
     return redis1.lpop('proxy_good')
+
 
 
 def proxy_sendback(proxy):
@@ -122,6 +128,7 @@ def proxy_sendback(proxy):
     proxy_at_200 = redis1.lindex('proxy_good', ratio)
     redis1.lset('proxy_good', ratio, proxy)
     redis1.rpush('proxy_good', proxy_at_200)
+
 
 
 def runProxy():

@@ -113,11 +113,15 @@ class chengdu:
                 for img_url in datasoup.select(
                         'div.swiper-container > div.swiper-wrapper > div.swiper-slide > div.imgdiv > img'):
                     img_urls.append(img_url.get('src'))
-                data['title'] = title
-                data['content'] = content
-                data['publish_time'] = publish_time
-                data['publish_user'] = publish_user
-                data['reply_nodes'] = []
+                try:
+                    data['title'] = title
+                    data['content'] = content
+                    data['publish_time'] = publish_time
+                    data['publish_user'] = publish_user
+                    data['reply_nodes'] = []
+                except Exception as e:
+                    print e
+
             else:
                 print url,'-----not in neirong and picture deal module'
                 # print response_in_function.text

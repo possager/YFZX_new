@@ -38,10 +38,6 @@ class path_to_redis:
     def examing(self,url_to_exam,plantform):#用来检测链接时候爬取过的表
         # key2=change(plantform)
         key2=plantform
-        # List_redis=self.redis.get(key2)
-        # print List_redis
-        # for i in range(self.redis.llen(key2)):
-        #     print self.redis.lindex(key2,i)
         hash_url=str(hashlib.md5(url_to_exam).hexdigest())
         result_num=self.redis.hset(key2+'_url_visited',hash_url,1)
         if result_num==1:

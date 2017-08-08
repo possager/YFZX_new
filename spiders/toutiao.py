@@ -10,11 +10,16 @@ import re
 import json
 from HTMLParser import HTMLParser
 from saveresult import Save_result
+from proxy_to_redis import redis1
+
+timeoutdefault=10
+
 
 
 class toutiao:
     #这个爬虫的策略是一直跑下去，因为这个没有上下页请求之类的东西，所以可以延时一些
     def __init__(self):
+        self.timeoutdefault=20
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
         }
@@ -72,6 +77,7 @@ class toutiao:
                                 timea=time.time()
                         timeb=time.time()
                         proxy_here = self.session1.proxies.values()[0].split('//')[1]
+                        self.session1.close()
                         if timeb - timea < 3:
                             proxy_sendback(proxy_here)
 
@@ -119,6 +125,7 @@ class toutiao:
                                     'publish_user':publish_user,
                                     'publish_user_photo':publish_user_photo,
                                     })
+                            redis1.lpush('urltest',url)
 
                     except Exception as e:
                         print e
@@ -143,7 +150,7 @@ class toutiao:
             while True:  # 强制请求
                 try:
                     response_in_function = session1.request(method='get', url=data['url'], headers=headers,
-                                                            timeout=5)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
+                                                            timeout=self.timeoutdefault)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
                     break
                 except Exception as e:
                     session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
@@ -152,6 +159,7 @@ class toutiao:
             timeb = time.time()
             response_in_function.encoding = 'utf-8'
             proxy_here = session1.proxies.values()[0].split('//')[1]
+            session1.close()
             if timeb - timea < 3:
                 proxy_sendback(proxy_here)
             if response_in_function.history:#用来判断是否跳转到其它网页去了，跳转了的话就不继续跟进
@@ -391,10 +399,10 @@ class toutiao:
                         url_comments_more = 'https://www.wukong.com/wenda/web/comment/brow/?ansid=' + \
                                             id_replynodes['id'] + '&count=10&offset=0'
                         response_in_function = session1.request(method='get', url=url_comments_more, headers=headers,
-                                                                timeout=5)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
+                                                                timeout=self.timeoutdefault)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
                     else:
                         response_in_function = session1.request(method='get', url=id_replynodes['next_comment_url'],
-                                                                headers=headers, timeout=5)
+                                                                headers=headers, timeout=self.timeoutdefault)
                     break
                 except Exception as e:
                     session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
@@ -403,6 +411,7 @@ class toutiao:
             timeb = time.time()
             response_in_function.encoding = 'utf-8'
             proxy_here = session1.proxies.values()[0].split('//')[1]
+            session1.close()
             if timeb - timea < 3:
                 proxy_sendback(proxy_here)
 
@@ -454,9 +463,9 @@ class toutiao:
                         #https://www.wukong.com/wenda/web/question/loadmorev1/?count=10&qid=6407060007531053314&offset=20&req_type=1
                         url_comments_more='https://www.wukong.com/wenda/web/question/loadmorev1/?count=10&qid='+id_replynodes['id']+'&offset=10&req_type=1'
                         response_in_function = session1.request(method='get', url=url_comments_more, headers=headers,
-                                                            timeout=5)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
+                                                            timeout=self.timeoutdefault)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
                     else:
-                        response_in_function=session1.request(method='get',url=id_replynodes['next_comment_url'],headers=headers,timeout=5)
+                        response_in_function=session1.request(method='get',url=id_replynodes['next_comment_url'],headers=headers,timeout=self.timeoutdefault)
                     break
                 except Exception as e:
                     session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
@@ -465,6 +474,7 @@ class toutiao:
             timeb = time.time()
             response_in_function.encoding = 'utf-8'
             proxy_here = session1.proxies.values()[0].split('//')[1]
+            session1.close()
             if timeb - timea < 3:
                 proxy_sendback(proxy_here)
 
@@ -562,7 +572,7 @@ class toutiao:
                     session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
                     comment_url = 'http://www.toutiao.com/api/comment/list/?group_id='+str(data['id'])+'&item_id='+str(data['item_id'])+'&offset=5&count=10'
                     response_in_function = session1.request(method='get', url=comment_url, headers=headers,
-                                                            timeout=5)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
+                                                            timeout=self.timeoutdefault)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
                     data_json = json.loads(response_in_function.text.encode('utf-8'))#因为这里可能会204,在抓包中也可以看到
                     break
                 except Exception as e:
@@ -571,6 +581,7 @@ class toutiao:
                         return
             timeb = time.time()
             proxy_here = session1.proxies.values()[0].split('//')[1]
+            session1.close()
             if timeb - timea < 3:
                 proxy_sendback(proxy_here)
             comments_data = []
@@ -634,7 +645,7 @@ class toutiao:
                     comment_url = 'http://www.toutiao.com/api/comment/get_reply/?comment_id=' + str(
                         id) + '&item_id=' + str(id) + '&offset=5&count=10'
                     response_in_function = session1.request(method='get', url=comment_url, headers=headers,
-                                                            timeout=5)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
+                                                            timeout=self.timeoutdefault)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
                     datajson = json.loads(response_in_function.text)
 
                     break
@@ -642,6 +653,7 @@ class toutiao:
                     print e
             timeb = time.time()
             proxy_here = session1.proxies.values()[0].split('//')[1]
+            session1.close()
             if timeb - timea < 3:
                 proxy_sendback(proxy_here)
 
