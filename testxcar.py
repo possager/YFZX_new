@@ -8,7 +8,7 @@ from multiprocessing import process
 from multiprocessing.pool import Pool
 from multiprocessing import pool
 requests.adapters.DEFAULT_RETRIES = 50
-
+import UserAgent
 
 
 
@@ -28,9 +28,10 @@ def run1(j):
     while True:
         try:
             headers={
-                'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36',
+                'User-Agent':UserAgent.getUserAgentRandom(),
                 'Connection':'close'
             }
+            sessionq.headers=headers
             response1=sessionq.request(method='get',url=url,timeout=20)
             sessionq.close()
             print '------------------------', j
@@ -40,7 +41,7 @@ def run1(j):
             break
         except requests.exceptions.ConnectionError as e:
             print e
-            print '----------------has wrong'
+            print '----------------has wrong   the headers is          ',sessionq.headers
             time.sleep(1)
             redis1.lpush('proxy_good',proxy1)
         # sessionq.keep_alive=False
