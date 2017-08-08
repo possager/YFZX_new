@@ -18,8 +18,7 @@ redis1 = redis.Redis(connection_pool=connectpool)
 # 将来若是某个某个网站想用这个代理，根据meta中的plant_form中的字段来生成一个新的proxylist
 # proxy_
 
-
-
+ratio = 200
 
 
 def get_Proxy():
@@ -66,7 +65,7 @@ def fillte_Proxy():
             session1.close()
             # response1.elapsed
             time.sleep(1)
-            if response1.elapsed < 2:
+            if response1.elapsed.microseconds/1000 < 3000:
                 redis1.rpush('proxy_good', proxy1)
                 print 'has push one,timeused is ',response1.elapsed
         time.sleep(2)
@@ -92,26 +91,24 @@ def mult_thread_to_fillte_Proxy():
 
 def examing_Proxy():
     while True:
-        for i in range(redis1.llen('proxy_good')):
-            proxy = redis1.lpop('proxy_good')
-            url_to_examing = 'https://www.baidu.com/'
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
-            }
-            session2 = requests.session()
-            session2.proxies = {
-                "http": "http://" + proxy,
-            }
-            # time1 = time.time()
-            response1 = session2.request(method='get', url=url_to_examing, headers=headers)
-            session2.close()
-            # time2 = time.time()
-            # timeused = time2 - time1
-            # print timeused
-            if response1.elapsed < 5:
-                redis1.lpush('proxy_good', proxy)
-                print 'has examing one'
-        time.sleep(10)
+        if redis1.llen('proxy_good')-ratio>0:
+            for i in range(redis1.llen('proxy_good')-ratio):
+                proxy = redis1.lpop('proxy_good')
+                url_to_examing = 'https://www.baidu.com/'
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
+                }
+                session2 = requests.session()
+                session2.proxies = {
+                    "http": "http://" + proxy,
+                }
+                response1 = session2.request(method='get', url=url_to_examing, headers=headers)
+                session2.close()
+                if response1.elapsed.microseconds/1000 < 3000:
+                    # redis1.lpush('proxy_good', proxy)
+                    proxy_sendback(proxy)
+                    print 'has examing one'
+            time.sleep(10)
 
 
 def get_proxy_from_redis():
@@ -124,7 +121,6 @@ def get_proxy_from_redis():
 
 
 def proxy_sendback(proxy):
-    ratio = 200
     proxy_at_200 = redis1.lindex('proxy_good', ratio)
     redis1.lset('proxy_good', ratio, proxy)
     redis1.rpush('proxy_good', proxy_at_200)
