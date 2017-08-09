@@ -32,7 +32,8 @@ def run1(j):
                 'Connection':'close'
             }
             sessionq.headers=headers
-            response1=sessionq.request(method='get',url=url,timeout=20)
+            # response1=sessionq.request(method='get',url=url,timeout=20)
+            response1=requests.get(url=url,headers=headers,proxies={'http':'http://'+proxy1})
             sessionq.close()
             print '------------------------', j
             # proxydict={'http':proxy1}

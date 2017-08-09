@@ -30,7 +30,11 @@ def get_Proxy():
         session1 = requests.session()
         proxy_url = 'http://svip.kuaidaili.com/api/getproxy/?orderid=953994536123042&num=100&b_pcchrome=1&b_pcie=1&b_pcff=1&protocol=1&method=1&an_an=1&an_ha=1&sp1=1&quality=2&sort=1&format=json&sep=1'
         ################################这个是一般的'
-        webdata = session1.request(method='GET', url=proxy_url, headers=headers)
+        try:
+            webdata = session1.request(method='GET', url=proxy_url, headers=headers,timeout=10)
+        except Exception as e:
+            print e
+            return
         # print webdata
         data_json = json.loads(webdata.text)
         # print data_json
@@ -61,13 +65,17 @@ def fillte_Proxy():
                 "http": "http://" + proxy1,
             }
             # time1 = time.time()
-            response1 = session1.request(method='get', url=url_to_examing, headers=headers)
+            try:
+                response1 = session1.request(method='get', url=url_to_examing, headers=headers,timeout=5)
+            except Exception as e:
+                print e
+                break
             session1.close()
             # response1.elapsed
             time.sleep(1)
             if response1.elapsed.microseconds/1000 < 3000:
                 redis1.rpush('proxy_good', proxy1)
-                print 'has push one,timeused is ',response1.elapsed
+                print 'has push one,timeused is ',response1.elapsed.microseconds/1000
         time.sleep(2)
 
 def mult_thread_to_fillte_Proxy():
@@ -102,12 +110,18 @@ def examing_Proxy():
                 session2.proxies = {
                     "http": "http://" + proxy,
                 }
-                response1 = session2.request(method='get', url=url_to_examing, headers=headers)
+                try:
+                    response1 = session2.request(method='get', url=url_to_examing, headers=headers)
+                except Exception as e:
+                    print e
+                    continue
                 session2.close()
                 if response1.elapsed.microseconds/1000 < 3000:
                     # redis1.lpush('proxy_good', proxy)
                     proxy_sendback(proxy)
                     print 'has examing one'
+                else:
+                    print 'has ignore one,time used ',response1.elapsed.microseconds,' microseconds'
             time.sleep(10)
 
 

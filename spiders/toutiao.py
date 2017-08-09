@@ -3,7 +3,6 @@ import cookielib
 import threading
 import requests
 from proxy_to_redis import *
-from multiprocessing import process
 from setting import *
 from bs4 import BeautifulSoup
 import re
@@ -11,8 +10,21 @@ import json
 from HTMLParser import HTMLParser
 from saveresult import Save_result
 from proxy_to_redis import redis1
+import urllib2
+import logging
+from saveresult import BASIC_FILE
 
-timeoutdefault=10
+
+timeoutdefault=20
+
+
+logger_toutiao=logging.getLogger()
+logger_toutiao.setLevel(logging.WARNING)
+filehandler=logging.FileHandler(BASIC_FILE+'/toutiao/debug.text')
+logger_toutiao.addHandler(filehandler)
+formatter=logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+filehandler.setFormatter(formatter)
+
 
 
 
@@ -57,6 +69,13 @@ class toutiao:
         self.session1 = requests.session()
         self.cookies = cookielib.MozillaCookieJar()
 
+
+        #-------------------------8-9改动
+        self.openner=None
+        self.request=None
+        self.proxy=None
+
+
         self.content_data_list = []  # 下次需要获得的content链接，不是content内容
         self.comments_url_list = []  # 下次需要获得的comment链接，不是comment内容
         self.result_list = []  # 这个存储的是已经跑完了的内容
@@ -66,22 +85,33 @@ class toutiao:
             for url_to_get_index in self.urls:
                 for i in range(2):
                     try:#SyntaxError: unexpected EOF while parsing
-                        self.session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+                        # self.session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+                        self.proxy={'http':'http://'+get_proxy_from_redis()}
                         timea=time.time()
                         while True:
                             try:
-                                response_in_function=self.session1.request(method='get',url=url_to_get_index,headers=self.headers)
+                                proxyhandler=urllib2.ProxyHandler(self.proxy)
+                                openner=urllib2.build_opener(proxyhandler)
+                                request1=urllib2.Request(url=url_to_get_index,headers=self.headers)
+                                # response_in_function=self.session1.request(method='get',url=url_to_get_index,headers=self.headers)
+                                response_in_function=openner.open(request1,timeout=timeoutdefault)
+                                response_in_function_text=response_in_function.read()
+                                # response_in_function.read()
                                 break
                             except:
-                                self.session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+                                # self.session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+                                self.proxy={'http':'http://'+get_proxy_from_redis()}
                                 timea=time.time()
                         timeb=time.time()
-                        proxy_here = self.session1.proxies.values()[0].split('//')[1]
-                        self.session1.close()
+                        # proxy_here = self.session1.proxies.values()[0].split('//')[1]
+                        proxy_here=self.proxy.values()[0].split('//')[1]
+                        # self.session1.close()
+                        openner.close()
                         if timeb - timea < 3:
                             proxy_sendback(proxy_here)
 
-                        response_text= response_in_function.text.encode('utf-8')
+                        # response_text= response_in_function.read().encode('utf-8')
+                        response_text=response_in_function_text.encode('utf-8')
                         datajson=json.loads(response_text)
                         datajson_index_data = datajson['data']
                         for one_index in datajson_index_data:
@@ -118,6 +148,7 @@ class toutiao:
 
                             id = one_index['group_id']
 
+
                             self.content_data_list.append({ 'id':id,
                                     'url':url,
                                     'reply_count':reply_count,
@@ -126,10 +157,9 @@ class toutiao:
                                     'publish_user_photo':publish_user_photo,
                                     })
                             redis1.lpush('urltest',url)
-
                     except Exception as e:
-                        print e
-                    print '\n\n'
+                        pass
+                        # print '\n\n'
                     # time.sleep(10)
             time.sleep(10)
         self.global_status_num_index=0
@@ -140,64 +170,108 @@ class toutiao:
             img_urls=[]
             content=''
             url = data['url']
-            session1 = requests.session()
+            # session1 = requests.session()
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
             }
             timea = time.time()
-            session1.cookies = cookielib.MozillaCookieJar()
-            session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+            # session1.cookies = cookielib.MozillaCookieJar()
+            cookies=cookielib.MozillaCookieJar()
+            # session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+            proxies1={'http':'http://'+get_proxy_from_redis()}
             while True:  # 强制请求
                 try:
-                    response_in_function = session1.request(method='get', url=data['url'], headers=headers,
-                                                            timeout=self.timeoutdefault)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
+                    request1=urllib2.Request(url=url,headers=headers)
+                    cookiehandler1=urllib2.HTTPCookieProcessor(cookies)
+                    proxyhandler=urllib2.ProxyHandler(proxies1)
+                    openner1=urllib2.build_opener(cookiehandler1,proxyhandler)
+                    response_in_function=openner1.open(request1,timeout=timeoutdefault)
+                    response_in_function_text=response_in_function.read()
+
+                    # response_in_function = session1.request(method='get', url=data['url'], headers=headers,
+                    #                                         timeout=self.timeoutdefault)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
+
                     break
                 except Exception as e:
-                    session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+                    proxies1 = {'http': 'http://' + get_proxy_from_redis()}
                     timea = time.time()
-                    print e
+                    print e,'请求indexnews时出错'
             timeb = time.time()
-            response_in_function.encoding = 'utf-8'
-            proxy_here = session1.proxies.values()[0].split('//')[1]
-            session1.close()
+            # response_in_function.encoding = 'utf-8'
+            # proxy_here = session1.proxies.values()[0].split('//')[1]
+            proxy_here=proxies1.values()[0].split('//')[1]
+            # session1.close()
+            openner1.close()
             if timeb - timea < 3:
                 proxy_sendback(proxy_here)
-            if response_in_function.history:#用来判断是否跳转到其它网页去了，跳转了的话就不继续跟进
-                if response_in_function.history[0].status_code in [301,302,303]:
-                    real_url= response_in_function.history[0].headers._store['location'][1]
-                    if 'toutiao' not in real_url:
-                        return
-                    else:
-                        url=real_url#这是跳转过后的url
+            # if response_in_function.history:#用来判断是否跳转到其它网页去了，跳转了的话就不继续跟进
+            #     if response_in_function.history[0].status_code in [301,302,303]:
+            #         real_url= response_in_function.history[0].headers._store['location'][1]
+            #         if 'toutiao' not in real_url:
+            #             return
+            #         else:
+            #             url=real_url#这是跳转过后的url
+            real_url=response_in_function.url
+            if 'toutiao' not in real_url:
+                logger_toutiao.log(level=logging.WARNING,msg='toutiao was not in thisurl---------'+real_url)
+                return
+            else:
+                url =real_url
 
             Re_find_chineseTag = re.compile(r"chineseTag: '.*?'")
 
             #8-7日添加的评论抓取模块，里边需要groupid和item_id
             Re_find_itmeId=re.compile(r'itemId: \'.*?\'')#普通头条
             Re_find_itme_Id = re.compile(r'item_id:\'.*?\'')#图片
-            if Re_find_itmeId.findall(response_in_function.text):
-                item_id=Re_find_itmeId.findall(response_in_function.text)[0].split("'")[1]
+            # if Re_find_itmeId.findall(response_in_function.text):
+            # logger_toutiao.log(level=logging.WARNING,msg=response_in_function.read())
+            if Re_find_itmeId.findall(response_in_function_text):
+                # item_id=Re_find_itmeId.findall(response_in_function.text)[0].split("'")[1]
+                try:
+                    item_id=Re_find_itmeId.findall(response_in_function_text)[0].split("'")[1]
+                    logger_toutiao.log(level=logging.WARNING,msg={'where':'没有找到item_id','contetn':Re_find_itmeId.findall(response_in_function_text)[0]})
+                except Exception as e:
+                    print e,'item_id在re中找到了，但是split失败了'
+
             else:
                 try:
-                    item_id=Re_find_itme_Id.findall(response_in_function.text)[0].split("'")[1]
+                    # item_id=Re_find_itme_Id.findall(response_in_function.text)[0].split("'")[1]
+                    item_id=Re_find_itme_Id.findall(response_in_function_text)[0].split("'")[1]
                 except Exception as e:
-                    print e
-                    print response_in_function.url
+                    print e,'在item——id中没找到值'
+                    # print response_in_function.url
+                    msg={'errormsg':e.message,
+                         'htmldata':response_in_function_text,
+                         'url':response_in_function.url,
+                         'code':response_in_function.code,
+                         'msg':response_in_function.msg}
+                    logger_toutiao.log(level=logging.WARNING, msg=msg)
+                    # logger_toutiao.log(level=logging.WARNING,msg=response_in_function.read())
+
                     return
             #######################################################
 
 
-            chineseTag=Re_find_chineseTag.findall(response_in_function.text)
+            # chineseTag=Re_find_chineseTag.findall(response_in_function.text)
+            chineseTag=Re_find_chineseTag.findall(response_in_function_text)
             if chineseTag:
-                chineseTag=chineseTag[0].split("'")[1]
-                if chineseTag==u'图片':
-                    content_time_img=get_content_picture(response_in_function)
-                elif chineseTag==u'问答':
-                    content_time_img=get_content_wenda(htmldata=response_in_function,data={})
-                    return #进入问答之后就不用返回了，也不需要传入dict类型的参数
-                else:
-                    content_time_img=get_content_news(response_in_function)
+                try:
+                    chineseTag=chineseTag[0].split("'")[1]
+                    if chineseTag==u'图片':
+                        # content_time_img=get_content_picture(response_in_function)
+                        content_time_img=get_content_picture({'response_in_function':response_in_function,'response_in_function_text':response_in_function_text})
+                    elif chineseTag==u'问答':
+                        # content_time_img=get_content_wenda(htmldata=response_in_function,data={})
+                        content_time_img=get_content_wenda(htmldata={'response_in_function':response_in_function,'response_in_function_text':response_in_function_text},data={})
+                        return #进入问答之后就不用返回了，也不需要传入dict类型的参数
+                    else:
+                        # content_time_img=get_content_news(response_in_function)
+                        content_time_img=get_content_news({'response_in_function':response_in_function,'response_in_function_text':response_in_function_text})
+                except Exception as e:
+                    print e,'在找图片，问答等分类模块的时候除了问题'
+                    logger_toutiao.log(level=logging.WARNING,msg={'where':'在找板块分类定位的时候除了问题','content':e.message})
             else:
+                logger_toutiao.log(level=logging.WARNING,msg=chineseTag)
                 print chineseTag
                 return
 
@@ -249,16 +323,16 @@ class toutiao:
                 data['item_id']=item_id
                 data['reply_nodes']=[]
             except Exception as e:
-                print e
+                print e,'data合成的时候除了问题'
 
             self.comments_url_list.append(data)
-            print data
         #这里每个htmldata都是一个beautifulsoup对象
         def get_content_news(htmldata,data=None):
             content_nochange=''
             img_urls=[]
             try:
-                text_content = htmldata.text.split('artilceInfo:')[1].split('commentInfo')[0]
+                # text_content = htmldata.text.split('artilceInfo:')[1].split('commentInfo')[0]
+                text_content=htmldata['response_in_function_text'].split('artilceInfo:')[1].split('commentInfo')[0]
                 Re_find_content = re.compile(r"content: '.*?\;'")
                 Re_find_time2 = re.compile(r"time: '.*?'")
                 content = Re_find_content.findall(text_content)[0]
@@ -276,7 +350,7 @@ class toutiao:
                 publish_time = Re_find_time2.findall(text_content)[0].split("'")[1]+':00'
                 return {'content':content,'img_urls':img_urls,'publish_time':publish_time}
             except Exception as e:
-                print e
+                print e,'在get_content_news中出了问题'
 
 
 
@@ -285,7 +359,8 @@ class toutiao:
             img_urls = []
             content = ''
             Re_find_pattern1 = re.compile(r'\bvar gallery =.*?\]\}')
-            data_find_by_re = Re_find_pattern1.findall(htmldata.text)
+            # data_find_by_re = Re_find_pattern1.findall(htmldata.text)
+            data_find_by_re=Re_find_pattern1.findall(htmldata['response_in_function_text'])
             if data_find_by_re:  # 这里边是处理图片新闻
                 picture_data = data_find_by_re[0]
                 picture_data_json_original = picture_data.split('=')[1]
@@ -297,7 +372,8 @@ class toutiao:
                     content += content_info
                 title = datajson['sub_titles'][0]
                 Re_find_time = re.compile(r'publish_time:.*?\,')
-                publish_time = Re_find_time.findall(htmldata.text)[0].split("'")[1].replace('/', '-')
+                # publish_time = Re_find_time.findall(htmldata.text)[0].split("'")[1].replace('/', '-')
+                publish_time = Re_find_time.findall(htmldata['response_in_function_text'])[0].split("'")[1].replace('/', '-')
                 return {'content': content, 'img_urls': img_urls, 'publish_time': publish_time}
         def get_content_wenda(htmldata,data=None):#评论里边有评论，评论的评论里边还有评论，所以后边要有两个评论replynode获取函数，第一层评论可以根据has_more字段来判断遍历完了没有
             #这个函数获取评论是从首页来的，因为首页里边有提问的问题，所以要抓，但是后边调用的话，就调用另外一个函数来启动后续的评论获取。
@@ -306,9 +382,12 @@ class toutiao:
             Re_find_answer = re.compile(r"__answer = .*?\|\| \[\]\;")
             Re_find_qid = re.compile(r'qid: \'.*?\'')
 
-            question_result=Re_find_question.findall(str(htmldata))
-            answer_result=Re_find_answer.findall(str(htmldata))
-            qid=Re_find_qid.findall(str(htmldata))
+            # question_result=Re_find_question.findall(str(htmldata))
+            # answer_result=Re_find_answer.findall(str(htmldata))
+            # qid=Re_find_qid.findall(str(htmldata))
+            question_result = Re_find_question.findall(str(htmldata['response_in_function_text']))
+            answer_result = Re_find_answer.findall(str(htmldata['response_in_function_text']))
+            qid = Re_find_qid.findall(str(htmldata['response_in_function_text']))
 
             question_detail=question_result[0].replace(' || [];','').replace('__question = ','')
             answer_detail=answer_result[0].replace(' || [];','').replace('__question = ','')
@@ -364,7 +443,7 @@ class toutiao:
             try:
                 get_content_in_wenda_comments_more({'id':qid[0].split("'")[1],'reply_nodes':reply_nodes,'next_comment_url':None})
             except Exception as e:
-                print e
+                print e,'get_conten_in_wenda_comments_more中出了问题'
             #---------------------------上边这部分的代码是前边没爬完的评论的延续
 
             data['title']=title
@@ -385,38 +464,55 @@ class toutiao:
 
         def get_content_in_wenda_comments_comments(id_replynodes,data=None):#获取评论中的评论,传入的东西里边包括：id，reply_nodes,next_comment_url
 
-            session1 = requests.session()
+            # session1 = requests.session()
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
             }
             timea = time.time()
-            session1.cookies = cookielib.MozillaCookieJar()
-            session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+            # session1.cookies = cookielib.MozillaCookieJar()
+            cookies1 = cookielib.MozillaCookieJar()
+            # session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+            proxies1 = {'http': 'http://' + get_proxy_from_redis()}
             while True:  # 强制请求
                 try:
+                    proxyhandler=urllib2.ProxyHandler(proxies1)
+                    cookiehandler=urllib2.HTTPCookieProcessor(cookies1)
+                    openner1=urllib2.build_opener(proxyhandler,cookiehandler)
                     if not id_replynodes['next_comment_url']:
                         # https://www.wukong.com/wenda/web/question/loadmorev1/?count=10&qid=6407060007531053314&offset=20&req_type=1
                         url_comments_more = 'https://www.wukong.com/wenda/web/comment/brow/?ansid=' + \
                                             id_replynodes['id'] + '&count=10&offset=0'
-                        response_in_function = session1.request(method='get', url=url_comments_more, headers=headers,
-                                                                timeout=self.timeoutdefault)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
+                        # response_in_function = session1.request(method='get', url=url_comments_more, headers=headers,
+                        #                                         timeout=self.timeoutdefault)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
+                        request1=urllib2.Request(url=url_comments_more,headers=headers)
+                        response_in_function=openner1.open(request1,timeout=timeoutdefault)
+                        response_in_function_text=response_in_function.read()#mark2
+
                     else:
-                        response_in_function = session1.request(method='get', url=id_replynodes['next_comment_url'],
-                                                                headers=headers, timeout=self.timeoutdefault)
+                        # response_in_function = session1.request(method='get', url=id_replynodes['next_comment_url'],
+                        #                                         headers=headers, timeout=self.timeoutdefault)
+                        request1=urllib2.Request(url=id_replynodes['next_comment_url'],headers=headers)
+                        response_in_function=openner1.open(request1,timeout=timeoutdefault)
+                        response_in_function_text=response_in_function.read()
+
                     break
                 except Exception as e:
-                    session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+                    # session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+                    proxies1={'http': 'http://' + get_proxy_from_redis()}
                     timea = time.time()
                     print e
             timeb = time.time()
-            response_in_function.encoding = 'utf-8'
-            proxy_here = session1.proxies.values()[0].split('//')[1]
-            session1.close()
+            # response_in_function.encoding = 'utf-8'
+            # proxy_here = session1.proxies.values()[0].split('//')[1]
+            proxy_here=proxies1.values()[0].split('//')[1]
+            # session1.close()
+            openner1.close()
             if timeb - timea < 3:
                 proxy_sendback(proxy_here)
 
 
-            datajson_comment2=json.loads(response_in_function.text)
+            # datajson_comment2=json.loads(response_in_function.text)
+            datajson_comment2=json.loads(response_in_function_text)
             for comment2 in datajson_comment2['comments']:
                 id=comment2['comment_id']
                 like_count=comment2['digg_count']
@@ -450,35 +546,53 @@ class toutiao:
             #这里边的id跟url中的id不一样
             #https://www.wukong.com/wenda/web/question/loadmorev1/?count=10&qid=6370458749798187265&offset=10&t=1501814522809&req_type=1
 
-            session1 = requests.session()
+            # session1 = requests.session()
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
             }
             timea = time.time()
-            session1.cookies = cookielib.MozillaCookieJar()
-            session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+            # session1.cookies = cookielib.MozillaCookieJar()
+            # session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+            cookies1 = cookielib.MozillaCookieJar()
+            proxies1 = {'http': 'http://' + get_proxy_from_redis()}
             while True:  # 强制请求
                 try:
+                    proxyhandler=urllib2.ProxyHandler(proxies1)
+                    cookiehandler=urllib2.HTTPCookieProcessor(cookies1)
+                    openner1=urllib2.build_opener(proxyhandler,cookiehandler)
                     if not id_replynodes['next_comment_url']:
                         #https://www.wukong.com/wenda/web/question/loadmorev1/?count=10&qid=6407060007531053314&offset=20&req_type=1
                         url_comments_more='https://www.wukong.com/wenda/web/question/loadmorev1/?count=10&qid='+id_replynodes['id']+'&offset=10&req_type=1'
-                        response_in_function = session1.request(method='get', url=url_comments_more, headers=headers,
-                                                            timeout=self.timeoutdefault)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
+                        # response_in_function = session1.request(method='get', url=url_comments_more, headers=headers,
+                        #                                     timeout=self.timeoutdefault)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
+                        request1=urllib2.Request(url=url_comments_more,headers=headers)
+                        response_in_function=openner1.open(request1,timeout=timeoutdefault)
+                        response_in_function_text=response_in_function.read()
+
                     else:
-                        response_in_function=session1.request(method='get',url=id_replynodes['next_comment_url'],headers=headers,timeout=self.timeoutdefault)
+                        # response_in_function=session1.request(method='get',url=id_replynodes['next_comment_url'],headers=headers,timeout=self.timeoutdefault)
+                        request1=urllib2.Request(url=id_replynodes['next_comment_url'],headers=headers)
+                        response_in_function=openner1.open(request1,timeout=timeoutdefault)
+                        response_in_function_text=response_in_function.read()
+
+
                     break
                 except Exception as e:
-                    session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+                    # session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+                    proxies1={'http': 'http://' + get_proxy_from_redis()}
                     timea = time.time()
                     print e
             timeb = time.time()
-            response_in_function.encoding = 'utf-8'
-            proxy_here = session1.proxies.values()[0].split('//')[1]
-            session1.close()
+            # response_in_function.encoding = 'utf-8'
+            # proxy_here = session1.proxies.values()[0].split('//')[1]
+            proxy_here=proxies1.values()[0].split('//')[1]
+            # session1.close()
+            openner1.close()
             if timeb - timea < 3:
                 proxy_sendback(proxy_here)
 
-            datajson=json.loads(response_in_function.text)
+            # datajson=json.loads(response_in_function.text)
+            datajson=json.loads(response_in_function_text)
             for one_comment in datajson['data']['ans_list']:
                 # publish_time=one_comment['show_time']#没有年代的时间
                 # content=one_comment['content']#带有html标签
@@ -552,14 +666,12 @@ class toutiao:
                     thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
-                    print 'len of threadlist in content---', len(threadlist)
-                    print 'len of content_data_list in content is ---', len(self.content_data_list)
 
         self.global_status_num_content = 0
 
     def get_comments(self):
         def get_comment_inside(data):
-            session1 = requests.session()
+            # session1 = requests.session()
             headers = {
                 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
             }
@@ -568,25 +680,39 @@ class toutiao:
             while True:  # 强制请求
                 try:
                     timea = time.time()
-                    session1.cookies = cookielib.MozillaCookieJar()
-                    session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
-                    comment_url = 'http://www.toutiao.com/api/comment/list/?group_id='+str(data['id'])+'&item_id='+str(data['item_id'])+'&offset=5&count=10'
-                    response_in_function = session1.request(method='get', url=comment_url, headers=headers,
-                                                            timeout=self.timeoutdefault)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
-                    data_json = json.loads(response_in_function.text.encode('utf-8'))#因为这里可能会204,在抓包中也可以看到
+                    # session1.cookies = cookielib.MozillaCookieJar()
+                    # session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+                    # comment_url = 'http://www.toutiao.com/api/comment/list/?group_id='+str(data['id'])+'&item_id='+str(data['item_id'])+'&offset=5&count=10'
+                    # response_in_function = session1.request(method='get', url=comment_url, headers=headers,
+                    #                                         timeout=self.timeoutdefault)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
+                    # data_json = json.loads(response_in_function.text.encode('utf-8'))#因为这里可能会204,在抓包中也可以看到
+                    cookies1=cookielib.MozillaCookieJar()
+                    proxies1={'http': 'http://' + get_proxy_from_redis()}
+                    proxyhandler=urllib2.ProxyHandler(proxies1)
+                    cookiehandler=urllib2.HTTPCookieProcessor(cookies1)
+                    comment_url= 'http://www.toutiao.com/api/comment/list/?group_id='+str(data['id'])+'&item_id='+str(data['item_id'])+'&offset=5&count=10'
+                    request1=urllib2.Request(url=comment_url,headers=headers)
+                    opener1=urllib2.build_opener(proxyhandler,cookiehandler)
+                    response_in_function=opener1.open(request1)
+                    response_in_function_text=response_in_function.read()
+
                     break
                 except Exception as e:
                     print e
                     if 'item_id' in e:
-                        return
+                        messege={'msg':e.message}
+                        logger_toutiao.log(msg=messege,level=logging.WARNING)
             timeb = time.time()
-            proxy_here = session1.proxies.values()[0].split('//')[1]
-            session1.close()
+            # proxy_here = session1.proxies.values()[0].split('//')[1]
+            proxy_here=proxies1.values()[0].split('//')[1]
+            # session1.close()
+            opener1.close()
             if timeb - timea < 3:
                 proxy_sendback(proxy_here)
             comments_data = []
             try:
-                data_json = json.loads(response_in_function.text.encode('utf-8'))
+                # data_json = json.loads(response_in_function.text.encode('utf-8'))
+                data_json=json.loads(response_in_function_text)
             except Exception as e:
                 print e
             for one_comment in data_json['data']['comments']:
@@ -630,35 +756,51 @@ class toutiao:
 
         def get_comment_comment(data):#评论中有评论
             id=data['id']
-            session1 = requests.session()
+            # session1 = requests.session()
             headers = {
                 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
             }
 
             timea = time.time()
-            session1.cookies = cookielib.MozillaCookieJar()
-            session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+            # session1.cookies = cookielib.MozillaCookieJar()
+            # session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+            cookies1=cookielib.MozillaCookieJar()
+            proxies1={'http': 'http://' + get_proxy_from_redis()}
             while True:  # 强制请求
                 try:
-                    session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+
+
+                    # session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
                     #http://www.toutiao.com/api/comment/get_reply/?comment_id=1574954012827661&dongtai_id=1574954012827661&offset=0&count=20
                     comment_url = 'http://www.toutiao.com/api/comment/get_reply/?comment_id=' + str(
                         id) + '&item_id=' + str(id) + '&offset=5&count=10'
-                    response_in_function = session1.request(method='get', url=comment_url, headers=headers,
-                                                            timeout=self.timeoutdefault)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
-                    datajson = json.loads(response_in_function.text)
+
+                    proxyhandler=urllib2.ProxyHandler(proxies1)
+                    cookiehandler=urllib2.HTTPCookieProcessor(cookies1)
+                    request1=urllib2.Request(url=comment_url,headers=headers)
+                    openner1=urllib2.build_opener(proxyhandler,cookiehandler)
+                    response_in_function=openner1.open(request1)
+                    response_in_function_text=response_in_function.read()
+
+                    # response_in_function = session1.request(method='get', url=comment_url, headers=headers,
+                    #                                         timeout=self.timeoutdefault)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
+                    # datajson = json.loads(response_in_function.text)
+                    datajson=json.loads(response_in_function_text)
 
                     break
                 except Exception as e:
                     print e
             timeb = time.time()
-            proxy_here = session1.proxies.values()[0].split('//')[1]
-            session1.close()
+            # proxy_here = session1.proxies.values()[0].split('//')[1]
+            proxy_here=proxies1.values()[0].split('//')[1]
+            # session1.close()
+            openner1.close()
             if timeb - timea < 3:
                 proxy_sendback(proxy_here)
 
             reply_nodes=[]
-            datajson=json.loads(response_in_function.text)
+            # datajson=json.loads(response_in_function.text)
+            datajson=json.loads(response_in_function_text)
             for one_comment in datajson['data']['data']:
                 content=one_comment['text']
                 like_count=one_comment['digg_count']
@@ -696,13 +838,10 @@ class toutiao:
                     thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
-                    print len(threadlist)
-                    print len(self.comments_url_list)
         self.global_status_num_comments = 0
 
     def save_result(self):
         def save_result(data):
-            print 'deal result'
             Save_result(plantform='toutiao',date_time=data['publish_time'],urlOruid=data['url'],newsidOrtid=data['id'],datatype='news',full_data=data)
         threadlist = []
         while self.global_status_num_comments > 0 or self.result_list:
@@ -711,14 +850,11 @@ class toutiao:
                     if not threadi.is_alive():
                         threadlist.remove(threadi)
                 while len(threadlist) < CONTENT_THREADING_NUM and self.result_list:
-                    print len(self.result_list)
                     data_in_while = self.result_list.pop()
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
                     thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
-                    print len(threadlist)
-                    print len(self.result_list)
         self.global_status_num_comments = 0
 
 
@@ -726,15 +862,15 @@ class toutiao:
     def run(self):
         thread1=threading.Thread(target=self.get_Index,args=())
         thread1.start()
-        time.sleep(5)
+        time.sleep(20)
         thread2=threading.Thread(target=self.get_content,args=())
         thread2.start()
-        # time.sleep(3)
+        # # time.sleep(3)
         thread3=threading.Thread(target=self.get_comments,args=())
         thread3.start()
         thread4=threading.Thread(target=self.save_result,args=())
         thread4.start()
-        pass
+        # pass
 
 
 if __name__ == '__main__':
