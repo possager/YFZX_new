@@ -11,6 +11,7 @@ from proxy_to_redis import redis1
 import urllib2
 import logging
 from saveresult import BASIC_FILE
+from visit_page import get_response_and_text
 
 
 logger_toutiao=logging.getLogger()
@@ -136,15 +137,16 @@ class toutiao:
 
                             id = one_index['group_id']
 
-
-                            self.content_data_list.append({ 'id':id,
+                            dict1={ 'id':id,
                                     'url':url,
                                     'reply_count':reply_count,
                                     'title':title,
                                     'publish_user':publish_user,
                                     'publish_user_photo':publish_user_photo,
-                                    })
-                            redis1.lpush('urltest',url)
+                                                          }
+
+                            self.content_data_list.append(dict1)
+                            redis1.lpush('toutiao_index',dict(dict1))
                     except Exception as e:
                         pass
             time.sleep(10)
@@ -153,30 +155,12 @@ class toutiao:
     def get_content(self):
         def get_content_inside(data):
             url = data['url']
-            headers = {
+            headers={
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
             }
-            timea = time.time()
-            cookies = cookielib.MozillaCookieJar()
-            proxies1 = {'http': 'http://' + get_proxy_from_redis()}
-            while True:  # 强制请求
-                try:
-                    request1 = urllib2.Request(url=url, headers=headers)
-                    cookiehandler1 = urllib2.HTTPCookieProcessor(cookies)
-                    proxyhandler = urllib2.ProxyHandler(proxies1)
-                    openner1 = urllib2.build_opener(cookiehandler1, proxyhandler)
-                    response_in_function = openner1.open(request1, timeout=timeoutdefault)
-                    response_in_function_text = response_in_function.read()
-                    break
-                except Exception as e:
-                    proxies1 = {'http': 'http://' + get_proxy_from_redis()}
-                    timea = time.time()
-                    print e, '请求indexnews时出错'
-            timeb = time.time()
-            proxy_here = proxies1.values()[0].split('//')[1]
-            openner1.close()
-            if timeb - timea < 3:
-                proxy_sendback(proxy_here)
+            response=get_response_and_text(url=url,headers=headers)
+            response_in_function=response['response_in_function']
+            response_in_function_text=response['response_in_function_text']
             real_url = response_in_function.url
             if 'toutiao' not in real_url:
                 logger_toutiao.log(level=logging.WARNING, msg='toutiao was not in thisurl---------' + real_url)
@@ -202,8 +186,7 @@ class toutiao:
                         content_time_img = get_content_picture({'response_in_function': response_in_function,
                                                                 'response_in_function_text': response_in_function_text})
                     elif chineseTag == u'问答':
-                        content_time_img = get_content_wenda(htmldata={'response_in_function': response_in_function,
-                                                                       'response_in_function_text': response_in_function_text},
+                        content_time_img = get_content_wenda(htmldata={'response_in_function': response_in_function,'response_in_function_text': response_in_function_text},
                                                              data={})
                         return
                     else:
@@ -521,13 +504,19 @@ class toutiao:
 
         threadlist = []
         while self.global_status_num_index > 0 or self.content_data_list:
+        # while self.global_status_num_index > 0 or redis1.llen('toutiao_index')>0:
             while self.content_data_list or threadlist:
+            # while self.content_data_list or redis1.llen('toutiao_index')>0:
                 for threadi in threadlist:
                     if not threadi.is_alive():
                         threadlist.remove(threadi)
                 while len(threadlist) < LEN_COMMENT_LIST and self.content_data_list:
                     data_in_while = self.content_data_list.pop()
+                # while len(threadlist) < LEN_COMMENT_LIST and redis1.llen('toutiao_index'):
+                #     data_in_while=redis1.rpop('toutiao_index')
+                    # data_in_while=dict(data_in_while)
                     thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
+                    redis1.lpush('toutiao_index',data_in_while)
                     thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
@@ -730,3 +719,5 @@ class toutiao:
 if __name__ == '__main__':
     thisclass=toutiao()
     thisclass.run()
+    # thisclass.get_content()
+    # thisclass.get_Index()

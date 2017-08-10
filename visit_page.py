@@ -1,3 +1,4 @@
+#_*_coding:utf-8_*_
 import urllib2
 import cookielib
 import time
