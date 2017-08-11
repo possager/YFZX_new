@@ -18,6 +18,7 @@ def get_response_and_text(url,headers=None,needupdate=False,update_info=None):
         this_headers={
                 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
             }
+    num_reply=5
     while True:  # 强制请求
         try:
             timea = time.time()
@@ -29,6 +30,12 @@ def get_response_and_text(url,headers=None,needupdate=False,update_info=None):
             opener1 = urllib2.build_opener(proxyhandler, cookiehandler)
             response_in_function = opener1.open(request1,timeout=timeout_value)
             response_in_function_text = response_in_function.read()
+            if response_in_function.code ==204:
+                num_reply-=1
+                if num_reply<0:
+                    sys.exit()
+                else:
+                    raise Exception
 
             if needupdate:
                 file1 = BASIC_FILE + '/chengdu/chengdu_sechdule.text'
@@ -41,8 +48,14 @@ def get_response_and_text(url,headers=None,needupdate=False,update_info=None):
             break
         except Exception as e:
             if hasattr(e,'code'):
-                if e.code in [404,403,400]:
+                if e.code in [404,400]:
+                    opener1.close()
                     sys.exit()
+                elif e.code==[204,403]:#可能是有数据的，但是被屏蔽了
+                    num_reply-=1
+                    opener1.close()
+                    if num_reply<1:
+                        sys.exit()
 
     timeb = time.time()
     proxy_here = proxies1.values()[0].split('//')[1]
