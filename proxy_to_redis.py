@@ -7,7 +7,12 @@ import random
 import threading
 from multiprocessing import process
 
+import sys
+import os
 
+curPath = os.path.abspath(os.path.dirname(__file__))
+rootPath = os.path.split(curPath)[0]
+sys.path.append(rootPath)
 
 connectpool = redis.ConnectionPool(host='localhost', port=6379)
 redis1 = redis.Redis(connection_pool=connectpool)
