@@ -33,19 +33,19 @@ class toutiao:
         }
         self.urls = [
             'http://www.toutiao.com/api/pc/feed/?category=%E7%BB%84%E5%9B%BE&utm_source=toutiao&as=A15579D7AFA0EB3&cp=597FF0BECBF3EE1',
-            # 'https://www.toutiao.com/api/pc/feed/?max_behot_time=1499133489&category=__all__&utm_source=toutiao&widen=1&tadrequire=false',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_hot&utm_source=toutiao&widen=1&max_behot_time_tmp=1499131781&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=%E7%BB%84%E5%9B%BE&utm_source=toutiao&as=A1F5F9655ABFB36&cp=595A5F6BB3262E1',#这个是照片的链接
-            #
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_society&utm_source=toutiao&widen=1&max_behot_time_tmp=1499130277&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_entertainment&utm_source=toutiao&widen=1&max_behot_time_tmp=1499127310&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_tech&utm_source=toutiao&widen=1&mmax_behot_time_tmp=1499126716&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_sports&utm_source=toutiao&widen=1&max_behot_time_tmp=1499129717&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_car&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128582&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_finance&utm_source=toutiao&widen=1&max_behot_time_tmp=1499127720&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?max_behot_time=1499133489&category=__all__&utm_source=toutiao&widen=1&tadrequire=false',
+            'https://www.toutiao.com/api/pc/feed/?category=news_hot&utm_source=toutiao&widen=1&max_behot_time_tmp=1499131781&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=%E7%BB%84%E5%9B%BE&utm_source=toutiao&as=A1F5F9655ABFB36&cp=595A5F6BB3262E1',#这个是照片的链接
+
+            'https://www.toutiao.com/api/pc/feed/?category=news_society&utm_source=toutiao&widen=1&max_behot_time_tmp=1499130277&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_entertainment&utm_source=toutiao&widen=1&max_behot_time_tmp=1499127310&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_tech&utm_source=toutiao&widen=1&mmax_behot_time_tmp=1499126716&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_sports&utm_source=toutiao&widen=1&max_behot_time_tmp=1499129717&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_car&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128582&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_finance&utm_source=toutiao&widen=1&max_behot_time_tmp=1499127720&tadrequire=true',
             # 'https://www.toutiao.com/api/pc/feed/?category=funny&utm_source=toutiao&widen=1&max_behot_time_tmp=1499121867&tadrequire=true',
             # 'https://www.toutiao.com/api/pc/feed/?category=news_military&utm_source=toutiao&widen=1&max_behot_time_tmp=1499130314&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_fashion&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128255&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_fashion&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128255&tadrequire=true',
             # 'https://www.toutiao.com/api/pc/feed/?category=news_discovery&utm_source=toutiao&widen=1&mmax_behot_time_tmp=1499128281&tadrequire=true',
             # 'https://www.toutiao.com/api/pc/feed/?category=news_regimen&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128301&tadrequire=true',
             # 'https://www.toutiao.com/api/pc/feed/?category=news_essay&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125173&tadrequire=true',
@@ -190,8 +190,8 @@ class toutiao:
                         content_time_img = get_content_picture({'response_in_function': response_in_function,
                                                                 'response_in_function_text': response_in_function_text})
                     elif chineseTag == '问答':
-                        content_time_img = get_content_wenda(htmldata={'response_in_function': response_in_function,'response_in_function_text': response_in_function_text},
-                                                             data={})
+                        content_time_img = get_content_wenda(htmldata={'response_in_function': response_in_function,'response_in_function_text': response_in_function_text,'data':data},
+                                                             data=data)
                         return
                     else:
                         content_time_img = get_content_news({'response_in_function': response_in_function,
@@ -358,7 +358,7 @@ class toutiao:
                 print e, 'get_conten_in_wenda_comments_more中出了问题'
 
 
-            data['title'] = title
+            data['title'] = title#在问答中不会返回到get_contont模块中，所以
             data['content'] = content
             data['publish_time'] = publish_time
             data['publish_user_id'] = publish_user_id
@@ -366,6 +366,7 @@ class toutiao:
             data['publish_user_photo'] = publish_user_photo
             data['id'] = id
             data['reply_nodes'] = reply_nodes
+            data['url']=htmldata['response_in_function'].url
 
             self.result_list.append(data)
 
@@ -375,43 +376,30 @@ class toutiao:
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
             }
-            # timea = time.time()
-            # cookies1 = cookielib.MozillaCookieJar()
-            # proxies1 = {'http': 'http://' + get_proxy_from_redis()}
-            # while True:  # 强制请求
             try:
-                # proxyhandler = urllib2.ProxyHandler(proxies1)
-                # cookiehandler = urllib2.HTTPCookieProcessor(cookies1)
-                # openner1 = urllib2.build_opener(proxyhandler, cookiehandler)
                 if not id_replynodes['next_comment_url']:
                     url_comments_more = 'https://www.wukong.com/wenda/web/comment/brow/?ansid=' + \
                                         id_replynodes['id'] + '&count=10&offset=0'
-                    # request1 = urllib2.Request(url=url_comments_more, headers=headers)
                     response1=get_response_and_text(url=url_comments_more)
-                    # response_in_function = openner1.open(request1, timeout=timeoutdefault)
                     response_in_function=response1['response_in_function']
-                    # response_in_function_text = response_in_function.read()  # mark2
-                    response_in_function_text=response_in_function['response_in_function_text']
+                    response_in_function_text=response1['response_in_function_text']
 
                 else:
-                    # request1 = urllib2.Request(url=id_replynodes['next_comment_url'], headers=headers)
-                    # response_in_function = openner1.open(request1, timeout=timeoutdefault)
-                    # response_in_function_text = response_in_function.read()
                     response1=get_response_and_text(url=id_replynodes['next_comment_url'],headers=headers)
                     response_in_function=response1['response_in_function']
                     response_in_function_text=response1['response_in_function_text']
 
                 # break
             except Exception as e:
-                # proxies1 = {'http': 'http://' + get_proxy_from_redis()}
-                # timea = time.time()
-                print e
-            # timeb = time.time()
-            # proxy_here = proxies1.values()[0].split('//')[1]
-            # openner1.close()
-            # if timeb - timea < 3:
-            #     proxy_sendback(proxy_here)
+
+                print e#mark getittem
+
+
             datajson_comment2 = json.loads(response_in_function_text)
+            try:
+                datajson_comment2['comments']
+            except Exception as e:
+                print e
             for comment2 in datajson_comment2['comments']:
                 id = comment2['comment_id']
                 like_count = comment2['digg_count']
@@ -445,43 +433,22 @@ class toutiao:
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
             }
-            # timea = time.time()
-            # cookies1 = cookielib.MozillaCookieJar()
-            # proxies1 = {'http': 'http://' + get_proxy_from_redis()}
-            # while True:  # 强制请求#mark4
+
             try:
-                # proxyhandler = urllib2.ProxyHandler(proxies1)
-                # cookiehandler = urllib2.HTTPCookieProcessor(cookies1)
-                # openner1 = urllib2.build_opener(proxyhandler, cookiehandler)
                 if not id_replynodes['next_comment_url']:
                     url_comments_more = 'https://www.wukong.com/wenda/web/question/loadmorev1/?count=10&qid=' + \
                                         id_replynodes['id'] + '&offset=10&req_type=1'
-                    # request1 = urllib2.Request(url=url_comments_more, headers=headers)
-                    # response_in_function = openner1.open(request1, timeout=timeoutdefault)
-                    # response_in_function_text = response_in_function.read()
                     response1=get_response_and_text(url=url_comments_more,headers=headers)
                     response_in_function=response1['response_in_function']
                     response_in_function_text=response1['response_in_function_text']
 
                 else:
-                    # request1 = urllib2.Request(url=id_replynodes['next_comment_url'], headers=headers)
-                    # response_in_function = openner1.open(request1, timeout=timeoutdefault)
-                    # response_in_function_text = response_in_function.read()
                     response1=get_response_and_text(url=id_replynodes['next_comment_url'],headers=headers)
                     response_in_function=response1['response_in_function']
                     response_in_function_text=response1['response_in_function']
 
-                # break
             except Exception as e:
-                    # proxies1 = {'http': 'http://' + get_proxy_from_redis()}
-                    # timea = time.time()
                     print e
-            # timeb = time.time()
-            # proxy_here = proxies1.values()[0].split('//')[1]
-            # session1.close()
-            # openner1.close()
-            # if timeb - timea < 3:
-            #     proxy_sendback(proxy_here)
             datajson = json.loads(response_in_function_text)
             for one_comment in datajson['data']['ans_list']:
                 datasoup_content = BeautifulSoup(one_comment['content'], 'lxml')
@@ -499,7 +466,7 @@ class toutiao:
                 publish_user_photo = one_comment['user']['avatar_url']
                 publish_user = one_comment['user']['uname']
                 publish_user_id = one_comment['user']['user_id']
-                reply_nodes = []
+                reply_nodes = get_content_in_wenda_comments_comments({'id':id,'reply_nodes': [], 'next_comment_url':None})
 
                 this_node = {
                     'publish_time': publish_time,
@@ -517,9 +484,9 @@ class toutiao:
             if datajson['data']['has_more']:
                 url_offset = response_in_function.url.split('&offset=')
                 offset = int(url_offset[1].split('&')[0]) + 10
-                url = url_offset + '&offset=' + str(offset)
+                url = url_offset[0] + '&offset=' + str(offset)
                 id_replynodes['next_comment_url'] = url
-                reply_nodes2 = get_content_in_wenda_comments_comments(id_replynodes)
+                reply_nodes2 = get_content_in_wenda_comments_more(id_replynodes)
                 return reply_nodes2
             else:
                 return id_replynodes['reply_nodes']
@@ -634,8 +601,8 @@ class toutiao:
             timea = time.time()
             # session1.cookies = cookielib.MozillaCookieJar()
             # session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
-            cookies1 = cookielib.MozillaCookieJar()
-            proxies1 = {'http': 'http://' + get_proxy_from_redis()}
+            # cookies1 = cookielib.MozillaCookieJar()
+            # proxies1 = {'http': 'http://' + get_proxy_from_redis()}
             # while True:  # 强制请求
             try:
 
@@ -710,8 +677,11 @@ class toutiao:
 
     def save_result(self):
         def save_result(data):
-            Save_result(plantform='toutiao', date_time=data['publish_time'], urlOruid=data['url'],
-                        newsidOrtid=data['id'], datatype='news', full_data=data)
+            try:
+                Save_result(plantform='toutiao', date_time=data['publish_time'], urlOruid=data['url'],
+                            newsidOrtid=data['id'], datatype='news', full_data=data)
+            except Exception as e:
+                print e
 
         threadlist = []
         while self.global_status_num_comments > 0 or self.result_list:
