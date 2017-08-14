@@ -33,7 +33,8 @@ class chengdu:
             'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         }
         self.page_begain=1699990
-        self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(self.page_begain,1700214)]#1696951
+        self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(self.page_begain,3000000)]#1696951
+        # self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(1700000,1700002)]
 
         self.global_status_num_index = 1
         self.global_status_num_content = 2
@@ -67,6 +68,7 @@ class chengdu:
             response1=get_response_and_text(url=url,needupdate=True,update_info={'page_num':page_num})
             response_in_function=response1['response_in_function']
             response_in_function_text=response1['response_in_function_text']
+            Re_find_sid=re.compile(r'sid=".*"')
             try:
                 datasoup = BeautifulSoup(response_in_function_text, 'lxml')
             except Exception as e:
@@ -74,6 +76,9 @@ class chengdu:
                 return
 
             if ('class="swiper-container"' not in response_in_function_text) and ('class="content"' in response_in_function_text):#这个是文字类的新闻
+                sid = Re_find_sid.findall(response_in_function_text)[0].split('"')[1]
+                data['sid'] = sid
+
                 datasoup = BeautifulSoup(response_in_function_text, 'lxml')
                 for i in datasoup.select('body > div.content > div.neirong > h2'):
                     title= i.text
@@ -87,7 +92,7 @@ class chengdu:
                 img_urls=[]
                 neirong_content = datasoup.select('body > div.content > div.neirong')
                 neirong_content = str(neirong_content)
-                Re_find_img_url = re.compile(r'src=".*?"/\>')
+                Re_find_img_url = re.compile(r'src=".*?">')
                 img_find_by_re = Re_find_img_url.findall(neirong_content)
                 for i in img_find_by_re:
                     img_urls.append(i.split('"')[1])
@@ -100,6 +105,8 @@ class chengdu:
                 data['publish_time']=publish_time
                 data['publish_user']=publish_user
                 data['reply_nodes']=[]
+                data['spider_time']=time.time()*1000
+                data['img_urls']=img_urls
             elif 'class="swiper-container"' in response_in_function_text:#这里可能是图片新闻
                 content=''
                 img_urls=[]
@@ -120,6 +127,8 @@ class chengdu:
                     data['publish_time'] = publish_time
                     data['publish_user'] = publish_user
                     data['reply_nodes'] = []
+                    data['spider_time']=time.time()*1000
+                    data['img_urls']=img_urls
                 except Exception as e:
                     print e
                     return
@@ -154,8 +163,9 @@ class chengdu:
     def get_comments(self):
         def get_comment_inside(data):
             comments_data=[]
+            reply_count=0
             comment_url_without_id='http://changyan.sohu.com/api/3/topic/liteload?&client_id=cyrHnxhFx&page_size=30&hot_size=5&topic_source_id='
-            comment_url=comment_url_without_id+data['id']
+            comment_url=comment_url_without_id+data['sid']
             response1=get_response_and_text(url=comment_url)
             response_in_function=response1['response_in_function']
             response_in_function_text=response1['response_in_function_text']
@@ -167,6 +177,8 @@ class chengdu:
                 return
             if data_json['comments']:
                 data_json_comments = data_json['comments']
+                reply_count=data_json['cmt_sum']
+
 
                 for someone_comment in data_json_comments:
                     content = someone_comment['content']  # content
@@ -175,7 +187,10 @@ class chengdu:
                     publish_user = someone_comment['passport']['nickname']  # publish_user
                     publish_user_id = someone_comment['passport']['user_id']  # publish_user_id
                     create_time = someone_comment['create_time']  # publish_time
-                    spider_time = time.time()
+                    spider_time = time.time()*1000
+                    like_count=someone_comment['support_count']
+                    parent_id=data['id']#mark这两个节点到底应该放什么东西呢？
+                    ancestor_id=data['id']
 
                     thiscomments = {
                         'content': content,
@@ -184,14 +199,22 @@ class chengdu:
                         'publish_user': publish_user,
                         'publish_user_id': publish_user_id,
                         'create_time': create_time,
-                        'spider_time': spider_time
+                        'spider_time': spider_time,
+                        'like_count':like_count,
+                        'parent_id':parent_id,
+                        'ancestor_id':ancestor_id,
+
                     }
                     comments_data.append(thiscomments)
 
             data['reply_nodes']=comments_data
+            data['reply_count']=reply_count
             while len(self.result_list)>600:
                 time.sleep(1)
                 print 'is waiting the lenth of the result_list to decrease to 300'
+
+            #最后处理，去掉不需要的字段：
+            del data['sid']
             self.result_list.append(data)
 
 
