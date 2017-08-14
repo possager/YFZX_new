@@ -80,7 +80,7 @@ class chengdu:
                 for j in datasoup.select('body > div.content > div.neirong > p > span:nth-of-type(4)'):
                     publish_time= j.text
                 for k in datasoup.select('body > div.content > div.neirong > p > span:nth-of-type(3)'):
-                    publish_user= k.text.replace(' ', '').replace('\t', '').replace('\n', '').replace('\r','')
+                    publish_user= k.text.replace(' ', '').replace('\t', '').replace('\n', '').replace('\r','').replace(u'来源：','')
                 content = ''
                 for l in datasoup.select('body > div.content > div.neirong > article > p'):
                     content+= l.text
@@ -107,8 +107,8 @@ class chengdu:
                     title= title_for.text
                 for publish_time_for in datasoup.select('body > div.content > p.jieshao > span:nth-of-type(4)'):
                     publish_time= publish_time_for.text+':00'
-                for publish_user_for in datasoup.select('body > div.content > p.jieshao > span:nth-of-type(3)'):
-                    publish_user= publish_user_for.text.replace(' ', '').replace('\t', '').replace('\n', '').replace('\r','')
+                for publish_user_for in datasoup.select('body > div.content > p.jieshao > span:nth-of-type(3) > a'):
+                    publish_user= publish_user_for.text.replace(' ', '').replace('\t', '').replace('\n', '').replace('\r','').replace(u'来源：','')
                 for content_for in datasoup.select('body > div.content > p.zongjie'):
                     content+= content_for.text
                 for img_url in datasoup.select(
