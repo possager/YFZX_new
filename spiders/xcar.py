@@ -89,6 +89,8 @@ class xcar:
     def get_Index(self):
         self.content_data_list=self.urls
 
+        #更改一些东西
+
 
     def get_content(self):
         def get_content_inside(url_with_page):
