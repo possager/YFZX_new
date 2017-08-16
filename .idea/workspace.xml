@@ -88,14 +88,14 @@
       <file leaf-file-name="toutiao2.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spiders/toutiao2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="736">
-              <caret line="58" column="101" lean-forward="false" selection-start-line="58" selection-start-column="101" selection-end-line="58" selection-end-column="101" />
+            <state relative-caret-position="296">
+              <caret line="38" column="145" lean-forward="false" selection-start-line="38" selection-start-column="145" selection-end-line="38" selection-end-column="145" />
               <folding>
                 <element signature="e#20#36#0" expanded="true" />
-                <element signature="e#10725#11106#0" expanded="false" />
-                <element signature="e#11141#11765#0" expanded="false" />
-                <element signature="e#14036#15443#0" expanded="false" />
-                <element signature="e#26614#27650#0" expanded="false" />
+                <element signature="e#10724#11105#0" expanded="false" />
+                <element signature="e#11140#11764#0" expanded="false" />
+                <element signature="e#14035#15442#0" expanded="false" />
+                <element signature="e#26613#27649#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -766,7 +766,14 @@
       <option name="project" value="LOCAL" />
       <updated>1502868461119</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="8-7">
+      <created>1502869921734</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1502869921734</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -935,17 +942,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>203</line>
+          <line>202</line>
           <option name="timeStamp" value="206" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>389</line>
+          <line>388</line>
           <option name="timeStamp" value="209" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>396</line>
+          <line>395</line>
           <option name="timeStamp" value="229" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -1020,47 +1027,47 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>539</line>
+          <line>538</line>
           <option name="timeStamp" value="278" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>538</line>
+          <line>537</line>
           <option name="timeStamp" value="279" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>183</line>
+          <line>182</line>
           <option name="timeStamp" value="280" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>251</line>
+          <line>250</line>
           <option name="timeStamp" value="285" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>451</line>
+          <line>450</line>
           <option name="timeStamp" value="286" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>546</line>
+          <line>545</line>
           <option name="timeStamp" value="287" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>608</line>
+          <line>607</line>
           <option name="timeStamp" value="288" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>661</line>
+          <line>660</line>
           <option name="timeStamp" value="289" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>176</line>
+          <line>175</line>
           <option name="timeStamp" value="294" />
         </line-breakpoint>
       </breakpoints>
@@ -1392,14 +1399,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spiders/toutiao2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="736">
-          <caret line="58" column="101" lean-forward="false" selection-start-line="58" selection-start-column="101" selection-end-line="58" selection-end-column="101" />
+        <state relative-caret-position="296">
+          <caret line="38" column="145" lean-forward="false" selection-start-line="38" selection-start-column="145" selection-end-line="38" selection-end-column="145" />
           <folding>
             <element signature="e#20#36#0" expanded="true" />
-            <element signature="e#10725#11106#0" expanded="false" />
-            <element signature="e#11141#11765#0" expanded="false" />
-            <element signature="e#14036#15443#0" expanded="false" />
-            <element signature="e#26614#27650#0" expanded="false" />
+            <element signature="e#10724#11105#0" expanded="false" />
+            <element signature="e#11140#11764#0" expanded="false" />
+            <element signature="e#14035#15442#0" expanded="false" />
+            <element signature="e#26613#27649#0" expanded="false" />
           </folding>
         </state>
       </provider>
