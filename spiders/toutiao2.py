@@ -321,7 +321,7 @@ class toutiao:
                 comment_ancestor_id=data['id']
                 comment_url = 'https://www.wukong.com/wenda/web/question/loadmorev1/?qid=' + id + '&count=10&req_type=1&offset=3&enter_ansid=' + comment_id  # 每次请求下一次链接的时候offset+10就可以
                 comment_reply_nodes = get_content_in_wenda_comments_comments(
-                    {'id': comment_id, 'reply_nodes': [], 'next_comment_url': None})
+                    {'id': comment_id, 'reply_nodes': [], 'next_comment_url': None,'ancestor_id':data['id']})
 
 
 
@@ -403,7 +403,7 @@ class toutiao:
                 publish_user_photo = comment2['user_info']['avatar_url']
                 publish_time = comment2['create_time']
                 publish_time=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(int(publish_time)))
-                ancestor_id=data['id']
+                ancestor_id=id_replynodes['ancestor_id']
                 parent_id=id_replynodes['id']
 
                 thisnode = {
@@ -681,7 +681,7 @@ class toutiao:
         # time.sleep(20)
         thread2=threading.Thread(target=self.get_content,args=())
         thread2.start()
-        time.sleep(3)
+        # time.sleep(3)
         thread3=threading.Thread(target=self.get_comments,args=())
         thread3.start()
         time.sleep(3)
