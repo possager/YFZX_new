@@ -12,6 +12,7 @@ import urllib2
 import logging
 from saveresult import BASIC_FILE
 from visit_page import get_response_and_text
+import datetime
 
 
 logger_toutiao=logging.getLogger()
@@ -33,28 +34,28 @@ class toutiao:
         }
         self.urls = [
             'http://www.toutiao.com/api/pc/feed/?category=%E7%BB%84%E5%9B%BE&utm_source=toutiao&as=A15579D7AFA0EB3&cp=597FF0BECBF3EE1',
-            'https://www.toutiao.com/api/pc/feed/?max_behot_time=1499133489&category=__all__&utm_source=toutiao&widen=1&tadrequire=false',
-            'https://www.toutiao.com/api/pc/feed/?category=news_hot&utm_source=toutiao&widen=1&max_behot_time_tmp=1499131781&tadrequire=true',
+            # 'https://www.toutiao.com/api/pc/feed/?max_behot_time=1499133489&category=__all__&utm_source=toutiao&widen=1&tadrequire=false',
+            # 'https://www.toutiao.com/api/pc/feed/?category=news_hot&utm_source=toutiao&widen=1&max_behot_time_tmp=1499131781&tadrequire=true',
             'https://www.toutiao.com/api/pc/feed/?category=%E7%BB%84%E5%9B%BE&utm_source=toutiao&as=A1F5F9655ABFB36&cp=595A5F6BB3262E1',#这个是照片的链接
 
-            'https://www.toutiao.com/api/pc/feed/?category=news_society&utm_source=toutiao&widen=1&max_behot_time_tmp=1499130277&tadrequire=true',
-            'https://www.toutiao.com/api/pc/feed/?category=news_entertainment&utm_source=toutiao&widen=1&max_behot_time_tmp=1499127310&tadrequire=true',
-            'https://www.toutiao.com/api/pc/feed/?category=news_tech&utm_source=toutiao&widen=1&mmax_behot_time_tmp=1499126716&tadrequire=true',
-            'https://www.toutiao.com/api/pc/feed/?category=news_sports&utm_source=toutiao&widen=1&max_behot_time_tmp=1499129717&tadrequire=true',
-            'https://www.toutiao.com/api/pc/feed/?category=news_car&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128582&tadrequire=true',
-            'https://www.toutiao.com/api/pc/feed/?category=news_finance&utm_source=toutiao&widen=1&max_behot_time_tmp=1499127720&tadrequire=true',
-            'https://www.toutiao.com/api/pc/feed/?category=funny&utm_source=toutiao&widen=1&max_behot_time_tmp=1499121867&tadrequire=true',
-            'https://www.toutiao.com/api/pc/feed/?category=news_military&utm_source=toutiao&widen=1&max_behot_time_tmp=1499130314&tadrequire=true',
-            'https://www.toutiao.com/api/pc/feed/?category=news_fashion&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128255&tadrequire=true',
-            'https://www.toutiao.com/api/pc/feed/?category=news_discovery&utm_source=toutiao&widen=1&mmax_behot_time_tmp=1499128281&tadrequire=true',
-            'https://www.toutiao.com/api/pc/feed/?category=news_regimen&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128301&tadrequire=true',
-            'https://www.toutiao.com/api/pc/feed/?category=news_essay&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125173&tadrequire=true',
-            'https://www.toutiao.com/api/pc/feed/?category=news_history&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125194&tadrequire=true',
-            'https://www.toutiao.com/api/pc/feed/?category=news_world&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128221&tadrequire=true',
-            'https://www.toutiao.com/api/pc/feed/?category=news_travel&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125233&tadrequire=true',
-            'https://www.toutiao.com/api/pc/feed/?category=news_baby&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128468&tadrequire=true',
-            'https://www.toutiao.com/api/pc/feed/?category=news_story&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125336&tadrequire=true',
-            'https://www.toutiao.com/api/pc/feed/?category=news_game&utm_source=toutiao&widen=1&max_behot_time_tmp=1499131054&tadrequire=true',
+            # 'https://www.toutiao.com/api/pc/feed/?category=news_society&utm_source=toutiao&widen=1&max_behot_time_tmp=1499130277&tadrequire=true',
+            # 'https://www.toutiao.com/api/pc/feed/?category=news_entertainment&utm_source=toutiao&widen=1&max_behot_time_tmp=1499127310&tadrequire=true',
+            # 'https://www.toutiao.com/api/pc/feed/?category=news_tech&utm_source=toutiao&widen=1&mmax_behot_time_tmp=1499126716&tadrequire=true',
+            # 'https://www.toutiao.com/api/pc/feed/?category=news_sports&utm_source=toutiao&widen=1&max_behot_time_tmp=1499129717&tadrequire=true',
+            # 'https://www.toutiao.com/api/pc/feed/?category=news_car&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128582&tadrequire=true',
+            # 'https://www.toutiao.com/api/pc/feed/?category=news_finance&utm_source=toutiao&widen=1&max_behot_time_tmp=1499127720&tadrequire=true',
+            # 'https://www.toutiao.com/api/pc/feed/?category=funny&utm_source=toutiao&widen=1&max_behot_time_tmp=1499121867&tadrequire=true',
+            # 'https://www.toutiao.com/api/pc/feed/?category=news_military&utm_source=toutiao&widen=1&max_behot_time_tmp=1499130314&tadrequire=true',
+            # 'https://www.toutiao.com/api/pc/feed/?category=news_fashion&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128255&tadrequire=true',
+            # 'https://www.toutiao.com/api/pc/feed/?category=news_discovery&utm_source=toutiao&widen=1&mmax_behot_time_tmp=1499128281&tadrequire=true',
+            # 'https://www.toutiao.com/api/pc/feed/?category=news_regimen&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128301&tadrequire=true',
+            # 'https://www.toutiao.com/api/pc/feed/?category=news_essay&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125173&tadrequire=true',
+            # 'https://www.toutiao.com/api/pc/feed/?category=news_history&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125194&tadrequire=true',
+            # 'https://www.toutiao.com/api/pc/feed/?category=news_world&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128221&tadrequire=true',
+            # 'https://www.toutiao.com/api/pc/feed/?category=news_travel&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125233&tadrequire=true',
+            # 'https://www.toutiao.com/api/pc/feed/?category=news_baby&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128468&tadrequire=true',
+            # 'https://www.toutiao.com/api/pc/feed/?category=news_story&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125336&tadrequire=true',
+            # 'https://www.toutiao.com/api/pc/feed/?category=news_game&utm_source=toutiao&widen=1&max_behot_time_tmp=1499131054&tadrequire=true',
             'https://www.toutiao.com/api/pc/feed/?category=news_food&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128522&tadrequire=true'
         ]
         self.global_status_num_index = 1
@@ -81,25 +82,7 @@ class toutiao:
             for url_to_get_index in self.urls:
                 for i in range(1):
                     try:
-                        # self.proxy={'http':'http://'+get_proxy_from_redis()}
-                        # timea=time.time()
-                        # while True:
-                        #     try:
-                        #         proxyhandler=urllib2.ProxyHandler(self.proxy)
-                        #         openner=urllib2.build_opener(proxyhandler)
-                        #         request1=urllib2.Request(url=url_to_get_index,headers=self.headers)
-                        #         response_in_function=openner.open(request1,timeout=timeoutdefault)
-                        #         response_in_function_text=response_in_function.read()
-                        #
-                        #         break
-                        #     except:
-                        #         self.proxy={'http':'http://'+get_proxy_from_redis()}
-                        #         timea=time.time()
-                        # timeb=time.time()
-                        # proxy_here=self.proxy.values()[0].split('//')[1]
-                        # openner.close()
-                        # if timeb - timea < 3:
-                        #     proxy_sendback(proxy_here)
+
                         response1=get_response_and_text(url=url_to_get_index)
                         response_in_function=response1['response_in_function']
                         response_in_function_text=response1['response_in_function_text']
@@ -146,6 +129,7 @@ class toutiao:
                                     'title':title,
                                     'publish_user':publish_user,
                                     'publish_user_photo':publish_user_photo,
+                                    'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                                                           }
 
                             self.content_data_list.append(dict1)
@@ -229,7 +213,10 @@ class toutiao:
             try:
                 data['img_urls'] = content_time_img['img_urls']
                 data['content'] = content_time_img['content']
-                data['publish_time'] = content_time_img['publish_time']
+                if len(content_time_img['publish_time'])<12:
+                    data['publish_time'] = content_time_img['publish_time']+' 00:00:00'
+                else:
+                    data['publish_time']=content_time_img['publish_time']
                 data['item_id'] = item_id
                 data['reply_nodes'] = []
             except Exception as e:
@@ -242,8 +229,8 @@ class toutiao:
             img_urls = []
             try:
                 # text_content = htmldata.text.split('artilceInfo:')[1].split('commentInfo')[0]
-                text_content = htmldata['response_in_function_text'].split('artilceInfo:')[1].split('commentInfo')[0]
-                Re_find_content = re.compile(r"content: '.*?\;'")
+                text_content = htmldata['response_in_function_text'].split('articleInfo:')[1].split('commentInfo')[0]
+                Re_find_content = re.compile(r"content: '.*?'\.replace")
                 Re_find_time2 = re.compile(r"time: '.*?'")
                 content = Re_find_content.findall(text_content)[0]
                 content = content.split("'")[1]
@@ -258,10 +245,10 @@ class toutiao:
                     img_url_split = img_url.split('"')[1]
                     img_urls.append(img_url_split)
 
-                publish_time = Re_find_time2.findall(text_content)[0].split("'")[1] + ':00'
+                publish_time = Re_find_time2.findall(htmldata['response_in_function_text'])[0].split("'")[1] + ':00'
                 return {'content': content, 'img_urls': img_urls, 'publish_time': publish_time}
             except Exception as e:
-                logger_toutiao.log(msg={'msg':e.message+'在get_content_news中出了问题','content':htmldata['response_in_fucntion_text']},level=logging.WARNING)
+                # logger_toutiao.log(msg={'msg':e.message+'在get_content_news中出了问题','content':htmldata['response_in_function_text']},level=logging.WARNING)
                 print e, '在get_content_news中出了问题'
 
             pass
@@ -287,7 +274,7 @@ class toutiao:
                 # publish_time = Re_find_time.findall(htmldata.text)[0].split("'")[1].replace('/', '-')
                 publish_time = Re_find_time.findall(htmldata['response_in_function_text'])[0].split("'")[1].replace('/',
                                                                                                                     '-')
-                return {'content': content, 'img_urls': img_urls, 'publish_time': publish_time}
+                return {'content': content, 'img_urls': img_urls, 'publish_time': publish_time}#mark，是不是时间戳
 
 
 
@@ -313,6 +300,7 @@ class toutiao:
             title = question_json[0]['title']
             content = question_json[0]['content']['text']
             publish_time = question_json[0]['create_time']
+            publish_time=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(int(publish_time)))
             publish_user_id = question_json[0]['user']['user_id']
             publish_user = question_json[0]['user']['uname']
             publish_user_photo = question_json[0]['user']['avatar_url']
@@ -321,13 +309,17 @@ class toutiao:
 
             for comment_content_all in answer_json:  # 这里边的时间格式有问题
                 comment_content = comment_content_all['content']
-                comment_publish_time = '2017-'+comment_content_all['show_time']#时间有问题u'07-31 20:26'
+                comment_content=BeautifulSoup(comment_content,'lxml')
+                comment_content=comment_content.text
+                comment_parend_id=data['id']#可以调用父函数的变量
+                comment_publish_time = '2017-'+comment_content_all['show_time']+':00'#时间有问题u'07-31 20:26'
                 comment_publish_user = comment_content_all['user']['uname']
                 comment_publish_user_id = comment_content_all['user']['user_id']
                 comment_publish_user_photo = comment_content_all['user']['avatar_url']
                 comment_like_count = comment_content_all['digg_count']
                 comment_reply_count = comment_content_all['comment_count']
                 comment_id = comment_content_all['ansid']
+                comment_ancestor_id=data['id']
                 comment_url = 'https://www.wukong.com/wenda/web/question/loadmorev1/?qid=' + id + '&count=10&req_type=1&offset=3&enter_ansid=' + comment_id  # 每次请求下一次链接的时候offset+10就可以
                 comment_reply_nodes = get_content_in_wenda_comments_comments(
                     {'id': comment_id, 'reply_nodes': [], 'next_comment_url': None})
@@ -347,7 +339,9 @@ class toutiao:
                     'like_count': comment_like_count,
                     'reply_nodes': comment_reply_nodes,
                     'reply_count': comment_reply_count,
-                    'url': comment_url
+                    'url': comment_url,
+                    'parent_id':comment_parend_id,
+                    'ancestor_id':comment_ancestor_id,
                 }
                 reply_nodes.append(one_node)
 
@@ -408,6 +402,9 @@ class toutiao:
                 publish_user = comment2['user_info']['uname']
                 publish_user_photo = comment2['user_info']['avatar_url']
                 publish_time = comment2['create_time']
+                publish_time=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(int(publish_time)))
+                ancestor_id=data['id']
+                parent_id=id_replynodes['id']
 
                 thisnode = {
                     'id': id,
@@ -416,7 +413,9 @@ class toutiao:
                     'publish_user_id': publish_user_id,
                     'publish_user': publish_user,
                     'publish_user_photo': publish_user_photo,
-                    'publish_time': publish_time#发布时间
+                    'publish_time': publish_time,#发布时间
+                    'parent_id':parent_id,
+                    'ancestor_id':ancestor_id
                 }
                 id_replynodes['reply_nodes'].append(thisnode)
             if datajson_comment2['has_more']:
@@ -462,11 +461,14 @@ class toutiao:
                 like_count = one_comment['digg_count']
                 id = one_comment['ansid']
                 publish_time = one_comment['create_time']  # 时间戳mark
+                publish_time=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(int(publish_time)))
                 reply_count = one_comment['comment_count']
                 publish_user_photo = one_comment['user']['avatar_url']
                 publish_user = one_comment['user']['uname']
                 publish_user_id = one_comment['user']['user_id']
                 reply_nodes = get_content_in_wenda_comments_comments({'id':id,'reply_nodes': [], 'next_comment_url':None})
+                parent_id=id_replynodes['id']
+                ancestor_id=data['id']
 
                 this_node = {
                     'publish_time': publish_time,
@@ -477,7 +479,9 @@ class toutiao:
                     'publish_user_photo': publish_user_photo,
                     'publish_user': publish_user,
                     'publish_user_id': publish_user_id,
-                    'reply_nodes': reply_nodes
+                    'reply_nodes': reply_nodes,
+                    'ancestor_id':ancestor_id,
+                    'parent_id':parent_id
                 }
                 id_replynodes['reply_nodes'].append(this_node)
 
@@ -559,13 +563,18 @@ class toutiao:
                 content = one_comment['text']
                 like_count = one_comment['digg_count']
                 publish_time = one_comment['create_time']
+                publish_time=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(int(publish_time)))
+                # publish_user_photo = one_comment['user']['avatar_url']
                 publish_user_photo = one_comment['user']['avatar_url']
                 publish_user_id = one_comment['user']['user_id']
                 publish_user = one_comment['user']['user_id']
                 id = one_comment['id']
                 reply_count = one_comment['reply_count']
+                parent_id=data['id']
+                ancestor_id=data['id']
+
                 if reply_count > 0:
-                    reply_nodes = get_comment_comment({'id': id})
+                    reply_nodes = get_comment_comment({'id': id,'ancestor_id':data['id']})
                 else:
                     reply_nodes = []
 
@@ -578,7 +587,9 @@ class toutiao:
                     'publish_user': publish_user,
                     'id': id,
                     'reply_count': reply_count,
-                    'reply_nodes': reply_nodes
+                    'reply_nodes': reply_nodes,
+                    'parent_id':parent_id,
+                    'ancestor_id':ancestor_id,
                 }
                 # data['reply_nodes'].append(thisnode)
                 comments_data.append(thisnode)
@@ -591,8 +602,8 @@ class toutiao:
                 print 'is waiting the lenth of the result_list to decrease to 300'
             self.result_list.append(data)
 
-        def get_comment_comment(data):  # 评论中有评论
-            id = data['id']
+        def get_comment_comment(data1):  # 评论中有评论,起名data1是为了防止覆盖data变量
+            id = data1['id']
             # session1 = requests.session()
             headers = {
                 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
@@ -644,10 +655,13 @@ class toutiao:
                 content = one_comment['text']
                 like_count = one_comment['digg_count']
                 publish_time = one_comment['create_time']
+                publish_time=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(int(publish_time)))
                 publish_user_id = one_comment['user']['user_id']
                 publish_user = one_comment['user']['screen_name']
                 publish_user_photo = one_comment['user']['avatar_url']
                 id = one_comment['id']
+                ancestor_id=data1['ancestor_id']
+                parent_id=data1['id']
                 thisnode = {
                     'publish_user': publish_user,
                     'content': content,
@@ -655,7 +669,9 @@ class toutiao:
                     'publish_time': publish_time,
                     'publish_user_id': publish_user_id,
                     'publish_user_photo': publish_user_photo,
-                    'id': id
+                    'id': id,
+                    'ancestor_id':ancestor_id,
+                    'parent_id':parent_id
                 }
                 reply_nodes.append(thisnode)
 
