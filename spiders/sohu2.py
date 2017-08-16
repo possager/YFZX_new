@@ -13,6 +13,7 @@ from saveresult import Save_result
 import re
 import logging
 from visit_page import get_response_and_text
+import datetime
 
 
 
@@ -61,6 +62,7 @@ class sohu:
                     'id':i['id'],
                     'url':url_index,
                     'cmsid':i['cmsId'],
+                    'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                          }
                 self.content_data_list.append(data_index)
             time.sleep(1)
@@ -106,6 +108,7 @@ class sohu:
             data['content']=content
             data['img_urls']=img_urls
             data['reply_nodes']=[]
+            data['spider_time']=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
             self.comments_url_list.append(data)
 
@@ -172,6 +175,10 @@ class sohu:
                 reply_count=one_comment['reply_count']
                 publish_user=one_comment['passport']['nickname']
                 publish_user_photo=one_comment['passport']['img_url']
+                ancestor_id=data['id']
+                parent_id=data['id']
+                if one_comment['comments']:
+                    parent_id=one_comment['comments']['comment_id']
 
 
                 thisnode={
@@ -183,7 +190,9 @@ class sohu:
                     'like_count':like_count,
                     'reply_count':reply_count,
                     'publish_user':publish_user,
-                    'publish_user_photo':publish_user_photo
+                    'publish_user_photo':publish_user_photo,
+                    'ancestor_id':ancestor_id,
+                    'parent_id':parent_id
                 }
 
 
@@ -193,7 +202,10 @@ class sohu:
             if cmspagenum<cmspage_taotalnum+1:
                 get_comment_inside(data,cmspagenum,comments_data,cmspage_taotalnum)
             else:
+                # comments_data['reply_count']
+                data['reply_count']=cmspage_taotalnum
                 data['reply_nodes']=comments_data
+                del data['cmsid']#删除为获取评论而生成的id
                 self.result_list.append(data)
 
 

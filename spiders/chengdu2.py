@@ -11,6 +11,8 @@ from saveresult import Save_result
 from visit_page import get_response_and_text
 import json
 from saveresult import BASIC_FILE
+import datetime
+
 import sys
 import os
 
@@ -105,7 +107,7 @@ class chengdu:
                 data['publish_time']=publish_time
                 data['publish_user']=publish_user
                 data['reply_nodes']=[]
-                data['spider_time']=time.time()*1000
+                data['spider_time']=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 data['img_urls']=img_urls
             elif 'class="swiper-container"' in response_in_function_text:#这里可能是图片新闻
                 content=''
@@ -127,7 +129,7 @@ class chengdu:
                     data['publish_time'] = publish_time
                     data['publish_user'] = publish_user
                     data['reply_nodes'] = []
-                    data['spider_time']=time.time()*1000
+                    data['spider_time']=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                     data['img_urls']=img_urls
                 except Exception as e:
                     print e
@@ -187,10 +189,18 @@ class chengdu:
                     publish_user = someone_comment['passport']['nickname']  # publish_user
                     publish_user_id = someone_comment['passport']['user_id']  # publish_user_id
                     create_time = someone_comment['create_time']  # publish_time
-                    spider_time = time.time()*1000
+                    create_time=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(int(int(create_time/1000))))
+                    spider_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                     like_count=someone_comment['support_count']
                     parent_id=data['id']#mark这两个节点到底应该放什么东西呢？
                     ancestor_id=data['id']
+                    this_comments=someone_comment['comments']
+                    if this_comments:
+                        parent_id=this_comments[0]['comment_id']
+                    #用堆来解决这种类型的评论8-16
+                    # for this_comments
+
+
 
                     thiscomments = {
                         'content': content,
@@ -198,7 +208,7 @@ class chengdu:
                         'publish_user_photo': publish_user_photo,
                         'publish_user': publish_user,
                         'publish_user_id': publish_user_id,
-                        'create_time': create_time,
+                        'publish_time': create_time,
                         'spider_time': spider_time,
                         'like_count':like_count,
                         'parent_id':parent_id,

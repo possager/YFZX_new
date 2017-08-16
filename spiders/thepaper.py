@@ -116,12 +116,60 @@ class thepaper:
                     'title':title,
                     'publish_time':publish_time,
                     'id':id,
-                    'reply_count':reply_count
+                    'reply_count':reply_count,
+                    'is_movie':True,
                 }
                 self.content_data_list.append(data_index)
 
-        def get_index_inside(url):
-            print url
+        def get_index_inside_wenben(url):
+            user_agent = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36'
+            headers = {
+                'User-Agent': user_agent
+            }
+            response1 = get_response_and_text(url=url,headers=headers)
+            response_in_function=response1['response_in_function']
+            response_in_function_text=response1['response_in_function_text']
+            datasoup = BeautifulSoup(response_in_function_text, 'lxml')
+            for div_content in datasoup.select('body > div'):
+                try:
+                    url= 'http://m.thepaper.cn/' + div_content.select('div > a')[0].get('href')  # url
+                    publish_time = div_content.select('p > span')[0].text  # publish_time
+
+                    title= div_content.select('div > p > a')[1].text  # title
+                    publish_user= div_content.select('div > p > a')[0].text  # publish_user
+                    # print div_content
+                    if u'分钟' in publish_time:
+                        time_a = datetime.now()
+                        minulate = publish_time.replace(u'分钟前', '')
+                        time_b = datetime.now() - timedelta(minutes=int(minulate))
+                        print time_b
+                        time_c = time_b.strftime('%Y-%m-%d %H:%M')
+                        publish_time= time_c
+                    elif u'小时前' in publish_time:
+                        # time_a=datetime.now()
+                        hourse = publish_time.replace(u'小时前', '')
+                        time_b = datetime.now() - timedelta(hours=int(hourse))
+                        time_c = time_b.strftime('%Y-%m-%d %H:%M')
+                        publish_time= time_c
+                    elif u'天前' in publish_time:
+                        days = publish_time.replace(u'天前', '')
+                        time_b = datetime.now() - timedelta(days=int(days))
+                        time_c = time_b.strftime('%Y-%m-%d %H:%M')
+                        publish_time= time_c
+
+                    print '\n\n\n'
+                except Exception as e:
+                    print e
+                this_dict={
+                    'url':url,
+                    'publish_time':publish_time,
+                    'title':title,
+                    'publish_user':publish_user,
+                    'is_movie':False
+                }
+                self.content_data_list.append(this_dict)
+
+
 
         threadlist=[]
         while self.global_status_num_index > 0 or self.index_url_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
@@ -134,7 +182,7 @@ class thepaper:
                     if 'http://www.thepaper.cn/load_index.jsp?' in data_in_while:
                         thread_in_while = threading.Thread(target=get_index_inside_movie, args=(data_in_while,))
                     else:
-                        thread_in_while=threading.Thread(target=get_index_inside,args=(data_in_while,))
+                        thread_in_while=threading.Thread(target=get_index_inside_wenben,args=(data_in_while,))
                     thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
@@ -150,11 +198,11 @@ class thepaper:
         thread2 = threading.Thread(target=self.get_content, args=())
         thread2.start()
         # time.sleep(3)
-        thread3 = threading.Thread(target=self.get_comments, args=())
-        thread3.start()
-        thread4 = threading.Thread(target=self.save_result, args=())
-        thread4.start()
-        pass
+        # thread3 = threading.Thread(target=self.get_comments, args=())
+        # thread3.start()
+        # thread4 = threading.Thread(target=self.save_result, args=())
+        # thread4.start()
+        # pass
 
 if __name__ == '__main__':
     thisclass=thepaper()
