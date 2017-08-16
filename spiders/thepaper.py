@@ -193,7 +193,25 @@ class thepaper:
             def get_content_inside_movie(data):
                 print data
             def get_content_inside_no_movie(data):
-                print data
+                respons1=get_response_and_text(url=data['url'])
+                response_in_function=respons1['response_in_function']
+                response_in_function_text=respons1['response_in_function_text']
+
+
+                Re_find_img=re.compile(r'src=".*"')
+
+                datasoup=BeautifulSoup(response_in_function_text,'lxml')
+                content=''
+                img_urls=[]
+                for content_in_soup in datasoup.select('#v3cont_id > div.news_content > div.news_part'):
+                    content+=content_in_soup.text
+                title=datasoup.select('#v3cont_id > div.news_content > h1')[0].text
+                publish_user= datasoup.select('#v3cont_id > div.news_content > p.about_news')[0].text
+                publish_time= datasoup.select('#v3cont_id > div.news_content > p.about_news')[1].text
+                datasoup_content=datasoup.select('#v3cont_id > div.news_content > div.news_part')[0]
+
+
+
             if data['is_movie']:
                 get_content_inside_movie(data)
             else:

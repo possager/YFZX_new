@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ee7aa450-d5e3-49ed-bdfb-89405505369d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testthepaper2.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/thepaper.py" afterPath="$PROJECT_DIR$/spiders/thepaper.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testthepaper2.py" afterPath="$PROJECT_DIR$/testthepaper2.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -32,7 +32,7 @@
     <SUITE FILE_PATH="coverage/YFZX_new$toutiao.coverage" NAME="toutiao Coverage Results" MODIFIED="1502313361350" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders" />
     <SUITE FILE_PATH="coverage/YFZX_new$testthepaper2.coverage" NAME="testthepaper2 Coverage Results" MODIFIED="1502876290505" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/YFZX_new$test.coverage" NAME="test Coverage Results" MODIFIED="1501828608051" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/YFZX_new$Unittests_in_testthepaper2_py.coverage" NAME="Unittests in testthepaper2.py Coverage Results" MODIFIED="1502876590857" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/YFZX_new$Unittests_in_testthepaper2_py.coverage" NAME="Unittests in testthepaper2.py Coverage Results" MODIFIED="1502877431557" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/YFZX_new$testes2.coverage" NAME="testes2 Coverage Results" MODIFIED="1502400889177" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/YFZX_new$testlog.coverage" NAME="testlog Coverage Results" MODIFIED="1502233673973" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/YFZX_new$toutiao2.coverage" NAME="toutiao2 Coverage Results" MODIFIED="1502872556453" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders" />
@@ -136,7 +136,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="xilu2.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="xilu2.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spiders/xilu2.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="284">
@@ -157,16 +157,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="thepaper.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="thepaper.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spiders/thepaper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-132">
-              <caret line="174" column="70" lean-forward="false" selection-start-line="174" selection-start-column="70" selection-end-line="174" selection-end-column="70" />
+            <state relative-caret-position="245">
+              <caret line="210" column="100" lean-forward="true" selection-start-line="210" selection-start-column="100" selection-end-line="210" selection-end-column="100" />
               <folding>
                 <element signature="e#21#36#0" expanded="true" />
                 <element signature="e#469#1546#0" expanded="false" />
                 <element signature="e#484#634#0" expanded="false" />
                 <element signature="e#655#1064#0" expanded="false" />
+                <element signature="e#1581#8802#0" expanded="false" />
                 <element signature="e#1640#2513#0" expanded="false" />
                 <element signature="e#2232#2305#0" expanded="false" />
                 <element signature="e#2569#2652#0" expanded="false" />
@@ -182,7 +183,7 @@
       <file leaf-file-name="testthepaper.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testthepaper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="572">
+            <state relative-caret-position="374">
               <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
               <folding>
                 <element signature="e#20#35#0" expanded="true" />
@@ -199,8 +200,8 @@
       <file leaf-file-name="testthepaper2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testthepaper2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="8" column="75" lean-forward="false" selection-start-line="8" selection-start-column="75" selection-end-line="8" selection-end-column="75" />
+            <state relative-caret-position="252">
+              <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="15" selection-end-column="77" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -302,8 +303,8 @@
         <option value="$PROJECT_DIR$/spiders/sohu2.py" />
         <option value="$PROJECT_DIR$/spiders/toutiao2.py" />
         <option value="$PROJECT_DIR$/spiders/xilu2.py" />
-        <option value="$PROJECT_DIR$/spiders/thepaper.py" />
         <option value="$PROJECT_DIR$/testthepaper2.py" />
+        <option value="$PROJECT_DIR$/spiders/thepaper.py" />
       </list>
     </option>
   </component>
@@ -806,7 +807,14 @@
       <option name="project" value="LOCAL" />
       <updated>1502874701070</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="8-7">
+      <created>1502877347107</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1502877347107</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -825,8 +833,8 @@
     <history-entry file="Unittests_in_testthepaper2_py - 2017.08.16 at 17h 43m 11s.xml">
       <configuration name="Unittests in testthepaper2.py" configurationId="tests" />
     </history-entry>
-    <history-entry file="Unittests_in_testthepaper_py - 2017.08.15 at 03h 59m 32s.xml">
-      <configuration name="Unittests in testthepaper.py" configurationId="tests" />
+    <history-entry file="Unittests_in_testthepaper2_py - 2017.08.16 at 17h 57m 11s.xml">
+      <configuration name="Unittests in testthepaper2.py" configurationId="tests" />
     </history-entry>
     <history-entry file="Unittests_in_testthepaper_py - 2017.08.15 at 05h 40m 31s.xml">
       <configuration name="Unittests in testthepaper.py" configurationId="tests" />
@@ -1035,7 +1043,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/thepaper.py</url>
-          <line>204</line>
+          <line>222</line>
           <option name="timeStamp" value="250" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -1339,16 +1347,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/sohu2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-870">
-          <caret line="60" column="47" lean-forward="false" selection-start-line="60" selection-start-column="47" selection-end-line="60" selection-end-column="47" />
-          <folding>
-            <element signature="e#20#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spiders/toutiao2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-440">
@@ -1401,50 +1399,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/xilu2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="227" column="54" lean-forward="true" selection-start-line="217" selection-start-column="8" selection-end-line="227" selection-end-column="54" />
-          <folding>
-            <element signature="e#21#36#0" expanded="true" />
-            <element signature="e#2086#4227#0" expanded="false" />
-            <element signature="e#4478#8360#0" expanded="false" />
-            <element signature="e#5218#5499#0" expanded="false" />
-            <element signature="e#5535#7217#0" expanded="false" />
-            <element signature="e#8422#10317#0" expanded="false" />
-            <element signature="e#10381#10713#0" expanded="false" />
-            <element signature="e#12573#14416#0" expanded="false" />
-            <element signature="e#15629#16721#0" expanded="false" />
-            <element signature="e#17207#17273#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testthepaper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
-          <folding>
-            <element signature="e#20#35#0" expanded="true" />
-            <element signature="e#1973#2022#0" expanded="false" />
-            <element signature="e#2965#4137#0" expanded="false" />
-            <element signature="e#3362#3606#0" expanded="false" />
-            <element signature="e#3656#3871#0" expanded="false" />
-            <element signature="e#3920#4093#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testthepaper2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="8" column="75" lean-forward="false" selection-start-line="8" selection-start-column="75" selection-end-line="8" selection-end-column="75" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spiders/chengdu2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="177">
@@ -1464,15 +1418,51 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/testthepaper2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="15" selection-end-column="77" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testthepaper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding>
+            <element signature="e#20#35#0" expanded="true" />
+            <element signature="e#1973#2022#0" expanded="false" />
+            <element signature="e#2965#4137#0" expanded="false" />
+            <element signature="e#3362#3606#0" expanded="false" />
+            <element signature="e#3656#3871#0" expanded="false" />
+            <element signature="e#3920#4093#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/sohu2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-870">
+          <caret line="60" column="47" lean-forward="false" selection-start-line="60" selection-start-column="47" selection-end-line="60" selection-end-column="47" />
+          <folding>
+            <element signature="e#20#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/spiders/thepaper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-132">
-          <caret line="174" column="70" lean-forward="false" selection-start-line="174" selection-start-column="70" selection-end-line="174" selection-end-column="70" />
+        <state relative-caret-position="245">
+          <caret line="210" column="100" lean-forward="true" selection-start-line="210" selection-start-column="100" selection-end-line="210" selection-end-column="100" />
           <folding>
             <element signature="e#21#36#0" expanded="true" />
             <element signature="e#469#1546#0" expanded="false" />
             <element signature="e#484#634#0" expanded="false" />
             <element signature="e#655#1064#0" expanded="false" />
+            <element signature="e#1581#8802#0" expanded="false" />
             <element signature="e#1640#2513#0" expanded="false" />
             <element signature="e#2232#2305#0" expanded="false" />
             <element signature="e#2569#2652#0" expanded="false" />
@@ -1480,6 +1470,25 @@
             <element signature="e#3524#4166#0" expanded="false" />
             <element signature="e#5402#7835#0" expanded="false" />
             <element signature="e#7989#8802#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/xilu2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="227" column="54" lean-forward="true" selection-start-line="217" selection-start-column="8" selection-end-line="227" selection-end-column="54" />
+          <folding>
+            <element signature="e#21#36#0" expanded="true" />
+            <element signature="e#2086#4227#0" expanded="false" />
+            <element signature="e#4478#8360#0" expanded="false" />
+            <element signature="e#5218#5499#0" expanded="false" />
+            <element signature="e#5535#7217#0" expanded="false" />
+            <element signature="e#8422#10317#0" expanded="false" />
+            <element signature="e#10381#10713#0" expanded="false" />
+            <element signature="e#12573#14416#0" expanded="false" />
+            <element signature="e#15629#16721#0" expanded="false" />
+            <element signature="e#17207#17273#0" expanded="false" />
           </folding>
         </state>
       </provider>
