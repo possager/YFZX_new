@@ -139,7 +139,7 @@ class thepaper:
                     publish_user= div_content.select('div > p > a')[0].text  # publish_user
                     # print div_content
                     if u'分钟' in publish_time:
-                        time_a = datetime.now()
+                        # time_a = datetime.now()
                         minulate = publish_time.replace(u'分钟前', '')
                         time_b = datetime.now() - timedelta(minutes=int(minulate))
                         print time_b
@@ -189,7 +189,30 @@ class thepaper:
 
 
     def get_content(self):
-        pass
+        def get_content_inside(data):
+            def get_content_inside_movie(data):
+                print data
+            def get_content_inside_no_movie(data):
+                print data
+            if data['is_movie']:
+                get_content_inside_movie(data)
+            else:
+                get_content_inside_no_movie(data)
+
+
+
+        threadlist=[]
+        while self.global_status_num_index > 0 or self.content_data_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
+            while self.content_data_list or threadlist:
+                for threadi in threadlist:
+                    if not threadi.is_alive():
+                        threadlist.remove(threadi)
+                while len(threadlist) < CONTENT_THREADING_NUM and self.content_data_list:
+                    data_in_while = self.content_data_list.pop()
+                    thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
+                    thread_in_while.setDaemon(True)
+                    thread_in_while.start()
+                    threadlist.append(thread_in_while)
 
     def run(self):
         thread1 = threading.Thread(target=self.get_Index, args=())
