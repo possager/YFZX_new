@@ -34,28 +34,28 @@ class toutiao:
         }
         self.urls = [
             'http://www.toutiao.com/api/pc/feed/?category=%E7%BB%84%E5%9B%BE&utm_source=toutiao&as=A15579D7AFA0EB3&cp=597FF0BECBF3EE1',
-            # 'https://www.toutiao.com/api/pc/feed/?max_behot_time=1499133489&category=__all__&utm_source=toutiao&widen=1&tadrequire=false',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_hot&utm_source=toutiao&widen=1&max_behot_time_tmp=1499131781&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?max_behot_time=1499133489&category=__all__&utm_source=toutiao&widen=1&tadrequire=false',
+            'https://www.toutiao.com/api/pc/feed/?category=news_hot&utm_source=toutiao&widen=1&max_behot_time_tmp=1499131781&tadrequire=true',
             'https://www.toutiao.com/api/pc/feed/?category=%E7%BB%84%E5%9B%BE&utm_source=toutiao&as=A1F5F9655ABFB36&cp=595A5F6BB3262E1',#这个是照片的链接
 
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_society&utm_source=toutiao&widen=1&max_behot_time_tmp=1499130277&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_entertainment&utm_source=toutiao&widen=1&max_behot_time_tmp=1499127310&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_tech&utm_source=toutiao&widen=1&mmax_behot_time_tmp=1499126716&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_sports&utm_source=toutiao&widen=1&max_behot_time_tmp=1499129717&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_car&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128582&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_finance&utm_source=toutiao&widen=1&max_behot_time_tmp=1499127720&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=funny&utm_source=toutiao&widen=1&max_behot_time_tmp=1499121867&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_military&utm_source=toutiao&widen=1&max_behot_time_tmp=1499130314&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_fashion&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128255&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_discovery&utm_source=toutiao&widen=1&mmax_behot_time_tmp=1499128281&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_regimen&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128301&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_essay&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125173&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_history&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125194&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_world&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128221&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_travel&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125233&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_baby&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128468&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_story&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125336&tadrequire=true',
-            # 'https://www.toutiao.com/api/pc/feed/?category=news_game&utm_source=toutiao&widen=1&max_behot_time_tmp=1499131054&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_society&utm_source=toutiao&widen=1&max_behot_time_tmp=1499130277&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_entertainment&utm_source=toutiao&widen=1&max_behot_time_tmp=1499127310&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_tech&utm_source=toutiao&widen=1&mmax_behot_time_tmp=1499126716&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_sports&utm_source=toutiao&widen=1&max_behot_time_tmp=1499129717&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_car&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128582&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_finance&utm_source=toutiao&widen=1&max_behot_time_tmp=1499127720&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=funny&utm_source=toutiao&widen=1&max_behot_time_tmp=1499121867&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_military&utm_source=toutiao&widen=1&max_behot_time_tmp=1499130314&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_fashion&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128255&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_discovery&utm_source=toutiao&widen=1&mmax_behot_time_tmp=1499128281&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_regimen&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128301&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_essay&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125173&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_history&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125194&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_world&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128221&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_travel&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125233&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_baby&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128468&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_story&utm_source=toutiao&widen=1&max_behot_time_tmp=1499125336&tadrequire=true',
+            'https://www.toutiao.com/api/pc/feed/?category=news_game&utm_source=toutiao&widen=1&max_behot_time_tmp=1499131054&tadrequire=true',
             'https://www.toutiao.com/api/pc/feed/?category=news_food&utm_source=toutiao&widen=1&max_behot_time_tmp=1499128522&tadrequire=true'
         ]
         self.global_status_num_index = 1
@@ -342,6 +342,7 @@ class toutiao:
                     'url': comment_url,
                     'parent_id':comment_parend_id,
                     'ancestor_id':comment_ancestor_id,
+                    'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 }
                 reply_nodes.append(one_node)
 
@@ -415,7 +416,8 @@ class toutiao:
                     'publish_user_photo': publish_user_photo,
                     'publish_time': publish_time,#发布时间
                     'parent_id':parent_id,
-                    'ancestor_id':ancestor_id
+                    'ancestor_id':ancestor_id,
+                    'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 }
                 id_replynodes['reply_nodes'].append(thisnode)
             if datajson_comment2['has_more']:
@@ -481,7 +483,8 @@ class toutiao:
                     'publish_user_id': publish_user_id,
                     'reply_nodes': reply_nodes,
                     'ancestor_id':ancestor_id,
-                    'parent_id':parent_id
+                    'parent_id':parent_id,
+                    'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 }
                 id_replynodes['reply_nodes'].append(this_node)
 
@@ -525,17 +528,8 @@ class toutiao:
 
             while True:  # 强制请求
                 try:
-                    # timea = time.time()
-                    # cookies1 = cookielib.MozillaCookieJar()
-                    # proxies1 = {'http': 'http://' + get_proxy_from_redis()}
-                    # proxyhandler = urllib2.ProxyHandler(proxies1)
-                    # cookiehandler = urllib2.HTTPCookieProcessor(cookies1)
                     comment_url = 'http://www.toutiao.com/api/comment/list/?group_id=' + str(
                         data['id']) + '&item_id=' + str(data['item_id']) + '&offset=5&count=10'
-                    # request1 = urllib2.Request(url=comment_url, headers=headers)
-                    # opener1 = urllib2.build_opener(proxyhandler, cookiehandler)
-                    # response_in_function = opener1.open(request1)
-                    # response_in_function_text = response_in_function.read()
                     response1=get_response_and_text(url=comment_url)
                     response_in_function=response1['response_in_function']
                     response_in_function_text=response1['response_in_function_text']
@@ -546,16 +540,8 @@ class toutiao:
                     if 'item_id' in e:
                         messege = {'msg': e.message}
                         logger_toutiao.log(msg=messege, level=logging.WARNING)
-            # timeb = time.time()
-            # proxy_here = session1.proxies.values()[0].split('//')[1]
-            # proxy_here = proxies1.values()[0].split('//')[1]
-            # session1.close()
-            # opener1.close()
-            # if timeb - timea < 3:
-            #     proxy_sendback(proxy_here)
             comments_data = []
             try:
-                # data_json = json.loads(response_in_function.text.encode('utf-8'))
                 data_json = json.loads(response_in_function_text)
             except Exception as e:
                 print e
@@ -564,7 +550,6 @@ class toutiao:
                 like_count = one_comment['digg_count']
                 publish_time = one_comment['create_time']
                 publish_time=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(int(publish_time)))
-                # publish_user_photo = one_comment['user']['avatar_url']
                 publish_user_photo = one_comment['user']['avatar_url']
                 publish_user_id = one_comment['user']['user_id']
                 publish_user = one_comment['user']['user_id']
@@ -590,6 +575,7 @@ class toutiao:
                     'reply_nodes': reply_nodes,
                     'parent_id':parent_id,
                     'ancestor_id':ancestor_id,
+                    'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 }
                 # data['reply_nodes'].append(thisnode)
                 comments_data.append(thisnode)
@@ -608,45 +594,20 @@ class toutiao:
             headers = {
                 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
             }
-
-            timea = time.time()
-            # session1.cookies = cookielib.MozillaCookieJar()
-            # session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
-            # cookies1 = cookielib.MozillaCookieJar()
-            # proxies1 = {'http': 'http://' + get_proxy_from_redis()}
-            # while True:  # 强制请求
             try:
-
-                # session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
-                # http://www.toutiao.com/api/comment/get_reply/?comment_id=1574954012827661&dongtai_id=1574954012827661&offset=0&count=20
                 comment_url = 'http://www.toutiao.com/api/comment/get_reply/?comment_id=' + str(
                     id) + '&item_id=' + str(id) + '&offset=5&count=10'
 
-                # proxyhandler = urllib2.ProxyHandler(proxies1)
-                # cookiehandler = urllib2.HTTPCookieProcessor(cookies1)
-                # request1 = urllib2.Request(url=comment_url, headers=headers)
-                # openner1 = urllib2.build_opener(proxyhandler, cookiehandler)
-                # response_in_function = openner1.open(request1)
-                # response_in_function_text = response_in_function.read()
+
                 response1=get_response_and_text(url=comment_url,headers=headers)
                 response_in_function=response1['response_in_function']
                 response_in_function_text=response1['response_in_function_text']
-
-                # response_in_function = session1.request(method='get', url=comment_url, headers=headers,
-                #                                         timeout=self.timeoutdefault)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
-                # datajson = json.loads(response_in_function.text)
                 datajson = json.loads(response_in_function_text)
 
                 # break
             except Exception as e:
                 print e
-            # timeb = time.time()
-            # proxy_here = session1.proxies.values()[0].split('//')[1]
-            # proxy_here = proxies1.values()[0].split('//')[1]
-            # session1.close()
-            # openner1.close()
-            # if timeb - timea < 3:
-            #     proxy_sendback(proxy_here)
+
 
             reply_nodes = []
             # datajson=json.loads(response_in_function.text)
@@ -671,7 +632,8 @@ class toutiao:
                     'publish_user_photo': publish_user_photo,
                     'id': id,
                     'ancestor_id':ancestor_id,
-                    'parent_id':parent_id
+                    'parent_id':parent_id,
+                    'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 }
                 reply_nodes.append(thisnode)
 
