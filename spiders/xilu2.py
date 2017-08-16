@@ -13,6 +13,8 @@ from saveresult import Save_result
 import re
 import logging
 from visit_page import get_response_and_text
+import datetime
+from datetime import timedelta
 
 class xilu:
     # 没有图片处理模块，对应的图片处理模块导致信息读取不完全。
@@ -62,7 +64,6 @@ class xilu:
                     self.session1.close()
                     eval(response_text)
                     json_charge = json.loads(json.dumps(eval(response_text)))
-                    # json_charge=json.loads(json.dumps(eval(response1.text)))
                     if not json_charge:
                         break
                     if response1.cookies:
@@ -82,8 +83,8 @@ class xilu:
                         data_in_index['title'] = news_index['title']  # title
                         data_in_index['read_count'] = news_index['onclick']  # view_num
                         data_in_index['url'] = 'http://m.xilu.com/v/' + news_index['rfilename'] + '.html'
+                        data_in_index['spider_time']=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                         self.content_data_list.append(data_in_index)
-                        # print data_in_index['title']
                 except Exception as e:
                     print e
                 print '\n\n'
@@ -118,14 +119,12 @@ class xilu:
                 for i in datasoup.select('body > div.scrollBox.mt10 > div.article > div.art_co.sau > p'):
                     content += i.text
                 # 8-3添加图片抓取功能
-                # data_main_content_part=datasoup.select('div.article')
                 Re_find_img_url = re.compile(r'src=".*?"/\>')
                 content_part_data = datasoup.select('div.article')
                 if content_part_data:
                     data_find_by_re = Re_find_img_url.findall(str(content_part_data[0]))
                     for url_img_re in data_find_by_re:
                         img_urls.append(url_img_re.split('"')[1])
-                # 8-3
                 next_page_selector = datasoup.select(
                     'body > div.scrollBox.mt10 > div.article > div.mb10.mt5.fs14 > a.page-next.ml5')
                 contentall = ''
@@ -135,7 +134,6 @@ class xilu:
                         next_page_url = next_page_html
                         next_url = 'http://m.xilu.com' + next_page_url
                         data['url'] = next_url
-                        # print next_url
                         content_and_img_urls2 = get_content_inside_next_page(
                             {'content': content, 'nexturl': next_url, 'img_urls': img_urls})
                         contentall += content_and_img_urls2['content']
@@ -150,17 +148,16 @@ class xilu:
 
             publish_time = data['publish_time']
             if publish_time == u'刚刚':
-                publish_time = time.time()
+                publish_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             elif u'小时前' in publish_time:
-                time_pass = int(publish_time.replace(u'小时前', '')) * 60 * 60
-                publish_time = time.time() - time_pass
+                time_pass = int(publish_time.replace(u'小时前', ''))
+                publish_time=(datetime.datetime.now()-timedelta(hours=time_pass)).strftime('%Y-%m-%d %H:%M:%S')
             elif u'分钟前' in publish_time:
-                time_pass = int(publish_time.replace(u'分钟前', '')) * 60
-                publish_time = time.time() - time_pass
+                time_pass = int(publish_time.replace(u'分钟前', ''))
+                publish_time=(datetime.datetime.now()-timedelta(minutes=time_pass)).strftime('%Y-%m-%d %H:%M:%S')
             elif '-' in publish_time and len(publish_time) == 5:
-                publish_time = '2017-' + publish_time
+                publish_time = '2017-' + publish_time+' 00:00:00'
             data['content'] = contentall
-            # print contentall
             data['img_urls'] = img_urls
             data['publish_time'] = publish_time
             data['url'] = url
@@ -237,7 +234,6 @@ class xilu:
 
     def get_comments(self):
         def get_comment_inside(data):
-            print 'hello i am in deal_comments '
             headers = {
                 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
             }
@@ -251,6 +247,8 @@ class xilu:
 
             comments_data = []
             data_json = json.loads(response_in_function_text)
+            reply_count_outside=data_json['cmt_sum']
+
             if data_json['comments']:
                 data_json_comments = data_json['comments']
 
@@ -261,7 +259,15 @@ class xilu:
                     publish_user = someone_comment['passport']['nickname']  # publish_user
                     publish_user_id = someone_comment['passport']['user_id']  # publish_user_id
                     create_time = someone_comment['create_time']  # publish_time
-                    spider_time = time.time()
+                    spider_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    parent_id=data['id']
+                    ancestor_id=data['id']
+                    comments=someone_comment['comments']
+                    reply_count=someone_comment['reply_count']
+                    like_count=someone_comment['support_count']
+                    dislike_count=someone_comment['oppose_count']
+                    if comments:
+                        parent_id=comments['comment_id']
 
                     thiscomments = {
                         'content': content,
@@ -270,11 +276,18 @@ class xilu:
                         'publish_user': publish_user,
                         'publish_user_id': publish_user_id,
                         'create_time': create_time,
-                        'spider_time': spider_time
+                        'spider_time': spider_time,
+                        'parent_id':parent_id,
+                        'ancestor_id':ancestor_id,
+                        'reply_count':reply_count,
+                        'like_count':like_count,
+                        'dislike_count':dislike_count
+
                     }
                     comments_data.append(thiscomments)
 
             data['reply_nodes'] = comments_data
+            data['reply_count']=reply_count_outside
             while len(self.result_list) > 600:
                 time.sleep(1)
                 print 'is waiting the lenth of the result_list to decrease to 300'
@@ -299,20 +312,6 @@ class xilu:
 
 
 
-        # comment_threadlist=[]
-        # while self.global_status_num_content>0 or self.comments_url_list:#参照getcontent模块
-        #     while self.comments_url_list or comment_threadlist:
-        #         for threadi in comment_threadlist:
-        #             if not threadi.is_alive():
-        #                 comment_threadlist.remove(threadi)
-        #         while len(comment_threadlist)<COMMENTS_THREADING_NUM and self.comments_url_list:
-        #             data_in_while=self.comments_url_list.pop()
-        #             thread_in_while=threading.Thread(target=get_comment_inside,args=(data_in_while,))
-        #             thread_in_while.setDaemon(True)
-        #             thread_in_while.start()
-        #             comment_threadlist.append(thread_in_while)
-        #             print len(comment_threadlist)
-        #             print len(self.comments_url_list)
 
     def save_result(self):
         def save_result(data):
