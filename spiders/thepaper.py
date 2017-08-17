@@ -172,7 +172,7 @@ class thepaper:
 
 
         threadlist=[]
-        while self.global_status_num_index > 0 or self.index_url_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
+        while self.index_url_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
             while self.index_url_list or threadlist:
                 for threadi in threadlist:
                     if not threadi.is_alive():
@@ -209,6 +209,16 @@ class thepaper:
                 publish_user= datasoup.select('#v3cont_id > div.news_content > p.about_news')[0].text
                 publish_time= datasoup.select('#v3cont_id > div.news_content > p.about_news')[1].text
                 datasoup_content=datasoup.select('#v3cont_id > div.news_content > div.news_part')[0]
+                img_urls_original=Re_find_img.findall(datasoup_content)
+                for url in img_urls_original:
+                    url_split=url.split('"')[1]
+                    img_urls.append(url_split)
+
+                data['publish_user']=publish_user
+                data['img_urls']=img_urls
+                data['content']=content
+                data['publish_user']=publish_user
+                data['publish_time']=publish_time
 
 
 
