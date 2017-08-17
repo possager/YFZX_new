@@ -66,7 +66,7 @@ def Save_result(plantform,date_time,urlOruid,newsidOrtid,datatype,full_data,foru
     print date_time
     if '-' in date_time or ' ' in date_time:#u'1498141405'这里的两个if是时间戳 #改成or
         # timeArray=time.strptime(date_time,'%Y-%m-%d %H:%M:%S')
-        print '--------------->',date_time
+        # print '--------------->',date_time
         timeArray = examing_datetime_format(date_time)
         try:
             date_time_strip=str(int(time.mktime(timeArray)))

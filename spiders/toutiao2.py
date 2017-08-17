@@ -1,4 +1,13 @@
 #_*_coding:utf-8_*_
+
+import sys
+import os
+
+curPath = os.path.abspath(os.path.dirname(__file__))
+rootPath = os.path.split(curPath)[0]
+sys.path.append(rootPath)
+
+
 import cookielib
 from proxy_to_redis import *
 from setting import *
@@ -104,6 +113,8 @@ class toutiao:
                                 publish_user = ''
                             try:
                                 publish_user_photo = one_index['media_avatar_url']
+                                if 'http' not in publish_user_photo:
+                                    publish_user_photo='http:'+publish_user_photo
                             except:
                                 publish_user_photo = ''
                             try:
@@ -303,6 +314,8 @@ class toutiao:
             publish_user_id = question_json[0]['user']['user_id']
             publish_user = question_json[0]['user']['uname']
             publish_user_photo = question_json[0]['user']['avatar_url']
+            if 'http' not in publish_user_photo:
+                publish_user_photo='http:'+publish_user_photo
             id = question_json[0]['qid']
             reply_nodes = []
 
@@ -341,7 +354,7 @@ class toutiao:
                     'url': comment_url,
                     'parent_id':comment_parend_id,
                     'ancestor_id':comment_ancestor_id,
-                    'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    # 'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 }
                 reply_nodes.append(one_node)
 
@@ -416,7 +429,7 @@ class toutiao:
                     'publish_time': publish_time,#发布时间
                     'parent_id':parent_id,
                     'ancestor_id':ancestor_id,
-                    'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    # 'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 }
                 id_replynodes['reply_nodes'].append(thisnode)
             if datajson_comment2['has_more']:
@@ -483,7 +496,7 @@ class toutiao:
                     'reply_nodes': reply_nodes,
                     'ancestor_id':ancestor_id,
                     'parent_id':parent_id,
-                    'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    # 'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 }
                 id_replynodes['reply_nodes'].append(this_node)
 
@@ -551,7 +564,7 @@ class toutiao:
                 publish_time=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(int(publish_time)))
                 publish_user_photo = one_comment['user']['avatar_url']
                 publish_user_id = one_comment['user']['user_id']
-                publish_user = one_comment['user']['user_id']
+                publish_user = one_comment['user']['name']#8-17日改
                 id = one_comment['id']
                 reply_count = one_comment['reply_count']
                 parent_id=data['id']
@@ -574,7 +587,7 @@ class toutiao:
                     'reply_nodes': reply_nodes,
                     'parent_id':parent_id,
                     'ancestor_id':ancestor_id,
-                    'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    # 'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 }
                 # data['reply_nodes'].append(thisnode)
                 comments_data.append(thisnode)
@@ -632,7 +645,7 @@ class toutiao:
                     'id': id,
                     'ancestor_id':ancestor_id,
                     'parent_id':parent_id,
-                    'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    # 'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 }
                 reply_nodes.append(thisnode)
 
@@ -655,6 +668,7 @@ class toutiao:
     def save_result(self):
         def save_result(data):
             try:
+                del data['item_id']
                 Save_result(plantform='toutiao', date_time=data['publish_time'], urlOruid=data['url'],
                             newsidOrtid=data['id'], datatype='news', full_data=data)
             except Exception as e:

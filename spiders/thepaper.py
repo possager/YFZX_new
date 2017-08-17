@@ -22,10 +22,10 @@ class thepaper:
         }
         self.urls = [
             'http://m.thepaper.cn/channel_26916',#视频，单独搞，因为视频模块的网页码不一样
-            'http://m.thepaper.cn/channel_25950',  # 时事
-            'http://m.thepaper.cn/channel_25951',#财经
-            'http://m.thepaper.cn/channel_25952',#思想
-            'http://m.thepaper.cn/channel_25953',#生活
+            # 'http://m.thepaper.cn/channel_25950',  # 时事
+            # 'http://m.thepaper.cn/channel_25951',#财经
+            # 'http://m.thepaper.cn/channel_25952',#思想
+            # 'http://m.thepaper.cn/channel_25953',#生活
             # 'http://m.thepaper.cn/ask_index.jsp',#问吧
             # 'http://m.thepaper.cn/gov_publish.jsp'#问政
 
@@ -190,15 +190,28 @@ class thepaper:
 
     def get_content(self):
         def get_content_inside(data):
+            print 'in deal content'
             def get_content_inside_movie(data):
+                # url_for_debug=data['url']
+                # response1=get_response_and_text(url=url_for_debug)
+                # response_in_function=response1['response_in_function']
+                # response_in_function_text=response1['response_in_function_text']
+                # datasoup=BeautifulSoup(response_in_function_text,'lxml')
+                # print datasoup.select('#v3cont_id > div.news_content > div:nth-of-type(5)')#
+                # print datasoup.select('#v3cont_id > div.news_content > div:nth-of-type(5) > br')#comefrom
+                # print datasoup.select('#copy_vdetail_sum')#content
+                # print datasoup.select('')
                 print data
+
+
             def get_content_inside_no_movie(data):
-                respons1=get_response_and_text(url=data['url'])
+                url_for_debug=data['url']
+                respons1=get_response_and_text(url=url_for_debug)
                 response_in_function=respons1['response_in_function']
                 response_in_function_text=respons1['response_in_function_text']
 
 
-                Re_find_img=re.compile(r'src=".*"')
+                Re_find_img=re.compile(r'src=".*?"')
 
                 datasoup=BeautifulSoup(response_in_function_text,'lxml')
                 content=''
@@ -209,7 +222,11 @@ class thepaper:
                 publish_user= datasoup.select('#v3cont_id > div.news_content > p.about_news')[0].text
                 publish_time= datasoup.select('#v3cont_id > div.news_content > p.about_news')[1].text
                 datasoup_content=datasoup.select('#v3cont_id > div.news_content > div.news_part')[0]
-                img_urls_original=Re_find_img.findall(datasoup_content)
+                img_urls_original=Re_find_img.findall(str(datasoup_content))
+                img_urls_selected_by_doup=datasoup_content.select('img')
+                for url in img_urls_selected_by_doup:
+                    print url.get('src')
+
                 for url in img_urls_original:
                     url_split=url.split('"')[1]
                     img_urls.append(url_split)
@@ -230,7 +247,7 @@ class thepaper:
 
 
         threadlist=[]
-        while self.global_status_num_index > 0 or self.content_data_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
+        while self.content_data_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
             while self.content_data_list or threadlist:
                 for threadi in threadlist:
                     if not threadi.is_alive():
@@ -245,7 +262,7 @@ class thepaper:
     def run(self):
         thread1 = threading.Thread(target=self.get_Index, args=())
         thread1.start()
-        time.sleep(20)
+        time.sleep(10)
         thread2 = threading.Thread(target=self.get_content, args=())
         thread2.start()
         # time.sleep(3)
@@ -257,4 +274,5 @@ class thepaper:
 
 if __name__ == '__main__':
     thisclass=thepaper()
-    thisclass.get_Index()
+    # thisclass.get_Index()
+    thisclass.run()

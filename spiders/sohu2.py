@@ -28,6 +28,7 @@ class sohu:
             'http://v2.sohu.com/public-api/feed?scene=CHANNEL&sceneId=8&page=',#1&size=20
             # 'https://api.m.sohu.com/autonews/cpool/?n=%E6%96%B0%E9%97%BB&s='#0&c=20&dc=1#这里边貌似都是汽车新闻
         ]
+        #https://v2.sohu.com/public-api/articles/pv?articleIds=165322282,165273199,165318164,165298110,165305002,165320082,165305781,165276842,165322275,165319473,165314176,165319328,165319326,165318177,165317519,165319091,165262411,165318821,165315981,165270688
         self.global_status_num_index = 1
         self.global_status_num_content = 2
         self.global_status_num_comments = 3
@@ -48,6 +49,7 @@ class sohu:
             response_in_function=response1['response_in_function']
             response_in_function_text=response1['response_in_function_text']
             datajson=json.loads(response_in_function_text)
+            this_url_index_list=[]#专为获取评论浏览数量而设计
             for i in datajson:
                 url_index='https://m.sohu.com/a/'+str(i['id'])+'_'+str(i['authorId'])
                 publish_time=i['publicTime']
@@ -64,11 +66,27 @@ class sohu:
                     'cmsid':i['cmsId'],
                     'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                          }
-                self.content_data_list.append(data_index)
+                this_url_index_list.append(data_index)
+                # self.content_data_list.append(data_index)#因为获得浏览量是单独的一个请求，所以
+                # break
+            viewernum_url='https://v2.sohu.com/public-api/articles/pv?articleIds='
+            for viewernum_id in this_url_index_list:
+                viewernum_url=viewernum_url+','+str(viewernum_id['id'])
+            viewernum_url=viewernum_url.replace('articleIds=,','articleIds=')
+            viewernum_info=requests.get(url=viewernum_url,headers=self.headers)
+            viewernum_info_json=json.loads(viewernum_info.text)
+            for data_index_no_viewer in this_url_index_list:
+                noviewer_id=data_index_no_viewer['id']
+                print noviewer_id
+                data_index_no_viewer['read_count']=viewernum_info_json['%s' %(str(noviewer_id))]
+
+            self.content_data_list=self.content_data_list+this_url_index_list
+
+
+
+
+            # break
             time.sleep(1)
-
-
-
 
         self.global_status_num_index=0
 
@@ -78,7 +96,8 @@ class sohu:
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
             }
-            response1=get_response_and_text(url=data['url'],headers=headers)
+            url_for_debug=data['url']
+            response1=get_response_and_text(url=url_for_debug,headers=headers)
             response_in_function=response1['response_in_function']
             response_in_function_text=response1['response_in_function_text']
 
@@ -95,15 +114,19 @@ class sohu:
                     content+=i.text
 
             try:
-                content_data=str(datasoup.select('#articleContent > div.display-content')[0])
+                content_data=str(datasoup.select('#articleContent')[0])
             except Exception as e:
                 print e
                 try:
                     content_data=str(datasoup.select('#articleContent')[0])
                 except:
                     return
-            Re_find_img=re.compile(r'img src=".*?"')
-            for img_url in Re_find_img.findall(content_data):
+            Re_find_img=re.compile(r'src=".*?"')
+            imgs_find_by_re=Re_find_img.findall(content_data)
+            for img_url in imgs_find_by_re:
+                img_url=img_url.split('"')[1]
+                if 'http' not in img_url:
+                    img_url='https:'+img_url
                 img_urls.append(img_url)
             data['content']=content
             data['img_urls']=img_urls
@@ -132,81 +155,87 @@ class sohu:
         self.global_status_num_content = 0
 
     def get_comments(self):
-        def get_comment_inside(data,cmspagenum=1,comments_data=[],topicid=None,cmspage_taotalnum=0):
-
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
-            }
-
-
-            if not topicid:
-                comment_url = 'https://apiv2.sohu.com/api/topic/load?page_size=10&topic_source_id=' + \
-                          str(data['id'])+'&page_no=10'
-            else:
-                comment_url='https://apiv2.sohu.com/api/comment/list?page_size=10&topic_id='+topicid+'&page_no='+cmspagenum
-            # response_in_function = session1.request(method='get', url=comment_url, headers=headers,
-            #                                         timeout=5)  # 这里的headers会因为其它的线程使用而有所改变，因为线程安全的原因，这里不好控制，控制的意义不大。
-            response1=get_response_and_text(url=comment_url,headers=headers)
-            response_in_function=response1['response_in_function']
-            response_in_function_text=response1['response_in_function_text']
-
-            data_json = json.loads(response_in_function_text)
-            if cmspagenum==1:
-                try:
-                    cmspage_taotalnum=data_json['jsonObject']['total_page_no']
-                except:
-                    try:
-                        cmspage_taotalnum=data_json['jsonObject']['outer_cmt_sum']
-                    except:
-                        # cmspage_taotalnum=data_json['jsonObject']['comments']
-                        cmspage_taotalnum=0#因为这里边没有返回这个值
-
-            for one_comment in data_json['jsonObject']['comments']:
-                id=one_comment['comment_id']
-                content=one_comment['content']
-                url=response_in_function.url
-                publish_time=one_comment['create_time']
-                publish_time = int(publish_time) / 1000
-                time_format = '%Y-%m-%d %H:%M:%S'
-                publish_time_stamp_9 = time.localtime(float(publish_time))
-                publish_time = time.strftime(time_format, publish_time_stamp_9)
-                publish_user_id=one_comment['user_id']
-                like_count=one_comment['support_count']
-                reply_count=one_comment['reply_count']
-                publish_user=one_comment['passport']['nickname']
-                publish_user_photo=one_comment['passport']['img_url']
-                ancestor_id=data['id']
-                parent_id=data['id']
-                if one_comment['comments']:
-                    parent_id=one_comment['comments']['comment_id']
-
-
-                thisnode={
-                    'id':id,
-                    'content':content,
-                    'url':url,
-                    'publish_time':publish_time,
-                    'publish_user_id':publish_user_id,
-                    'like_count':like_count,
-                    'reply_count':reply_count,
-                    'publish_user':publish_user,
-                    'publish_user_photo':publish_user_photo,
-                    'ancestor_id':ancestor_id,
-                    'parent_id':parent_id
+        def get_comment_inside(data):#这里的下一页请求只需要在cmspagenum上加1即可。
+            #初始化
+            topicid=None
+            cmspage_taotalnum=0
+            comments_data = []
+            cmspagenum = 1
+            while True:
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
                 }
+                if not topicid:
+                    comment_url = 'https://apiv2.sohu.com/api/topic/load?page_size=10&topic_source_id=' + \
+                              str(data['cmsid'])+'&page_no=10'
+                else:
+                    comment_url='https://apiv2.sohu.com/api/comment/list?page_size=10&topic_id='+str(topicid)+'&page_no='+str(cmspagenum)
+                response1=get_response_and_text(url=comment_url,headers=headers)
+                response_in_function=response1['response_in_function']
+                response_in_function_text=response1['response_in_function_text']
+                data_json = json.loads(response_in_function_text)
+                if cmspagenum==1:
+                    try:
+                        cmspage_taotalnum=data_json['jsonObject']['cmt_sum']
+                        data['reply_count'] = cmspage_taotalnum
+                    except:
+                        try:
+                            cmspage_taotalnum=data_json['jsonObject']['outer_cmt_sum']
+                        except:
+                            cmspage_taotalnum=0#因为这里边没有返回这个值
+                for one_comment in data_json['jsonObject']['comments']:
+                    id=one_comment['comment_id']
+                    content=one_comment['content']
+                    url=response_in_function.url
+                    publish_time=one_comment['create_time']
+                    publish_time = int(publish_time) / 1000
+                    time_format = '%Y-%m-%d %H:%M:%S'
+                    publish_time_stamp_9 = time.localtime(float(publish_time))
+                    publish_time = time.strftime(time_format, publish_time_stamp_9)
+                    publish_user_id=one_comment['user_id']
+                    like_count=one_comment['support_count']
+                    reply_count=one_comment['reply_count']
+                    try:
+                        publish_user=one_comment['passport']['nickname']
+                    except Exception as e:
+                        publish_user='没有抓到这个人的昵称，也没有调试出来为什么'
+                    publish_user_photo=one_comment['passport']['img_url']
+                    ancestor_id=data['id']
+                    print ancestor_id,'---------',data['id']
+                    print '---------------------',id,'----------------------'
+                    if ancestor_id!=data['id']:
+                        print ancestor_id,'---------',data['id']
+                    parent_id=data['id']
+                    if one_comment['comments']:
+                        parent_id=one_comment['comments'][0]['comment_id']
 
 
-                comments_data.append(thisnode)
+                    thisnode={
+                        'id':id,
+                        'content':content,
+                        'url':url,
+                        'publish_time':publish_time,
+                        'publish_user_id':publish_user_id,
+                        'like_count':like_count,
+                        'reply_count':reply_count,
+                        'publish_user':publish_user,
+                        'publish_user_photo':publish_user_photo,
+                        'ancestor_id':ancestor_id,
+                        'parent_id':parent_id
+                    }
 
-            cmspagenum+=1
-            if cmspagenum<cmspage_taotalnum+1:
-                get_comment_inside(data,cmspagenum,comments_data,cmspage_taotalnum)
-            else:
-                # comments_data['reply_count']
-                data['reply_count']=cmspage_taotalnum
-                data['reply_nodes']=comments_data
-                del data['cmsid']#删除为获取评论而生成的id
-                self.result_list.append(data)
+
+                    comments_data.append(thisnode)
+                cmspagenum+=1
+                if cmspagenum<=int(cmspage_taotalnum/10)+1:#既然每次10条结果，那么
+                    if not topicid:
+                        topicid=data_json['jsonObject']['topic_id']
+                    # get_comment_inside(data,cmspagenum,comments_data,topicid,cmspage_taotalnum)
+                else:
+                    data['reply_nodes']=comments_data
+                    del data['cmsid']#删除为获取评论而生成的id
+                    self.result_list.append(data)
+                    break
 
 
 
@@ -251,14 +280,14 @@ class sohu:
     def run(self):
         thread1=threading.Thread(target=self.get_Index,args=())
         thread1.start()
-        time.sleep(5)
-        thread2=threading.Thread(target=self.get_content,args=())
-        thread2.start()
-        time.sleep(3)
-        thread3=threading.Thread(target=self.get_comments,args=())
-        thread3.start()
-        thread4=threading.Thread(target=self.save_result,args=())
-        thread4.start()
+        # time.sleep(5)
+        # thread2=threading.Thread(target=self.get_content,args=())
+        # thread2.start()
+        # # time.sleep(3)
+        # thread3=threading.Thread(target=self.get_comments,args=())
+        # thread3.start()
+        # thread4=threading.Thread(target=self.save_result,args=())
+        # thread4.start()
         pass
 
 if __name__ == '__main__':

@@ -59,6 +59,7 @@ class xilu:
                 try:  # SyntaxError: unexpected EOF while parsing
                     self.session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
                     response1 = self.session1.post(url=url_to_get_index, headers=self.headers, data={'page': i})
+                    # response1=get_response_and_text(url=url_to_get_index,headers=self.headers,)
                     self.session1.close()
                     response_text = response1.text.encode('utf-8')
                     self.session1.close()
@@ -188,8 +189,15 @@ class xilu:
             content_part_data = datasoup.select('div.article')
             if content_part_data:
                 data_find_by_re = Re_find_img_url.findall(str(content_part_data[0]))
+                img_urls2=[]
                 for url_img_re in data_find_by_re:
-                    img_urls.append(url_img_re.split('"')[1])
+                    imgurl=url_img_re.split('"')[1]
+                    img_urls2.append(imgurl)
+                for url_without_http in img_urls2:
+                    if 'http' not in url_without_http:
+                        url_without_http='http'+url_without_http
+                        img_urls.append(url_without_http)
+                        pass
             # 8-3
 
 
@@ -210,7 +218,11 @@ class xilu:
             img_urls = []
             content = ''
             for imgurl in datasoup.select('#slider > ul > li > img'):
-                img_urls.append(imgurl.get('src'))
+                # img_urls.append(imgurl.get('src'))
+                imgurl=imgurl.get('src')
+                if 'http' not in imgurl:
+                    imgurl='http'+imgurl
+                img_urls.append(imgurl)
             for contenti in datasoup.select('#slider > ul > li > p'):
                 content += contenti.text
             return {'img_urls': img_urls, 'content': content}
