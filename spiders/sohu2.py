@@ -280,14 +280,14 @@ class sohu:
     def run(self):
         thread1=threading.Thread(target=self.get_Index,args=())
         thread1.start()
-        # time.sleep(5)
-        # thread2=threading.Thread(target=self.get_content,args=())
-        # thread2.start()
-        # # time.sleep(3)
-        # thread3=threading.Thread(target=self.get_comments,args=())
-        # thread3.start()
-        # thread4=threading.Thread(target=self.save_result,args=())
-        # thread4.start()
+        time.sleep(5)
+        thread2=threading.Thread(target=self.get_content,args=())
+        thread2.start()
+        # time.sleep(3)
+        thread3=threading.Thread(target=self.get_comments,args=())
+        thread3.start()
+        thread4=threading.Thread(target=self.save_result,args=())
+        thread4.start()
         pass
 
 if __name__ == '__main__':

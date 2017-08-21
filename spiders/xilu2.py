@@ -34,12 +34,12 @@ class xilu:
         }
         self.urls = [
             'http://m.xilu.com/index.html',
-            'http://m.xilu.com/list_1353.html',
-            'http://m.xilu.com/list_1283.html',
-            'http://m.xilu.com/list_1311.html',
-            'http://m.xilu.com/list_1142.html',
+            # 'http://m.xilu.com/list_1353.html',
+            # 'http://m.xilu.com/list_1283.html',
+            # 'http://m.xilu.com/list_1311.html',
+            # 'http://m.xilu.com/list_1142.html',
             # 'http://m.xilu.com/list_1412.html'#这个是解析图片，估计会出现解析不准确的情况。
-            'http://m.xilu.com/list_1469.html'
+            # 'http://m.xilu.com/list_1469.html'
         ]
         self.global_status_num_index = 1
         self.global_status_num_content = 2
@@ -57,7 +57,7 @@ class xilu:
         for url_to_get_index in self.urls:
             for i in range(300):
                 try:  # SyntaxError: unexpected EOF while parsing
-                    self.session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
+                    # self.session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
                     response1 = self.session1.post(url=url_to_get_index, headers=self.headers, data={'page': i})
                     # response1=get_response_and_text(url=url_to_get_index,headers=self.headers,)
                     self.session1.close()
@@ -86,6 +86,7 @@ class xilu:
                         data_in_index['url'] = 'http://m.xilu.com/v/' + news_index['rfilename'] + '.html'
                         data_in_index['spider_time']=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                         self.content_data_list.append(data_in_index)
+                        return
                 except Exception as e:
                     print e
                 print '\n\n'
