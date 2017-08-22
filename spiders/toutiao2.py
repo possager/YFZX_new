@@ -404,7 +404,7 @@ class toutiao:
                 # break
             except Exception as e:
 
-                print e# mark getittem
+                print e
 
 
             datajson_comment2 = json.loads(response_in_function_text)
@@ -451,7 +451,6 @@ class toutiao:
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
             }
-
             try:
                 if not id_replynodes['next_comment_url']:
                     url_comments_more = 'https://www.wukong.com/wenda/web/question/loadmorev1/?count=10&qid=' + \
@@ -463,7 +462,7 @@ class toutiao:
                 else:
                     response1=get_response_and_text(url=id_replynodes['next_comment_url'],headers=headers)
                     response_in_function=response1['response_in_function']
-                    response_in_function_text=response1['response_in_function']
+                    response_in_function_text=response1['response_in_function_text']
 
             except Exception as e:
                     print e

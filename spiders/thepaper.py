@@ -22,12 +22,12 @@ class thepaper:
         }
         self.urls = [
             'http://m.thepaper.cn/channel_26916',#视频，单独搞，因为视频模块的网页码不一样
-            # 'http://m.thepaper.cn/channel_25950',  # 时事
-            # 'http://m.thepaper.cn/channel_25951',#财经
-            # 'http://m.thepaper.cn/channel_25952',#思想
-            # 'http://m.thepaper.cn/channel_25953',#生活
-            # 'http://m.thepaper.cn/ask_index.jsp',#问吧
-            # 'http://m.thepaper.cn/gov_publish.jsp'#问政
+            'http://m.thepaper.cn/channel_25950',  # 时事
+            'http://m.thepaper.cn/channel_25951',#财经
+            'http://m.thepaper.cn/channel_25952',#思想
+            'http://m.thepaper.cn/channel_25953',#生活
+            'http://m.thepaper.cn/ask_index.jsp',#问吧
+            'http://m.thepaper.cn/gov_publish.jsp'#问政
 
         ]
         self.global_status_num_index = 1
