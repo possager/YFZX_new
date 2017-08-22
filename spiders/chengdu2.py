@@ -69,7 +69,7 @@ class chengdu:
                 time.sleep(1)
             url=self.urls.pop(1)
             self.content_data_list.append({'url':url,'id':url.split('/')[-1]})
-            break
+            # break
         self.global_status_num_index=0
 
     def get_content(self):

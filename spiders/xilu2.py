@@ -196,7 +196,7 @@ class xilu:
                     img_urls2.append(imgurl)
                 for url_without_http in img_urls2:
                     if 'http' not in url_without_http:
-                        url_without_http='http'+url_without_http
+                        url_without_http='http:'+url_without_http
                         img_urls.append(url_without_http)
                         pass
             # 8-3

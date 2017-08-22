@@ -142,12 +142,18 @@ class toutiao:
                                                           }
 
                             self.content_data_list.append(dict1)
+                            # break
+
+
 
                             # redis1.lpush('toutiao_index',dict(dict1))
                     except Exception as e:
                         pass
-            time.sleep(10)
-        self.global_status_num_index=0
+                    # break
+                # break
+            # break
+            # time.sleep(10)
+        # self.global_status_num_index=0
 
     def get_content(self):
         def get_content_inside(data):
@@ -359,9 +365,9 @@ class toutiao:
 
             try:
                 get_content_in_wenda_comments_more(
-                    {'id': qid[0].split("'")[1], 'reply_nodes': reply_nodes, 'next_comment_url': None})
+                    {'id': qid[0].split("'")[1], 'reply_nodes': reply_nodes, 'next_comment_url': None})#mark 8-22
             except Exception as e:
-                print e, 'get_conten_in_wenda_comments_more中出了问题'
+                print e, 'get_conten_in_wenda_comments_more中出了问题'#mark
 
 
             data['title'] = title#在问答中不会返回到get_contont模块中，所以
@@ -398,7 +404,7 @@ class toutiao:
                 # break
             except Exception as e:
 
-                print e#mark getittem
+                print e# mark getittem
 
 
             datajson_comment2 = json.loads(response_in_function_text)
@@ -539,15 +545,16 @@ class toutiao:
 
             while True:  # 强制请求
                 try:
+                    print data
                     comment_url = 'http://www.toutiao.com/api/comment/list/?group_id=' + str(
-                        data['id']) + '&item_id=' + str(data['item_id']) + '&offset=5&count=10'
+                        data['id']) + '&item_id=' + str(data['item_id']) + '&offset=0&count=20'
                     response1=get_response_and_text(url=comment_url)
                     response_in_function=response1['response_in_function']
                     response_in_function_text=response1['response_in_function_text']
 
                     break
                 except Exception as e:
-                    print e
+                    print e,'mark1'
                     if 'item_id' in e:
                         messege = {'msg': e.message}
                         logger_toutiao.log(msg=messege, level=logging.WARNING)
@@ -597,6 +604,7 @@ class toutiao:
             while len(self.result_list) > 600:
                 time.sleep(1)
                 print 'is waiting the lenth of the result_list to decrease to 300'
+
             self.result_list.append(data)
 
         def get_comment_comment(data1):  # 评论中有评论,起名data1是为了防止覆盖data变量
@@ -607,7 +615,7 @@ class toutiao:
             }
             try:
                 comment_url = 'http://www.toutiao.com/api/comment/get_reply/?comment_id=' + str(
-                    id) + '&item_id=' + str(id) + '&offset=5&count=10'
+                    id) + '&item_id=' + str(id) + '&offset=0&count=20'
 
 
                 response1=get_response_and_text(url=comment_url,headers=headers)
@@ -632,7 +640,11 @@ class toutiao:
                 publish_user = one_comment['user']['screen_name']
                 publish_user_photo = one_comment['user']['avatar_url']
                 id = one_comment['id']
-                ancestor_id=data1['ancestor_id']
+                try:
+                    ancestor_id=data1['ancestor_id']
+                except Exception as e:
+                    print e
+                    ancestor_id='wrong'
                 parent_id=data1['id']
                 thisnode = {
                     'publish_user': publish_user,
