@@ -69,7 +69,9 @@ class chengdu:
                 time.sleep(1)
             url=self.urls.pop(1)
             self.content_data_list.append({'url':url,'id':url.split('/')[-1]})
+            break
         self.global_status_num_index=0
+
     def get_content(self):
         def get_content_inside(data):
             #这里不设计去重功能就真的没法停下来了
@@ -103,7 +105,7 @@ class chengdu:
                 img_urls=[]
                 neirong_content = datasoup.select('body > div.content > div.neirong')
                 neirong_content = str(neirong_content)
-                Re_find_img_url = re.compile(r'src=".*?">')
+                Re_find_img_url = re.compile(r'src=".*?"')
                 img_find_by_re = Re_find_img_url.findall(neirong_content)
                 for i in img_find_by_re:
                     img_urls.append(i.split('"')[1])
@@ -171,63 +173,86 @@ class chengdu:
                     threadlist.append(thread_in_while)
 
         self.global_status_num_content=0
+
     def get_comments(self):
-        def get_comment_inside(data):
-            comments_data=[]
-            reply_count=0
-            comment_url_without_id='http://changyan.sohu.com/api/3/topic/liteload?&client_id=cyrHnxhFx&page_size=30&hot_size=5&topic_source_id='
-            comment_url=comment_url_without_id+data['sid']
-            response1=get_response_and_text(url=comment_url)
-            response_in_function=response1['response_in_function']
-            response_in_function_text=response1['response_in_function_text']
-            # print response_in_function_text
-            try:
-                data_json=json.loads(response_in_function_text)
-            except Exception as e:
-                print e
-                return
-            if data_json['comments']:
-                data_json_comments = data_json['comments']
-                reply_count=data_json['cmt_sum']
+        def get_comment_inside(data):#也是分为两段设计，第一次获得contentid
+            topicid = None
+            cmspage_taotalnum = 1
+            comments_data = []
+            cmspagenum = 1
 
 
-                for someone_comment in data_json_comments:
-                    content = someone_comment['content']  # content
-                    id = someone_comment['comment_id']  # id
-                    publish_user_photo = someone_comment['passport']['img_url']  # publish_user_photo
-                    publish_user = someone_comment['passport']['nickname']  # publish_user
-                    publish_user_id = someone_comment['passport']['user_id']  # publish_user_id
-                    create_time = someone_comment['create_time']  # publish_time
-                    create_time=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(int(int(create_time/1000))))
-                    spider_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    like_count=someone_comment['support_count']
-                    parent_id=data['id']#mark这两个节点到底应该放什么东西呢？
-                    ancestor_id=data['id']
-                    this_comments=someone_comment['comments']
-                    if this_comments:
-                        parent_id=this_comments[0]['comment_id']
-                    #用堆来解决这种类型的评论8-16
-                    # for this_comments
+            #额外添加
+            request_num=1
+
+            # comments_data=[]
+            while True:
+                # reply_count=0
+                if not topicid:
+                    comment_url_without_id='http://changyan.sohu.com/api/3/topic/liteload?&client_id=cyrHnxhFx&page_size=30&hot_size=5&topic_source_id='
+                    comment_url=comment_url_without_id+data['sid']
+                else:
+                    comment_url = 'http://changyan.sohu.com/api/2/topic/comments?client_id=cyrHnxhFx&page_size=30&topic_id=' + str(
+                        topicid) + '&page_no=' + str(request_num)
+
+                response1=get_response_and_text(url=comment_url)
+                response_in_function=response1['response_in_function']
+                response_in_function_text=response1['response_in_function_text']
+                try:
+                    data_json=json.loads(response_in_function_text)
+                except Exception as e:
+                    print e
+                    return
+                if data_json['comments']:
+                    data_json_comments = data_json['comments']
+                    cmspage_taotalnum=data_json['cmt_sum']
+                    topicid=data_json['topic_id']
+
+
+                    for someone_comment in data_json_comments:
+                        content = someone_comment['content']  # content
+                        id = someone_comment['comment_id']  # id
+                        publish_user_photo = someone_comment['passport']['img_url']  # publish_user_photo
+                        publish_user = someone_comment['passport']['nickname']  # publish_user
+                        publish_user_id = someone_comment['passport']['user_id']  # publish_user_id
+                        create_time = someone_comment['create_time']  # publish_time
+                        create_time=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(int(int(create_time/1000))))
+                        spider_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                        like_count=someone_comment['support_count']
+                        parent_id=data['id']#mark这两个节点到底应该放什么东西呢？
+                        ancestor_id=data['id']
+                        this_comments=someone_comment['comments']
+                        if this_comments:
+                            parent_id=this_comments[0]['comment_id']
+                        #用堆来解决这种类型的评论8-16
+                        # for this_comments
+                        cmspagenum+=1
 
 
 
-                    thiscomments = {
-                        'content': content,
-                        'id': id,
-                        'publish_user_photo': publish_user_photo,
-                        'publish_user': publish_user,
-                        'publish_user_id': publish_user_id,
-                        'publish_time': create_time,
-                        'spider_time': spider_time,
-                        'like_count':like_count,
-                        'parent_id':parent_id,
-                        'ancestor_id':ancestor_id,
 
-                    }
-                    comments_data.append(thiscomments)
+
+                        thiscomments = {
+                            'content': content,
+                            'id': id,
+                            'publish_user_photo': publish_user_photo,
+                            'publish_user': publish_user,
+                            'publish_user_id': publish_user_id,
+                            'publish_time': create_time,
+                            'spider_time': spider_time,
+                            'like_count':like_count,
+                            'parent_id':parent_id,
+                            'ancestor_id':ancestor_id,
+                        }
+                        comments_data.append(thiscomments)
+
+                    if cmspagenum>=cmspage_taotalnum-1:
+                        break
+
+                request_num+=1
 
             data['reply_nodes']=comments_data
-            data['reply_count']=reply_count
+            data['reply_count']=cmspage_taotalnum
             while len(self.result_list)>600:
                 time.sleep(1)
                 print 'is waiting the lenth of the result_list to decrease to 300'

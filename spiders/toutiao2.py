@@ -90,7 +90,6 @@ class toutiao:
             for url_to_get_index in self.urls:
                 for i in range(1):
                     try:
-
                         response1=get_response_and_text(url=url_to_get_index)
                         response_in_function=response1['response_in_function']
                         response_in_function_text=response1['response_in_function_text']

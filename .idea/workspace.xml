@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ee7aa450-d5e3-49ed-bdfb-89405505369d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/testpaper3.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/sohu2.py" afterPath="$PROJECT_DIR$/spiders/sohu2.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/chengdu2.py" afterPath="$PROJECT_DIR$/spiders/chengdu2.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/thepaper.py" afterPath="$PROJECT_DIR$/spiders/thepaper.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/xilu2.py" afterPath="$PROJECT_DIR$/spiders/xilu2.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/toutiao2.py" afterPath="$PROJECT_DIR$/spiders/toutiao2.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testthepaper2.py" afterPath="$PROJECT_DIR$/testthepaper2.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testurllib3.py" afterPath="$PROJECT_DIR$/testurllib3.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,7 +17,7 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/YFZX_new$sohu.coverage" NAME="sohu Coverage Results" MODIFIED="1502156173401" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders" />
-    <SUITE FILE_PATH="coverage/YFZX_new$chengdu2.coverage" NAME="chengdu2 Coverage Results" MODIFIED="1502909809789" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders" />
+    <SUITE FILE_PATH="coverage/YFZX_new$chengdu2.coverage" NAME="chengdu2 Coverage Results" MODIFIED="1503373798080" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders" />
     <SUITE FILE_PATH="coverage/YFZX_new$testzhihu.coverage" NAME="testzhihu Coverage Results" MODIFIED="1502154882930" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders" />
     <SUITE FILE_PATH="coverage/YFZX_new$testurllib3.coverage" NAME="testurllib3 Coverage Results" MODIFIED="1503006443301" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/YFZX_new$Unittests_in_testthepaper_py.coverage" NAME="Unittests in testthepaper.py Coverage Results" MODIFIED="1502747005299" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -27,17 +25,17 @@
     <SUITE FILE_PATH="coverage/YFZX_new$xilu.coverage" NAME="xilu Coverage Results" MODIFIED="1502624686448" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders" />
     <SUITE FILE_PATH="coverage/YFZX_new$xilu2.coverage" NAME="xilu2 Coverage Results" MODIFIED="1503306425223" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders" />
     <SUITE FILE_PATH="coverage/YFZX_new$chengdu.coverage" NAME="chengdu Coverage Results" MODIFIED="1502157368489" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders" />
-    <SUITE FILE_PATH="coverage/YFZX_new$thepaper.coverage" NAME="thepaper Coverage Results" MODIFIED="1503258748567" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders" />
+    <SUITE FILE_PATH="coverage/YFZX_new$thepaper.coverage" NAME="thepaper Coverage Results" MODIFIED="1503368749207" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders" />
     <SUITE FILE_PATH="coverage/YFZX_new$sohu2.coverage" NAME="sohu2 Coverage Results" MODIFIED="1503255406082" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders" />
     <SUITE FILE_PATH="coverage/YFZX_new$Unittests_in_test_py.coverage" NAME="Unittests in test.py Coverage Results" MODIFIED="1502997381362" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/YFZX_new$testpaper3.coverage" NAME="testpaper3 Coverage Results" MODIFIED="1503301849818" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/YFZX_new$proxy_to_redis.coverage" NAME="proxy_to_redis Coverage Results" MODIFIED="1503251654494" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/YFZX_new$proxy_to_redis.coverage" NAME="proxy_to_redis Coverage Results" MODIFIED="1503367388548" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/YFZX_new$testxcar.coverage" NAME="testxcar Coverage Results" MODIFIED="1502673549073" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/YFZX_new$test2.coverage" NAME="test2 Coverage Results" MODIFIED="1502322955047" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/YFZX_new$toutiao.coverage" NAME="toutiao Coverage Results" MODIFIED="1502313361350" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders" />
-    <SUITE FILE_PATH="coverage/YFZX_new$testthepaper2.coverage" NAME="testthepaper2 Coverage Results" MODIFIED="1503256062373" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/YFZX_new$Unittests_in_testthepaper2_py.coverage" NAME="Unittests in testthepaper2.py Coverage Results" MODIFIED="1502877431557" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/YFZX_new$testthepaper2.coverage" NAME="testthepaper2 Coverage Results" MODIFIED="1503369854227" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/YFZX_new$test.coverage" NAME="test Coverage Results" MODIFIED="1502996434696" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/YFZX_new$Unittests_in_testthepaper2_py.coverage" NAME="Unittests in testthepaper2.py Coverage Results" MODIFIED="1503369670885" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/YFZX_new$testes2.coverage" NAME="testes2 Coverage Results" MODIFIED="1502400889177" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/YFZX_new$testlog.coverage" NAME="testlog Coverage Results" MODIFIED="1502233673973" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/YFZX_new$toutiao2.coverage" NAME="toutiao2 Coverage Results" MODIFIED="1502912671959" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders" />
@@ -57,38 +55,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="sohu2.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spiders/sohu2.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1875">
-              <caret line="285" column="23" lean-forward="false" selection-start-line="285" selection-start-column="23" selection-end-line="285" selection-end-column="23" />
-              <folding>
-                <element signature="e#20#35#0" expanded="true" />
-                <element signature="e#1682#3810#0" expanded="false" />
-                <element signature="e#2478#2846#0" expanded="false" />
-                <element signature="e#6522#11455#0" expanded="false" />
-                <element signature="e#7867#8051#0" expanded="false" />
-                <element signature="e#11492#12384#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="xilu.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spiders/xilu.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="556">
-              <caret line="280" column="0" lean-forward="false" selection-start-line="280" selection-start-column="0" selection-end-line="281" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="xilu2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spiders/xilu2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="242" column="55" lean-forward="false" selection-start-line="241" selection-start-column="49" selection-end-line="242" selection-end-column="55" />
+            <state relative-caret-position="-232">
+              <caret line="247" column="27" lean-forward="true" selection-start-line="247" selection-start-column="27" selection-end-line="247" selection-end-column="27" />
               <folding>
                 <element signature="e#21#36#0" expanded="true" />
                 <element signature="e#4619#8501#0" expanded="false" />
@@ -100,42 +71,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="thepaper.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/spiders/thepaper.py">
+      <file leaf-file-name="xilu.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spiders/xilu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="310" column="54" lean-forward="true" selection-start-line="310" selection-start-column="54" selection-end-line="310" selection-end-column="54" />
-              <folding>
-                <element signature="e#21#36#0" expanded="true" />
-                <element signature="e#469#1554#0" expanded="false" />
-                <element signature="e#484#634#0" expanded="false" />
-                <element signature="e#655#1072#0" expanded="false" />
-                <element signature="e#1589#8664#0" expanded="false" />
-                <element signature="e#1648#2521#0" expanded="false" />
-                <element signature="e#2240#2313#0" expanded="false" />
-                <element signature="e#2577#2660#0" expanded="false" />
-                <element signature="e#2716#5302#0" expanded="false" />
-                <element signature="e#3117#5302#0" expanded="false" />
-                <element signature="e#5358#7693#0" expanded="false" />
-                <element signature="e#5952#7322#0" expanded="false" />
-                <element signature="e#6406#6681#0" expanded="false" />
-                <element signature="e#6755#6987#0" expanded="false" />
-                <element signature="e#7060#7286#0" expanded="false" />
-                <element signature="e#8702#12222#0" expanded="false" />
-                <element signature="e#8832#9537#0" expanded="false" />
-                <element signature="e#11694#11771#0" expanded="false" />
-                <element signature="e#13113#14660#0" expanded="false" />
-                <element signature="e#15778#16212#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="threading.py" pinned="false" current-in-tab="false">
-        <entry file="file://D:/python_27/Lib/threading.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="121">
-              <caret line="753" column="0" lean-forward="false" selection-start-line="753" selection-start-column="0" selection-end-line="753" selection-end-column="0" />
+            <state relative-caret-position="413">
+              <caret line="280" column="0" lean-forward="false" selection-start-line="280" selection-start-column="0" selection-end-line="281" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -144,8 +84,8 @@
       <file leaf-file-name="testpaper3.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testpaper3.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="19" column="69" lean-forward="true" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="69" />
+            <state relative-caret-position="327">
+              <caret line="19" column="69" lean-forward="false" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="69" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -153,26 +93,35 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="visit_page.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/visit_page.py">
+      <file leaf-file-name="sohu2.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spiders/sohu2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
-              <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="179">
+              <caret line="163" column="22" lean-forward="false" selection-start-line="163" selection-start-column="18" selection-end-line="163" selection-end-column="22" />
+              <folding>
+                <element signature="e#1607#3850#0" expanded="false" />
+                <element signature="e#1682#3810#0" expanded="false" />
+                <element signature="e#2478#2846#0" expanded="false" />
+                <element signature="e#3888#6484#0" expanded="false" />
+                <element signature="e#7669#8051#0" expanded="false" />
+                <element signature="e#7867#8051#0" expanded="false" />
+                <element signature="e#11492#12384#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="chengdu2.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="chengdu2.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spiders/chengdu2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44">
-              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+            <state relative-caret-position="4906">
+              <caret line="293" column="42" lean-forward="false" selection-start-line="293" selection-start-column="42" selection-end-line="293" selection-end-column="42" />
               <folding>
-                <element signature="e#2095#2114#0" expanded="false" />
-                <element signature="e#4648#6087#0" expanded="false" />
-                <element signature="e#10975#12087#0" expanded="false" />
-                <element signature="e#12168#12606#0" expanded="false" />
+                <element signature="e#2114#2133#0" expanded="false" />
+                <element signature="e#4666#6105#0" expanded="false" />
+                <element signature="e#6515#7108#0" expanded="false" />
+                <element signature="e#10816#10912#0" expanded="false" />
+                <element signature="e#13016#13454#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -181,21 +130,59 @@
       <file leaf-file-name="testthepaper2.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testthepaper2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+            <state relative-caret-position="437">
+              <caret line="47" column="40" lean-forward="false" selection-start-line="47" selection-start-column="40" selection-end-line="47" selection-end-column="40" />
               <folding>
-                <element signature="e#20#35#0" expanded="true" />
-                <element signature="e#859#908#0" expanded="false" />
+                <element signature="e#20#49#0" expanded="true" />
+                <element signature="e#579#2531#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="proxy_to_redis.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/proxy_to_redis.py">
+      <file leaf-file-name="visit_page.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/visit_page.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="320">
-              <caret line="25" column="11" lean-forward="false" selection-start-line="25" selection-start-column="11" selection-end-line="25" selection-end-column="11" />
+            <state relative-caret-position="154">
+              <caret line="13" column="4" lean-forward="false" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="toutiao2.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spiders/toutiao2.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-504">
+              <caret line="532" column="27" lean-forward="true" selection-start-line="532" selection-start-column="27" selection-end-line="532" selection-end-column="27" />
+              <folding>
+                <element signature="e#925#5083#0" expanded="false" />
+                <element signature="e#1166#4513#0" expanded="false" />
+                <element signature="e#5118#8143#0" expanded="false" />
+                <element signature="e#8180#28144#0" expanded="false" />
+                <element signature="e#11015#11396#0" expanded="false" />
+                <element signature="e#14326#15733#0" expanded="false" />
+                <element signature="e#28509#29197#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="xcar.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spiders/xcar.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="362">
+              <caret line="87" column="0" lean-forward="false" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="urllib2.py" pinned="false" current-in-tab="false">
+        <entry file="file://D:/python_27/Lib/urllib2.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2101">
+              <caret line="1218" column="0" lean-forward="false" selection-start-line="1218" selection-start-column="0" selection-end-line="1218" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -212,7 +199,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>urls</find>
       <find>self.urls</find>
       <find>comments</find>
       <find>spider_</find>
@@ -242,6 +228,7 @@
       <find>src</find>
       <find>c</find>
       <find>cmt</find>
+      <find>request_num</find>
     </findStrings>
     <replaceStrings>
       <replace>self.content_data_list</replace>
@@ -287,17 +274,17 @@
         <option value="$PROJECT_DIR$/thepaper.py" />
         <option value="$PROJECT_DIR$/testthepaper.py" />
         <option value="$PROJECT_DIR$/spiders/chengdu.py" />
-        <option value="$PROJECT_DIR$/spiders/chengdu2.py" />
-        <option value="$PROJECT_DIR$/spiders/toutiao2.py" />
         <option value="$PROJECT_DIR$/saveresult.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/setting.py" />
         <option value="$PROJECT_DIR$/testurllib3.py" />
-        <option value="$PROJECT_DIR$/testthepaper2.py" />
         <option value="$PROJECT_DIR$/spiders/sohu2.py" />
         <option value="$PROJECT_DIR$/testpaper3.py" />
-        <option value="$PROJECT_DIR$/spiders/thepaper.py" />
         <option value="$PROJECT_DIR$/spiders/xilu2.py" />
+        <option value="$PROJECT_DIR$/spiders/thepaper.py" />
+        <option value="$PROJECT_DIR$/spiders/toutiao2.py" />
+        <option value="$PROJECT_DIR$/testthepaper2.py" />
+        <option value="$PROJECT_DIR$/spiders/chengdu2.py" />
       </list>
     </option>
   </component>
@@ -387,64 +374,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.xilu2">
-    <configuration default="false" name="xilu2" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spiders" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="YFZX_new" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spiders/xilu2.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="testthepaper2" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="YFZX_new" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testthepaper2.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="sohu2" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spiders" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="YFZX_new" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spiders/sohu2.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.chengdu2">
     <configuration default="false" name="thepaper" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -464,7 +394,7 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <method />
     </configuration>
-    <configuration default="false" name="testpaper3" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration default="false" name="proxy_to_redis" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -477,7 +407,61 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="YFZX_new" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testpaper3.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/proxy_to_redis.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="chengdu2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spiders" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="YFZX_new" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spiders/chengdu2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Unittests in testthepaper2.py" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="YFZX_new" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;$PROJECT_DIR$/testthepaper2.py&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method />
+    </configuration>
+    <configuration default="false" name="testthepaper2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="YFZX_new" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testthepaper2.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -640,19 +624,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.xilu2" />
-      <item index="1" class="java.lang.String" itemvalue="Python.testthepaper2" />
-      <item index="2" class="java.lang.String" itemvalue="Python.sohu2" />
-      <item index="3" class="java.lang.String" itemvalue="Python.thepaper" />
-      <item index="4" class="java.lang.String" itemvalue="Python.testpaper3" />
+      <item index="0" class="java.lang.String" itemvalue="Python.thepaper" />
+      <item index="1" class="java.lang.String" itemvalue="Python.proxy_to_redis" />
+      <item index="2" class="java.lang.String" itemvalue="Python.chengdu2" />
+      <item index="3" class="java.lang.String" itemvalue="Python tests.Unittests in testthepaper2.py" />
+      <item index="4" class="java.lang.String" itemvalue="Python.testthepaper2" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.xilu2" />
-        <item index="1" class="java.lang.String" itemvalue="Python.testpaper3" />
-        <item index="2" class="java.lang.String" itemvalue="Python.thepaper" />
-        <item index="3" class="java.lang.String" itemvalue="Python.testthepaper2" />
-        <item index="4" class="java.lang.String" itemvalue="Python.sohu2" />
+        <item index="0" class="java.lang.String" itemvalue="Python.chengdu2" />
+        <item index="1" class="java.lang.String" itemvalue="Python.testthepaper2" />
+        <item index="2" class="java.lang.String" itemvalue="Python tests.Unittests in testthepaper2.py" />
+        <item index="3" class="java.lang.String" itemvalue="Python.thepaper" />
+        <item index="4" class="java.lang.String" itemvalue="Python.proxy_to_redis" />
       </list>
     </recent_temporary>
   </component>
@@ -817,13 +801,17 @@
       <option name="project" value="LOCAL" />
       <updated>1502999933906</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="8-7">
+      <created>1503306957080</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1503306957080</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Unittests_in_test_py - 2017.08.18 at 03h 12m 06s.xml">
-      <configuration name="Unittests in test.py" configurationId="tests" />
-    </history-entry>
     <history-entry file="Unittests_in_test_py - 2017.08.18 at 03h 15m 08s.xml">
       <configuration name="Unittests in test.py" configurationId="tests" />
     </history-entry>
@@ -837,6 +825,9 @@
       <configuration name="Unittests in testthepaper2.py" configurationId="tests" />
     </history-entry>
     <history-entry file="Unittests_in_testthepaper2_py - 2017.08.16 at 17h 57m 11s.xml">
+      <configuration name="Unittests in testthepaper2.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_testthepaper2_py - 2017.08.22 at 10h 41m 11s.xml">
       <configuration name="Unittests in testthepaper2.py" configurationId="tests" />
     </history-entry>
     <history-entry file="Unittests_in_testthepaper_py - 2017.08.15 at 05h 40m 31s.xml">
@@ -871,11 +862,11 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32104123" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21321961" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2153518" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.54338396" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3329718" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -955,18 +946,13 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/chengdu2.py</url>
-          <line>143</line>
+          <line>145</line>
           <option name="timeStamp" value="158" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/chengdu2.py</url>
-          <line>260</line>
+          <line>285</line>
           <option name="timeStamp" value="159" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/spiders/chengdu2.py</url>
-          <line>186</line>
-          <option name="timeStamp" value="170" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/visit_page.py</url>
@@ -985,12 +971,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>401</line>
+          <line>400</line>
           <option name="timeStamp" value="209" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>408</line>
+          <line>407</line>
           <option name="timeStamp" value="229" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -1020,23 +1006,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/chengdu2.py</url>
-          <line>127</line>
+          <line>129</line>
           <option name="timeStamp" value="245" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/spiders/chengdu2.py</url>
-          <line>179</line>
-          <option name="timeStamp" value="246" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/spiders/chengdu2.py</url>
-          <line>180</line>
-          <option name="timeStamp" value="247" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/spiders/chengdu2.py</url>
-          <line>105</line>
-          <option name="timeStamp" value="249" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/testthepaper.py</url>
@@ -1050,57 +1021,52 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>551</line>
+          <line>550</line>
           <option name="timeStamp" value="278" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>550</line>
+          <line>549</line>
           <option name="timeStamp" value="279" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>261</line>
+          <line>260</line>
           <option name="timeStamp" value="285" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>463</line>
+          <line>462</line>
           <option name="timeStamp" value="286" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>558</line>
+          <line>557</line>
           <option name="timeStamp" value="287" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>620</line>
+          <line>619</line>
           <option name="timeStamp" value="288" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>674</line>
+          <line>673</line>
           <option name="timeStamp" value="289" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>294</line>
+          <line>293</line>
           <option name="timeStamp" value="297" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao2.py</url>
-          <line>382</line>
+          <line>381</line>
           <option name="timeStamp" value="298" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/spiders/chengdu2.py</url>
-          <line>78</line>
-          <option name="timeStamp" value="319" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/thepaper.py</url>
-          <line>208</line>
+          <line>209</line>
           <option name="timeStamp" value="326" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -1122,16 +1088,6 @@
           <url>file://$PROJECT_DIR$/testurllib3.py</url>
           <line>29</line>
           <option name="timeStamp" value="373" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/spiders/thepaper.py</url>
-          <line>199</line>
-          <option name="timeStamp" value="375" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/spiders/thepaper.py</url>
-          <line>200</line>
-          <option name="timeStamp" value="376" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/thepaper.py</url>
@@ -1168,6 +1124,36 @@
           <line>173</line>
           <option name="timeStamp" value="412" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/spiders/thepaper.py</url>
+          <line>241</line>
+          <option name="timeStamp" value="414" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/spiders/thepaper.py</url>
+          <line>76</line>
+          <option name="timeStamp" value="419" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/spiders/chengdu2.py</url>
+          <line>79</line>
+          <option name="timeStamp" value="422" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/spiders/chengdu2.py</url>
+          <line>282</line>
+          <option name="timeStamp" value="430" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/spiders/chengdu2.py</url>
+          <line>181</line>
+          <option name="timeStamp" value="431" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/spiders/chengdu2.py</url>
+          <line>185</line>
+          <option name="timeStamp" value="432" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -1179,18 +1165,11 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="413" />
+      <option name="time" value="433" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/spiders/xilu.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="792">
-          <caret line="47" column="0" lean-forward="false" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://D:/python_27/Lib/site-packages/bs4/__init__.py" />
     <entry file="file://D:/python_27/Lib/site-packages/bs4/element.py" />
     <entry file="file://D:/python_27/Lib/unittest/loader.py" />
@@ -1300,13 +1279,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/thepaper.py" />
     <entry file="file://D:/python27/Lib/httplib.py" />
-    <entry file="file://$PROJECT_DIR$/spiders/xcar.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="362">
-          <caret line="87" column="0" lean-forward="false" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spiders/toutiao.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2709">
@@ -1378,20 +1350,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/toutiao2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4862">
-          <caret line="251" column="46" lean-forward="false" selection-start-line="251" selection-start-column="43" selection-end-line="251" selection-end-column="46" />
-          <folding>
-            <element signature="e#21#31#0" expanded="false" />
-            <element signature="e#1166#4513#0" expanded="false" />
-            <element signature="e#11016#11397#0" expanded="false" />
-            <element signature="e#14327#15734#0" expanded="false" />
-            <element signature="e#28183#34439#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/testurllib3.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="748">
@@ -1409,99 +1367,110 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/python_27/Lib/httplib.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="820" column="0" lean-forward="false" selection-start-line="820" selection-start-column="0" selection-end-line="820" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/proxy_to_redis.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="320">
-          <caret line="25" column="11" lean-forward="false" selection-start-line="25" selection-start-column="11" selection-end-line="25" selection-end-column="11" />
+        <state relative-caret-position="342">
+          <caret line="26" column="0" lean-forward="true" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/chengdu2.py">
+    <entry file="file://D:/python_27/Lib/httplib.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding>
-            <element signature="e#2095#2114#0" expanded="false" />
-            <element signature="e#4648#6087#0" expanded="false" />
-            <element signature="e#10975#12087#0" expanded="false" />
-            <element signature="e#12168#12606#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testthepaper2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          <folding>
-            <element signature="e#20#35#0" expanded="true" />
-            <element signature="e#859#908#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/visit_page.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="30" column="0" lean-forward="false" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
+        <state relative-caret-position="121">
+          <caret line="1041" column="0" lean-forward="false" selection-start-line="1041" selection-start-column="0" selection-end-line="1041" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testpaper3.py">
+    <entry file="file://D:/python_27/Lib/urllib2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="19" column="69" lean-forward="true" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="69" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/sohu2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1875">
-          <caret line="285" column="23" lean-forward="false" selection-start-line="285" selection-start-column="23" selection-end-line="285" selection-end-column="23" />
-          <folding>
-            <element signature="e#20#35#0" expanded="true" />
-            <element signature="e#1682#3810#0" expanded="false" />
-            <element signature="e#2478#2846#0" expanded="false" />
-            <element signature="e#6522#11455#0" expanded="false" />
-            <element signature="e#7867#8051#0" expanded="false" />
-            <element signature="e#11492#12384#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/xilu.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="556">
-          <caret line="280" column="0" lean-forward="false" selection-start-line="280" selection-start-column="0" selection-end-line="281" selection-end-column="0" />
+        <state relative-caret-position="2101">
+          <caret line="1218" column="0" lean-forward="false" selection-start-line="1218" selection-start-column="0" selection-end-line="1218" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://D:/python_27/Lib/threading.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="121">
-          <caret line="753" column="0" lean-forward="false" selection-start-line="753" selection-start-column="0" selection-end-line="753" selection-end-column="0" />
+        <state relative-caret-position="231">
+          <caret line="758" column="0" lean-forward="true" selection-start-line="758" selection-start-column="0" selection-end-line="758" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/visit_page.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="13" column="4" lean-forward="false" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/thepaper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1242">
+          <caret line="241" column="0" lean-forward="false" selection-start-line="241" selection-start-column="0" selection-end-line="241" selection-end-column="0" />
+          <folding>
+            <element signature="e#21#36#0" expanded="true" />
+            <element signature="e#469#1554#0" expanded="false" />
+            <element signature="e#484#634#0" expanded="false" />
+            <element signature="e#655#1072#0" expanded="false" />
+            <element signature="e#1648#2521#0" expanded="false" />
+            <element signature="e#2240#2313#0" expanded="false" />
+            <element signature="e#2577#2660#0" expanded="false" />
+            <element signature="e#2716#5302#0" expanded="false" />
+            <element signature="e#5358#7693#0" expanded="false" />
+            <element signature="e#5952#7322#0" expanded="false" />
+            <element signature="e#6406#6681#0" expanded="false" />
+            <element signature="e#6755#6987#0" expanded="false" />
+            <element signature="e#7060#7286#0" expanded="false" />
+            <element signature="e#9826#11498#0" expanded="false" />
+            <element signature="e#11802#12437#0" expanded="false" />
+            <element signature="e#11909#11986#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testthepaper2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="437">
+          <caret line="47" column="40" lean-forward="false" selection-start-line="47" selection-start-column="40" selection-end-line="47" selection-end-column="40" />
+          <folding>
+            <element signature="e#20#49#0" expanded="true" />
+            <element signature="e#579#2531#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/xcar.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="362">
+          <caret line="87" column="0" lean-forward="false" selection-start-line="87" selection-start-column="0" selection-end-line="87" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/toutiao2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-504">
+          <caret line="532" column="27" lean-forward="true" selection-start-line="532" selection-start-column="27" selection-end-line="532" selection-end-column="27" />
+          <folding>
+            <element signature="e#925#5083#0" expanded="false" />
+            <element signature="e#1166#4513#0" expanded="false" />
+            <element signature="e#5118#8143#0" expanded="false" />
+            <element signature="e#8180#28144#0" expanded="false" />
+            <element signature="e#11015#11396#0" expanded="false" />
+            <element signature="e#14326#15733#0" expanded="false" />
+            <element signature="e#28509#29197#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spiders/xilu2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="242" column="55" lean-forward="false" selection-start-line="241" selection-start-column="49" selection-end-line="242" selection-end-column="55" />
+        <state relative-caret-position="-232">
+          <caret line="247" column="27" lean-forward="true" selection-start-line="247" selection-start-column="27" selection-end-line="247" selection-end-column="27" />
           <folding>
             <element signature="e#21#36#0" expanded="true" />
             <element signature="e#4619#8501#0" expanded="false" />
@@ -1512,31 +1481,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/thepaper.py">
+    <entry file="file://$PROJECT_DIR$/spiders/xilu.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="310" column="54" lean-forward="true" selection-start-line="310" selection-start-column="54" selection-end-line="310" selection-end-column="54" />
+        <state relative-caret-position="413">
+          <caret line="280" column="0" lean-forward="false" selection-start-line="280" selection-start-column="0" selection-end-line="281" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testpaper3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="327">
+          <caret line="19" column="69" lean-forward="false" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="69" />
           <folding>
-            <element signature="e#21#36#0" expanded="true" />
-            <element signature="e#469#1554#0" expanded="false" />
-            <element signature="e#484#634#0" expanded="false" />
-            <element signature="e#655#1072#0" expanded="false" />
-            <element signature="e#1589#8664#0" expanded="false" />
-            <element signature="e#1648#2521#0" expanded="false" />
-            <element signature="e#2240#2313#0" expanded="false" />
-            <element signature="e#2577#2660#0" expanded="false" />
-            <element signature="e#2716#5302#0" expanded="false" />
-            <element signature="e#3117#5302#0" expanded="false" />
-            <element signature="e#5358#7693#0" expanded="false" />
-            <element signature="e#5952#7322#0" expanded="false" />
-            <element signature="e#6406#6681#0" expanded="false" />
-            <element signature="e#6755#6987#0" expanded="false" />
-            <element signature="e#7060#7286#0" expanded="false" />
-            <element signature="e#8702#12222#0" expanded="false" />
-            <element signature="e#8832#9537#0" expanded="false" />
-            <element signature="e#11694#11771#0" expanded="false" />
-            <element signature="e#13113#14660#0" expanded="false" />
-            <element signature="e#15778#16212#0" expanded="false" />
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/sohu2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="163" column="22" lean-forward="false" selection-start-line="163" selection-start-column="18" selection-end-line="163" selection-end-column="22" />
+          <folding>
+            <element signature="e#1607#3850#0" expanded="false" />
+            <element signature="e#1682#3810#0" expanded="false" />
+            <element signature="e#2478#2846#0" expanded="false" />
+            <element signature="e#3888#6484#0" expanded="false" />
+            <element signature="e#7669#8051#0" expanded="false" />
+            <element signature="e#7867#8051#0" expanded="false" />
+            <element signature="e#11492#12384#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/chengdu2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4906">
+          <caret line="293" column="42" lean-forward="false" selection-start-line="293" selection-start-column="42" selection-end-line="293" selection-end-column="42" />
+          <folding>
+            <element signature="e#2114#2133#0" expanded="false" />
+            <element signature="e#4666#6105#0" expanded="false" />
+            <element signature="e#6515#7108#0" expanded="false" />
+            <element signature="e#10816#10912#0" expanded="false" />
+            <element signature="e#13016#13454#0" expanded="false" />
           </folding>
         </state>
       </provider>

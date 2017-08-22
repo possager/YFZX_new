@@ -188,7 +188,6 @@ class thepaper:
 
         self.global_status_num_index=0
 
-
     def get_content(self):
         def get_content_inside(data):
             print 'in deal content'
@@ -203,6 +202,8 @@ class thepaper:
                 content= content_data[0]
                 # publish_time= datasoup.select('#v3cont_id > div.news_content > div:nth-of-type(3)')[0][0:16]
                 data['content']=content
+                # read_count=datasoup.select('body > div.video_main.pad60.nav_container > div.video_bo > div > div.video_txt_l > div > div.video_info > span.reply')
+                # data['read_count']=read_count[0].text
                 self.comments_url_list.append(data)
 
             def get_content_inside_no_movie(data):
@@ -210,8 +211,6 @@ class thepaper:
                 respons1=get_response_and_text(url=url_for_debug)
                 response_in_function=respons1['response_in_function']
                 response_in_function_text=respons1['response_in_function_text']
-
-
                 Re_find_img=re.compile(r'src=".*?"')
                 datasoup=BeautifulSoup(response_in_function_text,'lxml')
                 content=''
@@ -226,18 +225,15 @@ class thepaper:
                 img_urls_selected_by_doup=datasoup_content.select('img')
                 for url in img_urls_selected_by_doup:
                     print url.get('src')
-
                 for url in img_urls_original:
                     url_split=url.split('"')[1]
                     img_urls.append(url_split)
-
                 data['publish_user']=publish_user
                 data['img_urls']=img_urls
                 data['content']=content
                 data['publish_user']=publish_user
                 data['publish_time']=publish_time
                 data['title']=title
-
                 self.comments_url_list.append(data)
 
 
@@ -273,7 +269,7 @@ class thepaper:
             response_in_function=response1['response_in_function']
             response_in_function_text=response1['response_in_function_text']
             Re_find_startid = re.compile(r'startId="(.*?)"')
-            data_re = Re_find_startid.findall(response1.text)
+            data_re = Re_find_startid.findall(response_in_function_text)
             start_id=data_re[0]
             datasoup=BeautifulSoup(response_in_function_text,'lxml')
             for one_div in datasoup.select('div'):
@@ -330,6 +326,30 @@ class thepaper:
                     print len(threadlist)
                     print len(self.comments_url_list)
 
+    def save_result(self):
+        def save_result(data):
+            # print 'deal result'
+            Save_result(plantform='thepaper', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+                        datatype='news', full_data=data)
+
+            threadlist = []
+            while self.global_status_num_comments > 0 or self.result_list:
+                while self.result_list or threadlist:
+                    for threadi in threadlist:
+                        if not threadi.is_alive():
+                            threadlist.remove(threadi)
+                    while len(threadlist) < CONTENT_THREADING_NUM and self.result_list:
+                        print len(self.result_list)
+                        data_in_while = self.result_list.pop()
+                        thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
+                        thread_in_while.setDaemon(True)
+                        thread_in_while.start()
+                        threadlist.append(thread_in_while)
+                        print len(threadlist)
+                        print len(self.result_list)
+            self.global_status_num_comments = 0
+
+
     def run(self):
         thread1 = threading.Thread(target=self.get_Index, args=())
         thread1.start()
@@ -337,10 +357,10 @@ class thepaper:
         thread2 = threading.Thread(target=self.get_content, args=())
         thread2.start()
         # time.sleep(3)
-        # thread3 = threading.Thread(target=self.get_comments, args=())
-        # thread3.start()
-        # thread4 = threading.Thread(target=self.save_result, args=())
-        # thread4.start()
+        thread3 = threading.Thread(target=self.get_comments, args=())
+        thread3.start()
+        thread4 = threading.Thread(target=self.save_result, args=())
+        thread4.start()
         # pass
 
 if __name__ == '__main__':
