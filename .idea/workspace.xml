@@ -114,8 +114,8 @@
       <file leaf-file-name="chengdu2.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spiders/chengdu2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4906">
-              <caret line="293" column="42" lean-forward="false" selection-start-line="293" selection-start-column="42" selection-end-line="293" selection-end-column="42" />
+            <state relative-caret-position="440">
+              <caret line="53" column="34" lean-forward="true" selection-start-line="53" selection-start-column="34" selection-end-line="53" selection-end-column="34" />
               <folding>
                 <element signature="e#2114#2133#0" expanded="false" />
                 <element signature="e#4666#6105#0" expanded="false" />
@@ -808,7 +808,14 @@
       <option name="project" value="LOCAL" />
       <updated>1503306957080</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="8-7">
+      <created>1503374060760</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1503374060760</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1517,8 +1524,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spiders/chengdu2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4906">
-          <caret line="293" column="42" lean-forward="false" selection-start-line="293" selection-start-column="42" selection-end-line="293" selection-end-column="42" />
+        <state relative-caret-position="440">
+          <caret line="53" column="34" lean-forward="true" selection-start-line="53" selection-start-column="34" selection-end-line="53" selection-end-column="34" />
           <folding>
             <element signature="e#2114#2133#0" expanded="false" />
             <element signature="e#4666#6105#0" expanded="false" />
