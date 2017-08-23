@@ -51,8 +51,10 @@ class thepaper:
             response_in_function_text=response1['response_in_function_text']
             Re_pattern = re.compile(r'data.*?\:.*?\".*?Math\.random\b')
             datare = Re_pattern.findall(response_in_function_text)
-
-            url_in_content = datare[0].split('"')[1]
+            try:
+                url_in_content = datare[0].split('"')[1]
+            except Exception as e:
+                print e
             if 'http://m.thepaper.cn/channel_26916' in url:
                 nexturl = 'http://www.thepaper.cn/load_index.jsp?' + url_in_content#发现手机端的数据获得地更多一些,电脑端http://m.thepaper.cn/load_channel.jsp?
             # nexturl='http://www.thepaper.cn/load_index.jsp?nodeids='+url_in_content
@@ -135,6 +137,8 @@ class thepaper:
                 try:
                     url= 'http://m.thepaper.cn/' + div_content.select('div > a')[0].get('href')  # url
                     publish_time = div_content.select('p > span')[0].text  # publish_time
+                    if '\n' in publish_time:
+                        publish_time=publish_time.split('\n')[0]
 
                     title= div_content.select('div > p > a')[1].text  # title
                     publish_user= div_content.select('div > p > a')[0].text  # publish_user
@@ -191,6 +195,7 @@ class thepaper:
     def get_content(self):
         def get_content_inside(data):
             print 'in deal content'
+            data['id']=data['url'].split('_')[-1]
             def get_content_inside_movie(data):
                 url_for_debug=data['url']
                 response1=get_response_and_text(url=url_for_debug)
@@ -262,6 +267,7 @@ class thepaper:
     def get_comments(self):
         def get_comment_inside(data,isFirst_req=True,start_id=None,comments_list=[]):#这种写法可能有问题
             if isFirst_req==True:
+
                 comment_req='http://www.thepaper.cn/load_moreFloorComment.jsp?contid='+data['id']
             else:
                 comment_req='http://www.thepaper.cn/load_moreFloorComment.jsp?contid='+data['id']+'&startId='+start_id
