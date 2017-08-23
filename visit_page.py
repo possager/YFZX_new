@@ -61,7 +61,7 @@ def get_response_and_text(url,headers=None,needupdate=False,update_info=None):
     timeb = time.time()
     proxy_here = proxies1.values()[0].split('//')[1]
     opener1.close()
-    if timeb - timea < 10000:
+    if timeb - timea < 10:
         proxy_sendback(proxy_here)
     if response_in_function.code==204:
         return {'response_in_function':None,'response_in_function_text':{}}
