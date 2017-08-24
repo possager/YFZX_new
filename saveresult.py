@@ -82,7 +82,11 @@ def Save_result(plantform,date_time,urlOruid,newsidOrtid,datatype,full_data,foru
         date_time_strip='date_time_Wrong'
 
     if datatype == 'news':#如果是新闻,格式是:平台名称（或者英文）_ 言论发布时间戳 _ 新闻URL的MD5码
-        result_file = plantform + '_' + str(date_time_strip) + '_' + str(hashlib.md5(urlOruid).hexdigest())#7-27日发现这里的文件夹的名字可能是时间戳
+        try:
+            result_file = plantform + '_' + str(date_time_strip) + '_' + str(hashlib.md5(urlOruid).hexdigest())#7-27日发现这里的文件夹的名字可能是时间戳
+        except Exception as e:
+            print e
+            print '时间戳错了，这里常出错，所以这里',date_time
         ###############################################################  7-27 日  ########################################################
         timeArray2=time.localtime(float(date_time_strip))
         dt_new=time.strftime("%Y-%m-%d %H:%M:%S",timeArray2)

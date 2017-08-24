@@ -1,4 +1,17 @@
 # _*_coding:utf-8_*_
+
+
+import sys
+import os
+
+curPath = os.path.abspath(os.path.dirname(__file__))
+rootPath = os.path.split(curPath)[0]
+sys.path.append(rootPath)
+
+
+
+
+
 import requests
 import json
 import time
@@ -87,12 +100,12 @@ class xilu:
                             data_in_index['url'] = 'http://m.xilu.com/v/' + news_index['rfilename'] + '.html'
                             data_in_index['spider_time']=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                             self.content_data_list.append(data_in_index)
-                            return
+                            # return
                     except Exception as e:
                         print e
                     print '\n\n'
                     time.sleep(10)
-            self.global_status_num_index = 0
+            # self.global_status_num_index = 0
             time.sleep(600)
 
     def get_content(self):
@@ -128,7 +141,7 @@ class xilu:
                 if content_part_data:
                     data_find_by_re = Re_find_img_url.findall(str(content_part_data[0]))
                     for url_img_re in data_find_by_re:
-                        img_urls.append(url_img_re.split('"')[1])
+                        img_urls.append('http:'+url_img_re.split('"')[1])
                 next_page_selector = datasoup.select(
                     'body > div.scrollBox.mt10 > div.article > div.mb10.mt5.fs14 > a.page-next.ml5')
                 contentall = ''
@@ -140,7 +153,10 @@ class xilu:
                         data['url'] = next_url
                         content_and_img_urls2 = get_content_inside_next_page(
                             {'content': content, 'nexturl': next_url, 'img_urls': img_urls})
-                        contentall += content_and_img_urls2['content']
+                        try:
+                            contentall += content_and_img_urls2['content']
+                        except Exception as e:
+                            print e
                         img_urls3 = []
                         for i in content_and_img_urls2['img_urls']:
                             img_urls3.append(i)
@@ -162,7 +178,16 @@ class xilu:
             elif '-' in publish_time and len(publish_time) == 5:
                 publish_time = '2017-' + publish_time+' 00:00:00'
             data['content'] = contentall
-            data['img_urls'] = img_urls
+            ####################################################最后发现竟然还有这样的问题，img_urls里边的url链接不完整，这要是还有问题，我。。。。
+            img_urls824=[]
+            for img_url_824 in img_urls:
+                if 'http' not in img_url_824:
+                    img_url_824_2='http:'+img_url_824
+                    img_urls824.append(img_url_824_2)
+                else:
+                    img_urls824.append(img_url_824)
+            data['img_urls'] = img_urls824
+            ####################################################
             data['publish_time'] = publish_time
             data['url'] = url
 
@@ -172,50 +197,59 @@ class xilu:
             self.comments_url_list.append(data)
 
         def get_content_inside_next_page(data):
-            url = data['nexturl']
-            content = data['content']
-            img_urls = data['img_urls']
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
-            }
-            response1=get_response_and_text(url=url,headers=headers)
-            response_in_function=response1['response_in_function']
-            response_in_function_text=response1['response_in_function_text']
+            try:
+                url = data['nexturl']
+                content = data['content']
+                img_urls = data['img_urls']
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
+                }
+                response1=get_response_and_text(url=url,headers=headers)
+                response_in_function=response1['response_in_function']
+                response_in_function_text=response1['response_in_function_text']
 
-            datasoup = BeautifulSoup(response_in_function_text, 'lxml')
-            content1 = ''
-            for i in datasoup.select('body > div.scrollBox.mt10 > div.article > div.art_co.sau > p'):
-                content1 += i.text
-            content += content1
-            # 8-3
-            Re_find_img_url = re.compile(r'src=".*?"/\>')
-            content_part_data = datasoup.select('div.article')
-            if content_part_data:
-                data_find_by_re = Re_find_img_url.findall(str(content_part_data[0]))
-                img_urls2=[]
-                for url_img_re in data_find_by_re:
-                    imgurl=url_img_re.split('"')[1]
-                    img_urls2.append(imgurl)
-                for url_without_http in img_urls2:
-                    if 'http' not in url_without_http:
-                        url_without_http='http:'+url_without_http
-                        img_urls.append(url_without_http)
-                        pass
-            # 8-3
-
-
-            next_page_selector = datasoup.select(
-                'body > div.scrollBox.mt10 > div.article > div.mb10.mt5.fs14 > a.page-next.ml5')
-            if next_page_selector:
-                next_page_html = next_page_selector[0].get('href')
-                if next_page_html and len(next_page_html) > 3:
-                    next_page_url = next_page_html
-                    next_url = 'http://m.xilu.com' + next_page_url
-                    content_result = get_content_inside_next_page(
-                        {'content': content, 'nexturl': next_url, 'img_urls': img_urls})
-                    return content_result
+                datasoup = BeautifulSoup(response_in_function_text, 'lxml')
+                content1 = ''
+                for i in datasoup.select('body > div.scrollBox.mt10 > div.article > div.art_co.sau > p'):
+                    content1 += i.text
+                content += content1
+                # 8-3
+                Re_find_img_url = re.compile(r'src=".*?"/\>')
+                content_part_data = datasoup.select('div.article')
+                if content_part_data:
+                    data_find_by_re = Re_find_img_url.findall(str(content_part_data[0]))
+                    img_urls2=[]
+                    for url_img_re in data_find_by_re:
+                        imgurl=url_img_re.split('"')[1]
+                        img_urls2.append(imgurl)
+                    for url_without_http in img_urls2:
+                        if 'http' not in url_without_http:
+                            url_without_http='http:'+url_without_http
+                            img_urls.append(url_without_http)
+                            pass
                 else:
-                    return {'content': content, 'img_urls': img_urls}
+                    print 'wrong'
+                    # a=response_in_function_text.decoding('utf-8')
+                    get_content_inside_next_page(data)
+
+                # 8-3
+
+
+                next_page_selector = datasoup.select(
+                    'body > div.scrollBox.mt10 > div.article > div.mb10.mt5.fs14 > a.page-next.ml5')
+                if next_page_selector:
+                    next_page_html = next_page_selector[0].get('href')
+                    if next_page_html and len(next_page_html) > 3:
+                        next_page_url = next_page_html
+                        next_url = 'http://m.xilu.com' + next_page_url
+                        content_result = get_content_inside_next_page(
+                            {'content': content, 'nexturl': next_url, 'img_urls': img_urls})
+                        return content_result
+                    else:
+                        return {'content': content, 'img_urls': img_urls}
+
+            except Exception as e:
+                print e
 
         def get_content_inside_picture(datasoup):
             img_urls = []
@@ -224,7 +258,7 @@ class xilu:
                 # img_urls.append(imgurl.get('src'))
                 imgurl=imgurl.get('src')
                 if 'http' not in imgurl:
-                    imgurl='http'+imgurl
+                    imgurl='http:'+imgurl
                 img_urls.append(imgurl)
             for contenti in datasoup.select('#slider > ul > li > p'):
                 content += contenti.text
@@ -290,7 +324,7 @@ class xilu:
                         'publish_user_photo': publish_user_photo,
                         'publish_user': publish_user,
                         'publish_user_id': publish_user_id,
-                        'create_time': create_time,
+                        'publish_time': time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(int(int(create_time/1000)))),
                         'spider_time': spider_time,
                         'parent_id':parent_id,
                         'ancestor_id':ancestor_id,

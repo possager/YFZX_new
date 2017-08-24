@@ -211,7 +211,8 @@ class chengdu:
                     data_json=json.loads(response_in_function_text)
                 except Exception as e:
                     print e
-                    return
+                    # return
+                    break
                 if data_json['comments']:
                     data_json_comments = data_json['comments']
                     cmspage_taotalnum=data_json['cmt_sum']
@@ -222,7 +223,11 @@ class chengdu:
                         content = someone_comment['content']  # content
                         id = someone_comment['comment_id']  # id
                         publish_user_photo = someone_comment['passport']['img_url']  # publish_user_photo
-                        publish_user = someone_comment['passport']['nickname']  # publish_user
+                        try:
+                            publish_user = someone_comment['passport']['nickname']  # publish_user
+                        except Exception as e:
+                            print e
+                            publish_user=''
                         publish_user_id = someone_comment['passport']['user_id']  # publish_user_id
                         create_time = someone_comment['create_time']  # publish_time
                         create_time=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(int(int(create_time/1000))))
@@ -259,9 +264,14 @@ class chengdu:
                         break
 
                 request_num+=1
+                if cmspagenum>cmspage_taotalnum/30:
+                    break
 
             data['reply_nodes']=comments_data
-            data['reply_count']=cmspage_taotalnum
+            if not comments_data:
+                data['reply_count']=0
+            else:
+                data['reply_count']=cmspage_taotalnum
             while len(self.result_list)>600:
                 time.sleep(1)
                 print 'is waiting the lenth of the result_list to decrease to 300'

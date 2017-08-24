@@ -22,12 +22,12 @@ class thepaper:
         }
         self.urls = [
             'http://m.thepaper.cn/channel_26916',#视频，单独搞，因为视频模块的网页码不一样
-            'http://m.thepaper.cn/channel_25950',  # 时事
+            # 'http://m.thepaper.cn/channel_25950',  # 时事
             'http://m.thepaper.cn/channel_25951',#财经
             'http://m.thepaper.cn/channel_25952',#思想
             'http://m.thepaper.cn/channel_25953',#生活
-            'http://m.thepaper.cn/ask_index.jsp',#问吧
-            'http://m.thepaper.cn/gov_publish.jsp'#问政
+            # 'http://m.thepaper.cn/ask_index.jsp',#问吧
+            # 'http://m.thepaper.cn/gov_publish.jsp'#问政
 
         ]
         self.global_status_num_index = 1
@@ -51,8 +51,11 @@ class thepaper:
             response_in_function_text=response1['response_in_function_text']
             Re_pattern = re.compile(r'data.*?\:.*?\".*?Math\.random\b')
             datare = Re_pattern.findall(response_in_function_text)
-
-            url_in_content = datare[0].split('"')[1]
+            try:
+                url_in_content = datare[0].split('"')[1]
+            except Exception as e:
+                print e
+                continue
             if 'http://m.thepaper.cn/channel_26916' in url:
                 nexturl = 'http://www.thepaper.cn/load_index.jsp?' + url_in_content#发现手机端的数据获得地更多一些,电脑端http://m.thepaper.cn/load_channel.jsp?
             # nexturl='http://www.thepaper.cn/load_index.jsp?nodeids='+url_in_content
@@ -133,8 +136,14 @@ class thepaper:
             datasoup = BeautifulSoup(response_in_function_text, 'lxml')
             for div_content in datasoup.select('body > div'):
                 try:
+                    try:
+                        reply_count=div_content.select('span.reply')[0].text
+                    except Exception as e:
+                        print e
+                        reply_count=0#因为有些新闻index请求中看不到评论消息。
                     url= 'http://m.thepaper.cn/' + div_content.select('div > a')[0].get('href')  # url
                     publish_time = div_content.select('p > span')[0].text  # publish_time
+                    #这里需要对publish_time做处理吗？
 
                     title= div_content.select('div > p > a')[1].text  # title
                     publish_user= div_content.select('div > p > a')[0].text  # publish_user
@@ -159,12 +168,15 @@ class thepaper:
                     print '\n\n\n'
                 except Exception as e:
                     print e
+                id=url.split('_')[-1]
                 this_dict={
+                    'id':id,
                     'url':url,
                     'publish_time':publish_time,
                     'title':title,
                     'publish_user':publish_user,
-                    'is_movie':False
+                    'is_movie':False,
+                    'reply_count':reply_count
                 }
                 self.content_data_list.append(this_dict)
 
@@ -199,7 +211,10 @@ class thepaper:
                 datasoup=BeautifulSoup(response_in_function_text,'lxml')
                 Re_find_content = re.compile(r'desc: \'(.*)\'')
                 content_data=Re_find_content.findall(response_in_function_text)
-                content= content_data[0]
+                try:
+                    content= content_data[0]
+                except Exception as e:
+                    print e#这里有时候会报错说这里的content没有内容
                 # publish_time= datasoup.select('#v3cont_id > div.news_content > div:nth-of-type(3)')[0][0:16]
                 data['content']=content
                 # read_count=datasoup.select('body > div.video_main.pad60.nav_container > div.video_bo > div > div.video_txt_l > div > div.video_info > span.reply')
@@ -228,6 +243,8 @@ class thepaper:
                 for url in img_urls_original:
                     url_split=url.split('"')[1]
                     img_urls.append(url_split)
+                if len(publish_time)> 17:
+                    publish_time=publish_time.split('\n')[0]
                 data['publish_user']=publish_user
                 data['img_urls']=img_urls
                 data['content']=content
@@ -260,53 +277,87 @@ class thepaper:
                     threadlist.append(thread_in_while)
 
     def get_comments(self):
-        def get_comment_inside(data,isFirst_req=True,start_id=None,comments_list=[]):#这种写法可能有问题
-            if isFirst_req==True:
-                comment_req='http://www.thepaper.cn/load_moreFloorComment.jsp?contid='+data['id']
-            else:
-                comment_req='http://www.thepaper.cn/load_moreFloorComment.jsp?contid='+data['id']+'&startId='+start_id
-            response1=get_response_and_text(url=comment_req)
-            response_in_function=response1['response_in_function']
-            response_in_function_text=response1['response_in_function_text']
-            Re_find_startid = re.compile(r'startId="(.*?)"')
-            data_re = Re_find_startid.findall(response_in_function_text)
-            start_id=data_re[0]
-            datasoup=BeautifulSoup(response_in_function_text,'lxml')
-            for one_div in datasoup.select('div'):
-                publish_user_photo=one_div.select('div.aqwleft > div > a > img')
-                publish_user=one_div.select('div.aqwright > h3 > a')
-                id=one_div.select('div.aqwright > h3 > a')[0].split('commentId=')[1]
-                publish_user_id=one_div.select('div.aqwright > h3 > a')[0].split('userId=')[1].split('&')[0]
-                publish_time=one_div.select('div.aqwright > h3 > span')[0].text
-                content=one_div.select('div.aqwright > div.floor_content > div > h3 > span')[0].text
-                reply_count=one_div.select('div.aqwright > div.ansright_cont > a')[0].text
-
-                if '小时前' in publish_time:
-                    publish_time_num=int(publish_time.replace('小时前',''))
-                    publish_time=(datetime.now()-timedelta(hours=publish_time_num)).strftime('%Y-%m-%d %H:%M:%S')
-                elif '天前' in publish_time:
-                    publish_time_num=int(publish_time.replace('天前',''))
-                    publish_time=(datetime.now()-timedelta(days=publish_time_num)).strftime('%Y-%m-%d %H:%M:%S')
+        def get_comment_inside(data):#这种写法可能有问题
+            isFirst_req = True
+            start_id = 0
+            comments_list = []
+            while True:
+                if isFirst_req==True:
+                    comment_req='http://www.thepaper.cn/load_moreFloorComment.jsp?contid='+data['id']
                 else:
-                    publish_time=publish_time
-
-
-                thisdata={
-                    'publish_user_photo':publish_user_photo,
-                    'publish_user':publish_user,
-                    'id':id,
-                    'publish_user_id':publish_user_id,
-                    'publish_time':publish_time,
-                    'content':content,
-                    'reply_count':reply_count
+                    comment_req='http://www.thepaper.cn/load_moreFloorComment.jsp?contid='+data['id']+'&startId='+start_id
+                headers={
+                    'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36'
                 }
-                comments_list.append(thisdata)
+                response1=get_response_and_text(url=comment_req,headers=headers)
+                response_in_function=response1['response_in_function']
+                response_in_function_text=response1['response_in_function_text']
+                Re_find_startid = re.compile(r'startId="(.*?)"')
+                data_re = Re_find_startid.findall(response_in_function_text)
 
-            if int(start_id)==0:
-                data['reply_node']=comments_list
-                data['reply_count']=len(comments_list)
-            else:
-                get_comment_inside(data,isFirst_req=False,start_id=start_id,comments_list=comments_list)
+                start_id=0#8-24日添加
+                try:
+                    start_id=data_re[0]
+                except Exception as e:
+                    print e
+                datasoup=BeautifulSoup(response_in_function_text,'lxml')
+                for one_div in datasoup.select('div.comment_que'):
+                    #手机端和电脑端的显示页面不一样，需要分别处理。
+                    try:
+                        publish_user_photo=one_div.select('div.aqwleft > div > a > img')[0].get('src')
+                    except Exception as e:
+                        print e
+                        publish_user_photo='http://www.thepaper.cn/img/headerimg_bg50.png'#可能没有，先舍弃了，后边有问题再回来检擦 mark1
+                    publish_user=one_div.select('div.aqwright > h3 > a')[0].text
+                    try:
+                        id_1=str(one_div.select('div.aqwright > h3 > a')[0]).split('commentId=')
+                        # id=one_div.select('div.aqwright > h3 > a')[0].split('commentId=')[1]
+                        id=id_1[1].split('"')[0]
+                    except Exception as e:
+                        print e
+                    publish_user_id=str(one_div.select('div.aqwright > h3 > a')[0]).split('userId=')[1].split('&')[0]
+                    publish_time=one_div.select('div.aqwright > h3 > span')[0].text
+                    content=''
+                    for content_in_for in one_div.select('div > a[href^="javascript:replyFloor"]'):#有问题
+                        if u'回复' not in content_in_for:
+                            content+=content_in_for.text
+                    # content=content.replace(u'回复',u'')
+                    reply_count=one_div.select('div.aqwright > div.ansright_time > a[href^="javascript:priseCommtFloor"]')[0].text
+
+
+                    if u'小时前' in publish_time:
+                        publish_time_num=int(publish_time.replace(u'小时前',''))
+                        publish_time=(datetime.now()-timedelta(hours=publish_time_num)).strftime('%Y-%m-%d %H:%M:%S')
+                    elif u'天前' in publish_time:
+                        publish_time_num=int(publish_time.replace(u'天前',''))
+                        publish_time=(datetime.now()-timedelta(days=publish_time_num)).strftime('%Y-%m-%d %H:%M:%S')
+                    else:
+                        publish_time=publish_time
+
+
+                    thisdata={
+                        'publish_user_photo':publish_user_photo,
+                        'publish_user':publish_user,
+                        'id':id,
+                        'publish_user_id':publish_user_id,
+                        'publish_time':publish_time,
+                        'content':content,
+                        'reply_count':reply_count
+                    }
+                    comments_list.append(thisdata)
+
+                if int(start_id)==0:
+                    data['reply_node']=comments_list
+                    data['reply_count']=len(comments_list)
+                    try:
+                        data['publish_time']=data['publish_time'].replace(u' ',u'').encode('utf-8')
+                        data['publish_time']=data['publish_time'].split(' ')[0]+' '+data['publish_time'].split(' ')[1]
+                    except Exception as e:
+                        print e
+                    self.result_list.append(data)
+                    break
+                else:
+                    get_comment_inside(data)
 
 
 
@@ -332,22 +383,22 @@ class thepaper:
             Save_result(plantform='thepaper', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                         datatype='news', full_data=data)
 
-            threadlist = []
-            while self.global_status_num_comments > 0 or self.result_list:
-                while self.result_list or threadlist:
-                    for threadi in threadlist:
-                        if not threadi.is_alive():
-                            threadlist.remove(threadi)
-                    while len(threadlist) < CONTENT_THREADING_NUM and self.result_list:
-                        print len(self.result_list)
-                        data_in_while = self.result_list.pop()
-                        thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
-                        thread_in_while.setDaemon(True)
-                        thread_in_while.start()
-                        threadlist.append(thread_in_while)
-                        print len(threadlist)
-                        print len(self.result_list)
-            self.global_status_num_comments = 0
+        threadlist = []
+        while self.global_status_num_comments > 0 or self.result_list:
+            while self.result_list or threadlist:
+                for threadi in threadlist:
+                    if not threadi.is_alive():
+                        threadlist.remove(threadi)
+                while len(threadlist) < CONTENT_THREADING_NUM and self.result_list:
+                    print len(self.result_list)
+                    data_in_while = self.result_list.pop()
+                    thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
+                    thread_in_while.setDaemon(True)
+                    thread_in_while.start()
+                    threadlist.append(thread_in_while)
+                    print len(threadlist)
+                    print len(self.result_list)
+        self.global_status_num_comments = 0
 
 
     def run(self):
