@@ -25,9 +25,21 @@ from setting import COMMENTS_THREADING_NUM
 from saveresult import Save_result
 import re
 import logging
-from visit_page import get_response_and_text
+# from visit_page import get_response_and_text
+from visit_page2 import get_response_and_text
 import datetime
 from datetime import timedelta
+from KafkaConnector1 import Producer,Consumer
+# from saveresult import get_result_name
+
+
+from visit_page2 import get_response_and_text
+from KafkaConnector1 import Producer,Consumer
+from saveresult import get_result_name
+
+
+
+
 
 class xilu:
     # 没有图片处理模块，对应的图片处理模块导致信息读取不完全。
@@ -364,9 +376,36 @@ class xilu:
 
     def save_result(self):
         def save_result(data):
-            print 'deal result'
-            Save_result(plantform='xilu', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
-                        datatype='news', full_data=data)
+            # print 'deal result'
+            host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
+            producer = Producer(hosts=host)
+            result_file = get_result_name(plantform_c='西陆网',plantform_e='xilu', date_time=data['publish_time'], urlOruid=data['url'],
+                                          newsidOrtid=data['id'],
+                                          datatype='news', full_data=data)
+
+            producer.send(topic='topic', value={'data': data}, key=result_file, updatetime=data['spider_time'])
+
+            comsumer = Consumer('topic', host, 'll')
+            what = comsumer.poll()
+            # for i in comsumer.poll():
+            #     print i.topic
+            for i in what:
+                # print i.topic,i.partition,i.offset,i.key,i.value
+                topic = i.topic
+                partition = i.partition
+                offset = i.offset
+                key = i.key
+                value = i.value
+                # datalist=enumerate(what)
+
+
+                Save_result(plantform='xilu', date_time=data['publish_time'], urlOruid=data['url'],
+                            newsidOrtid=data['id'],
+                            datatype='news', full_data=value['content'])
+
+
+            # Save_result(plantform='xilu', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+            #             datatype='news', full_data=data)
 
         threadlist = []
         while self.global_status_num_comments > 0 or self.result_list:

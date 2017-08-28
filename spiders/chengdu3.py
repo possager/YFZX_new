@@ -17,19 +17,13 @@ from setting import *
 from bs4 import BeautifulSoup
 import re
 from saveresult import Save_result
-from visit_page import get_response_and_text
+from saveresult import get_result_name
+# from visit_page import get_response_and_text
 import json
 from saveresult import BASIC_FILE
 import datetime
-
-import sys
-import os
-
-curPath = os.path.abspath(os.path.dirname(__file__))
-rootPath = os.path.split(curPath)[0]
-sys.path.append(rootPath)
-
-
+from KafkaConnector1 import Producer,Consumer
+from visit_page2 import get_response_and_text
 
 
 
@@ -199,7 +193,11 @@ class chengdu:
                 # reply_count=0
                 if not topicid:
                     comment_url_without_id='http://changyan.sohu.com/api/3/topic/liteload?&client_id=cyrHnxhFx&page_size=30&hot_size=5&topic_source_id='
-                    comment_url=comment_url_without_id+data['sid']
+                    try:
+                        comment_url=comment_url_without_id+data['sid']
+                    except Exception as e:
+                        print e
+                        break#图片类新闻没有评论
                 else:
                     comment_url = 'http://changyan.sohu.com/api/2/topic/comments?client_id=cyrHnxhFx&page_size=30&topic_id=' + str(
                         topicid) + '&page_no=' + str(request_num)
@@ -277,7 +275,10 @@ class chengdu:
                 print 'is waiting the lenth of the result_list to decrease to 300'
 
             #最后处理，去掉不需要的字段：
-            del data['sid']
+            try:
+                del data['sid']#图片类的新闻没有sid
+            except :
+                pass
             self.result_list.append(data)
 
 
@@ -299,8 +300,31 @@ class chengdu:
         def save_result(data):
             # print 'deal result'
             try:#因为有些页面有时候会解析错误，导致没有正确的内容，自然也没有publishtime这个属性，所以直接可以用try模块来过滤掉那些没有抓全的数据。
-                Save_result(plantform='chengdu', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+
+
+                host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
+                producer=Producer(hosts=host)
+                result_file=get_result_name(plantform='chengdu', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                         datatype='news', full_data=data)
+
+                producer.send(topic='topic',value={'data':data},key=result_file,updatetime=data['spider_time'])
+
+                comsumer=Consumer('topic', host, 'll')
+                what=comsumer.poll()
+                # for i in comsumer.poll():
+                #     print i.topic
+                for i in what:
+                    # print i.topic,i.partition,i.offset,i.key,i.value
+                    topic=i.topic
+                    partition=i.partition
+                    offset=i.offset
+                    key=i.key
+                    value=i.value
+                # datalist=enumerate(what)
+
+
+                    Save_result(plantform='chengdu', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+                            datatype='news', full_data=value['content'])
             except Exception as e:
                 print e
 

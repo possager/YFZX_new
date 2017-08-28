@@ -1,5 +1,6 @@
 # _*_coding:utf-8_*_
 import requests
+import copy
 import json
 import time
 from bs4 import BeautifulSoup
@@ -322,7 +323,7 @@ class thepaper:
                         if u'回复' not in content_in_for:
                             content+=content_in_for.text
                     # content=content.replace(u'回复',u'')
-                    reply_count=one_div.select('div.aqwright > div.ansright_time > a[href^="javascript:priseCommtFloor"]')[0].text
+                    reply_count=int(one_div.select('div.aqwright > div.ansright_time > a[href^="javascript:priseCommtFloor"]')[0].text)
 
 
                     if u'小时前' in publish_time:
@@ -334,7 +335,12 @@ class thepaper:
                     else:
                         publish_time=publish_time
 
-
+                    #8-25日添加parentid处理模块
+                    Re_find_publish_user = re.compile(ur'回复@(.*)\:')
+                    has_at_re=Re_find_publish_user.match(content)
+                    has_at=''
+                    if has_at_re:
+                        has_at=has_at_re.group(1)
                     thisdata={
                         'publish_user_photo':publish_user_photo,
                         'publish_user':publish_user,
@@ -342,11 +348,31 @@ class thepaper:
                         'publish_user_id':publish_user_id,
                         'publish_time':publish_time,
                         'content':content,
-                        'reply_count':reply_count
+                        'reply_count':reply_count,
+                        'ancestor_id':data['id'],
+                        'parent_id':data['id'],#这一个暂且这么设计，之后统计content里边有没有@到的人，之后再做统计
+                        # 'reply_nodes':[],
+                        # 'has_at':has_at
                     }
                     comments_list.append(thisdata)
 
                 if int(start_id)==0:
+                    #8-25添加parent_id处理功能
+                    # comments_list2=comments_list[:]
+                    # for comment_one_data in comments_list2:
+                    #     if comment_one_data['has_at']:
+                    #         def merge_comment(comment_one_data):
+                    #             #有@，就根据@后的人名来统计parent_id
+                    #             for num in range(len(comments_list2)):
+                    #                 if comments_list2[num]['publish_user']==comment_one_data['publish_user']:
+                    #                     _=copy.deepcopy(comment_one_data)
+                    #                     del(comment_one_data['has_at'])
+                    #                     comments_list2[num]['reply_nodes'].append(comment_one_data)
+                    #                     comments_list2.remove(_)#这样结构依然不完整
+                    #                     if comments_list2[num]['has_at']:#这里注意顺序！！！！python语法就是list都是调用不是开辟新的空间
+                    #                         new_child_comment=copy.deepcopy(comments_list2[num])
+
+
                     data['reply_node']=comments_list
                     data['reply_count']=len(comments_list)
                     try:

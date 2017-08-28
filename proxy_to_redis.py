@@ -28,7 +28,8 @@ ratio = 200
 
 def get_Proxy():
     headers = {
-        'Accept-Encoding': 'gzip'
+        'Accept-Encoding': 'gzip',
+        'Connection':'close'
     }
 
     def get_proxy_to_redis():
@@ -44,13 +45,14 @@ def get_Proxy():
         data_json = json.loads(webdata.text)
         # print data_json
         # print data_json
+        session1.close()
         for proxyip in data_json['data']['proxy_list']:
             # print proxyip
             redis1.lpush('proxy_original', proxyip)  # 左进右出
 
     get_proxy_to_redis()
     while True:
-        while redis1.llen('proxy_original') < 300:
+        while redis1.llen('proxy_original') < 3000:
             time.sleep(random.randint(1, 3))
             get_proxy_to_redis()
 
@@ -62,7 +64,7 @@ def fillte_Proxy():
     }
     while True:
         print 'has get 600 websites proxy_good,now is waiting'
-        while redis1.llen('proxy_good') < 600:
+        while redis1.llen('proxy_good') < 3000:
             print 'is examing the proxy where fron proxy_original'
             proxy1 = redis1.lpop('proxy_original')
             session1 = requests.session()
