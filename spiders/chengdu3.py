@@ -304,7 +304,7 @@ class chengdu:
 
                 host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
                 producer=Producer(hosts=host)
-                result_file=get_result_name(plantform='chengdu', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+                result_file=get_result_name(plantform_e='ChengDuQuanSouSuo',plantform_c='成都全搜索',date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                         datatype='news', full_data=data)
 
                 producer.send(topic='topic',value={'data':data},key=result_file,updatetime=data['spider_time'])

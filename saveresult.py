@@ -75,7 +75,16 @@ def Save_result(plantform,date_time,urlOruid,newsidOrtid,datatype,full_data,foru
             print
         # print date_time_strip
     elif len(date_time)==10 or (len(date_time) >=13 and len(date_time)<17) or '.' in date_time:
-        date_time_strip=str(date_time.split('.')[0])
+        try:#8-28日添加的时间戳统一模块，以为他们发现文件的时间戳格式一直不对，这里统一为13位精确到毫秒的时间戳
+        #     date_time_strip=float(date_time)
+        # date_time_strip=str(date_time.split('.')[0])
+            if 10<len(date_time)<=14:
+                date_time_strip=str(float(date_time)*1000)
+            elif len(date_time)==10:
+                date_time_strip=str(date_time)+'000'
+        except Exception as e:
+            print e
+
     else:
         print 'Wrong'
         date_time="date_time_Wrong"

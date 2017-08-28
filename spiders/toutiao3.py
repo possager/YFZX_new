@@ -693,7 +693,7 @@ class toutiao:
             try:
                 host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
                 producer = Producer(hosts=host)
-                result_file = get_result_name(plantform='今日头条', date_time=data['publish_time'], urlOruid=data['url'],
+                result_file = get_result_name(plantform_c='今日头条',plantform_e='JinRiTouTiao', date_time=data['publish_time'], urlOruid=data['url'],
                                               newsidOrtid=data['id'],
                                               datatype='news', full_data=data)
 
