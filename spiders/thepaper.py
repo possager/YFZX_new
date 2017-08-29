@@ -13,8 +13,12 @@ from setting import COMMENTS_THREADING_NUM
 from saveresult import Save_result
 import re
 import logging
-from visit_page import get_response_and_text
+# from visit_page import get_response_and_text
 from datetime import datetime,timedelta
+from  visit_page2 import get_response_and_text
+
+
+
 
 class thepaper:
     def __init__(self):
@@ -66,7 +70,7 @@ class thepaper:
 
             thisurls_list.append(nexturl)
         for url_to_visit in thisurls_list:
-            for i in range(50):
+            for i in range(10):
                 self.index_url_list.append(url_to_visit+str(i))
 
 
@@ -184,6 +188,7 @@ class thepaper:
 
 
         threadlist=[]
+        # self.index_url_list=self.index_url_list.reverse()
         while self.index_url_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
             while self.index_url_list or threadlist:
                 for threadi in threadlist:
@@ -235,7 +240,7 @@ class thepaper:
                     content+=content_in_soup.text
                 title=datasoup.select('#v3cont_id > div.news_content > h1')[0].text
                 publish_user= datasoup.select('#v3cont_id > div.news_content > p.about_news')[0].text
-                publish_time= datasoup.select('#v3cont_id > div.news_content > p.about_news')[1].text
+                publish_time= datasoup.select('#v3cont_id > div.news_content > p.about_news')[1].text.strip()#还是有一个莫名奇妙的空格
                 datasoup_content=datasoup.select('#v3cont_id > div.news_content > div.news_part')[0]
                 img_urls_original=Re_find_img.findall(str(datasoup_content))
                 img_urls_selected_by_doup=datasoup_content.select('img')
@@ -406,6 +411,10 @@ class thepaper:
     def save_result(self):
         def save_result(data):
             # print 'deal result'
+            try:
+                del data['is_movie']
+            except Exception as e:
+                print e
             Save_result(plantform='thepaper', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                         datatype='news', full_data=data)
 

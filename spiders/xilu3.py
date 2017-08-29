@@ -52,7 +52,7 @@ class xilu:
             'Accept-Encoding': 'gzip, deflate, sdch',
             'Accept-Language': 'zh-CN,zh;q=0.8',
             'Cache-Control': 'max-age=0',
-            'Connection': 'keep-alive',
+            'Connection': 'close',
             'Host': 'm.xilu.com',
             'Upgrade-Insecure-Requests': '1'
 

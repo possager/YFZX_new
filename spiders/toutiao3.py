@@ -567,7 +567,8 @@ class toutiao:
             try:
                 data_json = json.loads(response_in_function_text)
             except Exception as e:
-                print e
+                print e#这里本来是应该返回正常的json数据，但是会返回一抹莫名奇妙的location跳转的网站。因此直接把它结束了，宁愿没抓，也不要误抓。
+                return
             for one_comment in data_json['data']['comments']:
                 content = one_comment['text']
                 like_count = one_comment['digg_count']
