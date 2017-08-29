@@ -188,6 +188,10 @@ class people:
     def get_comments(self):
         def get_comment_inside(data):
             #http://bbs1.people.com.cn/mobile.do?action=moreComment&threadId=164157231&pageNo=2
+            comment_list=[]
+
+
+
             while True:
                 comment_url='http://bbs1.people.com.cn/mobile.do?action=moreComment&threadId='+data['id']+'&pageNo=1'
                 response1=get_response_and_text(url=comment_url)
@@ -195,7 +199,9 @@ class people:
                 response_in_function_text=response1['response_in_function_text']
                 datajson=json.loads(response_in_function_text)
                 for i in datajson['elements']:
-                    print i
+                    id= i['id']
+                    title=i['title']
+                    publish_user=i['userNick']
 
 
 
