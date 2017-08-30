@@ -63,8 +63,6 @@ class thepaper:
                 continue
             if 'http://m.thepaper.cn/channel_26916' in url:
                 nexturl = 'http://www.thepaper.cn/load_index.jsp?' + url_in_content#发现手机端的数据获得地更多一些,电脑端http://m.thepaper.cn/load_channel.jsp?
-            # nexturl='http://www.thepaper.cn/load_index.jsp?nodeids='+url_in_content
-            # 'http://www.thepaper.cn/load_index.jsp?nodeids='桌面版的
             else:
                 nexturl='http://m.thepaper.cn/load_channel.jsp?'+url_in_content
 
@@ -126,7 +124,8 @@ class thepaper:
                     'publish_time':publish_time,
                     'id':id,
                     'reply_count':reply_count,
-                    'is_movie':True
+                    'is_movie':True,
+                    'spider_time':datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 }
                 self.content_data_list.append(data_index)
 
@@ -181,7 +180,8 @@ class thepaper:
                     'title':title,
                     'publish_user':publish_user,
                     'is_movie':False,
-                    'reply_count':reply_count
+                    'reply_count':reply_count,
+                    'spider_time':datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 }
                 self.content_data_list.append(this_dict)
 
@@ -217,12 +217,31 @@ class thepaper:
                 datasoup=BeautifulSoup(response_in_function_text,'lxml')
                 Re_find_content = re.compile(r'desc: \'(.*)\'')
                 content_data=Re_find_content.findall(response_in_function_text)
+                #8-30
+                like_count=datasoup.select('#news_praise')
+                if like_count:
+                    like_count_value=int(like_count[0].text.strip())
+                else:
+                    like_count_value=0
+
+                vedio=datasoup.select('video > source')
+                if vedio:
+                    vedio_urls=[]
+                    for vedio1 in vedio:
+                        vedio_urls.append(vedio1.get('src'))
+                else:
+                    vedio_urls=[]
+                #8-30
+
+
                 try:
                     content= content_data[0]
                 except Exception as e:
                     print e#这里有时候会报错说这里的content没有内容
                 # publish_time= datasoup.select('#v3cont_id > div.news_content > div:nth-of-type(3)')[0][0:16]
                 data['content']=content
+                data['like_count']=like_count_value
+                data['video_urls']=vedio_urls
                 # read_count=datasoup.select('body > div.video_main.pad60.nav_container > div.video_bo > div > div.video_txt_l > div > div.video_info > span.reply')
                 # data['read_count']=read_count[0].text
                 self.comments_url_list.append(data)
@@ -238,7 +257,12 @@ class thepaper:
                 img_urls=[]
                 for content_in_soup in datasoup.select('#v3cont_id > div.news_content > div.news_part'):
                     content+=content_in_soup.text
-                title=datasoup.select('#v3cont_id > div.news_content > h1')[0].text
+                try:
+                    title=datasoup.select('#v3cont_id > div.news_content > h1')[0].text
+                except:
+                    print response_in_function.url
+                    # title=''
+                    return #这里偶尔会转到莫名其妙的网页
                 publish_user= datasoup.select('#v3cont_id > div.news_content > p.about_news')[0].text
                 publish_time= datasoup.select('#v3cont_id > div.news_content > p.about_news')[1].text.strip()#还是有一个莫名奇妙的空格
                 datasoup_content=datasoup.select('#v3cont_id > div.news_content > div.news_part')[0]
@@ -251,6 +275,16 @@ class thepaper:
                     img_urls.append(url_split)
                 if len(publish_time)> 17:
                     publish_time=publish_time.split('\n')[0]
+
+                #8-30
+                like_count = datasoup.select('#news_praise')
+                if like_count:
+                    like_count_value = int(like_count[0].text.strip())
+                else:
+                    like_count_value = 0
+                #8-30
+
+                data['like_count']=like_count_value
                 data['publish_user']=publish_user
                 data['img_urls']=img_urls
                 data['content']=content
@@ -328,7 +362,7 @@ class thepaper:
                         if u'回复' not in content_in_for:
                             content+=content_in_for.text
                     # content=content.replace(u'回复',u'')
-                    reply_count=int(one_div.select('div.aqwright > div.ansright_time > a[href^="javascript:priseCommtFloor"]')[0].text)
+                    like_count=int(one_div.select('div.aqwright > div.ansright_time > a[href^="javascript:priseCommtFloor"]')[0].text)
 
 
                     if u'小时前' in publish_time:
@@ -353,7 +387,7 @@ class thepaper:
                         'publish_user_id':publish_user_id,
                         'publish_time':publish_time,
                         'content':content,
-                        'reply_count':reply_count,
+                        'like_count':like_count,
                         'ancestor_id':data['id'],
                         'parent_id':data['id'],#这一个暂且这么设计，之后统计content里边有没有@到的人，之后再做统计
                         # 'reply_nodes':[],
@@ -378,7 +412,7 @@ class thepaper:
                     #                         new_child_comment=copy.deepcopy(comments_list2[num])
 
 
-                    data['reply_node']=comments_list
+                    data['reply_nodes']=comments_list
                     data['reply_count']=len(comments_list)
                     try:
                         data['publish_time']=data['publish_time'].replace(u' ',u'').encode('utf-8')

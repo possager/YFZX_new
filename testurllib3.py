@@ -1,35 +1,32 @@
-#_*_coding:utf-8_*_
-import urllib
-import urllib2
-import re
-import requests
-from bs4 import BeautifulSoup
-import chardet
+# #_*_coding:utf-8_*_
+# import urllib
+# import redis
+# import requests
+#
+# connectpool = redis.ConnectionPool(host='localhost', port=6379)
+# redis1 = redis.Redis(connection_pool=connectpool)
+#
+# thisunicode=u'你好'
+#
+#
+# redis1.hset('people',u'你好',0)
+#
+#
+# thisstr=thisunicode.encode('utf-8')
+# print urllib.quote('你好')
+#
+# all_list=redis1.hgetall('people')
+# print all_list
+# for i in all_list.keys():
+#     url1= 'http://bbs1.people.com.cn/userInfo.do?userNick='+i
+#
+#     response=requests.get(url=url1)
+#     print response.text
+#
+#     print u
 
-headers = {
-            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
-            'X-Requested-With': 'XMLHttpRequest',  # 重要
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-            'Accept-Encoding': 'gzip, deflate, sdch',
-            'Accept-Language': 'zh-CN,zh;q=0.8',
-            'Cache-Control': 'max-age=0',
-            'Connection': 'keep-alive',
-            'Host': 'm.xilu.com',
-            'Upgrade-Insecure-Requests': '1'
 
-        }
-
-
-
-data1={'page':2}
-url2='http://m.xilu.com/index.html'
-data=urllib.urlencode(data1)
-request1=urllib2.Request(url=url2,data=data,headers=headers)
-openner1=urllib2.build_opener()
-response=openner1.open(request1)
-data2=response.read()
-# print data2
-# print chardet.detect(data2)
-
-response2=requests.get(url=url2,headers=headers)
-print response2.text
+dict1={
+    'hello':'hello'
+}
+print dict1.items()
