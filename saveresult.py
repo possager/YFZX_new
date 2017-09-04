@@ -117,7 +117,7 @@ def Save_result(plantform,date_time,urlOruid,newsidOrtid,datatype,full_data,foru
 
     elif datatype=='forum':
         try:
-            result_file=plantform+'_'+str(date_time.split(' ')[0])+'_'+str(hashlib.md5(urlOruid).hexdigest())+'_'+str(newsidOrtid)
+            result_file=plantform+'_'+str(date_time_strip)+'_'+str(hashlib.md5(urlOruid).hexdigest())+'_'+str(newsidOrtid)
         except Exception as e:
             print e
             print '时间戳错了，这里常出错，所以这里', date_time

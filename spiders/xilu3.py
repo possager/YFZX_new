@@ -148,7 +148,7 @@ class xilu:
                 for i in datasoup.select('body > div.scrollBox.mt10 > div.article > div.art_co.sau > p'):
                     content += i.text
                 # 8-3添加图片抓取功能
-                Re_find_img_url = re.compile(r'src=".*?"/\>')
+                Re_find_img_url = re.compile(r'src=".*?"')
                 content_part_data = datasoup.select('div.article')
                 if content_part_data:
                     data_find_by_re = Re_find_img_url.findall(str(content_part_data[0]))
@@ -369,10 +369,6 @@ class xilu:
                     print len(threadlist)
                     print len(self.comments_url_list)
         self.global_status_num_comments = 0
-
-
-
-
 
     def save_result(self):
         def save_result(data):

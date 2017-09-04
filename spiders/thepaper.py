@@ -116,6 +116,13 @@ class thepaper:
                         reply_count=float(reply_count)*1000
                 except:
                     reply_count= 0
+                video_urls=[]
+                try:
+                    video_urls1=datasoup.select('video source')
+                    for i in video_urls1:
+                        video_urls.append(i.get('src'))
+                except Exception as e:
+                    print e
 
                 data_index={
                     'url':'http://m.thepaper.cn/'+thisurl,
@@ -125,7 +132,8 @@ class thepaper:
                     'id':id,
                     'reply_count':reply_count,
                     'is_movie':True,
-                    'spider_time':datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    'spider_time':datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                    'video_urls':video_urls
                 }
                 self.content_data_list.append(data_index)
 
@@ -156,17 +164,17 @@ class thepaper:
                         minulate = publish_time.replace(u'分钟前', '')
                         time_b = datetime.now() - timedelta(minutes=int(minulate))
                         print time_b
-                        time_c = time_b.strftime('%Y-%m-%d %H:%M')
+                        time_c = time_b.strftime('%Y-%m-%d %H:%M:%S')
                         publish_time= time_c
                     elif u'小时前' in publish_time:
                         hourse = publish_time.replace(u'小时前', '')
                         time_b = datetime.now() - timedelta(hours=int(hourse))
-                        time_c = time_b.strftime('%Y-%m-%d %H:%M')
+                        time_c = time_b.strftime('%Y-%m-%d %H:%M:%S')
                         publish_time= time_c
                     elif u'天前' in publish_time:
                         days = publish_time.replace(u'天前', '')
                         time_b = datetime.now() - timedelta(days=int(days))
-                        time_c = time_b.strftime('%Y-%m-%d %H:%M')
+                        time_c = time_b.strftime('%Y-%m-%d %H:%M:%S')
                         publish_time= time_c
 
                     print '\n\n\n'
@@ -238,16 +246,24 @@ class thepaper:
                     content= content_data[0]
                 except Exception as e:
                     print e#这里有时候会报错说这里的content没有内容
+
+                try:
+                    source=datasoup.select('#v3cont_id > div.news_content > div > br')[0].text.split(u'来源：')[1]
+                except:
+                    source=''
+
                 # publish_time= datasoup.select('#v3cont_id > div.news_content > div:nth-of-type(3)')[0][0:16]
                 data['content']=content
                 data['like_count']=like_count_value
                 data['video_urls']=vedio_urls
+                data['source']=source
                 # read_count=datasoup.select('body > div.video_main.pad60.nav_container > div.video_bo > div > div.video_txt_l > div > div.video_info > span.reply')
                 # data['read_count']=read_count[0].text
                 self.comments_url_list.append(data)
 
             def get_content_inside_no_movie(data):
                 url_for_debug=data['url']
+                vedio_list=[]
                 respons1=get_response_and_text(url=url_for_debug)
                 response_in_function=respons1['response_in_function']
                 response_in_function_text=respons1['response_in_function_text']
@@ -263,8 +279,25 @@ class thepaper:
                     print response_in_function.url
                     # title=''
                     return #这里偶尔会转到莫名其妙的网页
-                publish_user= datasoup.select('#v3cont_id > div.news_content > p.about_news')[0].text
-                publish_time= datasoup.select('#v3cont_id > div.news_content > p.about_news')[1].text.strip()#还是有一个莫名奇妙的空格
+                try:
+                    publish_user= datasoup.select('#v3cont_id > div.news_content > p.about_news')[0].text
+                except Exception as e:
+                    print e
+                try:
+                    source=datasoup.select('#v3cont_id > div.news_content > p.about_news')[1].text.split(u'来源：')[1]
+                except:
+                    source=''
+                try:
+                    publish_time=datasoup.select('.news_content .about_news')[1].text.split(u'\xa0')[0]+':00'
+                    data['publish_time']=publish_time
+                except Exception as e:
+                    print e
+
+                for i in datasoup.select('source'):
+                    url_vedio= i.get('src')
+                    vedio_list.append(url_vedio)
+
+                # publish_time= datasoup.select('#v3cont_id > div.news_content > p.about_news')[1].text.strip()#还是有一个莫名奇妙的空格
                 datasoup_content=datasoup.select('#v3cont_id > div.news_content > div.news_part')[0]
                 img_urls_original=Re_find_img.findall(str(datasoup_content))
                 img_urls_selected_by_doup=datasoup_content.select('img')
@@ -273,8 +306,8 @@ class thepaper:
                 for url in img_urls_original:
                     url_split=url.split('"')[1]
                     img_urls.append(url_split)
-                if len(publish_time)> 17:
-                    publish_time=publish_time.split('\n')[0]
+                # if len(publish_time)> 17:
+                #     publish_time=publish_time.split('\n')[0]
 
                 #8-30
                 like_count = datasoup.select('#news_praise')
@@ -289,10 +322,11 @@ class thepaper:
                 data['img_urls']=img_urls
                 data['content']=content
                 data['publish_user']=publish_user
-                data['publish_time']=publish_time
+                # data['publish_time']=publish_time
                 data['title']=title
+                data['source']=source
+                data['video_urls'] = vedio_list
                 self.comments_url_list.append(data)
-
 
 
             if data['is_movie']:
@@ -318,6 +352,7 @@ class thepaper:
 
     def get_comments(self):
         def get_comment_inside(data):#这种写法可能有问题
+            data['source']=data['source'].strip()
             isFirst_req = True
             start_id = 0
             comments_list = []
@@ -362,7 +397,10 @@ class thepaper:
                         if u'回复' not in content_in_for:
                             content+=content_in_for.text
                     # content=content.replace(u'回复',u'')
-                    like_count=int(one_div.select('div.aqwright > div.ansright_time > a[href^="javascript:priseCommtFloor"]')[0].text)
+                    try:
+                        like_count=int(one_div.select('div.aqwright > div.ansright_time > a[href^="javascript:priseCommtFloor"]')[0].text)
+                    except:
+                        like_count=0
 
 
                     if u'小时前' in publish_time:
@@ -371,6 +409,9 @@ class thepaper:
                     elif u'天前' in publish_time:
                         publish_time_num=int(publish_time.replace(u'天前',''))
                         publish_time=(datetime.now()-timedelta(days=publish_time_num)).strftime('%Y-%m-%d %H:%M:%S')
+                    elif u'分钟前' in publish_time:
+                        publish_time_num=int(publish_time.replace(u'分钟前',''))
+                        publish_time=(datetime.now()-timedelta(minutes=publish_time_num)).strftime('%Y-%m-%d %H:%M:%S')
                     else:
                         publish_time=publish_time
 

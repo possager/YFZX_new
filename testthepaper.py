@@ -94,6 +94,8 @@ url4='http://www.thepaper.cn/load_index.jsp?nodeids=nodeids=26912,26918,26919,26
 # print str(datasoup)
 # print datasoup.select('span.reply')[0].text
 
+url6='http://yb.newssc.org/system/20170818/002252188.html'
+
 one_div_wenti1='''
 <div class="comment_que" id="comment12139905">
 <div class="aq_write clearfix">
@@ -1859,6 +1861,17 @@ datasoup=BeautifulSoup(one_div_wenti4,'lxml')
 #     print i.text
 
 
-for i in datasoup.select('div.comment_que'):
-    print i.select('div.aqwleft > div > a > img')[0]
-    print '\n\n\n'
+# for i in datasoup.select('div.comment_que'):
+#     print i.select('div.aqwleft > div > a > img')[0]
+#     print '\n\n\n'
+
+url5='http://www.thepaper.cn/newsDetail_forward_1779653'
+
+response1=requests.get(url6)
+datasoup2=BeautifulSoup(response1.text,'lxml')
+# print datasoup2.select('video source')[0].get('src')
+# print response1.text.decode()
+
+print '这是分隔符----------------------------'
+for i in datasoup2.select('p'):
+    print i.text

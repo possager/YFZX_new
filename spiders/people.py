@@ -37,15 +37,7 @@ import redis
 class people:
     def __init__(self):
         self.headers = {
-            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
-            'X-Requested-With': 'XMLHttpRequest',  # 重要
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-            'Accept-Encoding': 'gzip, deflate, sdch',
-            'Accept-Language': 'zh-CN,zh;q=0.8',
-            'Cache-Control': 'max-age=0',
-            'Connection': 'close',
-            'Host': 'm.xilu.com',
-            'Upgrade-Insecure-Requests': '1'
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36',
 
         }
 
@@ -131,7 +123,9 @@ class people:
                             'url':u'http://bbs1.people.com.cn'+url,
                             'id':id,
                             'publish_time':publish_time,
-                            'reply_nodes':[]
+                            'reply_nodes':[],
+                            'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
                         }
 
                         self.content_data_list.append(this_index_info)
@@ -141,6 +135,7 @@ class people:
 
                 except Exception as e:
                     print e
+                    print 'mark1'
                     error_num-=1
                     if error_num<0:
                         break
@@ -173,13 +168,27 @@ class people:
     def get_content(self):
         def get_content_inside(data):
             url_for_debug=data['url']
+
+
+
             response1=get_response_and_text(url=url_for_debug)
+
+            response2=get_response_and_text(url=url_for_debug,headers=self.headers)
+            try:
+                datasoup=BeautifulSoup(response2['response_in_function_text'],'lxml')
+                publish_time=datasoup.select('.replayInfo .float_l.mT10')[0].text.split(u'\xa0')[-1]
+                data['publish_time']=publish_time
+            except Exception as e:
+                print e
+                print 'mark1'
+
+
             response_in_function=response1['response_in_function']
             response_in_function_text=response1['response_in_function_text']
 
             datasoup=BeautifulSoup(response_in_function_text,'lxml')
 
-            content=datasoup.select('div.artCont')
+            content=datasoup.select('div.artCont .content-text')
             if content:#没有结果content应该回事空
                 content_text=content[0].text.strip()
                 Re_find_img_url = re.compile(r'src="(.*?)"')
@@ -192,7 +201,7 @@ class people:
                 else:
                     img_list=[]
                 data['content']=content_text
-                data['img_list']=img_list
+                data['img_urls']=img_list
 
                 self.comments_data_list.append(data)
 
@@ -214,9 +223,10 @@ class people:
         def get_comment_inside(data):
             comment_list=[]
             error_time=5
+            page_num=1
             while True:
                 try:
-                    comment_url='http://bbs1.people.com.cn/mobile.do?action=moreComment&threadId='+str(data['id'])+'&pageNo=1'
+                    comment_url='http://bbs1.people.com.cn/mobile.do?action=moreComment&threadId='+str(data['id'])+'&pageNo='+str(page_num)
                     response1=get_response_and_text(url=comment_url)
                     response_in_function=response1['response_in_function']
                     response_in_function_text=response1['response_in_function_text']
@@ -230,12 +240,16 @@ class people:
 
                         one_comment={
                             'id':id,
-                            'title':title,
-                            'publish_user':publish_user
+                            'content':title,
+                            'publish_user':publish_user,
+                            'parent_id':data['id'],
+                            'ancestor_id':data['id']
                         }
                         comment_list.append(one_comment)
+                    page_num+=1
                 except Exception as e:
                     print e
+                    print 'mark3'
                     error_time-=1
                     if error_time<0:
                         break
