@@ -129,6 +129,17 @@ class csdn:
 
     def get_content(self):
         Re_find_img_url = re.compile(r'src="(.*?)"')
+        def handleContent(content):  # 去除文章中的html标签以及空格字符
+            # html_re = re.compile(r"<.+?>",re.S)
+            # content = html_re.sub("",content)
+            # space_re = re.compile(r"\s+?",re.S)
+            # content = space_re.sub("",content)
+            script_re = re.compile(r'<script.*?>\s*[^|]*?<\/script>', re.S)
+            content = script_re.sub("", content)
+            style_re = re.compile(r'<style.*?>\s*[^|]*?<\/style>', re.S)
+            content = style_re.sub("", content)
+            # content=Re_replace_js.sub('',content)
+            return content.strip()
 
         def get_content_inside(data):
             url_debug=data['url'] + '?page=1'
@@ -136,26 +147,28 @@ class csdn:
                 response1=get_response_and_text(url=url_debug,headers=self.headers)
                 response_in_function=response1['response_in_function']
                 response_in_function_text=response1['response_in_function_text']
+                response_in_function_text=handleContent(response_in_function_text)
                 datasoup=BeautifulSoup(response_in_function_text,'lxml')
-
-
 
                 page_begain=0
 
                 if not data['content']:#用来记录是否需要获取content，publish_user的信息
                     page_begain=1
                     try:
-                        content=datasoup.select('div.detailed table.post .post_body')[0].text.strip()
+                        content_div=datasoup.select('div.detailed table.post .post_body')[0]
+                        content=content_div.text.strip()
                     except Exception as e:
                         print e
                         print data['url']
                         return
+                    img_urls_content=Re_find_img_url.findall(str(content_div))
                     publish_user_photo=datasoup.select('div.detailed table.post .user_info .user_head a img')[0].get('src')
                     publish_time=datasoup.select('div.detailed table.post .time')[0].text.strip().split('\n')[1].strip()
 
                     data['content']=content
                     data['publish_user_photo']=publish_user_photo
                     data['publish_time']=publish_time
+                    data['img_urls']=img_urls_content
 
                 for one_reply in datasoup.select('div.detailed table.post')[page_begain:]:
                     try:
@@ -166,7 +179,7 @@ class csdn:
                             if '.js' not in img_url_maybe_have_js:
                                 img_urls2.append(img_url_maybe_have_js)
 
-                        content = datasoup.select('div.detailed table.post .post_body')[0].text.strip()
+                        content = one_reply.select('.post_body')[0].text.strip()
                         publish_user_photo=one_reply.select('.user_info .user_head a img')[0].get('src')#publish_user_photo
                         publish_time=one_reply.select('.time')[0].text.strip().split('\n')[1].strip()
                         louceng_url=one_reply.select('.data .fr a[href]')[0].get('href')

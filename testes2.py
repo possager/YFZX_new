@@ -3,17 +3,24 @@ import requests
 import re
 import json
 from bs4 import BeautifulSoup
+# from lxml import html
+#
+#
+# response1=requests.get(url='http://bbs.csdn.net/topics/320264923')
+#
+# doc=html.fromstring(response1.text)
+#
+# print doc.xpath('head::text()')
 
-sessopm1=requests.session()
-url='http://www.toutiao.com/a6452518585087558158/'
 
-headers={
-    'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
-}
-response=sessopm1.request(method='get',headers=headers,url=url)
+thisdiv='''
+<div class="li">
+	<span class="money">中国</span>
+	<!--<i></i>-->
+	学习
+</div>
 
-print response.text
+'''
 
-Re_find_content=re.compile(r'content: \'.*?\'')
-data_find_by_re=Re_find_content.findall(response.text)[0]
-print data_find_by_re[0]
+datasoup=BeautifulSoup(thisdiv,'lxml')
+print datasoup.select('div')[0].text

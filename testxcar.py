@@ -1,13 +1,134 @@
 #_*_coding:utf-8_*_
-
+import requests
+from bs4 import BeautifulSoup
 import re
+from lxml import html
 
 
-webtext='''
-<div class="artCont">
-<p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>据临沂市罗庄区的葛女士介绍，自己的孩子接到了临沂市罗庄区教育局发放的入学通知书，上面显示，学生已经被临沂市第二十一中学录取。但是在8月20号，学生却被学校拒绝登记入学。</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><img src="http://n.sinaimg.cn/translate/20170828/H8Xf-fykkfat0576431.jpg" style="border: none; max-width: 500px;" title="ae0960452300b4764bf54c898459a6f6.jpg"/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>临沂市罗庄区学生家长葛女士告诉记者：“（学校）就是说不属于这边的，不属于这边分配的，就是不要。”</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>像葛女士的孩子一样，目前被学校拒收的学生有一百七十多名。在临沂市第二十一中学新生报到处，墙面上粘贴着“因招生人数超额，不接收片区外的学生”的通知。但是，对于这个通知，家长们表示有话要说。</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>临沂市罗庄区学生家长周女士说：“我们孩子本来就属于，二十一中片区的招生范围，2015年就买了学区房，然后就打算上这个学校的。结果呢，我收到录取通知书来报名了，他不收我们了。”</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>超额招生 教师教室压力大</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>　</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>既然通知上说不接收片区外的学生，那么，现在被拒收学生手中的录取通知书又是谁发的？对于目前的状况，临沂市第二十一中学又会如何回应呢？</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><img src="http://n.sinaimg.cn/translate/20170828/9E2j-fykkfat0576447.jpg" style="border: none; max-width: 500px;" title="554dc09fa14cde022aeb0cd5ac136e29.jpg"/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>临沂市第二十一中学的卢主任介绍，目前学校已经属于超额招生，教学场所及师资力量均面临着较大的压力。卢主任告诉记者：“师资我们缺的太多了，我们学校应该缺到90多。”</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>无论学区内外 通知书均有效</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>　</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>我们都知道，小学、初中是九年义务教育的范围，却面临着上学难的问题，这搁谁身上谁也着急啊。家长们认为，收到入学通知了学校就该收下学生。学校却表示教师和教室都不够，那么，对于这件事学校会怎么处理呢？教育部门又会给出怎样的答复呢？</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>临沂市第二十一中学教导处卢主任介绍说：“片区内的这一部分，应该是没有问题。个别的呢因为是昨天下午，他们来的非常晚的，因为这一些呢已经收不了了，正在往外退一部分，他们再来的我们也没法收了。”</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><img src="http://n.sinaimg.cn/translate/20170828/RsTr-fykkfat0576477.jpg" style="border: none; max-width: 500px;" title="e89d265ab80f9493be5c63b404ea553f.jpg"/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>即使如此，目前仍然有一百七十多名小升初学生被学校拒之门外。</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>临沂市第二十一中学教导处卢主任表示：“这些学生该如何安排呢？这个事情说实话我们也犯愁，我们也着急，但是现在就是没有办法。”</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>不过，学生的入学通知书是罗庄区教育局发放的，对于学校拒收学生的情况，教育局会持怎样的态度呢？</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>临沂市罗庄区教育体育局办公室主任刘军告诉记者：“我们本着是就近的原则合理分流的，我们局里发的入学通知书是有效的。”</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>学位不足 学区外分流入学</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>　</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>罗庄区教育局办公室主任刘军表示，入学通知书是真实有效，学校无权拒收这些学生。那么，对于学校反映的，大部分学生不属于临沂第二十一中学学区的情况，教育局会如何解释呢？</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>临沂市罗庄区教育体育局办公室主任刘军介绍说：“现在罗庄街道适龄儿童入学的情况来看呢，该片区内的第二十中学，仅只能容纳1500人左右，而今年罗庄街道小学六年级毕业生达到2436人。”</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>目前被学校拒收的大部分学生本应升入罗庄街道辖区内的临沂市第二十中学。但是由于六年级毕业生人数已经远远超出了第二十中学的招生能力，这才对部分学生进行了片区外分流入学。</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>“根据居住地和户籍地的原则，本着就近的原则，将这部分学生呢分流至临沂第二十一中学、临沂第二十三中学和临沂第四十中学。”临沂市罗庄区教育体育局办公室主任刘军告诉记者。</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>扩展班级 学生终入学</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>　</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>学区内的学校无法接纳这么多的学生，教育局就将部分学生分流到了其他学区的初中，但是临沂市第二十一中学表示，自己招生压力也很大，现在的情况也很无奈。但是上学的事情耽误不得，这些学生到底该何去何从呢？</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>临沂市罗庄区教育局表示，因为学生人数严重超额，本应升入临沂市第二十中学的学生被分流至临沂市第二十一中学、临沂市第二十三中学及临沂市第四十中学。但是临沂市第二十一中学同样面临着学生超额的压力，这又该如何解决？  </p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>临沂市罗庄区教育体育局办公室主任刘军表示：“因为咱2017年新招考的教师呢正在公示培训期间，还没下分到各个学校，大约25号以后新教师就马上到岗到位了。”</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><img src="http://n.sinaimg.cn/translate/20170828/FYN1-fykkfat0576491.jpg" style="border: none; max-width: 500px;" title="5199c81a28d0e4da31e098d36a20395d.jpg"/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>同时，教育局的工作人员表示，临沂市第二十一中学的新教学楼正在建设当中，争取在开学之前解决教学场所及师资不足的情况。目前，临沂市第二十一中学同意，将计划的10个班级扩展为12个班级，接收这些片区外的学生。</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>临沂市罗庄区学生家长马女士告诉记者：现在已经报完名了，现在一颗心落在地下，特别踏实。</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>城市人口激增 就学难亟待解决</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>8月22日上午9点，在临沂市第二十一中学新生报到处，家长及学生们最终完成了新生登记。但是，教育局表示，因为超额招生带来的问题同样不容忽视。</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>“由于城市化发展的速度快，学生的就学压力大。目前我们能挖掘的教育资源，基本都已经挖掘出来了，普遍存在着大班额问题。”临沂市罗庄区教育体育局教研组主任陈炳伟告诉记者。“我们区委区政府也特别重视这项工作，目前在全区已经在筹划谋划建设20多所学校，正在加速进展当中。”</p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'><br/></p><p style='margin-top: 15px; margin-bottom: 15px; font-size: 16px; line-height: 2em; color: rgb(0, 0, 0); font-family: "Microsoft YaHei", u5FAEu8F6Fu96C5u9ED1, Arial, SimSun, u5B8Bu4F53;'>编后：城市越来越大，学生数量的增多，但是城区学校却只有那么多，势必会带来就学难的问题。这也是不少城市普遍存在的问题，加快中小学学校建设，才是治标又治本的最终方法。</p><br/>（<span style='color: rgb(62, 62, 62); font-family: "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif; font-size: 16px; line-height: 29.2571px; widows: 1;'>齐鲁网</span>）<br/><br/><h1 style="margin: 5px auto 10px; font-stretch: normal; font-size: 38px; line-height: 57px; font-family: 微软雅黑; clear: both; color: rgb(34, 34, 34);">中青报：教育资源不足掀起了“拒收风波”</h1><br/><p style="margin-top: 25px; margin-bottom: 25px; font-stretch: normal; font-size: 18px; line-height: 32.4px; font-family: 微软雅黑; color: rgb(34, 34, 34);">初中教育属于九年义务教育范畴，在事发地临沂，教育局采取的是学区制就近原则，如本学区学校名额已满，则向其他学区分流。然而，由于作为分流目标学校的临沂市二十一中也已满额，才酿成了这起“拒收风波”。困境的症结，显然在于小升初人数与初中名额总数的差距——当地罗庄街道片区中学仅能容纳1500人，而该街道小学毕业生却多达2436人。根据当地教育局和学校的说法，这一巨大差距的根源，是目标学校师资力量的不足。</p><p style="margin-top: 25px; margin-bottom: 25px; font-stretch: normal; font-size: 18px; line-height: 32.4px; font-family: 微软雅黑; color: rgb(34, 34, 34);">　　因此，这场冲突表象之下的问题核心，其实是学区制下，教育资源的分配困境。</p><p style="margin-top: 25px; margin-bottom: 25px; font-stretch: normal; font-size: 18px; line-height: 32.4px; font-family: 微软雅黑; color: rgb(34, 34, 34);">　　探索学区制的初衷，是强化义务教育阶段的公平性。如果教育资源不够分配，或分配不当，就必然有人会吃亏，公平性也无从谈起。学区制是国际教育界经过长期探索，形成的较为先进的教育制度，有利于打破少数学校垄断生源、平衡学校质量，因此才在中国得到了尝试与推广。然而，在现有国情下，教育资源的供给不一定能及时跟上制度改革的步伐。因此，只有努力增加教育资源，才能让学区制度更适应实际情况，“持入学通知书被拒收”这样的戏码才不会再度上演。</p><p style="margin-top: 25px; margin-bottom: 25px; font-stretch: normal; font-size: 18px; line-height: 32.4px; font-family: 微软雅黑; color: rgb(34, 34, 34);">　　在择校传统根深蒂固，少数初中垄断多数资源的当下，平衡教育资源的改革必然困难重重。但是，该为这些困难埋单的，不该是等待入学的学生和他们的家长。如果不打破教育资源“僧多粥少”的固有局面，学区制改革注定只能停留在表面。</p><p style="margin-top: 25px; margin-bottom: 25px; font-stretch: normal; font-size: 18px; line-height: 32.4px; font-family: 微软雅黑; color: rgb(34, 34, 34);">　　说回临沂“拒收”风波。学校给出的解决方案固然暂时解决了问题，但也不是长久之计。眼下，学生们已面临着缺乏师资、校舍不足等问题，而随着城市人口逐渐增加，小升初人数日益膨胀，难道要未来的每个学生都经历一场类似的风波吗？显然不行。令人欣慰的是，发生此事的罗庄区正在筹划建设更多学校，算是在增加教育资源方面迈出了第一步。但是，新建学校能否获得足够资源分配？能否保证学生的教育质量？这些问题仍需时间检验。</p><p style="margin-top: 25px; margin-bottom: 25px; font-stretch: normal; font-size: 18px; line-height: 32.4px; font-family: 微软雅黑; color: rgb(34, 34, 34);">　　教育，对于任何社会都是至关重要的事情。面对教育问题，无论是政策先行，还是亡羊补牢，都需抓住症结，釜底抽薪。“拒收”风波只是教育资源分配问题的一个突出点。唯有从根本打破教育资源不足的困局，努力创造更多教育资源，并着力加以平衡，才是真正对教育、对孩子、对社会负责的表现。</p><p></p>
+response1=requests.get(url='http://bbs.csdn.net/topics/320264923')
+
+# print response1.text
+# Re_replace_js=re.compile(r'<script.*?>.*?</script>')
+
+
+def handleContent(content): #去除文章中的html标签以及空格字符
+   # html_re = re.compile(r"<.+?>",re.S)
+   # content = html_re.sub("",content)
+   # space_re = re.compile(r"\s+?",re.S)
+   # content = space_re.sub("",content)
+   script_re =re.compile(r'<script.*?>\s*[^|]*?<\/script>',re.S)
+   content = script_re.sub("",content)
+   style_re = re.compile(r'<style.*?>\s*[^|]*?<\/style>',re.S)
+   content = style_re.sub("",content)
+   # content=Re_replace_js.sub('',content)
+   return content.strip()
+
+response_text=handleContent(response1.text)
+datasoup=BeautifulSoup(response_text,'lxml')
+for i in datasoup.select('div.detailed table.post .post_body'):
+    print i.text.strip()
+    # content1=handleContent(i.text)
+    print '----------------------------------------------------------------------------------------------------------'
+
+
+thathdiv='''
+
+<div class="post_body">
+<div class="tag">
 </div>
-'''
+                  如题：我想购买一套带vxworks的ARM11开发板，请问各位有什么推荐啊？
 
-Re_find_img_url = re.compile(r'src="(.*?)"')
-print Re_find_img_url.findall(webtext)
+
+
+              <div id="topic-extra-info">
+<div class="social-share">
+<!-- Baidu Button BEGIN -->
+<span class="bdshare_t bds_tools get-codes-bdshare" id="bdshare">
+<a class="bds_tsina"></a>
+<a class="bds_tqq"></a>
+<span class="bds_more">更多</span>
+<a class="shareCount"></a>
+</span>
+<span class="prompt">分享到：</span>
+<script data="type=tools&amp;uid=3329407" id="bdshare_js" type="text/javascript"></script>
+<script id="bdshell_js" type="text/javascript"></script>
+<script type="text/javascript">
+    var bds_config = {
+      "snsKey": { 
+        'tsina': '3657746030',
+        'tqq': '801356742',
+      }
+    };
+
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+  </script>
+<!-- Baidu Button END -->
+</div>
+<!-- 广告位开始 -->
+<script type="text/javascript"><!--
+                google_ad_client = "ca-pub-8990951720398508";
+                /* 论坛帖子页下方Banner1-728*90 */
+                google_ad_slot = "8267689356/7950890202";
+                google_ad_width = 728;
+                google_ad_height = 90;
+                //-->
+                </script>
+<script src="//pagead2.googlesyndication.com/pagead/show_ads.js" type="text/javascript"></script>
+<!-- 广告位结束 -->
+</div>
+<!-- 主帖下Banner (D4) -->
+<!-- 主帖下文字 (D5) -->
+<div marginheight="0" marginwidth="0" scrolling="no" width="100%">
+<style type="text/css">
+    /***Business text AD***/
+    /*body {margin:0; padding: 0;font:normal 12px simsun; }*/
+    .adtxt{text-align:center;}
+    .adtxt ul{margin:5px 0;border-top:1px solid #B9B9B9;border-bottom:1px solid #B9B9B9;background-color:#F2F6FB;padding:5px 0;}
+    .adtxt ul li{display: inline-block;font-size:12px;}
+    .adtxt ul li a{color:#333;}
+    /*a{color: #002D93;text-decoration:none;}*/
+    /*a:visited{color: #B00;text-decoration:none;}*/
+    /*a:hover{color: #B00; text-decoration: underline;}*/
+</style>
+<div id="bd_ad_2" style="margin:0; padding-bottom:5px; display:block; text-align: center">
+<script type="text/javascript"><!--
+  google_ad_client = "ca-pub-8990951720398508";
+  /* 论坛帖子页下方banner2-728*90 */
+  google_ad_slot = "8267689356/8197924482";
+  google_ad_width = 728;
+  google_ad_height = 90;
+  //-->
+  </script>
+<script src="//pagead2.googlesyndication.com/pagead/show_ads.js" type="text/javascript">
+</script>
+</div>
+<div class="adtxt">
+<ul>
+<li style="margin-top:0px;vertical-align:top;margin-right:35px;max-width:230px;max-height:20px;overflow:hidden;">
+<ins data-revive-id="8c38e720de1c90a6f6ff52f3f89c4d57" data-revive-zoneid="59"></ins>
+</li>
+<li style="margin-right:35px;">
+<script type="text/javascript">
+        /*论坛帖子页下方文字链2 创建于 2014-07-03*/
+        var cpro_id = "u1636201";
+      </script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+</li>
+<li>
+<script type="text/javascript">
+        /*论坛帖子页下方文字链3创建于 2014-07-03*/
+        var cpro_id = "u1636204";
+      </script>
+<script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+# '''
+
+# for i in Re_replace_js.findall(thathdiv):
+#     print i
+
+# print handleContent(thathdiv)
