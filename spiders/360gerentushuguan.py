@@ -98,9 +98,13 @@ class gerentushuguan360:
         while True:
             proxy1=get_proxy_from_redis()
             session1.proxies={'http': 'http://' + proxy1}
-            response_1=session1.request(method='get',url=url,headers=self.headers,timeout=10)
-            if response_1.status_code in range(200,300):
-                break
+            try:
+                response_1=session1.request(method='get',url=url,headers=self.headers,timeout=10)
+                if response_1.status_code in range(200, 300):
+                    break
+            except Exception as e:
+                print e
+
         proxy_sendback(proxy1)
         session1.close()
         return response_1
@@ -108,11 +112,14 @@ class gerentushuguan360:
     def visit_page_in_class_post(self,url,data=None):
         session1 = requests.session()
         while True:
-            proxy1 = get_proxy_from_redis()
-            session1.proxies = {'http': 'http://' + proxy1}
-            response_1 = session1.request(method='post', url=url, headers=self.headers, timeout=10,data=data)
-            if response_1.status_code in range(200, 300):
-                break
+            try:
+                proxy1 = get_proxy_from_redis()
+                session1.proxies = {'http': 'http://' + proxy1}
+                response_1 = session1.request(method='post', url=url, headers=self.headers, timeout=10,data=data)
+                if response_1.status_code in range(200, 300):
+                    break
+            except Exception as e:
+                print e
         proxy_sendback(proxy1)
         session1.close()
         return response_1
@@ -126,6 +133,11 @@ class gerentushuguan360:
             response1=self.visit_page_in_class(url)
             response_in_function_text=response1.text
             datajson=json.loads(response_in_function_text)
+            try:
+                datajson[0]['data']
+            except Exception as e:
+                print e
+                return
             for i in datajson[0]['data']:
                 title= i['StrArtidetitle']  # title
                 # print i['StrDescription']  # 简述
@@ -144,10 +156,10 @@ class gerentushuguan360:
                         'publish_user_id':publish_user_id,
                         'publish_user':publish_user,
                         'url':url,
-                        'reproduce_num':reproduce_num,
+                        'reproduce_count':reproduce_num,
                         'id':id,
                         'reply_nodes':[],
-                        'reply_num':0,
+                        'reply_count':0,
                         'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                     }
                 )
@@ -178,7 +190,15 @@ class gerentushuguan360:
             try:
                 content_raw=datasoup.select('#artContent')
                 content=content_raw[0].text.strip()
-                img_list = Re_find_img_url.findall(str(content_raw[0]))
+                img_list2 = Re_find_img_url.findall(str(content_raw[0]))
+                img_list=[]
+                video_urls=[]
+                for img_url_raw in img_list2:
+                    if img_url_raw!='http://image21.360doc.com/DownloadImg/2010/12/2413/7923021_1.gif':
+                        if 'swf' not in img_url_raw:
+                            img_list.append(img_url_raw)
+                        else:
+                            video_urls.append(img_url_raw)
             except Exception as e:
                 print e
                 content=''
@@ -193,6 +213,7 @@ class gerentushuguan360:
             data['content']=content
             data['read_count']=int(result_read_count)
             data['img_urls']=img_list
+            data['video_urls']=video_urls
 
             self.comments_data_list.append(data)
 
@@ -214,15 +235,16 @@ class gerentushuguan360:
         def get_comment_inside(data):
             post_url='http://www.360doc.cn/ajax/refmore.ashx'
             for i in range(1,100):
+                artid_debug=data['id']
                 data_to_post_for_comment={
                     'pagenum': str(i),
-                    'artid': data['id']
+                    'artid': artid_debug
                 }
                 response1=self.visit_page_in_class_post(url=post_url,data=data_to_post_for_comment)
                 if response1.text =='cNullg' or len(response1.text) < 20:
                     break
                 comment_datasoup=BeautifulSoup(response1.text,'lxml')
-                for i in comment_datasoup.select('.pllist1'):
+                for i in comment_datasoup.select('.pllist1,.pllist2'):
                     comment_content= i.select('.plbox')[0].text
                     comment_publish_user_photo= i.select('img')[0].get('src')
                     comment_publish_user= i.select('.name1 > a')[0].text
@@ -237,10 +259,10 @@ class gerentushuguan360:
                         'publish_user_id':comment_publish_user_id,
                         'publish_time':comment_publish_time,
                         'ancestor_id':data['id'],
-                        'parent_id':data['id']
+                        'parent_id':data['id'],
                     }
                     data['reply_nodes'].append(thiscomment)
-
+            data['reply_count']=len(data['reply_nodes'])
             self.result_list.append(data)
 
         threadlist = []

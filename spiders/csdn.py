@@ -134,6 +134,15 @@ class csdn:
             # content = html_re.sub("",content)
             # space_re = re.compile(r"\s+?",re.S)
             # content = space_re.sub("",content)
+            Re_sub_reply = re.compile(r'<fieldset>[^|.]*<\/fieldset>')#去掉回复中的内容
+            content=Re_sub_reply.sub('',content)
+
+            Re_sub_fenxiangdao = re.compile(r'<span id="bdshare"[^|.]*?分享到：<\/span>')#去掉分享到这个里边的内容
+            content=Re_sub_fenxiangdao.sub('',content)
+
+            Re_sub_xiugaishijian=re.compile(r'<div class="modified_message">.*?<\/div>')#一楼里边出现的最后修改时间字段
+            content=Re_sub_xiugaishijian.sub('',content)
+
             script_re = re.compile(r'<script.*?>\s*[^|]*?<\/script>', re.S)
             content = script_re.sub("", content)
             style_re = re.compile(r'<style.*?>\s*[^|]*?<\/style>', re.S)
@@ -143,6 +152,7 @@ class csdn:
 
         def get_content_inside(data):
             url_debug=data['url'] + '?page=1'
+
             while True:
                 response1=get_response_and_text(url=url_debug,headers=self.headers)
                 response_in_function=response1['response_in_function']
@@ -176,13 +186,14 @@ class csdn:
                         img_urls = Re_find_img_url.findall(str(j))
                         img_urls2 = []
                         for img_url_maybe_have_js in img_urls:
+
                             if '.js' not in img_url_maybe_have_js:
                                 img_urls2.append(img_url_maybe_have_js)
 
                         content = one_reply.select('.post_body')[0].text.strip()
                         publish_user_photo=one_reply.select('.user_info .user_head a img')[0].get('src')#publish_user_photo
                         publish_time=one_reply.select('.time')[0].text.strip().split('\n')[1].strip()
-                        louceng_url=one_reply.select('.data .fr a[href]')[0].get('href')
+                        louceng_url=one_reply.select('.fr a[href]')[0].get('href')
                         like_count=one_reply.select(' div.control .fr a.red')[0].text.split('[')[1].split(']')[0]
                         dislike_count=one_reply.select(' div.control .fr a.bury')[0].text.split('[')[1].split(']')[0]
                         publish_user= one_reply.select('.user_info .nickname span')[0].text
@@ -202,7 +213,8 @@ class csdn:
                             'publish_user_id':publish_user_id,
                             'url':url,
                             'img_urls':img_urls2,
-                            'content':content
+                            'content':content,
+                            'id':louceng_url.split('-')[1]
                         }
                         data['reply_nodes'].append(thisnode)
                     except Exception as e:
