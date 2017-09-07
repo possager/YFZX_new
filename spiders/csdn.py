@@ -20,6 +20,10 @@ import re
 import logging
 import datetime
 from datetime import timedelta
+from KafkaConnector import RemoteProducer,Consumer
+
+
+
 
 
 from visit_page2 import get_response_and_text
@@ -251,8 +255,22 @@ class csdn:
 
     def save_result(self):
         def save_result(data):
-            Save_result(plantform='csdn', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
-                        datatype='news', full_data=data)
+            # Save_result(plantform='csdn', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+            #             datatype='news', full_data=data)
+
+            host = '182.150.63.40'
+            port = '12308'
+            username = 'silence'
+            password = 'silence'
+
+            producer = RemoteProducer(host=host, port=port, username=username, password=password)
+            result_file = get_result_name(plantform_e='csdn', plantform_c='csdn论坛',
+                                          date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+                                          datatype='forum', full_data=data)
+
+
+            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
+                          updatetime=data['spider_time'])
         threadlist=[]
         while self.global_status_num_comments > 0 or self.result_data_list:
             while self.result_data_list or threadlist:

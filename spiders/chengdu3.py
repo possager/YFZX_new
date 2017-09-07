@@ -22,9 +22,11 @@ from saveresult import get_result_name
 import json
 from saveresult import BASIC_FILE
 import datetime
-from KafkaConnector1 import Producer,Consumer
+# from KafkaConnector1 import Producer,Consumer
 from visit_page2 import get_response_and_text
+from KafkaConnector import RemoteProducer,Consumer
 import sqlite3
+
 
 
 class chengdu:
@@ -37,14 +39,8 @@ class chengdu:
         self.headers={
             'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         }
-
-        self.conn=sqlite3.connect('page_num_visited.db')
-        self.cursor=self.conn.cursor()
-
-
         self.page_begain=1699990
         self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(self.page_begain,3000000)]#1696951
-        # self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(1700000,1700002)]
 
         self.global_status_num_index = 1
         self.global_status_num_content = 2
@@ -192,6 +188,7 @@ class chengdu:
 
             #额外添加
             request_num=1
+            error_time=5
 
             # comments_data=[]
             while True:
@@ -216,6 +213,14 @@ class chengdu:
                     print e
                     # return
                     break
+                try:
+                    data_json['comments']
+                except Exception as e:
+                    print e
+                    continue
+                    error_time-=1
+                    if error_time<1:
+                        break
                 if data_json['comments']:
                     data_json_comments = data_json['comments']
                     cmspage_taotalnum=data_json['cmt_sum']
@@ -306,30 +311,34 @@ class chengdu:
             # print 'deal result'
             try:#因为有些页面有时候会解析错误，导致没有正确的内容，自然也没有publishtime这个属性，所以直接可以用try模块来过滤掉那些没有抓全的数据。
 
+                # host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
+                host='182.150.63.40'
+                port='12308'
+                username='silence'
+                password='silence'
 
-                host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
-                producer=Producer(hosts=host)
+                producer=RemoteProducer(host=host,port=port,username=username,password=password)
                 result_file=get_result_name(plantform_e='ChengDuQuanSouSuo',plantform_c='成都全搜索',date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                         datatype='news', full_data=data)
 
-                producer.send(topic='topic',value={'data':data},key=result_file,updatetime=data['spider_time'])
+                producer.send(topic='1101_STREAM_SPIDER',value={'data':data},key=result_file,updatetime=data['spider_time'])
 
-                comsumer=Consumer('topic', host, 'll')
-                what=comsumer.poll()
+                # comsumer=Consumer('topic', host, 'll')
+                # what=comsumer.poll()
                 # for i in comsumer.poll():
                 #     print i.topic
-                for i in what:
-                    # print i.topic,i.partition,i.offset,i.key,i.value
-                    topic=i.topic
-                    partition=i.partition
-                    offset=i.offset
-                    key=i.key
-                    value=i.value
+                # for i in what:
+                #     # print i.topic,i.partition,i.offset,i.key,i.value
+                #     topic=i.topic
+                #     partition=i.partition
+                #     offset=i.offset
+                #     key=i.key
+                #     value=i.value
                 # datalist=enumerate(what)
-
-
-                    Save_result(plantform='chengdu', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
-                            datatype='news', full_data=value['content'])
+                #
+                #
+                #     Save_result(plantform='chengdu', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+                #             datatype='news', full_data=value['content'])
             except Exception as e:
                 print e
 

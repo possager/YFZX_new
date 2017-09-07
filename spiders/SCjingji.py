@@ -24,8 +24,12 @@ import logging
 from visit_page2 import get_response_and_text
 import datetime
 from datetime import timedelta
-from KafkaConnector1 import Producer,Consumer
+# from KafkaConnector1 import Producer,Consumer
 # from saveresult import get_result_name
+from KafkaConnector import RemoteProducer,Consumer
+from saveresult import get_result_name
+
+
 
 
 class scjjrb():
@@ -173,8 +177,22 @@ class scjjrb():
 
     def save_result(self):
         def save_result(data):
-            Save_result(plantform='scjj', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
-                        datatype='news', full_data=data)
+            # Save_result(plantform='scjj', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+            #             datatype='news', full_data=data)
+
+
+            host = '182.150.63.40'
+            port = '12308'
+            username = 'silence'
+            password = 'silence'
+
+            producer = RemoteProducer(host=host, port=port, username=username, password=password)
+            result_file = get_result_name(plantform_e='SCjingji', plantform_c='四川经济网',
+                                          date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+                                          datatype='forum', full_data=data)
+
+            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
+                          updatetime=data['spider_time'])
 
         threadlist = []
         while self.global_status_num_comments > 0 or self.result_data_list:
