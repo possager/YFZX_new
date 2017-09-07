@@ -18,7 +18,7 @@ from HTMLParser import HTMLParser
 from saveresult import Save_result
 from proxy_to_redis import redis1
 import urllib2
-import logging
+# import logging
 from saveresult import BASIC_FILE
 # from visit_page import get_response_and_text
 from visit_page2 import get_response_and_text
@@ -30,12 +30,12 @@ from saveresult import get_result_name
 
 
 
-logger_toutiao=logging.getLogger()
-logger_toutiao.setLevel(logging.WARNING)
-filehandler=logging.FileHandler(BASIC_FILE+'/toutiao/debug.text')
-logger_toutiao.addHandler(filehandler)
-formatter=logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-filehandler.setFormatter(formatter)
+# logger_toutiao=logging.getLogger()
+# logger_toutiao.setLevel(logging.WARNING)
+# filehandler=logging.FileHandler(BASIC_FILE+'/toutiao/debug.text')
+# logger_toutiao.addHandler(filehandler)
+# formatter=logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# filehandler.setFormatter(formatter)
 
 
 timeoutdefault=20
@@ -169,10 +169,10 @@ class toutiao:
             response_in_function_text=response1['response_in_function_text']
             real_url = response_in_function.url
             if 'toutiao' not in real_url:
-                logger_toutiao.log(level=logging.WARNING, msg='toutiao was not in thisurl---------' + real_url)
+                # logger_toutiao.log(level=logging.WARNING, msg='toutiao was not in thisurl---------' + real_url)
                 return
             elif 'http://www.toutiao.com/api/pc/subject/' in real_url:
-                logger_toutiao.log(level=logging.WARNING,msg='http://www.toutiao.com/api/pc/subject/ was in thisurl----------'+real_url)
+                # logger_toutiao.log(level=logging.WARNING,msg='http://www.toutiao.com/api/pc/subject/ was in thisurl----------'+real_url)
                 return
             else:
                 url = real_url
@@ -200,9 +200,9 @@ class toutiao:
                                                              'response_in_function_text': response_in_function_text})
                 except Exception as e:
                     print e, '在找图片，问答等分类模块的时候出了问题'
-                    logger_toutiao.log(level=logging.WARNING, msg={'where': '在找板块分类定位的时候除了问题', 'content': e.message})
+                    # logger_toutiao.log(level=logging.WARNING, msg={'where': '在找板块分类定位的时候除了问题', 'content': e.message})
             else:
-                logger_toutiao.log(level=logging.WARNING, msg=chineseTag)
+                # logger_toutiao.log(level=logging.WARNING, msg=chineseTag)
                 print chineseTag
                 return
             #如果不是问答，那么就进入到这里边
@@ -212,8 +212,8 @@ class toutiao:
                 try:
                     item_id = Re_find_itmeId.findall(response_in_function_text)[0].split("'")[1]
                 except Exception as e:
-                    logger_toutiao.log(level=logging.WARNING, msg={'where': 'itemid来split失败了', 'contetn':
-                        Re_find_itmeId.findall(response_in_function_text)[0]})
+                    # logger_toutiao.log(level=logging.WARNING, msg={'where': 'itemid来split失败了', 'contetn':
+                    #     Re_find_itmeId.findall(response_in_function_text)[0]})
                     print e, 'itemid在re中找到了，但是split失败了'
             else:
                 try:
@@ -225,7 +225,7 @@ class toutiao:
                            'url': response_in_function.url,
                            'code': response_in_function.code,
                            'msg': response_in_function.msg}
-                    logger_toutiao.log(level=logging.WARNING, msg=msg)
+                    # logger_toutiao.log(level=logging.WARNING, msg=msg)
                     return
 
             try:
@@ -562,7 +562,7 @@ class toutiao:
                     print e,'mark1'
                     if 'item_id' in e:
                         messege = {'msg': e.message}
-                        logger_toutiao.log(msg=messege, level=logging.WARNING)
+                        # logger_toutiao.log(msg=messege, level=logging.WARNING)
             comments_data = []
             try:
                 data_json = json.loads(response_in_function_text)

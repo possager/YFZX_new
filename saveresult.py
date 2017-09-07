@@ -61,7 +61,7 @@ class ZFile(object):
 
 def Save_result(plantform,date_time,urlOruid,newsidOrtid,datatype,full_data,forum_pubtimestrimp=None):
     basic_file=BASIC_FILE
-    date_time=str(date_time)
+    date_time=str(date_time).strip()
 
     print date_time
     if '-' in date_time or ' ' in date_time:#u'1498141405'这里的两个if是时间戳 #改成or

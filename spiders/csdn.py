@@ -22,7 +22,7 @@ import datetime
 from datetime import timedelta
 
 
-from visit_page import get_response_and_text
+from visit_page2 import get_response_and_text
 # from visit_page2 import get_response_and_text
 from KafkaConnector1 import Producer,Consumer
 from saveresult import get_result_name
@@ -134,10 +134,10 @@ class csdn:
             # content = html_re.sub("",content)
             # space_re = re.compile(r"\s+?",re.S)
             # content = space_re.sub("",content)
-            Re_sub_reply = re.compile(r'<fieldset>[^|.]*<\/fieldset>')#去掉回复中的内容
+            Re_sub_reply = re.compile(r'<fieldset>[^|]*<\/fieldset>')#去掉回复中的内容
             content=Re_sub_reply.sub('',content)
 
-            Re_sub_fenxiangdao = re.compile(r'<span id="bdshare"[^|.]*?分享到：<\/span>')#去掉分享到这个里边的内容
+            Re_sub_fenxiangdao = re.compile(r'<span id="bdshare"[^|]*?分享到：<\/span>')#去掉分享到这个里边的内容
             content=Re_sub_fenxiangdao.sub('',content)
 
             Re_sub_xiugaishijian=re.compile(r'<div class="modified_message">.*?<\/div>')#一楼里边出现的最后修改时间字段
@@ -186,7 +186,6 @@ class csdn:
                         img_urls = Re_find_img_url.findall(str(j))
                         img_urls2 = []
                         for img_url_maybe_have_js in img_urls:
-
                             if '.js' not in img_url_maybe_have_js:
                                 img_urls2.append(img_url_maybe_have_js)
 
@@ -231,9 +230,6 @@ class csdn:
 
 
 
-                # urlsplit= url.split('page=')
-                # url1=urlsplit[0]+'page='+str(int(urlsplit[1])+1)
-
 
 
 
@@ -252,8 +248,6 @@ class csdn:
                     thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
-                    # print len(threadlist)
-                    # print len(self.index_data_list)
 
     def save_result(self):
         def save_result(data):
@@ -287,12 +281,8 @@ class csdn:
     def run(self):
             thread1 = threading.Thread(target=self.get_Index, args=())
             thread1.start()
-            # time.sleep(5)
             thread2 = threading.Thread(target=self.get_content, args=())
             thread2.start()
-            # # time.sleep(3)
-            # thread3 = threading.Thread(target=self.get_comments, args=())
-            # thread3.start()
             thread4 = threading.Thread(target=self.save_result, args=())
             thread4.start()
             pass

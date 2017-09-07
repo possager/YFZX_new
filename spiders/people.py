@@ -80,7 +80,7 @@ class people:
         #
         #                       ]
         # self.index_data_list='http://bbs1.people.com.cn/mobile.do?action=list&boardId={}&pageNo=2'.format(str(i) for i in [1,13,129,124,131,8,57,11,2,29,27,26,23,44,24,80,13])
-        self.index_data_list=['http://bbs1.people.com.cn/mobile.do?action=list&boardId=%s&pageNo='%str(i) for i in [1,13,129,124,131,8,57,11,2,29,27,26,23,44,24,80,13]]#需要添加page
+        self.index_data_list=['http://bbs1.people.com.cn/mobile.do?action=list&boardId=%s&pageNo='%str(i) for i in [1,13,124,129,131,8,57,11,2,29,27,26,23,44,24,80,13]]#需要添加page
         # self.index_data_list=[]
         # for i in self.index_data_list2:
         #     for j in range(1,100):

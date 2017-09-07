@@ -156,7 +156,7 @@ class gerentushuguan360:
                         'publish_user_id':publish_user_id,
                         'publish_user':publish_user,
                         'url':url,
-                        'reproduce_count':reproduce_num,
+                        'reproduce_count':int(reproduce_num)-1,
                         'id':id,
                         'reply_nodes':[],
                         'reply_count':0,
@@ -194,7 +194,7 @@ class gerentushuguan360:
                 img_list=[]
                 video_urls=[]
                 for img_url_raw in img_list2:
-                    if img_url_raw!='http://image21.360doc.com/DownloadImg/2010/12/2413/7923021_1.gif':
+                    if img_url_raw not in ['http://image21.360doc.com/DownloadImg/2010/12/2413/7923021_1.gif']:
                         if 'swf' not in img_url_raw:
                             img_list.append(img_url_raw)
                         else:

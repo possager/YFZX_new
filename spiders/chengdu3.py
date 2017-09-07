@@ -24,7 +24,7 @@ from saveresult import BASIC_FILE
 import datetime
 from KafkaConnector1 import Producer,Consumer
 from visit_page2 import get_response_and_text
-
+import sqlite3
 
 
 class chengdu:
@@ -37,6 +37,11 @@ class chengdu:
         self.headers={
             'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         }
+
+        self.conn=sqlite3.connect('page_num_visited.db')
+        self.cursor=self.conn.cursor()
+
+
         self.page_begain=1699990
         self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(self.page_begain,3000000)]#1696951
         # self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(1700000,1700002)]
