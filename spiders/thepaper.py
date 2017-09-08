@@ -15,7 +15,9 @@ import re
 import logging
 # from visit_page import get_response_and_text
 from datetime import datetime,timedelta
-from  visit_page2 import get_response_and_text
+from visit_page2 import get_response_and_text
+from KafkaConnector import RemoteProducer,Consumer
+from saveresult import get_result_name
 
 
 
@@ -490,8 +492,20 @@ class thepaper:
                 del data['is_movie']
             except Exception as e:
                 print e
-            Save_result(plantform='thepaper', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
-                        datatype='news', full_data=data)
+            host = '182.150.63.40'
+            port = '12308'
+            username = 'silence'
+            password = 'silence'
+
+            # producer = Producer(hosts=host)
+            producer = RemoteProducer(host=host, port=port, username=username, password=password)
+            result_file = get_result_name(plantform_e='PengPai', plantform_c='澎湃新闻', date_time=data['publish_time'],
+                                          urlOruid=data['url'],
+                                          newsidOrtid=data['id'],
+                                          datatype='news', full_data=data)
+
+            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
+                          updatetime=data['spider_time'])
 
         threadlist = []
         while self.global_status_num_comments > 0 or self.result_list:

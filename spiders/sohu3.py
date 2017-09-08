@@ -28,7 +28,8 @@ import datetime
 
 
 from visit_page2 import get_response_and_text
-from KafkaConnector1 import Producer,Consumer
+# from KafkaConnector1 import Producer,Consumer
+from KafkaConnector import RemoteProducer,Consumer
 from saveresult import get_result_name
 
 
@@ -303,30 +304,36 @@ class sohu:
     def save_result(self):
         def save_result(data):
 
-            host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
-            producer = Producer(hosts=host)
+            # host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
+            host = '182.150.63.40'
+            port = '12308'
+            username = 'silence'
+            password = 'silence'
+
+            # producer = Producer(hosts=host)
+            producer=RemoteProducer(host=host,port=port,username=username,password=password)
             result_file = get_result_name(plantform_e='sohu',plantform_c='搜狐新闻', date_time=data['publish_time'], urlOruid=data['url'],
                                           newsidOrtid=data['id'],
                                           datatype='news', full_data=data)
 
-            producer.send(topic='topic', value={'data': data}, key=result_file, updatetime=data['spider_time'])
+            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
 
-            comsumer = Consumer('topic', host, 'll')
-            what = comsumer.poll()
-            # for i in comsumer.poll():
-            #     print i.topic
-            for i in what:
-                topic = i.topic
-                partition = i.partition
-                offset = i.offset
-                key = i.key
-                value = i.value
+            # comsumer = Consumer('topic', host, 'll')
+            # what = comsumer.poll()
+            # # for i in comsumer.poll():
+            # #     print i.topic
+            # for i in what:
+            #     topic = i.topic
+            #     partition = i.partition
+            #     offset = i.offset
+            #     key = i.key
+            #     value = i.value
 
                 # Save_result(plantform='toutiao', date_time=data['publish_time'], urlOruid=data['url'],
                 #             newsidOrtid=data['id'], datatype='news', full_data=value['content'])
 
 
-                Save_result(plantform='sohu',date_time=data['publish_time'],urlOruid=data['url'],newsidOrtid=data['id'],datatype='news',full_data=data)
+                # Save_result(plantform='sohu',date_time=data['publish_time'],urlOruid=data['url'],newsidOrtid=data['id'],datatype='news',full_data=data)
         threadlist = []
         while self.global_status_num_comments > 0 or self.result_list:
             while self.result_list or threadlist:

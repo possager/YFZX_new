@@ -34,11 +34,9 @@ from KafkaConnector1 import Producer,Consumer
 
 
 from visit_page2 import get_response_and_text
-# from KafkaConnector1 import Producer,Consumer
+from KafkaConnector import RemoteProducer,Consumer
 from saveresult import get_result_name
 
-
-from KafkaConnector import RemoteProducer,Consumer
 
 
 
@@ -54,7 +52,7 @@ class xilu:
             'Accept-Encoding': 'gzip, deflate, sdch',
             'Accept-Language': 'zh-CN,zh;q=0.8',
             'Cache-Control': 'max-age=0',
-            'Connection': 'close',
+            'Connection': 'keep-alive',
             'Host': 'm.xilu.com',
             'Upgrade-Insecure-Requests': '1'
 
@@ -157,7 +155,7 @@ class xilu:
                 Re_find_time2 = re.compile(r'(20\d{2}\-\d{1,2}-\d{1,2})')
                 this_div = datasoup.select('.art_txt')[0]
                 this_div_str = str(this_div)
-                publish_time_pic=Re_find_time2.findall(this_div_str)[0]#其实不是图片的发布时间
+                publish_time_pic=Re_find_time2.findall(this_div_str)[0]+' 00:00:00'#其实不是图片的发布时间
 
 
 
@@ -291,7 +289,7 @@ class xilu:
             pic_div=datasoup.select('.hdp-box')[0]
             pic_div_str= str(pic_div)
             publish_time_without_split=Re_publish_time_pic.findall(pic_div_str)[0]
-            publish_time=publish_time_without_split[1]+'-'+publish_time_without_split[2]+'-'+publish_time_without_split[3]
+            publish_time=publish_time_without_split[1]+'-'+publish_time_without_split[2]+'-'+publish_time_without_split[3]+' 00:00:00'
             return {'img_urls': img_urls, 'content': content,'publish_time':publish_time}
 
         while self.global_status_num_index > 0 or self.content_data_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
@@ -388,25 +386,31 @@ class xilu:
                     print len(self.comments_url_list)
         self.global_status_num_comments = 0
 
+
+
+
+
     def save_result(self):
         def save_result(data):
-            # print 'deal result'
-
             host = '182.150.63.40'
             port = '12308'
             username = 'silence'
             password = 'silence'
 
+            # producer = Producer(hosts=host)
             producer = RemoteProducer(host=host, port=port, username=username, password=password)
-            result_file = get_result_name(plantform_e='xilu', plantform_c='西陆军事',
-                                          date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+            result_file = get_result_name(plantform_e='xilu', plantform_c='西陆网', date_time=data['publish_time'],
+                                          urlOruid=data['url'],
+                                          newsidOrtid=data['id'],
                                           datatype='news', full_data=data)
-            #
-            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
-            #               updatetime=data['spider_time'])
-            pass
+
+            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
 
 
+
+
+
+            # print 'deal result'
             # host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
             # producer = Producer(hosts=host)
             # result_file = get_result_name(plantform_c='西陆网',plantform_e='xilu', date_time=data['publish_time'], urlOruid=data['url'],

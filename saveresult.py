@@ -165,7 +165,7 @@ def get_result_name(plantform_e,plantform_c,date_time,urlOruid,newsidOrtid,datat
     if '-' in date_time or ' ' in date_time:
         timeArray = examing_datetime_format(date_time)
         try:
-            date_time_strip = str(int(time.mktime(timeArray)))
+            date_time_strip = str(int(float(time.mktime(timeArray))*1000))
         except Exception as e:
             print e
             print
@@ -184,7 +184,7 @@ def get_result_name(plantform_e,plantform_c,date_time,urlOruid,newsidOrtid,datat
             print e
             print '时间戳错了，这里常出错，所以这里', date_time
         ###############################################################  7-27 日  ########################################################
-        timeArray2 = time.localtime(float(date_time_strip))
+        timeArray2 = time.localtime(float(date_time_strip)/1000)
         dt_new = time.strftime("%Y-%m-%d %H:%M:%S", timeArray2)
         ###############################################################  7-27 日  ########################################################
         '''
@@ -210,6 +210,7 @@ TencentXinWen_1501470240000_251c583f2cb31d9f636c2f71b2b12ba1
         # file=file_path+'/'+result_file
         tuisong_file = str(date_time_strip) + '_' + plantform_c+ '_' + 'speeches' + '_' + str(dt_new) + '_' + result_file
         return tuisong_file
+
 
 
 

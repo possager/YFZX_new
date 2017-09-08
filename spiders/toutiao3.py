@@ -25,6 +25,8 @@ from visit_page2 import get_response_and_text
 import datetime
 from KafkaConnector1 import Producer,Consumer
 from saveresult import get_result_name
+from KafkaConnector import RemoteProducer,Consumer
+
 
 
 
@@ -148,13 +150,8 @@ class toutiao:
                                                           }
 
                             self.content_data_list.append(dict1)
-
-
-
-
                     except Exception as e:
                         pass
-
             time.sleep(600)
 
 
@@ -291,7 +288,7 @@ class toutiao:
                 Re_find_time = re.compile(r'publish_time:.*?\,')
                 # publish_time = Re_find_time.findall(htmldata.text)[0].split("'")[1].replace('/', '-')
                 publish_time = Re_find_time.findall(htmldata['response_in_function_text'])[0].split("'")[1].replace('/',
-                                                                                                                    '-')
+                                                                                                                    '-').strip()
                 return {'content': content, 'img_urls': img_urls, 'publish_time': publish_time}#mark，是不是时间戳
 
 
@@ -615,59 +612,73 @@ class toutiao:
 
         def get_comment_comment(data1):  # 评论中有评论,起名data1是为了防止覆盖data变量
             id = data1['id']
-            # session1 = requests.session()
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
-            }
-            try:
-                comment_url = 'http://www.toutiao.com/api/comment/get_reply/?comment_id=' + str(
-                    id) + '&item_id=' + str(id) + '&offset=0&count=20'
+            error_time=5
+            while True:
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
+                    'Upgrade-Insecure-Requests':'1',
+                    'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+                    'Accept-Encoding':'gzip, deflate',
+                    'Accept-Language':'zh-CN,zh;q=0.8',
+                    'Cache-Control':'max-age=0',
+                    'Connection':'close'
 
-
-                response1=get_response_and_text(url=comment_url,headers=headers)
-                response_in_function=response1['response_in_function']
-                response_in_function_text=response1['response_in_function_text']
-                datajson = json.loads(response_in_function_text)
-
-                # break
-            except Exception as e:
-                print e
-
-
-            reply_nodes = []
-            # datajson=json.loads(response_in_function.text)
-            try:
-                datajson = json.loads(response_in_function_text)#报错  ValueError: No JSON object could be decoded  8-28日错误很多
-            except Exception as e:
-                print e
-            for one_comment in datajson['data']['data']:
-                content = one_comment['text']
-                like_count = one_comment['digg_count']
-                publish_time = one_comment['create_time']
-                publish_time=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(int(publish_time)))
-                publish_user_id = one_comment['user']['user_id']
-                publish_user = one_comment['user']['screen_name']
-                publish_user_photo = one_comment['user']['avatar_url']
-                id = one_comment['id']
+                }
                 try:
-                    ancestor_id=data1['ancestor_id']
+                    comment_url = 'http://www.toutiao.com/api/comment/get_reply/?comment_id=' + str(
+                        id) + '&item_id=' + str(id) + '&offset=0&count=20'
+
+
+                    response1=get_response_and_text(url=comment_url,headers=headers)
+                    response_in_function=response1['response_in_function']
+                    response_in_function_text=response1['response_in_function_text']
+                    datajson = json.loads(response_in_function_text)
+
                 except Exception as e:
                     print e
-                    ancestor_id='wrong'
-                parent_id=data1['id']
-                thisnode = {
-                    'publish_user': publish_user,
-                    'content': content,
-                    'like_count': like_count,
-                    'publish_time': publish_time,
-                    'publish_user_id': publish_user_id,
-                    'publish_user_photo': publish_user_photo,
-                    'id': id,
-                    'ancestor_id':ancestor_id,
-                    'parent_id':parent_id,
-                    # 'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                }
-                reply_nodes.append(thisnode)
+                reply_nodes = []
+                # datajson=json.loads(response_in_function.text)
+                try:
+                    datajson = json.loads(response_in_function_text)#报错  ValueError: No JSON object could be decoded  8-28日错误很多
+                except Exception as e:
+                    print e
+                try:
+                    datajson['data']['data']#sometimes this will be wrong! the response returned is not what you need!9-7
+                except Exception as e:
+                    print e
+                    error_time-=1
+                    if error_time<1:
+                        print 'wrong time too much'
+                        break
+                    continue
+                for one_comment in datajson['data']['data']:
+                    content = one_comment['text']
+                    like_count = one_comment['digg_count']
+                    publish_time = one_comment['create_time']
+                    publish_time=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(int(publish_time)))
+                    publish_user_id = one_comment['user']['user_id']
+                    publish_user = one_comment['user']['screen_name']
+                    publish_user_photo = one_comment['user']['avatar_url']
+                    id = one_comment['id']
+                    try:
+                        ancestor_id=data1['ancestor_id']
+                    except Exception as e:
+                        print e
+                        ancestor_id='wrong'
+                    parent_id=data1['id']
+                    thisnode = {
+                        'publish_user': publish_user,
+                        'content': content,
+                        'like_count': like_count,
+                        'publish_time': publish_time,
+                        'publish_user_id': publish_user_id,
+                        'publish_user_photo': publish_user_photo,
+                        'id': id,
+                        'ancestor_id':ancestor_id,
+                        'parent_id':parent_id,
+                        # 'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    }
+                    reply_nodes.append(thisnode)
 
             return reply_nodes
 
@@ -692,27 +703,44 @@ class toutiao:
             except Exception as e:
                 print e
             try:
-                host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
-                producer = Producer(hosts=host)
-                result_file = get_result_name(plantform_c='今日头条',plantform_e='JinRiTouTiao', date_time=data['publish_time'], urlOruid=data['url'],
+
+                host = '182.150.63.40'
+                port = '12308'
+                username = 'silence'
+                password = 'silence'
+
+                # producer = Producer(hosts=host)
+                producer = RemoteProducer(host=host, port=port, username=username, password=password)
+                result_file = get_result_name(plantform_e='toutiao', plantform_c='今日头条', date_time=data['publish_time'],
+                                              urlOruid=data['url'],
                                               newsidOrtid=data['id'],
                                               datatype='news', full_data=data)
 
-                producer.send(topic='topic', value={'data': data}, key=result_file, updatetime=data['spider_time'])
+                producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
 
-                comsumer = Consumer('topic', host, 'll')
-                what = comsumer.poll()
-                # for i in comsumer.poll():
-                #     print i.topic
-                for i in what:
-                    topic = i.topic
-                    partition = i.partition
-                    offset = i.offset
-                    key = i.key
-                    value = i.value
 
-                    Save_result(plantform='toutiao', date_time=data['publish_time'], urlOruid=data['url'],
-                                newsidOrtid=data['id'], datatype='news', full_data=value['content'])
+
+                # host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
+                # producer = Producer(hosts=host)
+                # result_file = get_result_name(plantform_c='今日头条',plantform_e='JinRiTouTiao', date_time=data['publish_time'], urlOruid=data['url'],
+                #                               newsidOrtid=data['id'],
+                #                               datatype='news', full_data=data)
+                #
+                # producer.send(topic='topic', value={'data': data}, key=result_file, updatetime=data['spider_time'])
+
+                # comsumer = Consumer('topic', host, 'll')
+                # what = comsumer.poll()
+                # # for i in comsumer.poll():
+                # #     print i.topic
+                # for i in what:
+                #     topic = i.topic
+                #     partition = i.partition
+                #     offset = i.offset
+                #     key = i.key
+                #     value = i.value
+
+                # Save_result(plantform='toutiao', date_time=data['publish_time'], urlOruid=data['url'],
+                #                 newsidOrtid=data['id'], datatype='news', full_data=data)
             except Exception as e:
                 print e
 
