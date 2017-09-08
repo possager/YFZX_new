@@ -157,7 +157,7 @@ class xilu:
                 Re_find_time2 = re.compile(r'(20\d{2}\-\d{1,2}-\d{1,2})')
                 this_div = datasoup.select('.art_txt')[0]
                 this_div_str = str(this_div)
-                publish_time_pic=Re_find_time2.findall(this_div_str)[0]#其实不是图片的发布时间
+                publish_time_pic=Re_find_time2.findall(this_div_str)[0]+' 00:00:00'#其实不是图片的发布时间
 
 
 

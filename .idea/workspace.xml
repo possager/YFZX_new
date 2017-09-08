@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ee7aa450-d5e3-49ed-bdfb-89405505369d" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test_module/test_xilu.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/SCjingji.py" afterPath="$PROJECT_DIR$/spiders/SCjingji.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/csdn.py" afterPath="$PROJECT_DIR$/spiders/csdn.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/people.py" afterPath="$PROJECT_DIR$/spiders/people.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/xilu3.py" afterPath="$PROJECT_DIR$/spiders/xilu3.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -236,15 +232,16 @@
       <file leaf-file-name="xilu3.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spiders/xilu3.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
-              <caret line="196" column="82" lean-forward="false" selection-start-line="196" selection-start-column="65" selection-end-line="196" selection-end-column="82" />
+            <state relative-caret-position="276">
+              <caret line="145" column="69" lean-forward="false" selection-start-line="145" selection-start-column="68" selection-end-line="145" selection-end-column="69" />
               <folding>
                 <element signature="e#1027#2468#0" expanded="false" />
                 <element signature="e#3556#4066#0" expanded="false" />
-                <element signature="e#7553#8447#0" expanded="false" />
-                <element signature="e#10240#12879#0" expanded="false" />
-                <element signature="e#16797#17502#0" expanded="false" />
-                <element signature="e#19528#19614#0" expanded="false" />
+                <element signature="e#7565#8459#0" expanded="false" />
+                <element signature="e#10252#12891#0" expanded="false" />
+                <element signature="e#12955#13799#0" expanded="false" />
+                <element signature="e#16809#17514#0" expanded="false" />
+                <element signature="e#19540#19626#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -253,21 +250,11 @@
       <file leaf-file-name="test_xilu.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test_module/test_xilu.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="16" selection-end-column="26" />
+            <state relative-caret-position="264">
+              <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
               <folding>
                 <element signature="e#20#49#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="threading.py" pinned="false" current-in-tab="false">
-        <entry file="file://D:/python_27/Lib/threading.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
-              <caret line="753" column="0" lean-forward="false" selection-start-line="753" selection-start-column="0" selection-end-line="753" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -471,20 +458,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="YFZX_new" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="YFZX_new" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="YFZX_new" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test_module" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1058,7 +1031,14 @@
       <option name="project" value="LOCAL" />
       <updated>1504779249450</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="8-7">
+      <created>1504851205717</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1504851205717</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1422,18 +1402,23 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/xilu3.py</url>
+          <line>194</line>
+          <option name="timeStamp" value="569" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/spiders/xilu3.py</url>
+          <line>217</line>
+          <option name="timeStamp" value="570" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/spiders/xilu3.py</url>
           <line>400</line>
-          <option name="timeStamp" value="563" />
+          <option name="timeStamp" value="571" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/xilu3.py</url>
           <line>406</line>
-          <option name="timeStamp" value="567" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/spiders/xilu3.py</url>
-          <line>194</line>
-          <option name="timeStamp" value="569" />
+          <option name="timeStamp" value="572" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -1446,7 +1431,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="570" />
+      <option name="time" value="573" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -1892,14 +1877,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://D:/python_27/Lib/threading.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="164">
-          <caret line="753" column="0" lean-forward="false" selection-start-line="753" selection-start-column="0" selection-end-line="753" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spiders/people.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="334">
@@ -1924,10 +1901,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://D:/python_27/Lib/threading.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="164">
+          <caret line="753" column="0" lean-forward="false" selection-start-line="753" selection-start-column="0" selection-end-line="753" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/test_module/test_xilu.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="15" column="0" lean-forward="false" selection-start-line="15" selection-start-column="0" selection-end-line="16" selection-end-column="26" />
+        <state relative-caret-position="264">
+          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding>
             <element signature="e#20#49#0" expanded="true" />
           </folding>
@@ -1936,15 +1921,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spiders/xilu3.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="196" column="82" lean-forward="false" selection-start-line="196" selection-start-column="65" selection-end-line="196" selection-end-column="82" />
+        <state relative-caret-position="276">
+          <caret line="145" column="69" lean-forward="false" selection-start-line="145" selection-start-column="68" selection-end-line="145" selection-end-column="69" />
           <folding>
             <element signature="e#1027#2468#0" expanded="false" />
             <element signature="e#3556#4066#0" expanded="false" />
-            <element signature="e#7553#8447#0" expanded="false" />
-            <element signature="e#10240#12879#0" expanded="false" />
-            <element signature="e#16797#17502#0" expanded="false" />
-            <element signature="e#19528#19614#0" expanded="false" />
+            <element signature="e#7565#8459#0" expanded="false" />
+            <element signature="e#10252#12891#0" expanded="false" />
+            <element signature="e#12955#13799#0" expanded="false" />
+            <element signature="e#16809#17514#0" expanded="false" />
+            <element signature="e#19540#19626#0" expanded="false" />
           </folding>
         </state>
       </provider>
