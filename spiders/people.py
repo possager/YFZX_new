@@ -100,7 +100,6 @@ class people:
                 response1=get_response_and_text(url=url)
                 response_in_function=response1['response_in_function']
                 response_in_function_text=response1['response_in_function_text']
-                # print response_in_function_text
 
                 try:
                     datajson=json.loads(response_in_function_text)
@@ -127,14 +126,11 @@ class people:
                             'publish_time':publish_time,
                             'reply_nodes':[],
                             'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
                         }
-
                         self.content_data_list.append(this_index_info)
 
                     urlsplit=url.split('pageNo=')
                     url=urlsplit[0]+str(int(urlsplit[1])+1)
-
                 except Exception as e:
                     print e
                     print 'mark1'
@@ -143,35 +139,29 @@ class people:
                         break
                     time.sleep(3)
 
-
-
-
-
-
-
             url_split=response_in_function.url.split('pageNo=')
             urlnext=url_split[0]+'pageNo='+str(int(url_split[1])+1)
             get_index(url=urlnext)
 
 
-
-        threadlist=[]
-        while self.index_data_list or threadlist:
-            for threadi in threadlist:
-                if not threadi.is_alive():
-                    threadlist.remove(threadi)
-            while len(threadlist) < CONTENT_THREADING_NUM and self.index_data_list:
-                data_in_while = self.index_data_list.pop()
-                thread_in_while = threading.Thread(target=get_index, args=(data_in_while,))
-                thread_in_while.setDaemon(True)
-                thread_in_while.start()
-                threadlist.append(thread_in_while)
+        urls_for_debug=self.index_data_list
+        while True:
+            threadlist=[]
+            while urls_for_debug or threadlist:
+                for threadi in threadlist:
+                    if not threadi.is_alive():
+                        threadlist.remove(threadi)
+                while len(threadlist) < CONTENT_THREADING_NUM and urls_for_debug:
+                    data_in_while = urls_for_debug.pop()
+                    thread_in_while = threading.Thread(target=get_index, args=(data_in_while,))
+                    thread_in_while.setDaemon(True)
+                    thread_in_while.start()
+                    threadlist.append(thread_in_while)
+            time.sleep(600)
 
     def get_content(self):
         def get_content_inside(data):
             url_for_debug=data['url']
-
-
 
             response1=get_response_and_text(url=url_for_debug)
 
@@ -375,5 +365,6 @@ class people:
         thread5.start()
         pass
 if __name__ == '__main__':
-    thisclass=people()
-    thisclass.run()
+    while True:
+        thisclass=people()
+        thisclass.run()

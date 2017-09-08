@@ -157,7 +157,7 @@ class scjjrb():
                 img_urls.append(img_url)
 
             data['content']=content
-            data['publish_user']=publish_user
+            data['source']=publish_user
             data['img_urls']=img_urls
 
             self.result_data_list.append(data)
@@ -207,8 +207,8 @@ class scjjrb():
                     thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
-                    print len(threadlist)
-                    print len(self.result_data_list)
+
+
 
     def run(self):
             thread1 = threading.Thread(target=self.get_Index, args=())
@@ -221,5 +221,8 @@ class scjjrb():
             pass
 
 if __name__ == '__main__':
-    thisclass=scjjrb()
-    thisclass.run()
+    while True:
+        thisclass=scjjrb()
+        thisclass.run()
+
+        time.sleep(600)#因为在类里边实在是不好写定时启动任务了，所以写在这里。。。。。

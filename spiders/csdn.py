@@ -104,7 +104,6 @@ class csdn:
                             'reproduce_count':0,
                             'publish_user_photo':'',
                             'reply_nodes':[]
-
                         }
                         self.content_data_list.append(this_nodes)
 

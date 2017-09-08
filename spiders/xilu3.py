@@ -143,14 +143,25 @@ class xilu:
                 content_and_img_urls = get_content_inside_picture(datasoup)
                 img_urls = content_and_img_urls['img_urls']
                 contentall = content_and_img_urls['content']
+                publish_time_pic=content_and_img_urls['publish_time']
 
-            else:
+
+            else:#非图片测试模块
                 content = ''
                 img_urls = []
                 for i in datasoup.select('body > div.scrollBox.mt10 > div.article > div.art_co.sau > p'):
                     content += i.text
                 # 8-3添加图片抓取功能
                 Re_find_img_url = re.compile(r'src=".*?"')
+                #9-8日添加图片查找模块
+                Re_find_time2 = re.compile(r'(20\d{2}\-\d{1,2}-\d{1,2})')
+                this_div = datasoup.select('.art_txt')[0]
+                this_div_str = str(this_div)
+                publish_time_pic=Re_find_time2.findall(this_div_str)[0]#其实不是图片的发布时间
+
+
+
+
                 content_part_data = datasoup.select('div.article')
                 if content_part_data:
                     data_find_by_re = Re_find_img_url.findall(str(content_part_data[0]))
@@ -180,7 +191,8 @@ class xilu:
                 else:
                     contentall = content
 
-            publish_time = data['publish_time']
+            # publish_time = data['publish_time']
+            publish_time=publish_time_pic
             if publish_time == u'刚刚':
                 publish_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             elif u'小时前' in publish_time:
@@ -189,8 +201,8 @@ class xilu:
             elif u'分钟前' in publish_time:
                 time_pass = int(publish_time.replace(u'分钟前', ''))
                 publish_time=(datetime.datetime.now()-timedelta(minutes=time_pass)).strftime('%Y-%m-%d %H:%M:%S')
-            elif '-' in publish_time and len(publish_time) == 5:
-                publish_time = '2017-' + publish_time+' 00:00:00'
+            # elif '-' in publish_time and len(publish_time) == 5:
+            #     publish_time = '2017-' + publish_time+' 00:00:00'
             data['content'] = contentall
             ####################################################最后发现竟然还有这样的问题，img_urls里边的url链接不完整，这要是还有问题，我。。。。
             img_urls824=[]
@@ -268,15 +280,19 @@ class xilu:
         def get_content_inside_picture(datasoup):
             img_urls = []
             content = ''
+            Re_publish_time_pic=re.compile(r'((201\d)[\/-](\d{2})(\d{2}))')
             for imgurl in datasoup.select('#slider > ul > li > img'):
-                # img_urls.append(imgurl.get('src'))
                 imgurl=imgurl.get('src')
                 if 'http' not in imgurl:
                     imgurl='http:'+imgurl
                 img_urls.append(imgurl)
             for contenti in datasoup.select('#slider > ul > li > p'):
                 content += contenti.text
-            return {'img_urls': img_urls, 'content': content}
+            pic_div=datasoup.select('.hdp-box')[0]
+            pic_div_str= str(pic_div)
+            publish_time_without_split=Re_publish_time_pic.findall(pic_div_str)[0]
+            publish_time=publish_time_without_split[1]+'-'+publish_time_without_split[2]+'-'+publish_time_without_split[3]
+            return {'img_urls': img_urls, 'content': content,'publish_time':publish_time}
 
         while self.global_status_num_index > 0 or self.content_data_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
             while self.content_data_list or threadlist:
@@ -385,10 +401,10 @@ class xilu:
             result_file = get_result_name(plantform_e='xilu', plantform_c='西陆军事',
                                           date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                                           datatype='news', full_data=data)
-
-            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
-                          updatetime=data['spider_time'])
-
+            #
+            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
+            #               updatetime=data['spider_time'])
+            pass
 
 
             # host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
