@@ -190,9 +190,9 @@ class scjjrb():
             result_file = get_result_name(plantform_e='SCjingji', plantform_c='四川经济网',
                                           date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                                           datatype='forum', full_data=data)
-
-            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
-                          updatetime=data['spider_time'])
+            #
+            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
+            #               updatetime=data['spider_time'])
 
         threadlist = []
         while self.global_status_num_comments > 0 or self.result_data_list:

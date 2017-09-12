@@ -300,7 +300,10 @@ class thepaper:
                     vedio_list.append(url_vedio)
 
                 # publish_time= datasoup.select('#v3cont_id > div.news_content > p.about_news')[1].text.strip()#还是有一个莫名奇妙的空格
-                datasoup_content=datasoup.select('#v3cont_id > div.news_content > div.news_part')[0]
+                try:
+                    datasoup_content=datasoup.select('#v3cont_id > div.news_content')[0]
+                except Exception as e:
+                    print e
                 img_urls_original=Re_find_img.findall(str(datasoup_content))
                 img_urls_selected_by_doup=datasoup_content.select('img')
                 for url in img_urls_selected_by_doup:
@@ -504,8 +507,8 @@ class thepaper:
                                           newsidOrtid=data['id'],
                                           datatype='news', full_data=data)
 
-            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
-                          updatetime=data['spider_time'])
+            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
+            #               updatetime=data['spider_time'])
 
         threadlist = []
         while self.global_status_num_comments > 0 or self.result_list:

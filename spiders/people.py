@@ -40,7 +40,6 @@ class people:
     def __init__(self):
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36',
-
         }
 
 
@@ -82,7 +81,7 @@ class people:
         #
         #                       ]
         # self.index_data_list='http://bbs1.people.com.cn/mobile.do?action=list&boardId={}&pageNo=2'.format(str(i) for i in [1,13,129,124,131,8,57,11,2,29,27,26,23,44,24,80,13])
-        self.index_data_list=['http://bbs1.people.com.cn/mobile.do?action=list&boardId=%s&pageNo='%str(i) for i in [1,13,124,129,131,8,57,11,2,29,27,26,23,44,24,80,13]]#需要添加page
+        self.index_data_list=['http://bbs1.people.com.cn/mobile.do?action=list&boardId=%s&pageNo=1'%str(i) for i in [1,13,124,129,131,8,57,11,2,29,27,26,23,44,24,80,13]]#需要添加page
         # self.index_data_list=[]
         # for i in self.index_data_list2:
         #     for j in range(1,100):
@@ -100,9 +99,12 @@ class people:
                 response1=get_response_and_text(url=url)
                 response_in_function=response1['response_in_function']
                 response_in_function_text=response1['response_in_function_text']
+                print response_in_function_text
 
                 try:
                     datajson=json.loads(response_in_function_text)
+                    #成功访问一次就重置error_num
+                    error_num=5
                     if not datajson['elements']:
                         break#没有数据了，请求完了
                     for one_data in datajson['elements']:
@@ -111,7 +113,7 @@ class people:
                         publish_user=one_data['usernick']
                         read_count=one_data['readCount']
                         like_count=one_data['like']
-                        url=one_data['url']
+                        url_index=one_data['url']
                         id=one_data['id']
                         publish_time=u'2017-'+one_data['createTime'].replace(u'月',u'-').replace(u'日',u'')+u':00'
 
@@ -121,7 +123,7 @@ class people:
                             'publish_user':publish_user,
                             'read_count':read_count,
                             'like_count':like_count,
-                            'url':u'http://bbs1.people.com.cn'+url,
+                            'url':u'http://bbs1.people.com.cn'+url_index,
                             'id':id,
                             'publish_time':publish_time,
                             'reply_nodes':[],
@@ -130,7 +132,7 @@ class people:
                         self.content_data_list.append(this_index_info)
 
                     urlsplit=url.split('pageNo=')
-                    url=urlsplit[0]+str(int(urlsplit[1])+1)
+                    url=urlsplit[0]+'pageNo='+str(int(urlsplit[1])+1)
                 except Exception as e:
                     print e
                     print 'mark1'
@@ -161,14 +163,15 @@ class people:
 
     def get_content(self):
         def get_content_inside(data):
+            #手机端的内容，电脑端的时间
             url_for_debug=data['url']
 
-            response1=get_response_and_text(url=url_for_debug)
 
+            response1=get_response_and_text(url=url_for_debug)
             response2=get_response_and_text(url=url_for_debug,headers=self.headers)
             try:
-                datasoup=BeautifulSoup(response2['response_in_function_text'],'lxml')
-                publish_time=datasoup.select('.replayInfo .float_l.mT10')[0].text.split(u'\xa0')[-1]
+                datasoup2=BeautifulSoup(response2['response_in_function_text'],'lxml')
+                publish_time=datasoup2.select('.replayInfo .float_l.mT10')[0].text.split(u'\xa0')[-1]
                 data['publish_time']=publish_time
             except Exception as e:
                 print e
@@ -180,7 +183,8 @@ class people:
 
             datasoup=BeautifulSoup(response_in_function_text,'lxml')
 
-            content=datasoup.select('div.artCont .content-text')
+            # content=datasoup.select('div.artCont .content-text')
+            content=datasoup.select('div.artCont')
             if content:#没有结果content应该回事空
                 content_text=content[0].text.strip()
                 Re_find_img_url = re.compile(r'src="(.*?)"')
@@ -275,12 +279,14 @@ class people:
             password = 'silence'
 
             producer = RemoteProducer(host=host, port=port, username=username, password=password)
-            result_file = get_result_name(plantform_e='people', plantform_c='人民网',
+            result_file = get_result_name(plantform_e='people', plantform_c='人民网强国社区',
                                           date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                                           datatype='forum', full_data=data)
 
-            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
-                          updatetime=data['spider_time'])
+            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
+            #               updatetime=data['spider_time'])
+
+            pass
 
 
             # host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
@@ -361,10 +367,11 @@ class people:
         thread3.start()
         thread4 = threading.Thread(target=self.save_result, args=())
         thread4.start()
-        thread5=threading.Thread(target=self.create_new_forum_from_redis,args=())
-        thread5.start()
+        # thread5=threading.Thread(target=self.create_new_forum_from_redis,args=())
+        # thread5.start()
         pass
 if __name__ == '__main__':
     while True:
         thisclass=people()
         thisclass.run()
+        break

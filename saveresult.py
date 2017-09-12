@@ -12,7 +12,8 @@ import os
 #/media/liang/Data/project/YFzhongxin/dataGetBySpider/one #/media/liang/3804CCCA04CC8C76/project/YFzhongxin/dataGetBySpider/one
 #F:\project\YFzhongxin\dataGetBySpider\one
 
-BASIC_FILE='F:/project/YFzhongxin/dataGetBySpider/one'
+
+BASIC_FILE='F:/project/All_data'
 #这里边几个函数的最后一个变量向来是没什么用的
 
 class ZFile(object):
@@ -72,6 +73,7 @@ def Save_result(plantform,date_time,urlOruid,newsidOrtid,datatype,full_data,foru
             date_time_strip=str(int(time.mktime(timeArray)))
         except Exception as e:
             print e
+            print
         # print date_time_strip
     elif len(date_time)==10 or (len(date_time) >=13 and len(date_time)<17) or '.' in date_time:
         try:#8-28日添加的时间戳统一模块，以为他们发现文件的时间戳格式一直不对，这里统一为13位精确到毫秒的时间戳
@@ -116,20 +118,18 @@ def Save_result(plantform,date_time,urlOruid,newsidOrtid,datatype,full_data,foru
 
 
     elif datatype=='forum':
-        try:
-            result_file=plantform+'_'+str(date_time_strip)+'_'+str(hashlib.md5(urlOruid).hexdigest())+'_'+str(newsidOrtid)
-        except Exception as e:
-            print e
-            print '时间戳错了，这里常出错，所以这里', date_time
-        # file_path=basic_file+'/'+plantform+'/'+'org_file'+'/'+date_time.split(' ')[0]#如果是论坛,格式是:平台名称（或者英文）_ 言论发布的时间戳 _ 发布用户的ID _ 言论的tid
-        timeArray2 = time.localtime(float(date_time_strip))
-        dt_new = time.strftime("%Y-%m-%d %H:%M:%S", timeArray2)
-
-        file_path = basic_file + '/' + str(plantform) + '/' + 'speeches' + '/' + str(dt_new.split(' ')[0])
-        file = file_path + '/' + result_file
-
-        save_data(file_path=file_path, file=file, full_data=full_data)
-
+        result_file=plantform+'_'+str(date_time.split(' ')[0])+'_'+urlOruid+'_'+newsidOrtid
+        file_path=basic_file+'/'+plantform+'/'+'org_file'+'/'+date_time.split(' ')[0]#如果是论坛,格式是:平台名称（或者英文）_ 言论发布的时间戳 _ 发布用户的ID _ 言论的tid
+        file=file_path+'/'+result_file
+        # if os.path.exists(file_path):
+        #     with open(file,'w+') as cmfl:
+        #         json.dump(full_data,cmfl)
+        # else:
+        #     os.makedirs(file_path)
+        #     with open(file,'w+') as cmfl:
+        #         json.dump(full_data,cmfl)
+        save_data(file_path=file_path,file=file,full_data=full_data)
+        # return result_file
 
 def examing_datetime_format(timestr):
     try:
@@ -210,7 +210,6 @@ TencentXinWen_1501470240000_251c583f2cb31d9f636c2f71b2b12ba1
         # file=file_path+'/'+result_file
         tuisong_file = str(date_time_strip) + '_' + plantform_c+ '_' + 'speeches' + '_' + str(dt_new) + '_' + result_file
         return tuisong_file
-
 
 
 

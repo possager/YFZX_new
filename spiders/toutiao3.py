@@ -196,10 +196,9 @@ class toutiao:
                         content_time_img = get_content_news({'response_in_function': response_in_function,
                                                              'response_in_function_text': response_in_function_text})
                 except Exception as e:
-                    print e, '在找图片，问答等分类模块的时候出了问题'
-                    # logger_toutiao.log(level=logging.WARNING, msg={'where': '在找板块分类定位的时候除了问题', 'content': e.message})
+                    print e, '在区分是属于图片、问答等模块时出错'
             else:
-                # logger_toutiao.log(level=logging.WARNING, msg=chineseTag)
+
                 print chineseTag
                 return
             #如果不是问答，那么就进入到这里边
@@ -487,26 +486,33 @@ class toutiao:
                 publish_user_photo = one_comment['user']['avatar_url']
                 publish_user = one_comment['user']['uname']
                 publish_user_id = one_comment['user']['user_id']
-                reply_nodes = get_content_in_wenda_comments_comments({'id':id,'reply_nodes': [], 'next_comment_url':None})
+                try:
+                    reply_nodes = get_content_in_wenda_comments_comments({'id':id,'reply_nodes': [], 'next_comment_url':None})
+                except Exception as e:
+                    print e
+                    reply_nodes=[]
                 parent_id=id_replynodes['id']
                 ancestor_id=data['id']
 
-                this_node = {
-                    'publish_time': publish_time,
-                    'content': content,
-                    'like_count': like_count,
-                    'id': id,
-                    'reply_count': reply_count,
-                    'publish_user_photo': publish_user_photo,
-                    'publish_user': publish_user,
-                    'publish_user_id': publish_user_id,
-                    'reply_nodes': reply_nodes,
-                    'ancestor_id':ancestor_id,
-                    'parent_id':parent_id,
-                    # 'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                }
-                id_replynodes['reply_nodes'].append(this_node)
 
+                try:
+                    this_node = {
+                        'publish_time': publish_time,
+                        'content': content,
+                        'like_count': like_count,
+                        'id': id,
+                        'reply_count': reply_count,
+                        'publish_user_photo': publish_user_photo,
+                        'publish_user': publish_user,
+                        'publish_user_id': publish_user_id,
+                        'reply_nodes': reply_nodes,
+                        'ancestor_id':ancestor_id,
+                        'parent_id':parent_id,
+                        # 'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    }
+                    id_replynodes['reply_nodes'].append(this_node)
+                except Exception as e:
+                    print e
             if datajson['data']['has_more']:
                 url_offset = response_in_function.url.split('&offset=')
                 offset = int(url_offset[1].split('&')[0]) + 10
@@ -716,7 +722,8 @@ class toutiao:
                                               newsidOrtid=data['id'],
                                               datatype='news', full_data=data)
 
-                producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
+                # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
+                pass
 
 
 

@@ -11,7 +11,7 @@ from saveresult import BASIC_FILE
 
 
 class Proxy:
-    def __init__(self,url_proxy='http://192.168.8.52:8899/'):
+    def __init__(self,url_proxy='http://172.16.2.11:8899/S'):
         self.url_proxy=url_proxy
 
     def save_proxy(self):
@@ -31,8 +31,8 @@ class Proxy:
             return str(datajson[num]['ip'])+':'+str(datajson[num]['port'])
 
 
-url_proxy='http://192.168.8.52:8899/'
-
+# url_proxy='http://192.168.8.52:8899/'
+url_proxy='http://172.16.1.5:8899/'#yuancheng
 
 def save_proxy():
     while True:

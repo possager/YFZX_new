@@ -24,6 +24,7 @@ from saveresult import BASIC_FILE
 import datetime
 from KafkaConnector1 import Producer,Consumer
 from visit_page2 import get_response_and_text
+from KafkaConnector import RemoteProducer,Consumer
 
 
 
@@ -77,6 +78,7 @@ class chengshiluntan:
                     else:
                         time.sleep(1)
         get_index_inside()
+
     def get_content(self):
         Re_find_img_url = re.compile(r'src="(.*?)"')
         def get_content_inside(data):
@@ -190,8 +192,25 @@ class chengshiluntan:
 
     def save_result(self):
         def save_result(data):
-            Save_result(plantform='chengshiluntan', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
-                        datatype='forum', full_data=data)
+            # Save_result(plantform='chengshiluntan', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+            #             datatype='forum', full_data=data)
+
+            host = '182.150.63.40'
+            port = '12308'
+            username = 'silence'
+            password = 'silence'
+
+            producer = RemoteProducer(host=host, port=port, username=username, password=password)
+            result_file = get_result_name(plantform_e='csdn', plantform_c='城市论坛',
+                                          date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+                                          datatype='forum', full_data=data)
+
+            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
+                          updatetime=data['spider_time'])
+
+
+
+
         threadlist=[]
         while self.global_status_num_comments > 0 or self.result_data_list:
             while self.result_data_list or threadlist:
@@ -207,6 +226,7 @@ class chengshiluntan:
                     threadlist.append(thread_in_while)
                     print len(threadlist)
                     print len(self.result_data_list)
+
 
 
     def run(self):

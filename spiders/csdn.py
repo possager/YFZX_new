@@ -80,6 +80,8 @@ class csdn:
                         break
                 except Exception as e:
                     print e
+
+
         def get_index_2(url):
             while True:
                 response1=get_response_and_text(url=url,headers=self.headers)
@@ -133,10 +135,7 @@ class csdn:
     def get_content(self):
         Re_find_img_url = re.compile(r'src="(.*?)"')
         def handleContent(content):  # 去除文章中的html标签以及空格字符
-            # html_re = re.compile(r"<.+?>",re.S)
-            # content = html_re.sub("",content)
-            # space_re = re.compile(r"\s+?",re.S)
-            # content = space_re.sub("",content)
+
             Re_sub_reply = re.compile(r'<fieldset>[^|]*<\/fieldset>')#去掉回复中的内容
             content=Re_sub_reply.sub('',content)
 
@@ -285,14 +284,6 @@ class csdn:
                     threadlist.append(thread_in_while)
                     print len(threadlist)
                     print len(self.result_data_list)
-
-
-
-
-
-
-
-
 
 
     def run(self):

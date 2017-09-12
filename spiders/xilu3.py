@@ -218,7 +218,17 @@ class xilu:
             while len(self.comments_url_list) > 600:  # 防止一个列表中的东西太多，太多了就等等
                 time.sleep(1)
                 print 'is waiting the lenth of comments_urls_list to decrease to 300'
+
+
+            #9-8添加的图片过滤功能，因为后来发现里边有js
+            img_urls_contain_js=data['img_urls']
+            img_urls_didnot_contain_js=[]
+            for url_may_be_js in img_urls_contain_js:
+                if '.js' not in url_may_be_js:
+                    img_urls_didnot_contain_js.append(url_may_be_js)
+            data['img_urls']=img_urls_didnot_contain_js
             self.comments_url_list.append(data)
+
 
         def get_content_inside_next_page(data):
             try:
@@ -404,7 +414,7 @@ class xilu:
                                           newsidOrtid=data['id'],
                                           datatype='news', full_data=data)
 
-            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
+            # producer.send(topic='test', value={'data': data}, key=result_file, updatetime=data['spider_time'])
 
 
 
