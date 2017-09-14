@@ -30,8 +30,12 @@ from KafkaConnector1 import Producer,Consumer
 
 
 from visit_page2 import get_response_and_text
-from KafkaConnector1 import Producer,Consumer
+# from KafkaConnector1 import Producer,Consumer
 from saveresult import get_result_name
+from KafkaConnector import RemoteProducer,Consumer
+from get_proxy_from_XMX import get_proxy_couple
+
+
 
 
 class gerentushuguan360:
@@ -96,7 +100,8 @@ class gerentushuguan360:
     def visit_page_in_class(self,url):
         session1=requests.session()
         while True:
-            proxy1=get_proxy_from_redis()
+            # proxy1=get_proxy_from_redis()
+            proxy1=get_proxy_couple(random.randint(1,50))
             session1.proxies={'http': 'http://' + proxy1}
             try:
                 response_1=session1.request(method='get',url=url,headers=self.headers,timeout=10)
@@ -113,7 +118,8 @@ class gerentushuguan360:
         session1 = requests.session()
         while True:
             try:
-                proxy1 = get_proxy_from_redis()
+                # proxy1 = get_proxy_from_redis()
+                proxy1=get_proxy_couple(random.randint(1,50))
                 session1.proxies = {'http': 'http://' + proxy1}
                 response_1 = session1.request(method='post', url=url, headers=self.headers, timeout=10,data=data)
                 if response_1.status_code in range(200, 300):
@@ -132,8 +138,8 @@ class gerentushuguan360:
         def get_index_inside(url):
             response1=self.visit_page_in_class(url)
             response_in_function_text=response1.text
-            datajson=json.loads(response_in_function_text)
             try:
+                datajson=json.loads(response_in_function_text)
                 datajson[0]['data']
             except Exception as e:
                 print e
@@ -186,13 +192,14 @@ class gerentushuguan360:
             response_in_function_text=response1['response_in_function_text']
             datasoup=BeautifulSoup(response_in_function_text,'lxml')
 
+            img_list = []#会报错，从try中提出来
+            result_read_count=0
+            video_urls = []
 
             try:
                 content_raw=datasoup.select('#artContent')
                 content=content_raw[0].text.strip()
                 img_list2 = Re_find_img_url.findall(str(content_raw[0]))
-                img_list=[]
-                video_urls=[]
                 for img_url_raw in img_list2:
                     if img_url_raw not in ['http://image21.360doc.com/DownloadImg/2010/12/2413/7923021_1.gif']:
                         if 'swf' not in img_url_raw:
@@ -283,11 +290,11 @@ class gerentushuguan360:
             # print 'deal result'
             # host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
             # producer = Producer(hosts=host)
-            # result_file = get_result_name(plantform_c='西陆网',plantform_e='xilu', date_time=data['publish_time'], urlOruid=data['url'],
+            # result_file = get_result_name(plantform_c='350gerentushuguan',plantform_e='360个人图书馆', date_time=data['publish_time'], urlOruid=data['url'],
             #                               newsidOrtid=data['id'],
             #                               datatype='news', full_data=data)
             #
-            # producer.send(topic='topic', value={'data': data}, key=result_file, updatetime=data['spider_time'])
+            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
             #
             # comsumer = Consumer('topic', host, 'll')
             # what = comsumer.poll()
@@ -306,8 +313,23 @@ class gerentushuguan360:
                 # Save_result(plantform='xilu', date_time=data['publish_time'], urlOruid=data['url'],
                 #             newsidOrtid=data['id'],
                 #             datatype='news', full_data=value['content'])
-            Save_result(plantform='360gerentushuguan', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
-                        datatype='news', full_data=data)
+            # Save_result(plantform='360gerentushuguan', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+            #             datatype='news', full_data=data)
+
+            host = '182.150.63.40'
+            port = '12308'
+            username = 'silence'
+            password = 'silence'
+
+            # producer = Producer(hosts=host)
+            producer = RemoteProducer(host=host, port=port, username=username, password=password)
+            result_file = get_result_name(plantform_e='360gerentushuguan', plantform_c='360个人图书馆', date_time=data['publish_time'],
+                                          urlOruid=data['url'],
+                                          newsidOrtid=data['id'],
+                                          datatype='news', full_data=data)
+            print result_file
+            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
+                          updatetime=data['spider_time'])
 
         threadlist = []
         while self.global_status_num_comments > 0 or self.result_list:

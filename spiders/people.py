@@ -142,7 +142,7 @@ class people:
                     time.sleep(3)
 
             url_split=response_in_function.url.split('pageNo=')
-            urlnext=url_split[0]+'pageNo='+str(int(url_split[1])+1)
+            urlnext=url_split[0]+'pageNo='+str(int(url_split[1]) + 1 )
             get_index(url=urlnext)
 
 
@@ -282,9 +282,10 @@ class people:
             result_file = get_result_name(plantform_e='people', plantform_c='人民网强国社区',
                                           date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                                           datatype='forum', full_data=data)
+            print result_file
 
-            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
-            #               updatetime=data['spider_time'])
+            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
+                          updatetime=data['spider_time'])
 
             pass
 

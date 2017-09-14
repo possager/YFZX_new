@@ -51,170 +51,178 @@ class thepaper:
         self.result_list = []  # 这个存储的是已经跑完了的内容
 
     def get_Index(self):
-        thisurls_list=[]
-        for url in self.urls:
-            response1=get_response_and_text(url=url)
-            response_in_function=response1['response_in_function']
-            response_in_function_text=response1['response_in_function_text']
-            Re_pattern = re.compile(r'data.*?\:.*?\".*?Math\.random\b')
-            datare = Re_pattern.findall(response_in_function_text)
-            try:
-                url_in_content = datare[0].split('"')[1]
-            except Exception as e:
-                print e
-                continue
-            if 'http://m.thepaper.cn/channel_26916' in url:
-                nexturl = 'http://www.thepaper.cn/load_index.jsp?' + url_in_content#发现手机端的数据获得地更多一些,电脑端http://m.thepaper.cn/load_channel.jsp?
-            else:
-                nexturl='http://m.thepaper.cn/load_channel.jsp?'+url_in_content
-
-            thisurls_list.append(nexturl)
-        for url_to_visit in thisurls_list:
-            for i in range(10):
-                self.index_url_list.append(url_to_visit+str(i))
-
-
-        def get_index_inside_movie(url):
-            response2=get_response_and_text(url=url)
-            response_in_function=response2['response_in_function']
-            response_in_function_text=response2['response_in_function_text']
-            if len(response_in_function_text)<10:
-                return
-            datasoup=BeautifulSoup(response_in_function_text,'lxml')
-            for one_url in datasoup.select('body > div'):
-                thisurl=one_url.select('h2 > a')[0].get('href')
-                publish_user=one_url.select('a')[2].text
-                title=one_url.select('a')[1].text
+        while True:
+            thisurls_list=[]
+            for url in self.urls:
+                response1=get_response_and_text(url=url)
+                response_in_function=response1['response_in_function']
+                response_in_function_text=response1['response_in_function_text']
+                Re_pattern = re.compile(r'data.*?\:.*?\".*?Math\.random\b')
+                datare = Re_pattern.findall(response_in_function_text)
                 try:
-                    publish_time=one_url.select('a > span')[0].text
-                except:
-                    publish_time='00:00:00'#这些网页的格式不规则
-                try:
-                    publish_time_date=one_url.select('span')[1].text
-                    if u'天前' in publish_time_date:
-                        publish_time_date=publish_time_date.replace(u'天前','')
-                        date_now=datetime.now()
-                        date_now2=date_now-timedelta(days=int(publish_time_date))
-                        publish_time_date=date_now2
-                        publish_time_date=str(publish_time_date.strftime('%Y-%m-%d %H-%M'))
+                    url_in_content = datare[0].split('"')[1]
                 except Exception as e:
-                    print e
+                    # print e
+                    continue
+                if 'http://m.thepaper.cn/channel_26916' in url:
+                    nexturl = 'http://www.thepaper.cn/load_index.jsp?' + url_in_content#发现手机端的数据获得地更多一些,电脑端http://m.thepaper.cn/load_channel.jsp?
+                else:
+                    nexturl='http://m.thepaper.cn/load_channel.jsp?'+url_in_content
+
+                thisurls_list.append(nexturl)
+            for url_to_visit in thisurls_list:
+                for i in range(10):
+                    self.index_url_list.append(url_to_visit+str(i))
+
+
+            def get_index_inside_movie(url):
+                response2=get_response_and_text(url=url)
+                response_in_function=response2['response_in_function']
+                response_in_function_text=response2['response_in_function_text']
+                if len(response_in_function_text)<10:
+                    return
+                datasoup=BeautifulSoup(response_in_function_text,'lxml')
+                for one_url in datasoup.select('body > div'):
+                    thisurl=one_url.select('h2 > a')[0].get('href')
+                    publish_user=one_url.select('a')[2].text
+                    title=one_url.select('a')[1].text
                     try:
-                        publish_time_date=one_url.select('span')[0].text
-                    except Exception as e:
-                        print e,'两次都没有找到publish_time_data，在index视频处理部分'
-                    try:
-                        if len(one_url.select('span')[0].text)==10:
-                            publish_time_date=one_url.select('span')[0].text
-                        else:
-                            continue
+                        publish_time=one_url.select('a > span')[0].text
                     except:
-                        continue
-                publish_time=publish_time_date+' '+publish_time+':00'
-                id=one_url.select('h2 > a')[0].get('id')
-                try:
-                    reply_count= one_url.select('span.trbszan')[0].text
-                    if 'k' in reply_count:
-                        reply_count=float(reply_count)*1000
-                except:
-                    reply_count= 0
-                video_urls=[]
-                try:
-                    video_urls1=datasoup.select('video source')
-                    for i in video_urls1:
-                        video_urls.append(i.get('src'))
-                except Exception as e:
-                    print e
-
-                data_index={
-                    'url':'http://m.thepaper.cn/'+thisurl,
-                    'publish_user':publish_user,
-                    'title':title,
-                    'publish_time':publish_time,
-                    'id':id,
-                    'reply_count':reply_count,
-                    'is_movie':True,
-                    'spider_time':datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                    'video_urls':video_urls
-                }
-                self.content_data_list.append(data_index)
-
-        def get_index_inside_wenben(url):
-            user_agent = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36'
-            headers = {
-                'User-Agent': user_agent
-            }
-            response1 = get_response_and_text(url=url,headers=headers)
-            response_in_function=response1['response_in_function']
-            response_in_function_text=response1['response_in_function_text']
-            datasoup = BeautifulSoup(response_in_function_text, 'lxml')
-            for div_content in datasoup.select('body > div'):
-                try:
+                        publish_time='00:00:00'#这些网页的格式不规则
                     try:
-                        reply_count=div_content.select('span.reply')[0].text
+                        publish_time_date=one_url.select('span')[1].text
+                        if u'天前' in publish_time_date:
+                            publish_time_date=publish_time_date.replace(u'天前','')
+                            date_now=datetime.now()
+                            date_now2=date_now-timedelta(days=int(publish_time_date))
+                            publish_time_date=date_now2
+                            publish_time_date=str(publish_time_date.strftime('%Y-%m-%d %H:%M'))
                     except Exception as e:
-                        print e
-                        reply_count=0#因为有些新闻index请求中看不到评论消息。
-                    url= 'http://m.thepaper.cn/' + div_content.select('div > a')[0].get('href')  # url
-                    publish_time = div_content.select('p > span')[0].text  # publish_time
-                    #这里需要对publish_time做处理吗？
+                        # print e
+                        pass
+                        try:
+                            publish_time_date=one_url.select('span')[0].text
+                        except Exception as e:
+                            # print e,'两次都没有找到publish_time_data，在index视频处理部分'
+                            pass
+                        try:
+                            if len(one_url.select('span')[0].text)==10:
+                                publish_time_date=one_url.select('span')[0].text
+                            else:
+                                continue
+                        except:
+                            continue
+                    publish_time=publish_time_date+' '+publish_time+':00'
+                    id=one_url.select('h2 > a')[0].get('id')
+                    try:
+                        reply_count= one_url.select('span.trbszan')[0].text
+                        if 'k' in reply_count:
+                            reply_count=float(reply_count)*1000
+                    except:
+                        reply_count= 0
+                    video_urls=[]
+                    try:
+                        video_urls1=datasoup.select('video source')
+                        for i in video_urls1:
+                            video_urls.append(i.get('src'))
+                    except Exception as e:
+                        # print e
+                        pass
 
-                    title= div_content.select('div > p > a')[1].text  # title
-                    publish_user= div_content.select('div > p > a')[0].text  # publish_user
-                    # print div_content
-                    if u'分钟' in publish_time:
-                        minulate = publish_time.replace(u'分钟前', '')
-                        time_b = datetime.now() - timedelta(minutes=int(minulate))
-                        print time_b
-                        time_c = time_b.strftime('%Y-%m-%d %H:%M:%S')
-                        publish_time= time_c
-                    elif u'小时前' in publish_time:
-                        hourse = publish_time.replace(u'小时前', '')
-                        time_b = datetime.now() - timedelta(hours=int(hourse))
-                        time_c = time_b.strftime('%Y-%m-%d %H:%M:%S')
-                        publish_time= time_c
-                    elif u'天前' in publish_time:
-                        days = publish_time.replace(u'天前', '')
-                        time_b = datetime.now() - timedelta(days=int(days))
-                        time_c = time_b.strftime('%Y-%m-%d %H:%M:%S')
-                        publish_time= time_c
+                    data_index={
+                        'url':'http://m.thepaper.cn/'+thisurl,
+                        'publish_user':publish_user,
+                        'title':title,
+                        'publish_time':publish_time,
+                        'id':id,
+                        'reply_count':reply_count,
+                        'is_movie':True,
+                        'spider_time':datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                        'video_urls':video_urls
+                    }
+                    self.content_data_list.append(data_index)
 
-                    print '\n\n\n'
-                except Exception as e:
-                    print e
-                id=url.split('_')[-1]
-                this_dict={
-                    'id':id,
-                    'url':url,
-                    'publish_time':publish_time,
-                    'title':title,
-                    'publish_user':publish_user,
-                    'is_movie':False,
-                    'reply_count':reply_count,
-                    'spider_time':datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            def get_index_inside_wenben(url):
+                user_agent = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36'
+                headers = {
+                    'User-Agent': user_agent
                 }
-                self.content_data_list.append(this_dict)
+                response1 = get_response_and_text(url=url,headers=headers)
+                response_in_function=response1['response_in_function']
+                response_in_function_text=response1['response_in_function_text']
+                datasoup = BeautifulSoup(response_in_function_text, 'lxml')
+                for div_content in datasoup.select('body > div'):
+                    try:
+                        try:
+                            reply_count=div_content.select('span.reply')[0].text
+                        except Exception as e:
+                            # print e
+                            pass
+                            reply_count=0#因为有些新闻index请求中看不到评论消息。
+                        url= 'http://m.thepaper.cn/' + div_content.select('div > a')[0].get('href')  # url
+                        publish_time = div_content.select('p > span')[0].text  # publish_time
+                        #这里需要对publish_time做处理吗？
+
+                        title= div_content.select('div > p > a')[1].text  # title
+                        publish_user= div_content.select('div > p > a')[0].text  # publish_user
+                        # print div_content
+                        if u'分钟' in publish_time:
+                            minulate = publish_time.replace(u'分钟前', '')
+                            time_b = datetime.now() - timedelta(minutes=int(minulate))
+                            print time_b
+                            time_c = time_b.strftime('%Y-%m-%d %H:%M:%S')
+                            publish_time= time_c
+                        elif u'小时前' in publish_time:
+                            hourse = publish_time.replace(u'小时前', '')
+                            time_b = datetime.now() - timedelta(hours=int(hourse))
+                            time_c = time_b.strftime('%Y-%m-%d %H:%M:%S')
+                            publish_time= time_c
+                        elif u'天前' in publish_time:
+                            days = publish_time.replace(u'天前', '')
+                            time_b = datetime.now() - timedelta(days=int(days))
+                            time_c = time_b.strftime('%Y-%m-%d %H:%M:%S')
+                            publish_time= time_c
+
+                        print '\n\n\n'
+                    except Exception as e:
+                        # print e
+                        pass
+                    id=url.split('_')[-1]
+                    this_dict={
+                        'id':id,
+                        'url':url,
+                        'publish_time':publish_time,
+                        'title':title,
+                        'publish_user':publish_user,
+                        'is_movie':False,
+                        'reply_count':reply_count,
+                        'spider_time':datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    }
+                    self.content_data_list.append(this_dict)
 
 
 
-        threadlist=[]
-        # self.index_url_list=self.index_url_list.reverse()
-        while self.index_url_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
-            while self.index_url_list or threadlist:
-                for threadi in threadlist:
-                    if not threadi.is_alive():
-                        threadlist.remove(threadi)
-                while len(threadlist) < CONTENT_THREADING_NUM and self.index_url_list:
-                    data_in_while = self.index_url_list.pop()
-                    if 'http://www.thepaper.cn/load_index.jsp?' in data_in_while:
-                        thread_in_while = threading.Thread(target=get_index_inside_movie, args=(data_in_while,))
-                    else:
-                        thread_in_while=threading.Thread(target=get_index_inside_wenben,args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
-                    thread_in_while.start()
-                    threadlist.append(thread_in_while)
+            threadlist=[]
+            # self.index_url_list=self.index_url_list.reverse()
+            while self.index_url_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
+                while self.index_url_list or threadlist:
+                    for threadi in threadlist:
+                        if not threadi.is_alive():
+                            threadlist.remove(threadi)
+                    while len(threadlist) < CONTENT_THREADING_NUM and self.index_url_list:
+                        data_in_while = self.index_url_list.pop()
+                        if 'http://www.thepaper.cn/load_index.jsp?' in data_in_while:
+                            thread_in_while = threading.Thread(target=get_index_inside_movie, args=(data_in_while,))
+                        else:
+                            thread_in_while=threading.Thread(target=get_index_inside_wenben,args=(data_in_while,))
+                        thread_in_while.setDaemon(True)
+                        thread_in_while.start()
+                        threadlist.append(thread_in_while)
 
-        self.global_status_num_index=0
+        # self.global_status_num_index=0
+
+            time.sleep(300)
 
     def get_content(self):
         def get_content_inside(data):
@@ -248,6 +256,7 @@ class thepaper:
                     content= content_data[0]
                 except Exception as e:
                     print e#这里有时候会报错说这里的content没有内容
+                    content=''
 
                 try:
                     source=datasoup.select('#v3cont_id > div.news_content > div > br')[0].text.split(u'来源：')[1]
@@ -278,13 +287,15 @@ class thepaper:
                 try:
                     title=datasoup.select('#v3cont_id > div.news_content > h1')[0].text
                 except:
-                    print response_in_function.url
+                    # print response_in_function.url
+                    pass
                     # title=''
                     return #这里偶尔会转到莫名其妙的网页
                 try:
                     publish_user= datasoup.select('#v3cont_id > div.news_content > p.about_news')[0].text
                 except Exception as e:
-                    print e
+                    # print e
+                    pass
                 try:
                     source=datasoup.select('#v3cont_id > div.news_content > p.about_news')[1].text.split(u'来源：')[1]
                 except:
@@ -293,8 +304,8 @@ class thepaper:
                     publish_time=datasoup.select('.news_content .about_news')[1].text.split(u'\xa0')[0]+':00'
                     data['publish_time']=publish_time
                 except Exception as e:
-                    print e
-
+                    # print e
+                    pass
                 for i in datasoup.select('source'):
                     url_vedio= i.get('src')
                     vedio_list.append(url_vedio)
@@ -303,7 +314,8 @@ class thepaper:
                 try:
                     datasoup_content=datasoup.select('#v3cont_id > div.news_content')[0]
                 except Exception as e:
-                    print e
+                    # print e
+                    pass
                 img_urls_original=Re_find_img.findall(str(datasoup_content))
                 img_urls_selected_by_doup=datasoup_content.select('img')
                 for url in img_urls_selected_by_doup:
@@ -326,7 +338,7 @@ class thepaper:
                 data['publish_user']=publish_user
                 data['img_urls']=img_urls
                 data['content']=content
-                data['publish_user']=publish_user
+                # data['publish_user']=publish_user
                 # data['publish_time']=publish_time
                 data['title']=title
                 data['source']=source
@@ -349,7 +361,7 @@ class thepaper:
                         threadlist.remove(threadi)
                 while len(threadlist) < CONTENT_THREADING_NUM and self.content_data_list:
                     data_in_while = self.content_data_list.pop()
-                    print data_in_while
+                    # print data_in_while
                     thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
                     thread_in_while.setDaemon(True)
                     thread_in_while.start()
@@ -379,14 +391,16 @@ class thepaper:
                 try:
                     start_id=data_re[0]
                 except Exception as e:
-                    print e
+                    # print e
+                    pass
                 datasoup=BeautifulSoup(response_in_function_text,'lxml')
                 for one_div in datasoup.select('div.comment_que'):
                     #手机端和电脑端的显示页面不一样，需要分别处理。
                     try:
                         publish_user_photo=one_div.select('div.aqwleft > div > a > img')[0].get('src')
                     except Exception as e:
-                        print e
+                        # print e
+                        pass
                         publish_user_photo='http://www.thepaper.cn/img/headerimg_bg50.png'#可能没有，先舍弃了，后边有问题再回来检擦 mark1
                     publish_user=one_div.select('div.aqwright > h3 > a')[0].text
                     try:
@@ -464,7 +478,8 @@ class thepaper:
                         data['publish_time']=data['publish_time'].replace(u' ',u'').encode('utf-8')
                         data['publish_time']=data['publish_time'].split(' ')[0]+' '+data['publish_time'].split(' ')[1]
                     except Exception as e:
-                        print e
+                        # print e
+                        pass
                     self.result_list.append(data)
                     break
                 else:
@@ -485,8 +500,8 @@ class thepaper:
                     thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
-                    print len(threadlist)
-                    print len(self.comments_url_list)
+                    # print len(threadlist)
+                    # print len(self.comments_url_list)
 
     def save_result(self):
         def save_result(data):
@@ -506,9 +521,10 @@ class thepaper:
                                           urlOruid=data['url'],
                                           newsidOrtid=data['id'],
                                           datatype='news', full_data=data)
+            print result_file
 
-            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
-            #               updatetime=data['spider_time'])
+            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
+                          updatetime=data['spider_time'])
 
         threadlist = []
         while self.global_status_num_comments > 0 or self.result_list:
@@ -517,14 +533,14 @@ class thepaper:
                     if not threadi.is_alive():
                         threadlist.remove(threadi)
                 while len(threadlist) < CONTENT_THREADING_NUM and self.result_list:
-                    print len(self.result_list)
+                    # print len(self.result_list)
                     data_in_while = self.result_list.pop()
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
                     thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
-                    print len(threadlist)
-                    print len(self.result_list)
+                    # print len(threadlist)
+                    # print len(self.result_list)
         self.global_status_num_comments = 0
 
 

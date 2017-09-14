@@ -67,7 +67,10 @@ class sohu:
                 datajson=json.loads(response_in_function_text)
                 this_url_index_list=[]#专为获取评论浏览数量而设计
                 for i in datajson:
-                    url_index='https://m.sohu.com/a/'+str(i['id'])+'_'+str(i['authorId'])
+                    try:
+                        url_index='https://m.sohu.com/a/'+str(i['id'])+'_'+str(i['authorId'])
+                    except Exception as e:
+                        print e
                     publish_time=i['publicTime']
                     publish_time = int(publish_time) / 1000
                     time_format = '%Y-%m-%d %H:%M:%S'
@@ -110,7 +113,7 @@ class sohu:
 
             time.sleep(600)
 
-        self.global_status_num_index=0
+        # self.global_status_num_index=0
 
     def get_content(self):
 
@@ -315,6 +318,7 @@ class sohu:
             result_file = get_result_name(plantform_e='sohu',plantform_c='搜狐新闻', date_time=data['publish_time'], urlOruid=data['url'],
                                           newsidOrtid=data['id'],
                                           datatype='news', full_data=data)
+            print result_file
 
             producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
 

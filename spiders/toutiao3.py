@@ -140,7 +140,8 @@ class toutiao:
 
                             id = one_index['group_id']
 
-                            dict1={ 'id':id,
+                            dict1={
+                                    'id':id,
                                     'url':url,
                                     'reply_count':reply_count,
                                     'title':title,
@@ -450,6 +451,9 @@ class toutiao:
                 return id_replynodes['reply_nodes']
 
         def get_content_in_wenda_comments_more(id_replynodes, data=None):
+            error_time=5
+
+
             headers = {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
             }
@@ -489,7 +493,7 @@ class toutiao:
                 try:
                     reply_nodes = get_content_in_wenda_comments_comments({'id':id,'reply_nodes': [], 'next_comment_url':None})
                 except Exception as e:
-                    print e
+                    # print e
                     reply_nodes=[]
                 parent_id=id_replynodes['id']
                 ancestor_id=data['id']
@@ -569,8 +573,9 @@ class toutiao:
             comments_data = []
             try:
                 data_json = json.loads(response_in_function_text)
+                data_json['data']['comments']
             except Exception as e:
-                print e#这里本来是应该返回正常的json数据，但是会返回一抹莫名奇妙的location跳转的网站。因此直接把它结束了，宁愿没抓，也不要误抓。
+                print e,'mark1'#这里本来是应该返回正常的json数据，但是会返回一抹莫名奇妙的location跳转的网站。因此直接把它结束了，宁愿没抓，也不要误抓。
                 return
             for one_comment in data_json['data']['comments']:
                 content = one_comment['text']
@@ -618,30 +623,36 @@ class toutiao:
 
         def get_comment_comment(data1):  # 评论中有评论,起名data1是为了防止覆盖data变量
             id = data1['id']
-            error_time=5
+            error_time=3
             while True:
                 headers = {
                     'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
-                    'Upgrade-Insecure-Requests':'1',
-                    'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-                    'Accept-Encoding':'gzip, deflate',
+                    # 'Upgrade-Insecure-Requests':'1',
+                    # 'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+                    # 'Accept-Encoding':'gzip, deflate',
                     'Accept-Language':'zh-CN,zh;q=0.8',
-                    'Cache-Control':'max-age=0',
+                    # 'Cache-Control':'max-age=0',
                     'Connection':'close'
 
                 }
-                try:
-                    comment_url = 'http://www.toutiao.com/api/comment/get_reply/?comment_id=' + str(
-                        id) + '&item_id=' + str(id) + '&offset=0&count=20'
+                while True:
+                    try:
+                        comment_url = 'http://www.toutiao.com/api/comment/get_reply/?comment_id=' + str(
+                            id) + '&item_id=' + str(id) + '&offset=0&count=20'
 
 
-                    response1=get_response_and_text(url=comment_url,headers=headers)
-                    response_in_function=response1['response_in_function']
-                    response_in_function_text=response1['response_in_function_text']
-                    datajson = json.loads(response_in_function_text)
+                        response1=get_response_and_text(url=comment_url,headers=headers)
+                        response_in_function=response1['response_in_function']
+                        response_in_function_text=response1['response_in_function_text']
+                        datajson = json.loads(response_in_function_text)
+                        break
 
-                except Exception as e:
-                    print e
+                    except Exception as e:
+                        print e,'mark2'
+                        error_time-=1
+                        if error_time <1:
+                            return
+
                 reply_nodes = []
                 # datajson=json.loads(response_in_function.text)
                 try:
@@ -651,10 +662,10 @@ class toutiao:
                 try:
                     datajson['data']['data']#sometimes this will be wrong! the response returned is not what you need!9-7
                 except Exception as e:
-                    print e
+                    # print e
                     error_time-=1
                     if error_time<1:
-                        print 'wrong time too much'
+                        # print 'wrong time too much'
                         break
                     continue
                 for one_comment in datajson['data']['data']:
@@ -669,7 +680,7 @@ class toutiao:
                     try:
                         ancestor_id=data1['ancestor_id']
                     except Exception as e:
-                        print e
+                        print e,'mark3'
                         ancestor_id='wrong'
                     parent_id=data1['id']
                     thisnode = {
@@ -721,8 +732,9 @@ class toutiao:
                                               urlOruid=data['url'],
                                               newsidOrtid=data['id'],
                                               datatype='news', full_data=data)
+                print result_file
 
-                # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
+                producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
                 pass
 
 
@@ -776,8 +788,8 @@ class toutiao:
         thread3=threading.Thread(target=self.get_comments,args=())
         thread3.start()
         time.sleep(3)
-        thread4=threading.Thread(target=self.save_result,args=())
-        thread4.start()
+        # thread4=threading.Thread(target=self.save_result,args=())
+        # thread4.start()
 
 if __name__ == '__main__':
     thisclass=toutiao()

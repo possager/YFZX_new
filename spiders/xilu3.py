@@ -153,7 +153,11 @@ class xilu:
                 Re_find_img_url = re.compile(r'src=".*?"')
                 #9-8日添加图片查找模块
                 Re_find_time2 = re.compile(r'(20\d{2}\-\d{1,2}-\d{1,2})')
-                this_div = datasoup.select('.art_txt')[0]
+                try:
+                    this_div = datasoup.select('.art_txt')[0]
+                except Exception as e:
+                    print e
+                    return
                 this_div_str = str(this_div)
                 publish_time_pic=Re_find_time2.findall(this_div_str)[0]+' 00:00:00'#其实不是图片的发布时间
 
@@ -168,6 +172,8 @@ class xilu:
                 next_page_selector = datasoup.select(
                     'body > div.scrollBox.mt10 > div.article > div.mb10.mt5.fs14 > a.page-next.ml5')
                 contentall = ''
+
+                img_urls3 = []
                 if next_page_selector:
                     next_page_html = next_page_selector[0].get('href')
                     if next_page_html and len(next_page_html) > 3:
@@ -178,13 +184,13 @@ class xilu:
                             {'content': content, 'nexturl': next_url, 'img_urls': img_urls})
                         try:
                             contentall += content_and_img_urls2['content']
+                            for i in content_and_img_urls2['img_urls']:
+                                img_urls3.append(i)
+                            for i in img_urls3:
+                                img_urls.append(i)
                         except Exception as e:
                             print e
-                        img_urls3 = []
-                        for i in content_and_img_urls2['img_urls']:
-                            img_urls3.append(i)
-                        for i in img_urls3:
-                            img_urls.append(i)
+
 
                 else:
                     contentall = content
@@ -333,48 +339,55 @@ class xilu:
 
 
             comments_data = []
-            data_json = json.loads(response_in_function_text)
-            reply_count_outside=data_json['cmt_sum']
+            try:
+                data_json = json.loads(response_in_function_text)
+                reply_count_outside=data_json['cmt_sum']
 
-            if data_json['comments']:
-                data_json_comments = data_json['comments']
+                if data_json['comments']:
+                    data_json_comments = data_json['comments']
 
-                for someone_comment in data_json_comments:
-                    content = someone_comment['content']  # content
-                    id = someone_comment['comment_id']  # id
-                    publish_user_photo = someone_comment['passport']['img_url']  # publish_user_photo
-                    publish_user = someone_comment['passport']['nickname']  # publish_user
-                    publish_user_id = someone_comment['passport']['user_id']  # publish_user_id
-                    create_time = someone_comment['create_time']  # publish_time
-                    spider_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    parent_id=data['id']
-                    ancestor_id=data['id']
-                    comments=someone_comment['comments']
-                    reply_count=someone_comment['reply_count']
-                    like_count=someone_comment['support_count']
-                    dislike_count=someone_comment['oppose_count']
-                    if comments:
-                        parent_id=comments['comment_id']
+                    for someone_comment in data_json_comments:
+                        content = someone_comment['content']  # content
+                        id = someone_comment['comment_id']  # id
+                        publish_user_photo = someone_comment['passport']['img_url']  # publish_user_photo
+                        publish_user = someone_comment['passport']['nickname']  # publish_user
+                        publish_user_id = someone_comment['passport']['user_id']  # publish_user_id
+                        create_time = someone_comment['create_time']  # publish_time
+                        spider_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                        parent_id = data['id']
+                        ancestor_id = data['id']
+                        comments = someone_comment['comments']
+                        reply_count = someone_comment['reply_count']
+                        like_count = someone_comment['support_count']
+                        dislike_count = someone_comment['oppose_count']
+                        if comments:
+                            parent_id = comments['comment_id']
 
-                    thiscomments = {
-                        'content': content,
-                        'id': id,
-                        'publish_user_photo': publish_user_photo,
-                        'publish_user': publish_user,
-                        'publish_user_id': publish_user_id,
-                        'publish_time': time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(int(int(create_time/1000)))),
-                        'spider_time': spider_time,
-                        'parent_id':parent_id,
-                        'ancestor_id':ancestor_id,
-                        'reply_count':reply_count,
-                        'like_count':like_count,
-                        'dislike_count':dislike_count
+                        thiscomments = {
+                            'content': content,
+                            'id': id,
+                            'publish_user_photo': publish_user_photo,
+                            'publish_user': publish_user,
+                            'publish_user_id': publish_user_id,
+                            'publish_time': time.strftime('%Y-%m-%d %H:%M:%S',
+                                                          time.localtime(int(int(create_time / 1000)))),
+                            'spider_time': spider_time,
+                            'parent_id': parent_id,
+                            'ancestor_id': ancestor_id,
+                            'reply_count': reply_count,
+                            'like_count': like_count,
+                            'dislike_count': dislike_count
 
-                    }
-                    comments_data.append(thiscomments)
+                        }
+                        comments_data.append(thiscomments)
+
+                data['reply_count'] = reply_count_outside
+            except Exception as e:
+                print e
+
+
 
             data['reply_nodes'] = comments_data
-            data['reply_count']=reply_count_outside
             while len(self.result_list) > 600:
                 time.sleep(1)
                 print 'is waiting the lenth of the result_list to decrease to 300'
@@ -414,7 +427,9 @@ class xilu:
                                           newsidOrtid=data['id'],
                                           datatype='news', full_data=data)
 
-            # producer.send(topic='test', value={'data': data}, key=result_file, updatetime=data['spider_time'])
+            print result_file
+
+            producer.send(topic='test', value={'data': data}, key=result_file, updatetime=data['spider_time'])
 
 
 

@@ -166,6 +166,10 @@ def get_result_name(plantform_e,plantform_c,date_time,urlOruid,newsidOrtid,datat
         timeArray = examing_datetime_format(date_time)
         try:
             date_time_strip = str(int(float(time.mktime(timeArray))*1000))
+            if int(date_time_strip) > time.time()*1000:
+                print 'timewrong,the wrong time is-----',date_time
+                return
+
         except Exception as e:
             print e
             print
@@ -182,7 +186,7 @@ def get_result_name(plantform_e,plantform_c,date_time,urlOruid,newsidOrtid,datat
                 hashlib.md5(urlOruid).hexdigest())  # 7-27日发现这里的文件夹的名字可能是时间戳
         except Exception as e:
             print e
-            print '时间戳错了，这里常出错，所以这里', date_time
+            print '时间戳错了，这里常出错，所以这里----', date_time
         ###############################################################  7-27 日  ########################################################
         timeArray2 = time.localtime(float(date_time_strip)/1000)
         dt_new = time.strftime("%Y-%m-%d %H:%M:%S", timeArray2)
@@ -200,10 +204,22 @@ TencentXinWen_1501470240000_251c583f2cb31d9f636c2f71b2b12ba1
         return tuisong_file
 
     elif datatype=='forum':
-        result_file=plantform_e+'_'+str(date_time.split(' ')[0])+'_'+urlOruid+'_'+newsidOrtid
+        try:
+            # result_file=plantform_e+'_'+str(date_time_strip)+'_'+str(hashlib.md5(urlOruid).hexdigest())+'_'+str(newsidOrtid)
+            result_file=plantform_e+'_'+str(date_time.split(' ')[0])+'_'+urlOruid+'_'+str(newsidOrtid)
+
+        except Exception as e:
+            print e
 
 
-        timeArray2 = time.localtime(float(date_time_strip))
+        try:
+            timeArray2 = time.localtime(float(date_time_strip))
+        except Exception as e:
+            print e
+            try:
+                timeArray2=time.localtime(float(date_time_strip)/1000)
+            except Exception as e:
+                print e
         dt_new = time.strftime("%Y-%m-%d %H:%M:%S", timeArray2)
 
         # file_path=basic_file+'/'+plantform+'/'+'org_file'+'/'+date_time.split(' ')[0]#如果是论坛,格式是:平台名称（或者英文）_ 言论发布的时间戳 _ 发布用户的ID _ 言论的tid

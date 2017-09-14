@@ -81,7 +81,6 @@ class csdn:
                 except Exception as e:
                     print e
 
-
         def get_index_2(url):
             while True:
                 response1=get_response_and_text(url=url,headers=self.headers)
@@ -266,9 +265,9 @@ class csdn:
                                           date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                                           datatype='forum', full_data=data)
 
-
-            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
-                          updatetime=data['spider_time'])
+            print result_file
+            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
+            #               updatetime=data['spider_time'])
         threadlist=[]
         while self.global_status_num_comments > 0 or self.result_data_list:
             while self.result_data_list or threadlist:

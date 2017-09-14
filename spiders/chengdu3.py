@@ -39,8 +39,9 @@ class chengdu:
         self.headers={
             'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         }
-        self.page_begain=1699990
-        self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(self.page_begain,3000000)]#1696951
+        # self.page_begain=1699990
+        # self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(self.page_begain,3000000)]#1696951
+        self.urls=[]
 
         self.global_status_num_index = 1
         self.global_status_num_content = 2
@@ -59,13 +60,31 @@ class chengdu:
 
     def get_Index(self):
         need_continue=True
-        while self.urls and need_continue:#设置成and为了方便停止
-            while len(self.content_data_list)>LEN_CONTENT_LIST:
-                time.sleep(1)
-            url=self.urls.pop(1)
-            self.content_data_list.append({'url':url,'id':url.split('/')[-1]})
-            # break
-        self.global_status_num_index=0
+
+        while True:
+            response1=self.session1.request(method='get',url='http://wap.chengdu.cn/?action=category&catid=583',headers=self.headers)
+            datasoup=BeautifulSoup(response1.text,'lxml')
+
+            url_id_set = set()
+            for i in datasoup.select('div.content.more ul li a'):
+                try:
+                    url_id_set.add(int(i.get('href').split('contentid=')[1]))
+                except:
+                    pass
+
+            max_url_id= max(list(url_id_set))
+            self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(max_url_id-1000,max_url_id+1000)]
+
+            while self.urls and need_continue:  # 设置成and为了方便停止
+                while len(self.content_data_list) > LEN_CONTENT_LIST:
+                    time.sleep(1)
+                url = self.urls.pop(1)
+                self.content_data_list.append({'url': url, 'id': url.split('/')[-1]})
+                # break
+            # self.global_status_num_index = 0
+            time.sleep(300)
+
+
 
     def get_content(self):
         def get_content_inside(data):
@@ -320,6 +339,8 @@ class chengdu:
                 producer=RemoteProducer(host=host,port=port,username=username,password=password)
                 result_file=get_result_name(plantform_e='ChengDuQuanSouSuo',plantform_c='成都全搜索',date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                         datatype='news', full_data=data)
+
+                print result_file
 
                 producer.send(topic='1101_STREAM_SPIDER',value={'data':data},key=result_file,updatetime=data['spider_time'])
 
