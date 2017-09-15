@@ -205,9 +205,7 @@ TencentXinWen_1501470240000_251c583f2cb31d9f636c2f71b2b12ba1
 
     elif datatype=='forum':
         try:
-            # result_file=plantform_e+'_'+str(date_time_strip)+'_'+str(hashlib.md5(urlOruid).hexdigest())+'_'+str(newsidOrtid)
-            result_file=plantform_e+'_'+str(date_time.split(' ')[0])+'_'+urlOruid+'_'+str(newsidOrtid)
-
+            result_file=plantform_e+'_'+str(date_time_strip)+'_'+str(hashlib.md5(urlOruid).hexdigest())+'_'+str(newsidOrtid)
         except Exception as e:
             print e
 
@@ -224,7 +222,7 @@ TencentXinWen_1501470240000_251c583f2cb31d9f636c2f71b2b12ba1
 
         # file_path=basic_file+'/'+plantform+'/'+'org_file'+'/'+date_time.split(' ')[0]#如果是论坛,格式是:平台名称（或者英文）_ 言论发布的时间戳 _ 发布用户的ID _ 言论的tid
         # file=file_path+'/'+result_file
-        tuisong_file = str(date_time_strip) + '_' + plantform_c+ '_' + 'speeches' + '_' + str(dt_new) + '_' + result_file
+        tuisong_file = str(date_time_strip) + '_' + plantform_c+ '_' + 'speeches' + '_' + str(dt_new.split(' ')[0]) + '_' + result_file
         return tuisong_file
 
 

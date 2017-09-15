@@ -788,8 +788,8 @@ class toutiao:
         thread3=threading.Thread(target=self.get_comments,args=())
         thread3.start()
         time.sleep(3)
-        # thread4=threading.Thread(target=self.save_result,args=())
-        # thread4.start()
+        thread4=threading.Thread(target=self.save_result,args=())
+        thread4.start()
 
 if __name__ == '__main__':
     thisclass=toutiao()

@@ -261,13 +261,13 @@ class csdn:
             password = 'silence'
 
             producer = RemoteProducer(host=host, port=port, username=username, password=password)
-            result_file = get_result_name(plantform_e='csdn', plantform_c='csdn论坛',
+            result_file = get_result_name(plantform_e='csdn', plantform_c='CSDN论坛',
                                           date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                                           datatype='forum', full_data=data)
 
             print result_file
-            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
-            #               updatetime=data['spider_time'])
+            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
+                          updatetime=data['spider_time'])
         threadlist=[]
         while self.global_status_num_comments > 0 or self.result_data_list:
             while self.result_data_list or threadlist:
