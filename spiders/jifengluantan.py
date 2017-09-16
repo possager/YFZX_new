@@ -23,15 +23,15 @@ from datetime import timedelta
 from KafkaConnector import RemoteProducer,Consumer
 
 
-
-
-
 from visit_page2 import get_response_and_text
 # from visit_page2 import get_response_and_text
 from KafkaConnector1 import Producer,Consumer
 from saveresult import get_result_name
 from saveresult import Save_result
 import redis
+
+
+
 
 
 class jifeng:
@@ -84,6 +84,8 @@ class jifeng:
                             'read_count':read_count,
                             'url':url,
                             # 'publish_user':None,
+                            'id':url.split('-')[1],
+
 
                         }
                         self.content_data_list.append(this_reply_node)
@@ -97,7 +99,7 @@ class jifeng:
                 else:
                     break
 
-
+        # get_index_inside('http://bbs.gfan.com/forum-1660-1.html')
 
         threadlist=[]
         while self.urls or threadlist:
@@ -112,27 +114,142 @@ class jifeng:
                 threadlist.append(thread_in_while)
 
     def get_content(self):
+        def handle_content(content):
+            Re_sub_publish_time = re.compile(r'<i class="pstatus">.*?<\/i>')
+            content = Re_sub_publish_time.sub('', content)
+
+            Re_sub_style = re.compile(r'<style.*?>[\s|\S]*?<\/style>')
+            content = Re_sub_style.sub('', content)
+
+            Re_sub_script = re.compile(r'<script[\s|\S]*?\>?[\S|\s]<\/script>')
+            content = Re_sub_script.sub('', content)
+
+            return content
+
         def get_content_inside(data):
+
             url_for_debug=data['url']
-            response1=get_response_and_text(url=url_for_debug,headers=self.headers)
-            response_in_function=response1['response_in_function']
-            response_in_function_text=response1['response_in_function_text']
+            reply_nodes = []
+
+            while True:
+                response1=get_response_and_text(url=url_for_debug,headers=self.headers)
+                response_in_function=response1['response_in_function']
+                response_in_function_text=response1['response_in_function_text']
+
+                img_may_no_user = ['http://image.gfan.com/static/image/common/rright.gif',
+                                   'http://image.gfan.com/static/image/common/none.gif',
+                                   'http://image.gfan.com/static/image/common/rleft.gif']
+
+                result_text=handle_content(response_in_function_text)
+                Re_find_img_url = re.compile(r'file="(.*?)"')
+
+                datasoup=BeautifulSoup(result_text,'lxml')
+
+                for one_div in datasoup.select('#postlist > div[id]')[:-1]:
+                    img_list = []
+                    print one_div.select('div.authi a')[0].text.strip()#publish_user
+                    # print one_div.text.strip()
+                    try:
+                        maybe_url_list = Re_find_img_url.findall(str(one_div.select('.t_fsz')[0]))
+                        for url_img_one in maybe_url_list:
+                            if url_img_one not in img_may_no_user:
+                                img_list.append(url_img_one)
+                        img_urls= img_list  # img_list
+                        content= one_div.select('.t_fsz')[0].text.strip()  # content
+                        publish_time= one_div.select('.authi em')[0].text.replace(u'发表于 ', '') + ':00'  # publish_time
+                        publish_user_photo= one_div.select('div.avatar a img')[0].get('src')  # publish_user_photo
+                        url= one_div.select('.plc .pi strong a')[0].get('href').replace(';', '&')  # url
+                        id= one_div.select('.plc .pi strong a')[0].get('id')  # id
+                        publish_user_id= one_div.select('.plc .pi strong a')[0].get('id').replace('postnum', '')  # publish_user_id
 
 
-            datasoup=BeautifulSoup(response_in_function_text,'lxml')
+                        this_comment_info={
+                            'img_urls':img_urls,
+                            'content':content,
+                            'publish_time':publish_time,
+                            'publish_user_photo':publish_user_photo,
+                            'url':url,
+                            'id':id,
+                            'publish_user_id':publish_user_id,
+                            'parent_id':data['id'],
+                            'ancestor_id':data['id']
+                        }
+                        reply_nodes.append(this_comment_info)
 
 
 
+                        # print one_div.select('.t_fsz')[0].text
+                    except Exception as e:
+                        print e, '这里楼层数据被删除了'
+
+                next_page_url_raw=datasoup.select('.nxt')
+                if next_page_url_raw:
+                    next_url=next_page_url_raw[0]
+                    url_for_debug=next_url.get('href')
+                else:
+                    data['reply_nodes']=reply_nodes
+                    self.result_data_list.append(data)
+                    break
+
+
+
+        # get_content_inside({'url':'http://bbs.gfan.com/forum.php?mod=viewthread&tid=8483949&page=1','id':123456})
+
+        threadlist = []
+        while self.content_data_list or threadlist:
+            for threadi in threadlist:
+                if not threadi.is_alive():
+                    threadlist.remove(threadi)
+            while len(threadlist) < CONTENT_THREADING_NUM and self.content_data_list:
+                data_in_while = self.content_data_list.pop()
+                thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
+                thread_in_while.setDaemon(True)
+                thread_in_while.start()
+                threadlist.append(thread_in_while)
+
+    def get_comments(self):
+        def save_result(data):
+            # Save_result(plantform='csdn', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+            #             datatype='news', full_data=data)
+
+            host = '182.150.63.40'
+            port = '12308'
+            username = 'silence'
+            password = 'silence'
+
+            producer = RemoteProducer(host=host, port=port, username=username, password=password)
+            result_file = get_result_name(plantform_e='jifeng', plantform_c='机锋论坛',
+                                          date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+                                          datatype='forum', full_data=data)
+
+            print result_file
+            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
+            #               updatetime=data['spider_time'])
+        threadlist=[]
+        while self.global_status_num_comments > 0 or self.result_data_list:
+            while self.result_data_list or threadlist:
+                for threadi in threadlist:
+                    if not threadi.is_alive():
+                        threadlist.remove(threadi)
+                while len(threadlist) < CONTENT_THREADING_NUM and self.result_data_list:
+                    print len(self.result_data_list)
+                    data_in_while = self.result_data_list.pop()
+                    thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
+                    thread_in_while.setDaemon(True)
+                    thread_in_while.start()
+                    threadlist.append(thread_in_while)
+                    print len(threadlist)
+                    print len(self.result_data_list)
 
 
 
     def run(self):
         thread1 = threading.Thread(target=self.get_Index, args=())
         thread1.start()
-        # thread2 = threading.Thread(target=self.get_content, args=())
-        # thread2.start()
-        # thread4 = threading.Thread(target=self.save_result, args=())
-        # thread4.start()
+        thread2 = threading.Thread(target=self.get_content, args=())
+        thread2.start()
+        thread4 = threading.Thread(target=self.save_result, args=())
+        thread4.start()
         pass
 
 

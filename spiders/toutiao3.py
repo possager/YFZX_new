@@ -329,7 +329,8 @@ class toutiao:
                 comment_content=BeautifulSoup(comment_content,'lxml')
                 comment_content=comment_content.text
                 comment_parend_id=data['id']#可以调用父函数的变量
-                comment_publish_time = '2017-'+comment_content_all['show_time']+':00'#时间有问题u'07-31 20:26'
+                # comment_publish_time = '2017-'+comment_content_all['show_time']+':00'#时间有问题u'07-31 20:26'
+                comment_publish_time=time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(comment_content_all['create_time']))
                 comment_publish_user = comment_content_all['user']['uname']
                 comment_publish_user_id = comment_content_all['user']['user_id']
                 comment_publish_user_photo = comment_content_all['user']['avatar_url']
