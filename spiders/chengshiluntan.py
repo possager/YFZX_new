@@ -56,7 +56,7 @@ class chengshiluntan:
 
     def get_Index(self):
         def get_index_inside():
-            for i in range(101,10000000):
+            for i in range(5941000,10000000):
                 if self.global_status_num_index==0:
                     return #用来判断何时停止
                 while True:
@@ -72,7 +72,8 @@ class chengshiluntan:
                                 'read_count':0,
                                 'reply_count':0,
                                 'title':'',
-                                'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                                'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                                'publish_user_photo':'None'
                             }
                                                       )
                         break
@@ -81,10 +82,15 @@ class chengshiluntan:
         get_index_inside()
 
     def get_content(self):
-        Re_find_img_url = re.compile(r'src="(.*?)"')
+        Re_find_img_url = re.compile(r'file="(.*?)"')
         def get_content_inside(data):
             is_first=0
             url_debug = data['url']
+            # url_debug='http://www.chengshiluntan.com/5942261-1.html'
+            # url_debug='http://www.chengshiluntan.com/7561-1.html'
+            # url_debug='http://www.chengshiluntan.com/731-1.html'
+            # url_debug='http://www.chengshiluntan.com/5070-1.html'
+            # url_debug='http://www.chengshiluntan.com/5942282-1.html'
 
             while True:
                 response1=get_response_and_text(url=url_debug,headers=self.headers)
@@ -102,69 +108,108 @@ class chengshiluntan:
                         # print data['url']
                     data['reply_count']= datasoup.select('#postlist > div.bm_h.comiis_snvbt > span.y.comiis_hfs > strong')[0].text
                     data['read_count']= datasoup.select('#postlist > div.bm_h.comiis_snvbt > span.y.comiis_cks > strong')[0].text
-                    content_div=datasoup.select('#postlist > div[id]')[0]
-                    content_div_str=str(content_div)
+                    try:
+                        # data['reply_count']=datasoup.select('#postlist > table:nth-of-type(1) > tbody > tr > td.pls.ptm.pbm > div > span:nth-of-type(2)')
+                        # data['read_count']=datasoup.select('#postlist > table:nth-of-type(1) > tbody > tr > td.pls.ptm.pbm > div > span:nth-of-type(5)')
+                        data['publish_user_photo']=datasoup.select('#postlist div[id] .pls .avatar.comiis_zxtx a img')[0].get('src')
+                        data['publish_user_id']=datasoup.select('#postlist div[id] .pls .avatar.comiis_zxtx a')[0].get('href').split('/')[-1]
+                        data['id']=datasoup.select('#postlist div[id]')[0].get('id')
+                    except Exception as e:
+                        print e
+                        data['publish_user_photo']=''
+                        data['id']=''
+                        data['publish_user_id']=''
+                        print '用户已被删除，所以没有头像'
+                    content_div=datasoup.select('#postlist > div[id] div.t_fsz > div.t_f')[0]
+                    content_div_this=datasoup.select('#postlist > div[id]')[0]
+                    content_div_str=str(content_div_this)
                     img_urls=Re_find_img_url.findall(content_div_str)
-                    data['img_urls']=img_urls
-                    data['publish_user']= content_div.select('tr:nth-of-type(1) > td.plc > div.pi > div.pti > div.authi > a.xi2.kmyzz')[
+                    #9-20添加图片过滤模块，目前只用于去重
+                    img_urls_set=set()
+                    for img_url_raw in img_urls:
+                        if '.js' not in img_url_raw:
+                            img_urls_set.add(img_url_raw)
+
+                    img_urls2=list(img_urls_set)
+
+
+
+                    data['img_urls']=img_urls2
+                    data['publish_user']= content_div_this.select('td.plc > div.pi > div.pti > div.authi > a.xi2.kmyzz')[
                         0].text  # publish_user
-                    publish_time_content= content_div.select('tr:nth-of-type(1) > td.plc > div.pi > div.pti > div.authi  > em')[
-                        0].text.replace(u'发表于', '').strip()+':00'  # pubtlish_time
-                    data['publish_time']=time.strftime('%Y-%m-%d %H:%M:%S',time.strptime(publish_time_content,'%Y-%m-%d %H:%M:%S'))
-                    data['content']= content_div.select(' div.t_fsz > div.t_f')[0].text.strip()  # content
+                    publish_time_content=content_div_this.select(' .pti .authi em')[0].text.replace(u'发表于', '').strip()+':00'  # pubtlish_time
+                    data['publish_time']=time.strftime('%Y-%m-%d %H:%M:%S',time.strptime(publish_time_content,'%Y-%m-%d %H:%M:%S'))#为什么这么写,因为个是会出现11-1这样的错误，应该的是11-01这样子的。
+                    data['content']= content_div_this.select(' div.t_fsz > div.t_f')[0].text.strip()  # content
+                    # data['publish_user_photo']=content_div_this.select('')
 
                 follow_div=datasoup.select('#postlist > div[id]')[is_first:-1]
                 for one_reply in follow_div:
-                    comment_reply_nodes=[]
-                    publish_user=one_reply.select('tr:nth-of-type(1) > td.plc > div.pi > div.pti > div.authi > a.xi2.kmyzz')[
-                        0].text  # publish_user
-                    publish_time= one_reply.select('tr:nth-of-type(1) > td.plc > div.pi > div.pti > div.authi  > em')[
-                        0].text.replace(u'发表于', '').strip()  # pubtlish_time
-                    content= one_reply.select(' div.t_fsz > div.t_f')[0].text.strip()  # content
-                    id=one_reply.get('id')
-                    if one_reply.select('div.cm')[0].text.strip():
-                        id= one_reply.select('div.cm')[0].get('id')  # comment_id
-                        publish_user_photo= one_reply.select('div.cm div.pstl div.psta a > img')[0].get('src')  # publish_photo
-                        content= one_reply.select('div.pstl div.psti')[0].text.split(u'详情')[0].strip()  # content
-                        publish_user= one_reply.select('div.pstl div.psta a.xi2')[0].text  # publish_user
-                        publish_time= one_reply.select('div.pstl div.psti span.xg1')[0].text.replace(u'发表于',
-                                                                                                   '').strip()  # publish_time
+                    try:
+                        comment_reply_nodes=[]
+                        publish_user=one_reply.select(' div.pti div.authi a.xi2.kmyzz')[
+                            0].text  # publish_user
+                        publish_time= one_reply.select('tr:nth-of-type(1) > td.plc > div.pi > div.pti > div.authi  > em')[
+                            0].text.replace(u'发表于', '').strip()+':00'  # pubtlish_time
+                        content= one_reply.select(' div.t_fsz > div.t_f')[0].text.strip()  # content
+                        id=one_reply.get('id')
+                        if one_reply.select('div.cm')[0].text.strip():
+                            id= one_reply.select('div.cm')[0].get('id')  # comment_id
+                            try:
+                                publish_user_photo= one_reply.select('div.cm div.pstl div.psta a > img')[0].get('src')  # publish_photo
+                            except :
+                                publish_user_photo=''
 
-                        comment_reply_node={
+                            content= one_reply.select('div.pstl div.psti')[0].text.split(u'详情')[0].strip()  # content
+                            publish_user= one_reply.select('div.pstl div.psta a.xi2')[0].text  # publish_user
+                            publish_time= one_reply.select('div.pstl div.psti span.xg1')[0].text.replace(u'发表于',
+                                                                                                       '').strip()  # publish_time
+
+                            comment_reply_node={
+                                'id':id,
+                                'publish_user_photo':publish_user_photo,
+                                'content':content,
+                                'publish_user':publish_user,
+                                'publish_time':publish_time,
+
+                            }
+                            comment_reply_nodes.append(comment_reply_node)
+
+                        img_urls_reply = Re_find_img_url.findall(str(one_reply.select('.t_fsz')))
+                        img_urls_reply2=[]
+                        for i in img_urls_reply:
+                            if '.js' in i:
+                                continue
+                            elif 'http' not in i:
+                                i='http://www.chengshiluntan.com/'+i
+                                img_urls_reply2.append(i)
+                            else:
+                                img_urls_reply2.append(i)
+                        try:
+                            publish_user_id = datasoup.select('.pls .avatar.comiis_zxtx a')[0].get('href').split('/')[
+                                -1]
+                            publish_user_photo= one_reply.select('td.pls > div.pls div div.avatar a img')[0].get(
+                                'src')  # publish_user_photo
+                            # publish_user_id= one_reply.select('td.pls > div.pls div.m.z div[id]')[0].get('id')  # publish_user_id
+                        except Exception as e:
+                            print e
+                            id=''
+                            publish_user_photo=''
+                            publish_user_id=''
+
+                        this_comment_node={
+                            'publish_user':publish_user,
+                            'publish_time':time.strftime('%Y-%m-%d %H:%M:%S',time.strptime(publish_time,'%Y-%m-%d %H:%M:%S')),
+                            'content':content,
                             'id':id,
                             'publish_user_photo':publish_user_photo,
-                            'content':content,
-                            'publish_user':publish_user,
-                            'publish_time':publish_time,
-
+                            'publish_user_id':publish_user_id,
+                            'reply_nodes':comment_reply_nodes,
+                            'url':url_debug+"#"+id,
+                            'img_urls':img_urls_reply
                         }
-                        comment_reply_nodes.append(comment_reply_node)
-
-                    img_urls_reply = Re_find_img_url.findall(str(one_reply))
-
-                    try:
-                        publish_user_id= one_reply.select('td.pls > div.pls')[0].get('id')  # id
-                        publish_user_photo= one_reply.select('td.pls > div.pls div div.avatar a img')[0].get(
-                            'src')  # publish_user_photo
-                        # publish_user_id= one_reply.select('td.pls > div.pls div.m.z div[id]')[0].get('id')  # publish_user_id
+                        data['reply_nodes'].append(this_comment_node)
                     except Exception as e:
                         print e
-                        id=''
-                        publish_user_photo=''
-                        publish_user_id=''
-
-                    this_comment_node={
-                        'publish_user':publish_user,
-                        'publish_time':time.strftime('%Y-%m-%d %H:%M:%S',time.strptime(publish_time+':00','%Y-%m-%d %H:%M:%S')),
-                        'content':content,
-                        'id':id,
-                        'publish_user_photo':publish_user_photo,
-                        'publish_user_id':publish_user_id,
-                        'reply_nodes':comment_reply_nodes,
-                        'url':url_debug+"#"+id,
-                        'img_urls':img_urls_reply
-                    }
-                    data['reply_nodes'].append(this_comment_node)
                 url_next_div=datasoup.select('a.nxt')
                 if url_next_div:
                     url_next=url_next_div[0].get('href')
@@ -193,21 +238,21 @@ class chengshiluntan:
 
     def save_result(self):
         def save_result(data):
-            # Save_result(plantform='chengshiluntan', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
-            #             datatype='forum', full_data=data)
+            Save_result(plantform='chengshiluntan', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+                        datatype='forum', full_data=data)
 
-            host = '182.150.63.40'
-            port = '12308'
-            username = 'silence'
-            password = 'silence'
-
-            producer = RemoteProducer(host=host, port=port, username=username, password=password)
-            result_file = get_result_name(plantform_e='csdn', plantform_c='城市论坛',
-                                          date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
-                                          datatype='forum', full_data=data)
-
-            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
-                          updatetime=data['spider_time'])
+            # host = '182.150.63.40'
+            # port = '12308'
+            # username = 'silence'
+            # password = 'silence'
+            #
+            # producer = RemoteProducer(host=host, port=port, username=username, password=password)
+            # result_file = get_result_name(plantform_e='csdn', plantform_c='城市论坛',
+            #                               date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+            #                               datatype='forum', full_data=data)
+            #
+            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
+            #               updatetime=data['spider_time'])
 
 
 

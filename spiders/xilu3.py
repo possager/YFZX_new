@@ -429,7 +429,7 @@ class xilu:
 
             print result_file
 
-            producer.send(topic='test', value={'data': data}, key=result_file, updatetime=data['spider_time'])
+            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
 
 
 
