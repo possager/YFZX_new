@@ -33,10 +33,12 @@ from KafkaConnector1 import Producer,Consumer
 # from saveresult import get_result_name
 
 
-from visit_page2 import get_response_and_text
+# from visit_page2 import get_response_and_text
+from visit_page3 import get_response_and_text
 from KafkaConnector import RemoteProducer,Consumer
 from saveresult import get_result_name
-
+from sava_data_to_MongoDB import save_data_to_mongodb
+from get_proxy_from_TG import getSqliteProxy
 
 
 
@@ -78,17 +80,21 @@ class xilu:
         self.comments_url_list = []  # 下次需要获得的comment链接，不是comment内容
         self.result_list = []  # 这个存储的是已经跑完了的内容
 
+
     def get_Index(self):
         while True:
             for url_to_get_index in self.urls:
                 for i in range(300):
                     try:  # SyntaxError: unexpected EOF while parsing
                         # self.session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
-                        response1 = self.session1.post(url=url_to_get_index, headers=self.headers, data={'page': i})
+                        # response1 = self.session1.post(url=url_to_get_index, headers=self.headers, data={'page': i})
                         # response1=get_response_and_text(url=url_to_get_index,headers=self.headers,)
-                        self.session1.close()
+                        proxies1=getSqliteProxy()
+                        response1=requests.post(url=url_to_get_index,headers=self.headers,proxies=proxies1,data={'page': str(i)})
+                        # self.session1.close()
                         response_text = response1.text.encode('utf-8')
-                        self.session1.close()
+                        # print response_text
+                        # self.session1.close()
                         eval(response_text)
                         json_charge = json.loads(json.dumps(eval(response_text)))
                         if not json_charge:
@@ -114,14 +120,15 @@ class xilu:
                             self.content_data_list.append(data_in_index)
                             # return
                     except Exception as e:
-                        print e
-                    print '\n\n'
+                        # print e
+                        pass
+                    # print '\n\n'
                     time.sleep(10)
             # self.global_status_num_index = 0
             time.sleep(600)
 
     def get_content(self):
-        print 'hello in get_content'
+        # print 'hello in get_content'
         threadlist = []
 
         def get_content_inside(data):  # 在线程函数中这里使用心得session算了，线程安全，这里是获取的一页的信息，另一个名字相似的函数是获得下一页的content信息
@@ -137,7 +144,7 @@ class xilu:
             Re_find_isimgpage = re.compile(r'\<ul class\=\"piclist\"\>')
             to_charge_is_picture = Re_find_isimgpage.findall(response_in_function_text)
             if to_charge_is_picture:  # 是图片模块，进入图片处理模块
-                print to_charge_is_picture, 'and is in deal_pucture and the url is ---', data['url']
+                # print to_charge_is_picture, 'and is in deal_pucture and the url is ---', data['url']
                 content_and_img_urls = get_content_inside_picture(datasoup)
                 img_urls = content_and_img_urls['img_urls']
                 contentall = content_and_img_urls['content']
@@ -156,7 +163,7 @@ class xilu:
                 try:
                     this_div = datasoup.select('.art_txt')[0]
                 except Exception as e:
-                    print e
+                    # print e
                     return
                 this_div_str = str(this_div)
                 publish_time_pic=Re_find_time2.findall(this_div_str)[0]+' 00:00:00'#其实不是图片的发布时间
@@ -189,7 +196,8 @@ class xilu:
                             for i in img_urls3:
                                 img_urls.append(i)
                         except Exception as e:
-                            print e
+                            # print e
+                            pass
 
 
                 else:
@@ -223,7 +231,7 @@ class xilu:
 
             while len(self.comments_url_list) > 600:  # 防止一个列表中的东西太多，太多了就等等
                 time.sleep(1)
-                print 'is waiting the lenth of comments_urls_list to decrease to 300'
+                # print 'is waiting the lenth of comments_urls_list to decrease to 300'
 
 
             #9-8添加的图片过滤功能，因为后来发现里边有js
@@ -268,7 +276,7 @@ class xilu:
                             img_urls.append(url_without_http)
                             pass
                 else:
-                    print 'wrong'
+                    # print 'wrong'
                     # a=response_in_function_text.decoding('utf-8')
                     get_content_inside_next_page(data)
 
@@ -289,7 +297,8 @@ class xilu:
                         return {'content': content, 'img_urls': img_urls}
 
             except Exception as e:
-                print e
+                # print e
+                pass
 
         def get_content_inside_picture(datasoup):
             img_urls = []
@@ -319,8 +328,8 @@ class xilu:
                     thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
-                    print 'len of threadlist in content---', len(threadlist)
-                    print 'len of content_data_list in content is ---', len(self.content_data_list)
+                    # print 'len of threadlist in content---', len(threadlist)
+                    # print 'len of content_data_list in content is ---', len(self.content_data_list)
                     # time.sleep(1)
 
         self.global_status_num_content = 0
@@ -383,14 +392,15 @@ class xilu:
 
                 data['reply_count'] = reply_count_outside
             except Exception as e:
-                print e
+                # print e
+                pass
 
 
 
             data['reply_nodes'] = comments_data
             while len(self.result_list) > 600:
                 time.sleep(1)
-                print 'is waiting the lenth of the result_list to decrease to 300'
+                # print 'is waiting the lenth of the result_list to decrease to 300'
             self.result_list.append(data)
 
         threadlist = []
@@ -405,8 +415,8 @@ class xilu:
                     thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
-                    print len(threadlist)
-                    print len(self.comments_url_list)
+                    # print len(threadlist)
+                    # print len(self.comments_url_list)
         self.global_status_num_comments = 0
 
 
@@ -415,21 +425,24 @@ class xilu:
 
     def save_result(self):
         def save_result(data):
-            host = '182.150.63.40'
-            port = '12308'
-            username = 'silence'
-            password = 'silence'
-
-            # producer = Producer(hosts=host)
-            producer = RemoteProducer(host=host, port=port, username=username, password=password)
+            # host = '182.150.63.40'
+            # port = '12308'
+            # username = 'silence'
+            # password = 'silence'
+            #
+            # # producer = Producer(hosts=host)
+            # producer = RemoteProducer(host=host, port=port, username=username, password=password)
             result_file = get_result_name(plantform_e='xilu', plantform_c='西陆网', date_time=data['publish_time'],
                                           urlOruid=data['url'],
                                           newsidOrtid=data['id'],
                                           datatype='news', full_data=data)
 
-            print result_file
+            print datetime.datetime.now(),'--------',result_file
 
-            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
+            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='xilu',platform_c='西陆网')
+
+
+            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
 
 
 
@@ -473,14 +486,14 @@ class xilu:
                     if not threadi.is_alive():
                         threadlist.remove(threadi)
                 while len(threadlist) < CONTENT_THREADING_NUM and self.result_list:
-                    print len(self.result_list)
+                    # print len(self.result_list)
                     data_in_while = self.result_list.pop()
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
                     thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
-                    print len(threadlist)
-                    print len(self.result_list)
+                    # print len(threadlist)
+                    # print len(self.result_list)
         self.global_status_num_comments = 0
 
     def run(self):

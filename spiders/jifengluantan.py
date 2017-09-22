@@ -138,6 +138,7 @@ class jifeng:
         def get_content_inside(data):
 
             url_for_debug=data['url']
+            url_for_debug='http://bbs.gfan.com/android-9181149-1-1.html'
             # url_for_debug='http://bbs.gfan.com/android-156778-1-1.html'
             # url_for_debug='http://bbs.gfan.com/android-2977331-1-4.html'
             # url_for_debug='http://bbs.gfan.com/android-313174-1-3.html'

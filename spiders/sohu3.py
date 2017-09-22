@@ -27,7 +27,9 @@ import datetime
 
 
 
-from visit_page2 import get_response_and_text
+# from visit_page2 import get_response_and_text
+from visit_page3 import get_response_and_text
+from sava_data_to_MongoDB import save_data_to_mongodb
 # from KafkaConnector1 import Producer,Consumer
 from KafkaConnector import RemoteProducer,Consumer
 from saveresult import get_result_name
@@ -70,7 +72,8 @@ class sohu:
                     try:
                         url_index='https://m.sohu.com/a/'+str(i['id'])+'_'+str(i['authorId'])
                     except Exception as e:
-                        print e
+                        # print e
+                        pass
                     publish_time=i['publicTime']
                     publish_time = int(publish_time) / 1000
                     time_format = '%Y-%m-%d %H:%M:%S'
@@ -97,7 +100,7 @@ class sohu:
                 data_index_list_temp=[]#8-22日临时添加
                 for data_index_no_viewer in this_url_index_list:
                     noviewer_id=data_index_no_viewer['id']
-                    print noviewer_id
+                    # print noviewer_id
                     data_index_no_viewer['read_count']=viewernum_info_json['%s' %(str(noviewer_id))]#这里逻辑错误，从列表里边取出来的那个不是原来的那个，而是新的那个。
                     #8-23日添加
                     data_index_list_temp.append(data_index_no_viewer)#把结果存起来
@@ -141,7 +144,7 @@ class sohu:
             try:
                 content_data=str(datasoup.select('#articleContent')[0])
             except Exception as e:
-                print e
+                # print e
                 try:
                     content_data=str(datasoup.select('#articleContent')[0])
                 except:
@@ -223,13 +226,14 @@ class sohu:
                     try:
                         publish_user=one_comment['passport']['nickname']
                     except Exception as e:
-                        publish_user='没有抓到这个人的昵称，也没有调试出来为什么'
+                        # publish_user='没有抓到这个人的昵称，也没有调试出来为什么'
+                        publish_user=''
                     publish_user_photo=one_comment['passport']['img_url']
                     ancestor_id=data['id']
-                    print ancestor_id,'---------',data['id']
-                    print '---------------------',id,'----------------------'
-                    if ancestor_id!=data['id']:
-                        print ancestor_id,'---------',data['id']
+                    # print ancestor_id,'---------',data['id']
+                    # print '---------------------',id,'----------------------'
+                    # if ancestor_id!=data['id']:
+                    #     print ancestor_id,'---------',data['id']
                     parent_id=data['id']
                     if one_comment['comments']:
                         parent_id=one_comment['comments'][0]['comment_id']
@@ -308,19 +312,21 @@ class sohu:
         def save_result(data):
 
             # host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
-            host = '182.150.63.40'
-            port = '12308'
-            username = 'silence'
-            password = 'silence'
-
-            # producer = Producer(hosts=host)
-            producer=RemoteProducer(host=host,port=port,username=username,password=password)
+            # host = '182.150.63.40'
+            # port = '12308'
+            # username = 'silence'
+            # password = 'silence'
+            #
+            # # producer = Producer(hosts=host)
+            # producer=RemoteProducer(host=host,port=port,username=username,password=password)
             result_file = get_result_name(plantform_e='sohu',plantform_c='搜狐新闻', date_time=data['publish_time'], urlOruid=data['url'],
                                           newsidOrtid=data['id'],
                                           datatype='news', full_data=data)
-            print result_file
+            print datetime.datetime.now(),'--------',result_file
 
-            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
+            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='sohu',platform_c='搜狐新闻')
+
+            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
 
             # comsumer = Consumer('topic', host, 'll')
             # what = comsumer.poll()

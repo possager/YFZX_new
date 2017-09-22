@@ -29,12 +29,16 @@ from KafkaConnector1 import Producer,Consumer
 # from saveresult import get_result_name
 
 
-from visit_page2 import get_response_and_text
+# from visit_page2 import get_response_and_text
 # from KafkaConnector1 import Producer,Consumer
 from saveresult import get_result_name
 from KafkaConnector import RemoteProducer,Consumer
-from get_proxy_from_XMX import get_proxy_couple
+# from get_proxy_from_XMX import get_proxy_couple
 
+
+from get_proxy_from_TG import getSqliteProxy
+from visit_page3 import get_response_and_text
+from sava_data_to_MongoDB import save_data_to_mongodb
 
 
 
@@ -98,37 +102,63 @@ class gerentushuguan360:
         #http://www.360doc.com/ajax/index7/getYCData.ashx?artNum=20&nPage=2&iIscream=0&iSort=1&_=1504494212465 #原创
 
     def visit_page_in_class(self,url):
-        session1=requests.session()
+        # session1=requests.session()
         while True:
             # proxy1=get_proxy_from_redis()
-            proxy1=get_proxy_couple(random.randint(1,50))
-            session1.proxies={'http': 'http://' + proxy1}
+            # proxy1=get_proxy_couple(random.randint(1,50))
+            # session1.proxies={'http': 'http://' + proxy1}
+            proxies1=getSqliteProxy()
             try:
-                response_1=session1.request(method='get',url=url,headers=self.headers,timeout=10)
+                # response_1=session1.request(method='get',url=url,headers=self.headers,timeout=10)
+                response_1=requests.get(url=url,headers=self.headers,proxies=proxies1,timeout=10)
                 if response_1.status_code in range(200, 300):
                     break
             except Exception as e:
-                print e
+                # print e
+                pass
 
-        proxy_sendback(proxy1)
-        session1.close()
+        # proxy_sendback(proxy1)
+        # session1.close()
         return response_1
 
-    def visit_page_in_class_post(self,url,data=None):
-        session1 = requests.session()
+    def visit_page_in_class_post(self,url,data=None,charset='utf-8',headers=None):
+        # session1 = requests.session()
+        # while True:
+        #     try:
+        #         # proxy1 = get_proxy_from_redis()
+        #         # proxy1=get_proxy_couple(random.randint(1,50))
+        #         # session1.proxies = {'http': 'http://' + proxy1}
+        #         # response_1 = session1.request(method='post', url=url, headers=self.headers, timeout=10,data=data)
+        #
+        #         proxies1 = getSqliteProxy()
+        #         response_1=requests.get(url=url,headers=self.headers,proxies=proxies1,timeout=10)
+        #
+        #         if response_1.status_code in range(200, 300):
+        #             break
+        #     except Exception as e:
+        #         # print e
+        #         pass
+        # # proxy_sendback(proxy1)
+        # session1.close()
+        # return response_1
         while True:
             try:
-                # proxy1 = get_proxy_from_redis()
-                proxy1=get_proxy_couple(random.randint(1,50))
-                session1.proxies = {'http': 'http://' + proxy1}
-                response_1 = session1.request(method='post', url=url, headers=self.headers, timeout=10,data=data)
-                if response_1.status_code in range(200, 300):
-                    break
-            except Exception as e:
-                print e
-        proxy_sendback(proxy1)
-        session1.close()
-        return response_1
+                while True:
+                    proxy = getSqliteProxy()
+                    if proxy:
+                        break
+                while True:
+                    response1 = requests.post(url=url, headers=headers, proxies=proxy, timeout=5, data=data)
+                    response1.encoding = charset
+                    response = response1.text
+                    response1.close()
+                    response_code = response1.status_code
+                    if response_code != 200:
+                        continue
+                    else:
+                        return response1
+            except:
+                pass
 
     def get_Index(self):
 
@@ -142,7 +172,7 @@ class gerentushuguan360:
                 datajson=json.loads(response_in_function_text)
                 datajson[0]['data']
             except Exception as e:
-                print e
+                # print e
                 return
             for i in datajson[0]['data']:
                 title= i['StrArtidetitle']  # title
@@ -207,15 +237,16 @@ class gerentushuguan360:
                         else:
                             video_urls.append(img_url_raw)
             except Exception as e:
-                print e
+                # print e
                 content=''
             try:
                 url_debug2='http://webservice.360doc.com/GetArtInfo20130912NewV.ashx?UID=-100,'+data['publish_user_id']+',GetBookTwo,'+data['id']+',0,0@cg@0&jsoncallback=jsonp'
                 response2=get_response_and_text(url_debug2)
                 response_in_function_text2=response2['response_in_function_text']
-                result_read_count=response_in_function_text2.split('@c@g@tl@c@g@t')[1].split('l@c@g@t')[0]
+                result_read_count=response_in_function_text2.split(u'@c@g@tl@c@g@t')[1].split(u'l@c@g@t')[0]
             except Exception as e:
-                print e
+                # print e
+                pass
 
             data['content']=content
             data['read_count']=int(result_read_count)
@@ -248,7 +279,7 @@ class gerentushuguan360:
                     'artid': artid_debug
                 }
                 response1=self.visit_page_in_class_post(url=post_url,data=data_to_post_for_comment)
-                if response1.text =='cNullg' or len(response1.text) < 20:
+                if response1.text ==u'cNullg' or len(response1.text) < 20:
                     break
                 comment_datasoup=BeautifulSoup(response1.text,'lxml')
                 for i in comment_datasoup.select('.pllist1,.pllist2'):
@@ -316,20 +347,24 @@ class gerentushuguan360:
             # Save_result(plantform='360gerentushuguan', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
             #             datatype='news', full_data=data)
 
-            host = '182.150.63.40'
-            port = '12308'
-            username = 'silence'
-            password = 'silence'
+            # host = '182.150.63.40'
+            # port = '12308'
+            # username = 'silence'
+            # password = 'silence'
 
             # producer = Producer(hosts=host)
-            producer = RemoteProducer(host=host, port=port, username=username, password=password)
+            # producer = RemoteProducer(host=host, port=port, username=username, password=password)
             result_file = get_result_name(plantform_e='360gerentushuguan', plantform_c='360个人图书馆', date_time=data['publish_time'],
                                           urlOruid=data['url'],
                                           newsidOrtid=data['id'],
                                           datatype='news', full_data=data)
-            print result_file
-            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
-                          updatetime=data['spider_time'])
+            print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'--------',result_file
+
+
+
+            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='360gerentushuguan',platform_c='360个人图书馆')
+            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
+            #               updatetime=data['spider_time'])
 
         threadlist = []
         while self.global_status_num_comments > 0 or self.result_list:
@@ -344,8 +379,8 @@ class gerentushuguan360:
                     thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
-                    print len(threadlist)
-                    print len(self.result_list)
+                    # print len(threadlist)
+                    # print len(self.result_list)
         self.global_status_num_comments = 0
 
     def run(self):
@@ -362,9 +397,17 @@ class gerentushuguan360:
         pass
 
 
+        time.sleep(1800)
+        while True:
+            if thread1.is_alive():
+                time.sleep(10)
+            else:
+                time.sleep(10)
+                thread1.run()
+
+
 
 if __name__ == '__main__':
     thisclass=gerentushuguan360()
-    # url1=thisclass.urls[1]
-    # print thisclass.visit_page_in_class(url=url1)
+
     thisclass.run()

@@ -23,14 +23,17 @@ from datetime import timedelta
 
 
 # from visit_page import get_response_and_text
-from visit_page2 import get_response_and_text
+# from visit_page2 import get_response_and_text
 # from KafkaConnector1 import Producer,Consumer
 from saveresult import get_result_name
 from saveresult import Save_result
 import redis
 
-from KafkaConnector import RemoteProducer,Consumer
 
+
+from KafkaConnector import RemoteProducer,Consumer
+from visit_page3 import get_response_and_text
+from sava_data_to_MongoDB import save_data_to_mongodb
 
 
 #特殊之处：再最后存数据处增加一个发言人的记录代码。存入数据库，之后遍历这些发言人，从他们的发言记录中找到所有的主贴，再爬取主贴
@@ -82,6 +85,7 @@ class people:
         #                       ]
         # self.index_data_list='http://bbs1.people.com.cn/mobile.do?action=list&boardId={}&pageNo=2'.format(str(i) for i in [1,13,129,124,131,8,57,11,2,29,27,26,23,44,24,80,13])
         self.index_data_list=['http://bbs1.people.com.cn/mobile.do?action=list&boardId=%s&pageNo=1'%str(i) for i in [1,13,124,129,131,8,57,11,2,29,27,26,23,44,24,80,13]]#需要添加page
+        self.index_data_list2=[]
         # self.index_data_list=[]
         # for i in self.index_data_list2:
         #     for j in range(1,100):
@@ -146,20 +150,21 @@ class people:
             get_index(url=urlnext)
 
 
-        urls_for_debug=self.index_data_list
+        self.index_data_list2=self.index_data_list
         while True:
             threadlist=[]
-            while urls_for_debug or threadlist:
+            while self.index_data_list2 or threadlist:
                 for threadi in threadlist:
                     if not threadi.is_alive():
                         threadlist.remove(threadi)
-                while len(threadlist) < CONTENT_THREADING_NUM and urls_for_debug:
-                    data_in_while = urls_for_debug.pop()
+                while len(threadlist) < CONTENT_THREADING_NUM and self.index_data_list2:
+                    data_in_while = self.index_data_list2.pop()
                     thread_in_while = threading.Thread(target=get_index, args=(data_in_while,))
                     thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
             time.sleep(600)
+            self.index_data_list2=self.index_data_list
 
     def get_content(self):
         def get_content_inside(data):
@@ -273,19 +278,22 @@ class people:
         def save_result(data):
             save_user_to_redis(data)
 
-            host = '182.150.63.40'
-            port = '12308'
-            username = 'silence'
-            password = 'silence'
-
-            producer = RemoteProducer(host=host, port=port, username=username, password=password)
+            # host = '182.150.63.40'
+            # port = '12308'
+            # username = 'silence'
+            # password = 'silence'
+            #
+            # producer = RemoteProducer(host=host, port=port, username=username, password=password)
             result_file = get_result_name(plantform_e='people', plantform_c='人民网强国社区',
                                           date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                                           datatype='forum', full_data=data)
-            print result_file
+            print datetime.datetime.now(),'--------',result_file
 
-            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
-                          updatetime=data['spider_time'])
+
+            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='people',platform_c='人民网强国社区')
+
+            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
+            #               updatetime=data['spider_time'])
 
             pass
 
@@ -344,7 +352,7 @@ class people:
             all_publish_user=self.redis1.hgetall('people_publish_user')
             publish_user_without_visited=filter(lambda x:x[1]=='0',all_publish_user.items())
             for one_publish_user in publish_user_without_visited:
-                self.index_data_list.append('http://bbs1.people.com.cn/mobile.do?action=userInfo&opt=thread&userNick='+one_publish_user[0]+'&pageNo=1')#这里的编码刚刚好
+                self.index_data_list2.append('http://bbs1.people.com.cn/mobile.do?action=userInfo&opt=thread&userNick='+one_publish_user[0]+'&pageNo=1')#这里的编码刚刚好
                 self.redis1.hset('people_publish_user',one_publish_user[0],1)
 
 

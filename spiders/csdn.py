@@ -21,13 +21,14 @@ import logging
 import datetime
 from datetime import timedelta
 from KafkaConnector import RemoteProducer,Consumer
+from sava_data_to_MongoDB import save_data_to_mongodb
 
 
 
 
-
-from visit_page2 import get_response_and_text
 # from visit_page2 import get_response_and_text
+# from visit_page2 import get_response_and_text
+from visit_page3 import get_response_and_text
 from KafkaConnector1 import Producer,Consumer
 from saveresult import get_result_name
 from saveresult import Save_result
@@ -65,7 +66,7 @@ class csdn:
         self.publish_user_url_need_to_visit = []
 
     def get_Index(self):
-        def get_index_1():#获得该论坛所有子论坛的
+        def get_index_1():#获得该论坛所有子论坛,子版块的链接，
             while True:
                 try:#response_in_function_text有时候乱码有时候不乱码
                     url_rukou='http://bbs.csdn.net/home'
@@ -74,14 +75,16 @@ class csdn:
                     datasoup=BeautifulSoup(response_in_function_text,'lxml')
                     for a in datasoup.select('.dropdown-menu a[href]'):
                         url_bankuai= 'http://bbs.csdn.net'+a.get('href')
-                        print url_bankuai
+                        # print url_bankuai
                         self.index_data_list.append(url_bankuai)
                     if self.index_data_list:
                         break
                 except Exception as e:
-                    print e
+                    # print e
+                    pass
 
-        def get_index_2(url):
+        def get_index_2(url):#跟上边的相区分，是为了获得具体某一个版块的里边的帖子的具体链接。
+            next_page_has_visited=0
             while True:
                 response1=get_response_and_text(url=url,headers=self.headers)
                 response_in_function_text=response1['response_in_function_text']
@@ -109,14 +112,16 @@ class csdn:
                         self.content_data_list.append(this_nodes)
 
                     next_page_url=datasoup.select('a.next')
-                    if next_page_url:
+                    if next_page_url and next_page_has_visited < 10:
+                        next_page_has_visited+=1
                         url_next='http://bbs.csdn.net'+next_page_url[0].get('href')
                         url=url_next
                     else:
                         break
 
                 except Exception as e:
-                    print e
+                    # print e
+                    pass
 
         get_index_1()
         threadlist=[]
@@ -169,8 +174,8 @@ class csdn:
                         content_div=datasoup.select('div.detailed table.post .post_body')[0]
                         content=content_div.text.strip()
                     except Exception as e:
-                        print e
-                        print data['url']
+                        # print e
+                        # print data['url']
                         return
                     img_urls_content=Re_find_img_url.findall(str(content_div))
                     publish_user_photo=datasoup.select('div.detailed table.post .user_info .user_head a img')[0].get('src')
@@ -218,8 +223,8 @@ class csdn:
                         }
                         data['reply_nodes'].append(thisnode)
                     except Exception as e:
-                        print e
-
+                        # print e
+                        pass
 
                 next_page_div=datasoup.select('.page_nav .next')
                 if next_page_div:
@@ -237,13 +242,13 @@ class csdn:
 
 
         threadlist = []
-        while self.global_status_num_comments > 0 or self.content_data_list:
+        while self.global_status_num_content > 0 or self.content_data_list:
             while self.content_data_list or threadlist:
                 for threadi in threadlist:
                     if not threadi.is_alive():
                         threadlist.remove(threadi)
                 while len(threadlist) < CONTENT_THREADING_NUM and self.content_data_list:
-                    print len(self.content_data_list)
+                    # print len(self.content_data_list)
                     data_in_while = self.content_data_list.pop()
                     thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
                     thread_in_while.setDaemon(True)
@@ -255,19 +260,23 @@ class csdn:
             # Save_result(plantform='csdn', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
             #             datatype='news', full_data=data)
 
-            host = '182.150.63.40'
-            port = '12308'
-            username = 'silence'
-            password = 'silence'
-
-            producer = RemoteProducer(host=host, port=port, username=username, password=password)
+            # host = '182.150.63.40'
+            # port = '12308'
+            # username = 'silence'
+            # password = 'silence'
+            #
+            # producer = RemoteProducer(host=host, port=port, username=username, password=password)
             result_file = get_result_name(plantform_e='csdn', plantform_c='CSDN论坛',
                                           date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                                           datatype='forum', full_data=data)
 
-            print result_file
-            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
-                          updatetime=data['spider_time'])
+            print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'--------',result_file
+
+
+            save_data_to_mongodb(data={'data':data},platform_c='CSDN论坛',platform_e='csdn',item_id=result_file)
+
+            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
+            #               updatetime=data['spider_time'])
         threadlist=[]
         while self.global_status_num_comments > 0 or self.result_data_list:
             while self.result_data_list or threadlist:
@@ -275,24 +284,30 @@ class csdn:
                     if not threadi.is_alive():
                         threadlist.remove(threadi)
                 while len(threadlist) < CONTENT_THREADING_NUM and self.result_data_list:
-                    print len(self.result_data_list)
+                    # print len(self.result_data_list)
                     data_in_while = self.result_data_list.pop()
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
                     thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
-                    print len(threadlist)
-                    print len(self.result_data_list)
+
 
 
     def run(self):
-            thread1 = threading.Thread(target=self.get_Index, args=())
-            thread1.start()
-            thread2 = threading.Thread(target=self.get_content, args=())
-            thread2.start()
-            thread4 = threading.Thread(target=self.save_result, args=())
-            thread4.start()
-            pass
+        thread1 = threading.Thread(target=self.get_Index, args=())
+        thread1.start()
+        thread2 = threading.Thread(target=self.get_content, args=())
+        thread2.start()
+        thread4 = threading.Thread(target=self.save_result, args=())
+        thread4.start()
+        pass
+        time.sleep(600)
+        while True:
+            if thread1.is_alive():
+                time.sleep(10)
+            else:
+                print datetime.datetime.now(),'---------kaishi dierci'
+                thread1.start()
 
 
 if __name__ == '__main__':

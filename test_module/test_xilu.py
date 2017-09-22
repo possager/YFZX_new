@@ -1,27 +1,22 @@
 #_*_coding:utf-8_*_
-from bs4 import BeautifulSoup
 import requests
-import re
 
-# html_raw=requests.get(url='http://m.xilu.com/v/1000030000012866.html')
-html_raw=requests.get(url='http://m.xilu.com/v/1000010001006753.html')
+headers1 = {
+    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
+    'X-Requested-With': 'XMLHttpRequest',  # 重要
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    'Accept-Encoding': 'gzip, deflate, sdch',
+    'Accept-Language': 'zh-CN,zh;q=0.8',
+    'Cache-Control': 'max-age=0',
+    'Connection': 'close',
+    'Host': 'm.xilu.com',
+    'Upgrade-Insecure-Requests': '1'
 
-
-Re_find_time=re.compile(r'((201\d)[\/-](\d{2})(\d{2}))')
-Re_find_time2=re.compile(r'(20\d{2}\-\d{1,2}-\d{1,2})')
-datasoup=BeautifulSoup(html_raw.text,'lxml')
-
-
-
-this_div=datasoup.select('.art_txt')[0]
-this_div_str=str(this_div)
-print Re_find_time2.findall(this_div_str)
-
-
-
-# pic_div=datasoup.select('.hdp-box')[0]
-# pic_div_str= str(pic_div)
-# Re_sub=re.compile(r'(201\d[\/-]\d{2}\d{2})')
-#
-# one_split= Re_find_time.findall(pic_div_str)[0]
-# print one_split[1]+'-'+one_split[2]+'-'+one_split[2]
+}
+while True:
+    try:
+        response1=requests.get(url='http://m.xilu.com/index.html',headers=headers1,data={'page':'5'})
+        print response1.text
+        break
+    except Exception as e:
+        print e

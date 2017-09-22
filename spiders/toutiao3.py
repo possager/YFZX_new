@@ -21,12 +21,15 @@ import urllib2
 # import logging
 from saveresult import BASIC_FILE
 # from visit_page import get_response_and_text
-from visit_page2 import get_response_and_text
+# from visit_page2 import get_response_and_text
 import datetime
 from KafkaConnector1 import Producer,Consumer
 from saveresult import get_result_name
 from KafkaConnector import RemoteProducer,Consumer
 
+
+from visit_page3 import get_response_and_text
+from sava_data_to_MongoDB import save_data_to_mongodb
 
 
 
@@ -153,6 +156,7 @@ class toutiao:
                             self.content_data_list.append(dict1)
                     except Exception as e:
                         pass
+            print '歇一会，现在在等待那600秒'
             time.sleep(600)
 
 
@@ -186,21 +190,23 @@ class toutiao:
                 try:
                     # print 'the lenth of response-------',len(response_in_function_text)
                     chineseTag = chineseTag[0].split("'")[1]
-                    if chineseTag == '图片':
+                    if chineseTag == u'图片' or chineseTag=='图片':
                         content_time_img = get_content_picture({'response_in_function': response_in_function,
                                                                 'response_in_function_text': response_in_function_text})
-                    elif chineseTag == '问答':
+                    elif chineseTag == u'问答' or chineseTag=='问答':
                         content_time_img = get_content_wenda(htmldata={'response_in_function': response_in_function,'response_in_function_text': response_in_function_text,'data':data},
                                                              data=data)
                         return
                     else:
+                        print chineseTag,'is gonging to get_content_news'
                         content_time_img = get_content_news({'response_in_function': response_in_function,
                                                              'response_in_function_text': response_in_function_text})
                 except Exception as e:
-                    print e, '在区分是属于图片、问答等模块时出错'
+                    # print e, '在区分是属于图片、问答等模块时出错'
+                    pass
             else:
 
-                print chineseTag
+                # print chineseTag
                 return
             #如果不是问答，那么就进入到这里边
             Re_find_itmeId = re.compile(r'itemId: \'.*?\'')  # 普通头条
@@ -211,17 +217,19 @@ class toutiao:
                 except Exception as e:
                     # logger_toutiao.log(level=logging.WARNING, msg={'where': 'itemid来split失败了', 'contetn':
                     #     Re_find_itmeId.findall(response_in_function_text)[0]})
-                    print e, 'itemid在re中找到了，但是split失败了'
+                    # print e, 'itemid在re中找到了，但是split失败了'
+                    pass
             else:
                 try:
                     item_id = Re_find_itme_Id.findall(response_in_function_text)[0].split("'")[1]
                 except Exception as e:
-                    print e, '在item——id中没找到值,图片的item_id'
-                    msg = {'errormsg': e.message + '在item——id中没找到值,图片的item_id',
-                           'htmldata': response_in_function_text,
-                           'url': response_in_function.url,
-                           'code': response_in_function.code,
-                           'msg': response_in_function.msg}
+                    pass
+                    # print e, '在item——id中没找到值,图片的item_id'
+                    # msg = {'errormsg': e.message + '在item——id中没找到值,图片的item_id',
+                    #        'htmldata': response_in_function_text,
+                    #        'url': response_in_function.url,
+                    #        'code': response_in_function.code,
+                    #        'msg': response_in_function.msg}
                     # logger_toutiao.log(level=logging.WARNING, msg=msg)
                     return
 
@@ -235,7 +243,8 @@ class toutiao:
                 data['item_id'] = item_id
                 data['reply_nodes'] = []
             except Exception as e:
-                print e, 'data合成的时候除了问题'
+                # print e, 'data合成的时候除了问题'
+                pass
 
             self.comments_url_list.append(data)
 
@@ -244,23 +253,39 @@ class toutiao:
             img_urls = []
             try:
                 # text_content = htmldata.text.split('artilceInfo:')[1].split('commentInfo')[0]
-                text_content = htmldata['response_in_function_text'].split('articleInfo:')[1].split('commentInfo')[0]
-                Re_find_content = re.compile(r"content: '.*?'\.replace")
-                Re_find_time2 = re.compile(r"time: '.*?'")
+                print '9-21--------------------------0'
+                try:
+                    text_content = htmldata['response_in_function_text'].split('articleInfo:')[1].split('commentInfo')[0]
+                    print '9-21---------------------------1'
+                except Exception as e:
+                    print e
+                    print htmldata['response_in_function'].url
+                Re_find_content = re.compile(r"content: '(.*?)'\.replace")
+                Re_find_time2 = re.compile(r"time: '(.*?)'")
                 content = Re_find_content.findall(text_content)[0]
-                content = content.split("'")[1]
-                content=content.decode('utf-8')
+
+                # content = content.split("'")[1]
+                try:
+                    content=content.decode('utf-8')
+                except:
+                    # try:
+                    #     # content=content.encode('utf-8')
+                    # except:
+                    #     pass
+                    pass
                 htmlparse = HTMLParser()
                 contenthtml = htmlparse.unescape(content)
                 content_soup = BeautifulSoup(contenthtml, 'lxml')
                 content = content_soup.text
-                Re_find_img = re.compile(r'src=".*?"')
+                Re_find_img = re.compile(r'src="(.*?")')
                 img_urls_find_by_re = Re_find_img.findall(contenthtml)
                 for img_url in img_urls_find_by_re:
-                    img_url_split = img_url.split('"')[1]
+                    if '"' in img_url:
+                        img_url_split = img_url.split('"')[1]
                     img_urls.append(img_url_split)
 
-                publish_time = Re_find_time2.findall(htmldata['response_in_function_text'])[0].split("'")[1] + ':00'
+                publish_time = Re_find_time2.findall(htmldata['response_in_function_text'])[0] + ':00'
+                print publish_time
                 return {'content': content, 'img_urls': img_urls, 'publish_time': publish_time}
             except Exception as e:
                 # logger_toutiao.log(msg={'msg':e.message+'在get_content_news中出了问题','content':htmldata['response_in_function_text']},level=logging.WARNING)
@@ -538,11 +563,7 @@ class toutiao:
                         threadlist.remove(threadi)
                 while len(threadlist) < LEN_COMMENT_LIST and self.content_data_list:
                     data_in_while = self.content_data_list.pop()
-                # while len(threadlist) < LEN_COMMENT_LIST and redis1.llen('toutiao_index'):
-                #     data_in_while=redis1.rpop('toutiao_index')
-                    # data_in_while=dict(data_in_while)
                     thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
-                    # redis1.lpush('toutiao_index',data_in_while)
                     thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
@@ -567,7 +588,7 @@ class toutiao:
 
                     break
                 except Exception as e:
-                    print e,'mark1'
+                    # print e,'mark1'
                     if 'item_id' in e:
                         messege = {'msg': e.message}
                         # logger_toutiao.log(msg=messege, level=logging.WARNING)
@@ -576,7 +597,7 @@ class toutiao:
                 data_json = json.loads(response_in_function_text)
                 data_json['data']['comments']
             except Exception as e:
-                print e,'mark1'#这里本来是应该返回正常的json数据，但是会返回一抹莫名奇妙的location跳转的网站。因此直接把它结束了，宁愿没抓，也不要误抓。
+                # print e,'mark1'#这里本来是应该返回正常的json数据，但是会返回一抹莫名奇妙的location跳转的网站。因此直接把它结束了，宁愿没抓，也不要误抓。
                 return
             for one_comment in data_json['data']['comments']:
                 content = one_comment['text']
@@ -618,7 +639,7 @@ class toutiao:
             data['reply_nodes'] = comments_data
             while len(self.result_list) > 600:
                 time.sleep(1)
-                print 'is waiting the lenth of the result_list to decrease to 300'
+                print 'result_list 的长度低于300了，等待输入存储中。。。'
 
             self.result_list.append(data)
 
@@ -649,7 +670,7 @@ class toutiao:
                         break
 
                     except Exception as e:
-                        print e,'mark2'
+                        # print e,'mark2'
                         error_time-=1
                         if error_time <1:
                             return
@@ -659,7 +680,8 @@ class toutiao:
                 try:
                     datajson = json.loads(response_in_function_text)#报错  ValueError: No JSON object could be decoded  8-28日错误很多
                 except Exception as e:
-                    print e
+                    # print e
+                    pass
                 try:
                     datajson['data']['data']#sometimes this will be wrong! the response returned is not what you need!9-7
                 except Exception as e:
@@ -681,7 +703,7 @@ class toutiao:
                     try:
                         ancestor_id=data1['ancestor_id']
                     except Exception as e:
-                        print e,'mark3'
+                        # print e,'mark3'
                         ancestor_id='wrong'
                     parent_id=data1['id']
                     thisnode = {
@@ -719,23 +741,26 @@ class toutiao:
             try:
                 del data['item_id']
             except Exception as e:
-                print e
+                # print e
+                pass
             try:
 
-                host = '182.150.63.40'
-                port = '12308'
-                username = 'silence'
-                password = 'silence'
-
-                # producer = Producer(hosts=host)
-                producer = RemoteProducer(host=host, port=port, username=username, password=password)
+                # host = '182.150.63.40'
+                # port = '12308'
+                # username = 'silence'
+                # password = 'silence'
+                #
+                # # producer = Producer(hosts=host)
+                # producer = RemoteProducer(host=host, port=port, username=username, password=password)
                 result_file = get_result_name(plantform_e='toutiao', plantform_c='今日头条', date_time=data['publish_time'],
                                               urlOruid=data['url'],
                                               newsidOrtid=data['id'],
                                               datatype='news', full_data=data)
-                print result_file
+                print datetime.datetime.now(),'--------',result_file
 
-                producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
+                save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='toutiao',platform_c='今日头条')
+
+                # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
                 pass
 
 
@@ -762,7 +787,8 @@ class toutiao:
                 # Save_result(plantform='toutiao', date_time=data['publish_time'], urlOruid=data['url'],
                 #                 newsidOrtid=data['id'], datatype='news', full_data=data)
             except Exception as e:
-                print e
+                # print e
+                pass
 
         threadlist = []
         while self.global_status_num_comments > 0 or self.result_list:

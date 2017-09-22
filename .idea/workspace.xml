@@ -2,10 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ee7aa450-d5e3-49ed-bdfb-89405505369d" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/commonMoudle.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/get_proxy_from_TG.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/sava_data_to_MongoDB.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/setting.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/test_module/test_connection3.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/visit_page3.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/部署详细" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/chengshiluntan.py" afterPath="$PROJECT_DIR$/spiders/chengshiluntan.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/saveresult.py" afterPath="$PROJECT_DIR$/saveresult.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/360gerentushuguan.py" afterPath="$PROJECT_DIR$/spiders/360gerentushuguan.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/SCjingji.py" afterPath="$PROJECT_DIR$/spiders/SCjingji.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/chengdu3.py" afterPath="$PROJECT_DIR$/spiders/chengdu3.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/csdn.py" afterPath="$PROJECT_DIR$/spiders/csdn.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/jifengluantan.py" afterPath="$PROJECT_DIR$/spiders/jifengluantan.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/people.py" afterPath="$PROJECT_DIR$/spiders/people.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/sohu3.py" afterPath="$PROJECT_DIR$/spiders/sohu3.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/toutiao3.py" afterPath="$PROJECT_DIR$/spiders/toutiao3.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/xilu3.py" afterPath="$PROJECT_DIR$/spiders/xilu3.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_module/test_xilu.py" afterPath="$PROJECT_DIR$/test_module/test_xilu.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -157,60 +172,82 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="csdn.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spiders/csdn.py">
+      <file leaf-file-name="SCjingji.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spiders/SCjingji.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="518">
-              <caret line="284" column="52" lean-forward="false" selection-start-line="253" selection-start-column="8" selection-end-line="284" selection-end-column="52" />
+            <state relative-caret-position="369">
+              <caret line="238" column="34" lean-forward="false" selection-start-line="238" selection-start-column="34" selection-end-line="238" selection-end-column="34" />
               <folding>
-                <element signature="e#813#2006#0" expanded="false" />
-                <element signature="e#828#1323#0" expanded="false" />
-                <element signature="e#2084#2854#0" expanded="false" />
-                <element signature="e#2112#2854#0" expanded="false" />
-                <element signature="e#2926#4797#0" expanded="false" />
-                <element signature="e#3110#4729#0" expanded="false" />
-                <element signature="e#3776#4387#0" expanded="false" />
-                <element signature="e#4577#4673#0" expanded="false" />
-                <element signature="e#4905#5397#0" expanded="false" />
-                <element signature="e#5434#11191#0" expanded="false" />
-                <element signature="e#6368#10420#0" expanded="false" />
-                <element signature="e#10542#11191#0" expanded="false" />
-                <element signature="e#11263#12121#0" expanded="false" />
-                <element signature="e#12232#12965#0" expanded="false" />
+                <element signature="e#1033#2860#0" expanded="false" />
+                <element signature="e#1633#2671#0" expanded="false" />
+                <element signature="e#3667#4581#0" expanded="false" />
+                <element signature="e#5186#5773#0" expanded="false" />
+                <element signature="e#5905#7528#0" expanded="false" />
+                <element signature="e#7565#9769#0" expanded="false" />
+                <element signature="e#11050#11688#0" expanded="false" />
+                <element signature="e#11109#11688#0" expanded="false" />
+                <element signature="e#11760#12066#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="360gerentushuguan.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="360gerentushuguan.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spiders/360gerentushuguan.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="361" column="12" lean-forward="true" selection-start-line="361" selection-start-column="12" selection-end-line="361" selection-end-column="12" />
+            <state relative-caret-position="235">
+              <caret line="153" column="37" lean-forward="true" selection-start-line="153" selection-start-column="37" selection-end-line="153" selection-end-column="37" />
               <folding>
-                <element signature="e#1125#6008#0" expanded="false" />
-                <element signature="e#1140#1981#0" expanded="false" />
-                <element signature="e#2002#3560#0" expanded="false" />
-                <element signature="e#4054#4177#0" expanded="false" />
-                <element signature="e#6057#6609#0" expanded="false" />
-                <element signature="e#6117#6526#0" expanded="false" />
-                <element signature="e#6298#6467#0" expanded="false" />
-                <element signature="e#6673#7258#0" expanded="false" />
-                <element signature="e#7294#9733#0" expanded="false" />
-                <element signature="e#7442#8993#0" expanded="false" />
-                <element signature="e#7791#8993#0" expanded="false" />
-                <element signature="e#8441#8975#0" expanded="false" />
-                <element signature="e#9146#9733#0" expanded="false" />
-                <element signature="e#9770#12376#0" expanded="false" />
-                <element signature="e#9866#11623#0" expanded="false" />
-                <element signature="e#11781#12376#0" expanded="false" />
-                <element signature="e#12414#14927#0" expanded="false" />
-                <element signature="e#14964#18181#0" expanded="false" />
-                <element signature="e#14999#15020#0" expanded="false" />
-                <element signature="e#17429#18137#0" expanded="false" />
-                <element signature="e#18210#18633#0" expanded="false" />
-                <element signature="e#18668#18798#0" expanded="false" />
-                <element signature="e#18702#18726#0" expanded="false" />
+                <element signature="e#1290#2131#0" expanded="false" />
+                <element signature="e#4204#4327#0" expanded="false" />
+                <element signature="e#6207#6930#0" expanded="false" />
+                <element signature="e#8555#10996#0" expanded="false" />
+                <element signature="e#9054#10256#0" expanded="false" />
+                <element signature="e#9704#10238#0" expanded="false" />
+                <element signature="e#10409#10996#0" expanded="false" />
+                <element signature="e#13071#13666#0" expanded="false" />
+                <element signature="e#16255#19684#0" expanded="false" />
+                <element signature="e#16290#16311#0" expanded="false" />
+                <element signature="e#20363#20413#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="people.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/spiders/people.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="268">
+              <caret line="275" column="0" lean-forward="true" selection-start-line="275" selection-start-column="0" selection-end-line="275" selection-end-column="0" />
+              <folding>
+                <element signature="e#1007#4226#0" expanded="false" />
+                <element signature="e#1022#1173#0" expanded="false" />
+                <element signature="e#1594#1664#0" expanded="false" />
+                <element signature="e#3828#3853#0" expanded="false" />
+                <element signature="e#6283#6457#0" expanded="false" />
+                <element signature="e#7443#9744#0" expanded="false" />
+                <element signature="e#7485#9042#0" expanded="false" />
+                <element signature="e#9149#9744#0" expanded="false" />
+                <element signature="e#9782#12088#0" expanded="false" />
+                <element signature="e#9824#11353#0" expanded="false" />
+                <element signature="e#12125#15379#0" expanded="false" />
+                <element signature="e#12160#14409#0" expanded="false" />
+                <element signature="e#16057#16590#0" expanded="false" />
+                <element signature="e#16622#16698#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="saveresult.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/saveresult.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="394">
+              <caret line="173" column="21" lean-forward="true" selection-start-line="173" selection-start-column="21" selection-end-line="173" selection-end-column="21" />
+              <folding>
+                <element signature="e#20#34#0" expanded="true" />
+                <element signature="e#6404#6499#0" expanded="false" />
+                <element signature="e#7260#7385#1" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -219,60 +256,15 @@
       <file leaf-file-name="sohu3.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spiders/sohu3.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="86">
-              <caret line="324" column="54" lean-forward="false" selection-start-line="324" selection-start-column="54" selection-end-line="324" selection-end-column="54" />
+            <state relative-caret-position="464">
+              <caret line="64" column="34" lean-forward="false" selection-start-line="64" selection-start-column="34" selection-end-line="64" selection-end-column="34" />
               <folding>
-                <element signature="e#2987#3387#0" expanded="false" />
-                <element signature="e#4716#7312#0" expanded="false" />
-                <element signature="e#7350#13367#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SCjingji.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spiders/SCjingji.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="271">
-              <caret line="203" column="0" lean-forward="true" selection-start-line="203" selection-start-column="0" selection-end-line="203" selection-end-column="0" />
-              <folding>
-                <element signature="e#935#2762#0" expanded="false" />
-                <element signature="e#1535#2573#0" expanded="false" />
-                <element signature="e#2797#5717#0" expanded="false" />
-                <element signature="e#2836#4920#0" expanded="false" />
-                <element signature="e#2891#2939#0" expanded="false" />
-                <element signature="e#3569#4483#0" expanded="false" />
-                <element signature="e#5088#5675#0" expanded="false" />
-                <element signature="e#5781#6366#0" expanded="false" />
-                <element signature="e#9654#10292#0" expanded="false" />
-                <element signature="e#9713#10292#0" expanded="false" />
-                <element signature="e#10364#10670#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="people.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spiders/people.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="348">
-              <caret line="160" column="54" lean-forward="true" selection-start-line="160" selection-start-column="54" selection-end-line="160" selection-end-column="54" />
-              <folding>
-                <element signature="e#904#4090#0" expanded="false" />
-                <element signature="e#919#1070#0" expanded="false" />
-                <element signature="e#1491#1561#0" expanded="false" />
-                <element signature="e#3692#3717#0" expanded="false" />
-                <element signature="e#6147#6321#0" expanded="false" />
-                <element signature="e#6649#7159#0" expanded="false" />
-                <element signature="e#7224#9525#0" expanded="false" />
-                <element signature="e#7266#8823#0" expanded="false" />
-                <element signature="e#8930#9525#0" expanded="false" />
-                <element signature="e#9563#11869#0" expanded="false" />
-                <element signature="e#9605#11134#0" expanded="false" />
-                <element signature="e#11906#14982#0" expanded="false" />
-                <element signature="e#15035#15629#0" expanded="false" />
-                <element signature="e#15659#16192#0" expanded="false" />
-                <element signature="e#16224#16300#0" expanded="false" />
+                <element signature="e#2141#4742#0" expanded="false" />
+                <element signature="e#3120#3520#0" expanded="false" />
+                <element signature="e#4851#7449#0" expanded="false" />
+                <element signature="e#7487#13554#0" expanded="false" />
+                <element signature="e#13591#16042#0" expanded="false" />
+                <element signature="e#16075#16484#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -281,37 +273,35 @@
       <file leaf-file-name="toutiao3.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spiders/toutiao3.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="163" column="13" lean-forward="true" selection-start-line="163" selection-start-column="13" selection-end-line="163" selection-end-column="13" />
+            <state relative-caret-position="348">
+              <caret line="761" column="0" lean-forward="false" selection-start-line="761" selection-start-column="0" selection-end-line="761" selection-end-column="0" />
               <folding>
-                <element signature="e#1368#4715#0" expanded="false" />
-                <element signature="e#5463#8170#0" expanded="false" />
-                <element signature="e#12662#14203#0" expanded="false" />
-                <element signature="e#13643#13731#0" expanded="false" />
-                <element signature="e#14271#15686#0" expanded="false" />
-                <element signature="e#18692#19411#0" expanded="false" />
-                <element signature="e#20379#23480#0" expanded="false" />
-                <element signature="e#23568#27435#0" expanded="false" />
-                <element signature="e#23797#24579#0" expanded="false" />
-                <element signature="e#24782#26949#0" expanded="false" />
-                <element signature="e#26134#26815#0" expanded="false" />
-                <element signature="e#27011#27365#0" expanded="false" />
-                <element signature="e#27543#28579#0" expanded="false" />
-                <element signature="e#37572#37658#0" expanded="false" />
+                <element signature="e#1230#5388#0" expanded="false" />
+                <element signature="e#1471#4818#0" expanded="false" />
+                <element signature="e#5498#8345#0" expanded="false" />
+                <element signature="e#9004#9124#0" expanded="false" />
+                <element signature="e#9212#9357#0" expanded="false" />
+                <element signature="e#15208#16623#0" expanded="false" />
+                <element signature="e#19629#20348#0" expanded="false" />
+                <element signature="e#21316#24417#0" expanded="false" />
+                <element signature="e#24505#28372#0" expanded="false" />
+                <element signature="e#24734#25516#0" expanded="false" />
+                <element signature="e#25719#27886#0" expanded="false" />
+                <element signature="e#27071#27752#0" expanded="false" />
+                <element signature="e#27948#28302#0" expanded="false" />
+                <element signature="e#29318#37209#0" expanded="false" />
+                <element signature="e#38444#38530#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="chengdu3.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spiders/chengdu3.py">
+      <file leaf-file-name="chengshiluntan.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spiders/chengshiluntan.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="233">
-              <caret line="329" column="33" lean-forward="true" selection-start-line="329" selection-start-column="33" selection-end-line="329" selection-end-column="33" />
-              <folding>
-                <element signature="e#2756#8392#0" expanded="false" />
-                <element signature="e#2798#7646#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="709">
+              <caret line="110" column="24" lean-forward="true" selection-start-line="110" selection-start-column="24" selection-end-line="110" selection-end-column="24" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -319,53 +309,39 @@
       <file leaf-file-name="xilu3.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spiders/xilu3.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1723">
-              <caret line="428" column="0" lean-forward="true" selection-start-line="428" selection-start-column="0" selection-end-line="428" selection-end-column="0" />
+            <state relative-caret-position="388">
+              <caret line="38" column="38" lean-forward="true" selection-start-line="38" selection-start-column="38" selection-end-line="38" selection-end-column="38" />
               <folding>
-                <element signature="e#993#1583#0" expanded="false" />
-                <element signature="e#1604#1968#0" expanded="false" />
-                <element signature="e#3507#4017#0" expanded="false" />
-                <element signature="e#10690#13329#0" expanded="false" />
-                <element signature="e#13393#14249#0" expanded="false" />
-                <element signature="e#14382#15190#0" expanded="false" />
-                <element signature="e#15272#19496#0" expanded="false" />
-                <element signature="e#16142#18256#0" expanded="false" />
-                <element signature="e#18761#19452#0" expanded="false" />
+                <element signature="e#1139#1729#0" expanded="false" />
+                <element signature="e#1750#2114#0" expanded="false" />
+                <element signature="e#3886#4396#0" expanded="false" />
+                <element signature="e#13873#14729#0" expanded="false" />
+                <element signature="e#16757#18740#0" expanded="false" />
+                <element signature="e#17858#18681#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="jifengluantan.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spiders/jifengluantan.py">
+      <file leaf-file-name="部署详细" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/部署详细">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3895">
-              <caret line="39" column="34" lean-forward="false" selection-start-line="39" selection-start-column="27" selection-end-line="39" selection-end-column="34" />
+            <state relative-caret-position="646">
+              <caret line="34" column="14" lean-forward="false" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="thepaper.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spiders/thepaper.py">
+      <file leaf-file-name="chengdu3.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spiders/chengdu3.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="490">
-              <caret line="515" column="32" lean-forward="false" selection-start-line="515" selection-start-column="32" selection-end-line="515" selection-end-column="32" />
+            <state relative-caret-position="293">
+              <caret line="348" column="0" lean-forward="true" selection-start-line="348" selection-start-column="0" selection-end-line="348" selection-end-column="0" />
               <folding>
-                <element signature="e#21#36#0" expanded="true" />
-                <element signature="e#637#787#0" expanded="false" />
-                <element signature="e#808#1219#0" expanded="false" />
-                <element signature="e#1827#2709#0" expanded="false" />
-                <element signature="e#2773#2860#0" expanded="false" />
-                <element signature="e#2924#6256#0" expanded="false" />
-                <element signature="e#5706#6194#0" expanded="false" />
-                <element signature="e#6320#9410#0" expanded="false" />
-                <element signature="e#6925#9410#0" expanded="false" />
-                <element signature="e#9604#10507#0" expanded="false" />
-                <element signature="e#16299#16936#0" expanded="false" />
-                <element signature="e#16974#24236#0" expanded="false" />
-                <element signature="e#17026#23404#0" expanded="false" />
-                <element signature="e#21751#21771#0" expanded="false" />
+                <element signature="e#888#1763#0" expanded="false" />
+                <element signature="e#2965#8601#0" expanded="false" />
+                <element signature="e#8639#14101#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -382,14 +358,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>plantform</find>
-      <find>time</find>
-      <find>datajson</find>
-      <find>video</find>
-      <find>detail_</find>
-      <find>charset</find>
-      <find>result_list</find>
-      <find>index_data_list</find>
       <find>read</find>
       <find>@c@g@tl@c@g@t</find>
       <find>pllist1</find>
@@ -403,7 +371,6 @@
       <find>wrong time too much</find>
       <find>get_conten_in_wenda_comments_more中出了问题</find>
       <find>2017-09</find>
-      <find>print</find>
       <find>style</find>
       <find>&lt;st</find>
       <find>&lt;/script&gt;</find>
@@ -412,6 +379,15 @@
       <find>script</find>
       <find>&lt;script</find>
       <find>publish_time</find>
+      <find>response1.code</find>
+      <find>response_in_functi</find>
+      <find>response_in_function.c</find>
+      <find>response_in_function</find>
+      <find>response_in_function.</find>
+      <find>在get_content_news中出了问题</find>
+      <find>print</find>
+      <find>response1.text</find>
+      <find>response_in_function_text</find>
     </findStrings>
     <replaceStrings>
       <replace>self.content_data_list</replace>
@@ -442,12 +418,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/spiders/xcar.py" />
-        <option value="$PROJECT_DIR$/thepaper.py" />
-        <option value="$PROJECT_DIR$/spiders/chengdu.py" />
-        <option value="$PROJECT_DIR$/spiders/chengdu2.py" />
-        <option value="$PROJECT_DIR$/spiders/sohu2.py" />
-        <option value="$PROJECT_DIR$/spiders/toutiao2.py" />
         <option value="$PROJECT_DIR$/spiders/xilu2.py" />
         <option value="$PROJECT_DIR$/visit_page.py" />
         <option value="$PROJECT_DIR$/KafkaConnector1.py" />
@@ -474,25 +444,31 @@
         <option value="$PROJECT_DIR$/test_module/test_scjj.py" />
         <option value="$PROJECT_DIR$/test_module/test_chengshiluntan2.py" />
         <option value="$PROJECT_DIR$/test_module/testlog.py" />
-        <option value="$PROJECT_DIR$/test_module/test_xilu.py" />
         <option value="$PROJECT_DIR$/get_proxy_from_XMX.py" />
         <option value="$PROJECT_DIR$/test_module/testsoup.py" />
         <option value="$PROJECT_DIR$/visit_page2.py" />
-        <option value="$PROJECT_DIR$/spiders/360gerentushuguan.py" />
         <option value="$PROJECT_DIR$/test_module/test.py" />
-        <option value="$PROJECT_DIR$/spiders/sohu3.py" />
-        <option value="$PROJECT_DIR$/spiders/chengdu3.py" />
-        <option value="$PROJECT_DIR$/spiders/people.py" />
         <option value="$PROJECT_DIR$/spiders/thepaper.py" />
-        <option value="$PROJECT_DIR$/saveresult.py" />
-        <option value="$PROJECT_DIR$/spiders/SCjingji.py" />
-        <option value="$PROJECT_DIR$/spiders/csdn.py" />
         <option value="$PROJECT_DIR$/setting.py" />
-        <option value="$PROJECT_DIR$/spiders/toutiao3.py" />
         <option value="$PROJECT_DIR$/test_module/test_jifeng.py" />
         <option value="$PROJECT_DIR$/spiders/jifengluantan.py" />
         <option value="$PROJECT_DIR$/spiders/chengshiluntan.py" />
+        <option value="$PROJECT_DIR$/commonMoudle.py" />
+        <option value="$PROJECT_DIR$/test_module/test_connection3.py" />
+        <option value="$PROJECT_DIR$/get_proxy_from_TG.py" />
+        <option value="$PROJECT_DIR$/sava_data_to_MongoDB.py" />
+        <option value="$PROJECT_DIR$/spiders/csdn.py" />
+        <option value="$PROJECT_DIR$/spiders/sohu3.py" />
+        <option value="$PROJECT_DIR$/test_module/test_xilu.py" />
         <option value="$PROJECT_DIR$/spiders/xilu3.py" />
+        <option value="$PROJECT_DIR$/visit_page3.py" />
+        <option value="$PROJECT_DIR$/spiders/chengdu3.py" />
+        <option value="$PROJECT_DIR$/spiders/toutiao3.py" />
+        <option value="$PROJECT_DIR$/spiders/SCjingji.py" />
+        <option value="$PROJECT_DIR$/saveresult.py" />
+        <option value="$PROJECT_DIR$/spiders/360gerentushuguan.py" />
+        <option value="$PROJECT_DIR$/部署详细" />
+        <option value="$PROJECT_DIR$/spiders/people.py" />
       </list>
     </option>
   </component>
@@ -778,7 +754,7 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
-    <configuration name="csdn" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="toutiao3" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -791,12 +767,12 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="YFZX_new" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spiders/csdn.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spiders/toutiao3.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
-    <configuration name="people" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="xilu3" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -809,25 +785,25 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="YFZX_new" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spiders/people.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spiders/xilu3.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.SCjingji" />
-      <item index="1" class="java.lang.String" itemvalue="Python.people" />
-      <item index="2" class="java.lang.String" itemvalue="Python.csdn" />
-      <item index="3" class="java.lang.String" itemvalue="Python.chengdu3" />
+      <item index="0" class="java.lang.String" itemvalue="Python.toutiao3" />
+      <item index="1" class="java.lang.String" itemvalue="Python.xilu3" />
+      <item index="2" class="java.lang.String" itemvalue="Python.chengdu3" />
+      <item index="3" class="java.lang.String" itemvalue="Python.SCjingji" />
       <item index="4" class="java.lang.String" itemvalue="Python.360gerentushuguan" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="Python.360gerentushuguan" />
-        <item index="1" class="java.lang.String" itemvalue="Python.chengdu3" />
-        <item index="2" class="java.lang.String" itemvalue="Python.csdn" />
-        <item index="3" class="java.lang.String" itemvalue="Python.people" />
-        <item index="4" class="java.lang.String" itemvalue="Python.SCjingji" />
+        <item index="1" class="java.lang.String" itemvalue="Python.SCjingji" />
+        <item index="2" class="java.lang.String" itemvalue="Python.chengdu3" />
+        <item index="3" class="java.lang.String" itemvalue="Python.toutiao3" />
+        <item index="4" class="java.lang.String" itemvalue="Python.xilu3" />
       </list>
     </recent_temporary>
   </component>
@@ -1132,7 +1108,14 @@
       <option name="project" value="LOCAL" />
       <updated>1505546585017</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="9-8-远程主机推送">
+      <created>1505898754695</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1505898754695</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1438,7 +1421,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao3.py</url>
-          <line>569</line>
+          <line>590</line>
           <option name="timeStamp" value="588" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -1458,48 +1441,68 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao3.py</url>
-          <line>731</line>
-          <option name="timeStamp" value="641" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/spiders/toutiao3.py</url>
-          <line>654</line>
+          <line>675</line>
           <option name="timeStamp" value="643" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/sohu3.py</url>
-          <line>72</line>
+          <line>74</line>
           <option name="timeStamp" value="649" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/toutiao3.py</url>
-          <line>474</line>
+          <line>499</line>
           <option name="timeStamp" value="652" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/xilu3.py</url>
-          <line>107</line>
+          <line>113</line>
           <option name="timeStamp" value="661" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/xilu3.py</url>
-          <line>91</line>
+          <line>97</line>
           <option name="timeStamp" value="662" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/xilu3.py</url>
-          <line>90</line>
-          <option name="timeStamp" value="663" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/spiders/xilu3.py</url>
-          <line>89</line>
+          <line>94</line>
           <option name="timeStamp" value="664" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test_module/test_connection3.py</url>
+          <line>38</line>
+          <option name="timeStamp" value="671" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test_module/test_connection3.py</url>
+          <line>35</line>
+          <option name="timeStamp" value="675" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test_module/test_connection3.py</url>
+          <line>42</line>
+          <option name="timeStamp" value="676" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/spiders/xilu3.py</url>
-          <line>86</line>
-          <option name="timeStamp" value="665" />
+          <line>91</line>
+          <option name="timeStamp" value="681" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/spiders/xilu3.py</url>
+          <line>92</line>
+          <option name="timeStamp" value="682" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/spiders/toutiao3.py</url>
+          <line>268</line>
+          <option name="timeStamp" value="693" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/spiders/toutiao3.py</url>
+          <line>264</line>
+          <option name="timeStamp" value="694" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -1512,119 +1515,16 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="671" />
+      <option name="time" value="695" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://D:/python_27/Lib/threading.py" />
-    <entry file="file://$PROJECT_DIR$/spiders/zhihu.py" />
-    <entry file="file://$PROJECT_DIR$/spiders/chengdu.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="485">
-          <caret line="50" column="26" lean-forward="false" selection-start-line="50" selection-start-column="26" selection-end-line="50" selection-end-column="26" />
-          <folding>
-            <element signature="e#1281#1599#0" expanded="false" />
-            <element signature="e#1635#7108#0" expanded="false" />
-            <element signature="e#1677#6190#0" expanded="false" />
-            <element signature="e#1677#1696#0" expanded="false" />
-            <element signature="e#7145#11053#0" expanded="false" />
-            <element signature="e#7187#10183#0" expanded="false" />
-            <element signature="e#10318#11009#0" expanded="false" />
-            <element signature="e#11090#12338#0" expanded="false" />
-            <element signature="e#12368#12797#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/chengdu2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#727#1663#0" expanded="false" />
-            <element signature="e#1698#2037#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/sohu.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-133">
-          <caret line="56" column="39" lean-forward="true" selection-start-line="56" selection-start-column="39" selection-end-line="56" selection-end-column="39" />
-          <folding>
-            <element signature="e#20#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/toutiao.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/proxy_to_redis.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="134" column="4" lean-forward="false" selection-start-line="134" selection-start-column="4" selection-end-line="134" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/get_proxy_from_XMX.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="30" column="31" lean-forward="false" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/xcar.py" />
-    <entry file="file://F:/python27/Lib/site-packages/chardet/utf8prober.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="41">
-          <caret line="59" column="0" lean-forward="false" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://F:/python27/Lib/site-packages/bs4/element.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="1328" column="0" lean-forward="false" selection-start-line="1328" selection-start-column="0" selection-end-line="1328" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://F:/python27/Lib/site-packages/chardet/sbcharsetprober.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="92" column="0" lean-forward="false" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://F:/python27/Lib/site-packages/chardet/codingstatemachine.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="77" column="0" lean-forward="false" selection-start-line="77" selection-start-column="0" selection-end-line="77" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://F:/python27/Lib/httplib.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="174">
           <caret line="394" column="0" lean-forward="false" selection-start-line="394" selection-start-column="0" selection-end-line="394" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/saveresult.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-127">
-          <caret line="207" column="59" lean-forward="false" selection-start-line="207" selection-start-column="59" selection-end-line="207" selection-end-column="59" />
-          <folding>
-            <element signature="e#20#34#0" expanded="true" />
-            <element signature="e#6402#6497#0" expanded="false" />
-            <element signature="e#7258#7383#1" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1719,13 +1619,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_module/test_xilu.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="9" column="54" lean-forward="false" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test_module/testes2.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1783,25 +1676,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/setting.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="23" lean-forward="false" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test_module/testpaper3.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/visit_page2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="40" column="65" lean-forward="false" selection-start-line="40" selection-start-column="65" selection-end-line="40" selection-end-column="65" />
         </state>
       </provider>
     </entry>
@@ -1810,88 +1688,158 @@
         <state relative-caret-position="1026">
           <caret line="66" column="0" lean-forward="false" selection-start-line="66" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
           <folding>
-            <element signature="e#20#35#0" expanded="true" />
+            <element signature="e#20#35#0" expanded="false" />
             <element signature="e#1217#1248#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://F:/python27/Lib/threading.py">
+    <entry file="file://F:/python27/Lib/site-packages/urllib3/connectionpool.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="634">
-          <caret line="753" column="0" lean-forward="false" selection-start-line="753" selection-start-column="0" selection-end-line="753" selection-end-column="0" />
+        <state relative-caret-position="185">
+          <caret line="857" column="0" lean-forward="false" selection-start-line="857" selection-start-column="0" selection-end-line="857" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/chengshiluntan.py">
+    <entry file="file://$PROJECT_DIR$/commonMoudle.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="439">
-          <caret line="185" column="57" lean-forward="true" selection-start-line="185" selection-start-column="57" selection-end-line="185" selection-end-column="57" />
+        <state relative-caret-position="418">
+          <caret line="22" column="10" lean-forward="true" selection-start-line="22" selection-start-column="10" selection-end-line="22" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#11#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/visit_page2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="25" column="78" lean-forward="true" selection-start-line="25" selection-start-column="78" selection-end-line="25" selection-end-column="78" />
+          <folding>
+            <element signature="e#159#172#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/visit_page.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spiders/jifengluantan.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3895">
-          <caret line="39" column="34" lean-forward="false" selection-start-line="39" selection-start-column="27" selection-end-line="39" selection-end-column="34" />
+        <state relative-caret-position="171">
+          <caret line="47" column="43" lean-forward="true" selection-start-line="47" selection-start-column="43" selection-end-line="47" selection-end-column="43" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/xilu3.py">
+    <entry file="file://$PROJECT_DIR$/spiders/sohu.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1723">
-          <caret line="428" column="0" lean-forward="true" selection-start-line="428" selection-start-column="0" selection-end-line="428" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#993#1583#0" expanded="false" />
-            <element signature="e#1604#1968#0" expanded="false" />
-            <element signature="e#3507#4017#0" expanded="false" />
-            <element signature="e#10690#13329#0" expanded="false" />
-            <element signature="e#13393#14249#0" expanded="false" />
-            <element signature="e#14382#15190#0" expanded="false" />
-            <element signature="e#15272#19496#0" expanded="false" />
-            <element signature="e#16142#18256#0" expanded="false" />
-            <element signature="e#18761#19452#0" expanded="false" />
+            <element signature="e#20#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/toutiao3.py">
+    <entry file="file://$PROJECT_DIR$/setting.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="163" column="13" lean-forward="true" selection-start-line="163" selection-start-column="13" selection-end-line="163" selection-end-column="13" />
+        <state relative-caret-position="133">
+          <caret line="7" column="0" lean-forward="false" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/get_proxy_from_XMX.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="45" column="4" lean-forward="false" selection-start-line="45" selection-start-column="4" selection-end-line="45" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_module/test_connection3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="42" column="26" lean-forward="false" selection-start-line="42" selection-start-column="25" selection-end-line="42" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sava_data_to_MongoDB.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="387">
+          <caret line="46" column="17" lean-forward="false" selection-start-line="46" selection-start-column="17" selection-end-line="46" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://F:/python27/Lib/site-packages/requests/api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="185">
+          <caret line="57" column="0" lean-forward="false" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setting.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="2" column="23" lean-forward="false" selection-start-line="2" selection-start-column="23" selection-end-line="2" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/csdn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="351">
+          <caret line="272" column="73" lean-forward="true" selection-start-line="272" selection-start-column="73" selection-end-line="272" selection-end-column="73" />
           <folding>
-            <element signature="e#1368#4715#0" expanded="false" />
-            <element signature="e#5463#8170#0" expanded="false" />
-            <element signature="e#12662#14203#0" expanded="false" />
-            <element signature="e#13643#13731#0" expanded="false" />
-            <element signature="e#14271#15686#0" expanded="false" />
-            <element signature="e#18692#19411#0" expanded="false" />
-            <element signature="e#20379#23480#0" expanded="false" />
-            <element signature="e#23568#27435#0" expanded="false" />
-            <element signature="e#23797#24579#0" expanded="false" />
-            <element signature="e#24782#26949#0" expanded="false" />
-            <element signature="e#26134#26815#0" expanded="false" />
-            <element signature="e#27011#27365#0" expanded="false" />
-            <element signature="e#27543#28579#0" expanded="false" />
-            <element signature="e#37572#37658#0" expanded="false" />
+            <element signature="e#914#2107#0" expanded="false" />
+            <element signature="e#929#1424#0" expanded="false" />
+            <element signature="e#2192#2991#0" expanded="false" />
+            <element signature="e#3068#5110#0" expanded="false" />
+            <element signature="e#5218#5710#0" expanded="false" />
+            <element signature="e#5747#11539#0" expanded="false" />
+            <element signature="e#5863#6629#0" expanded="false" />
+            <element signature="e#6681#10767#0" expanded="false" />
+            <element signature="e#10888#11539#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/KafkaConnector.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="185">
+          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_module/test_xilu.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="17" column="30" lean-forward="false" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spiders/thepaper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="490">
-          <caret line="515" column="32" lean-forward="false" selection-start-line="515" selection-start-column="32" selection-end-line="515" selection-end-column="32" />
+        <state relative-caret-position="-1499">
+          <caret line="119" column="45" lean-forward="false" selection-start-line="119" selection-start-column="34" selection-end-line="119" selection-end-column="45" />
           <folding>
             <element signature="e#21#36#0" expanded="true" />
             <element signature="e#637#787#0" expanded="false" />
             <element signature="e#808#1219#0" expanded="false" />
             <element signature="e#1827#2709#0" expanded="false" />
             <element signature="e#2773#2860#0" expanded="false" />
-            <element signature="e#2924#6256#0" expanded="false" />
             <element signature="e#5706#6194#0" expanded="false" />
             <element signature="e#6320#9410#0" expanded="false" />
             <element signature="e#6925#9410#0" expanded="false" />
@@ -1904,124 +1852,185 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://F:/python27/Lib/threading.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="773" column="0" lean-forward="false" selection-start-line="773" selection-start-column="0" selection-end-line="773" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/get_proxy_from_TG.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="358">
+          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding>
+            <element signature="e#20#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/visit_page3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="10" column="85" lean-forward="false" selection-start-line="10" selection-start-column="85" selection-end-line="10" selection-end-column="85" />
+          <folding>
+            <element signature="e#20#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/chengshiluntan.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="709">
+          <caret line="110" column="24" lean-forward="true" selection-start-line="110" selection-start-column="24" selection-end-line="110" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/spiders/sohu3.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="86">
-          <caret line="324" column="54" lean-forward="false" selection-start-line="324" selection-start-column="54" selection-end-line="324" selection-end-column="54" />
+        <state relative-caret-position="464">
+          <caret line="64" column="34" lean-forward="false" selection-start-line="64" selection-start-column="34" selection-end-line="64" selection-end-column="34" />
           <folding>
-            <element signature="e#2987#3387#0" expanded="false" />
-            <element signature="e#4716#7312#0" expanded="false" />
-            <element signature="e#7350#13367#0" expanded="false" />
+            <element signature="e#2141#4742#0" expanded="false" />
+            <element signature="e#3120#3520#0" expanded="false" />
+            <element signature="e#4851#7449#0" expanded="false" />
+            <element signature="e#7487#13554#0" expanded="false" />
+            <element signature="e#13591#16042#0" expanded="false" />
+            <element signature="e#16075#16484#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/xilu3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="38" column="38" lean-forward="true" selection-start-line="38" selection-start-column="38" selection-end-line="38" selection-end-column="38" />
+          <folding>
+            <element signature="e#1139#1729#0" expanded="false" />
+            <element signature="e#1750#2114#0" expanded="false" />
+            <element signature="e#3886#4396#0" expanded="false" />
+            <element signature="e#13873#14729#0" expanded="false" />
+            <element signature="e#16757#18740#0" expanded="false" />
+            <element signature="e#17858#18681#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/toutiao3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="761" column="0" lean-forward="false" selection-start-line="761" selection-start-column="0" selection-end-line="761" selection-end-column="0" />
+          <folding>
+            <element signature="e#1230#5388#0" expanded="false" />
+            <element signature="e#1471#4818#0" expanded="false" />
+            <element signature="e#5498#8345#0" expanded="false" />
+            <element signature="e#9004#9124#0" expanded="false" />
+            <element signature="e#9212#9357#0" expanded="false" />
+            <element signature="e#15208#16623#0" expanded="false" />
+            <element signature="e#19629#20348#0" expanded="false" />
+            <element signature="e#21316#24417#0" expanded="false" />
+            <element signature="e#24505#28372#0" expanded="false" />
+            <element signature="e#24734#25516#0" expanded="false" />
+            <element signature="e#25719#27886#0" expanded="false" />
+            <element signature="e#27071#27752#0" expanded="false" />
+            <element signature="e#27948#28302#0" expanded="false" />
+            <element signature="e#29318#37209#0" expanded="false" />
+            <element signature="e#38444#38530#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spiders/SCjingji.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="271">
-          <caret line="203" column="0" lean-forward="true" selection-start-line="203" selection-start-column="0" selection-end-line="203" selection-end-column="0" />
+        <state relative-caret-position="369">
+          <caret line="238" column="34" lean-forward="false" selection-start-line="238" selection-start-column="34" selection-end-line="238" selection-end-column="34" />
           <folding>
-            <element signature="e#935#2762#0" expanded="false" />
-            <element signature="e#1535#2573#0" expanded="false" />
-            <element signature="e#2797#5717#0" expanded="false" />
-            <element signature="e#2836#4920#0" expanded="false" />
-            <element signature="e#2891#2939#0" expanded="false" />
-            <element signature="e#3569#4483#0" expanded="false" />
-            <element signature="e#5088#5675#0" expanded="false" />
-            <element signature="e#5781#6366#0" expanded="false" />
-            <element signature="e#9654#10292#0" expanded="false" />
-            <element signature="e#9713#10292#0" expanded="false" />
-            <element signature="e#10364#10670#0" expanded="false" />
+            <element signature="e#1033#2860#0" expanded="false" />
+            <element signature="e#1633#2671#0" expanded="false" />
+            <element signature="e#3667#4581#0" expanded="false" />
+            <element signature="e#5186#5773#0" expanded="false" />
+            <element signature="e#5905#7528#0" expanded="false" />
+            <element signature="e#7565#9769#0" expanded="false" />
+            <element signature="e#11050#11688#0" expanded="false" />
+            <element signature="e#11109#11688#0" expanded="false" />
+            <element signature="e#11760#12066#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/people.py">
+    <entry file="file://$PROJECT_DIR$/saveresult.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="160" column="54" lean-forward="true" selection-start-line="160" selection-start-column="54" selection-end-line="160" selection-end-column="54" />
+        <state relative-caret-position="394">
+          <caret line="173" column="21" lean-forward="true" selection-start-line="173" selection-start-column="21" selection-end-line="173" selection-end-column="21" />
           <folding>
-            <element signature="e#904#4090#0" expanded="false" />
-            <element signature="e#919#1070#0" expanded="false" />
-            <element signature="e#1491#1561#0" expanded="false" />
-            <element signature="e#3692#3717#0" expanded="false" />
-            <element signature="e#6147#6321#0" expanded="false" />
-            <element signature="e#6649#7159#0" expanded="false" />
-            <element signature="e#7224#9525#0" expanded="false" />
-            <element signature="e#7266#8823#0" expanded="false" />
-            <element signature="e#8930#9525#0" expanded="false" />
-            <element signature="e#9563#11869#0" expanded="false" />
-            <element signature="e#9605#11134#0" expanded="false" />
-            <element signature="e#11906#14982#0" expanded="false" />
-            <element signature="e#15035#15629#0" expanded="false" />
-            <element signature="e#15659#16192#0" expanded="false" />
-            <element signature="e#16224#16300#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/csdn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="518">
-          <caret line="284" column="52" lean-forward="false" selection-start-line="253" selection-start-column="8" selection-end-line="284" selection-end-column="52" />
-          <folding>
-            <element signature="e#813#2006#0" expanded="false" />
-            <element signature="e#828#1323#0" expanded="false" />
-            <element signature="e#2084#2854#0" expanded="false" />
-            <element signature="e#2112#2854#0" expanded="false" />
-            <element signature="e#2926#4797#0" expanded="false" />
-            <element signature="e#3110#4729#0" expanded="false" />
-            <element signature="e#3776#4387#0" expanded="false" />
-            <element signature="e#4577#4673#0" expanded="false" />
-            <element signature="e#4905#5397#0" expanded="false" />
-            <element signature="e#5434#11191#0" expanded="false" />
-            <element signature="e#6368#10420#0" expanded="false" />
-            <element signature="e#10542#11191#0" expanded="false" />
-            <element signature="e#11263#12121#0" expanded="false" />
-            <element signature="e#12232#12965#0" expanded="false" />
+            <element signature="e#20#34#0" expanded="true" />
+            <element signature="e#6404#6499#0" expanded="false" />
+            <element signature="e#7260#7385#1" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spiders/chengdu3.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="329" column="33" lean-forward="true" selection-start-line="329" selection-start-column="33" selection-end-line="329" selection-end-column="33" />
+        <state relative-caret-position="293">
+          <caret line="348" column="0" lean-forward="true" selection-start-line="348" selection-start-column="0" selection-end-line="348" selection-end-column="0" />
           <folding>
-            <element signature="e#2756#8392#0" expanded="false" />
-            <element signature="e#2798#7646#0" expanded="false" />
+            <element signature="e#888#1763#0" expanded="false" />
+            <element signature="e#2965#8601#0" expanded="false" />
+            <element signature="e#8639#14101#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spiders/360gerentushuguan.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="361" column="12" lean-forward="true" selection-start-line="361" selection-start-column="12" selection-end-line="361" selection-end-column="12" />
+        <state relative-caret-position="235">
+          <caret line="153" column="37" lean-forward="true" selection-start-line="153" selection-start-column="37" selection-end-line="153" selection-end-column="37" />
           <folding>
-            <element signature="e#1125#6008#0" expanded="false" />
-            <element signature="e#1140#1981#0" expanded="false" />
-            <element signature="e#2002#3560#0" expanded="false" />
-            <element signature="e#4054#4177#0" expanded="false" />
-            <element signature="e#6057#6609#0" expanded="false" />
-            <element signature="e#6117#6526#0" expanded="false" />
-            <element signature="e#6298#6467#0" expanded="false" />
-            <element signature="e#6673#7258#0" expanded="false" />
-            <element signature="e#7294#9733#0" expanded="false" />
-            <element signature="e#7442#8993#0" expanded="false" />
-            <element signature="e#7791#8993#0" expanded="false" />
-            <element signature="e#8441#8975#0" expanded="false" />
-            <element signature="e#9146#9733#0" expanded="false" />
-            <element signature="e#9770#12376#0" expanded="false" />
-            <element signature="e#9866#11623#0" expanded="false" />
-            <element signature="e#11781#12376#0" expanded="false" />
-            <element signature="e#12414#14927#0" expanded="false" />
-            <element signature="e#14964#18181#0" expanded="false" />
-            <element signature="e#14999#15020#0" expanded="false" />
-            <element signature="e#17429#18137#0" expanded="false" />
-            <element signature="e#18210#18633#0" expanded="false" />
-            <element signature="e#18668#18798#0" expanded="false" />
-            <element signature="e#18702#18726#0" expanded="false" />
+            <element signature="e#1290#2131#0" expanded="false" />
+            <element signature="e#4204#4327#0" expanded="false" />
+            <element signature="e#6207#6930#0" expanded="false" />
+            <element signature="e#8555#10996#0" expanded="false" />
+            <element signature="e#9054#10256#0" expanded="false" />
+            <element signature="e#9704#10238#0" expanded="false" />
+            <element signature="e#10409#10996#0" expanded="false" />
+            <element signature="e#13071#13666#0" expanded="false" />
+            <element signature="e#16255#19684#0" expanded="false" />
+            <element signature="e#16290#16311#0" expanded="false" />
+            <element signature="e#20363#20413#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/部署详细">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="34" column="14" lean-forward="false" selection-start-line="34" selection-start-column="14" selection-end-line="34" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/people.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="275" column="0" lean-forward="true" selection-start-line="275" selection-start-column="0" selection-end-line="275" selection-end-column="0" />
+          <folding>
+            <element signature="e#1007#4226#0" expanded="false" />
+            <element signature="e#1022#1173#0" expanded="false" />
+            <element signature="e#1594#1664#0" expanded="false" />
+            <element signature="e#3828#3853#0" expanded="false" />
+            <element signature="e#6283#6457#0" expanded="false" />
+            <element signature="e#7443#9744#0" expanded="false" />
+            <element signature="e#7485#9042#0" expanded="false" />
+            <element signature="e#9149#9744#0" expanded="false" />
+            <element signature="e#9782#12088#0" expanded="false" />
+            <element signature="e#9824#11353#0" expanded="false" />
+            <element signature="e#12125#15379#0" expanded="false" />
+            <element signature="e#12160#14409#0" expanded="false" />
+            <element signature="e#16057#16590#0" expanded="false" />
+            <element signature="e#16622#16698#0" expanded="false" />
           </folding>
         </state>
       </provider>

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<setting>
+    <sqlite_path>
+        <name>proxyIp.db</name>
+        <path>F:\llspider\涛哥的文件1\爬虫整合\</path>
+    </sqlite_path>
+
+</setting>

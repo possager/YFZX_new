@@ -23,10 +23,11 @@ import json
 from saveresult import BASIC_FILE
 import datetime
 # from KafkaConnector1 import Producer,Consumer
-from visit_page2 import get_response_and_text
+# from visit_page2 import get_response_and_text
+from visit_page3 import get_response_and_text
 from KafkaConnector import RemoteProducer,Consumer
 import sqlite3
-
+from sava_data_to_MongoDB import save_data_to_mongodb
 
 
 class chengdu:
@@ -62,27 +63,30 @@ class chengdu:
         need_continue=True
 
         while True:
-            response1=self.session1.request(method='get',url='http://wap.chengdu.cn/?action=category&catid=583',headers=self.headers)
-            datasoup=BeautifulSoup(response1.text,'lxml')
+            try:
+                response1=requests.get(url='http://wap.chengdu.cn/?action=category&catid=583',headers=self.headers)
+                datasoup=BeautifulSoup(response1.text,'lxml')
 
-            url_id_set = set()
-            for i in datasoup.select('div.content.more ul li a'):
-                try:
-                    url_id_set.add(int(i.get('href').split('contentid=')[1]))
-                except:
-                    pass
+                url_id_set = set()
+                for i in datasoup.select('div.content.more ul li a'):
+                    try:
+                        url_id_set.add(int(i.get('href').split('contentid=')[1]))
+                    except:
+                        pass
 
-            max_url_id= max(list(url_id_set))
-            self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(max_url_id-1000,max_url_id+1000)]
+                max_url_id= max(list(url_id_set))
+                self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(max_url_id-1000,max_url_id+1000)]
 
-            while self.urls and need_continue:  # 设置成and为了方便停止
-                while len(self.content_data_list) > LEN_CONTENT_LIST:
-                    time.sleep(1)
-                url = self.urls.pop(1)
-                self.content_data_list.append({'url': url, 'id': url.split('/')[-1]})
-                # break
-            # self.global_status_num_index = 0
-            time.sleep(300)
+                while self.urls and need_continue:  # 设置成and为了方便停止
+                    while len(self.content_data_list) > LEN_CONTENT_LIST:
+                        time.sleep(1)
+                    url = self.urls.pop(1)
+                    self.content_data_list.append({'url': url, 'id': url.split('/')[-1]})
+                    # break
+                # self.global_status_num_index = 0
+                time.sleep(300)
+            except:
+                pass
 
 
 
@@ -331,18 +335,21 @@ class chengdu:
             try:#因为有些页面有时候会解析错误，导致没有正确的内容，自然也没有publishtime这个属性，所以直接可以用try模块来过滤掉那些没有抓全的数据。
 
                 # host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
-                host='182.150.63.40'
-                port='12308'
-                username='silence'
-                password='silence'
-
-                producer=RemoteProducer(host=host,port=port,username=username,password=password)
+                # host='182.150.63.40'
+                # port='12308'
+                # username='silence'
+                # password='silence'
+                #
+                # producer=RemoteProducer(host=host,port=port,username=username,password=password)
                 result_file=get_result_name(plantform_e='ChengDuQuanSouSuo',plantform_c='成都全搜索',date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                         datatype='news', full_data=data)
 
-                print result_file
+                print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'--------', result_file
 
-                producer.send(topic='1101_STREAM_SPIDER',value={'data':data},key=result_file,updatetime=data['spider_time'])
+
+                save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='ChengDuQuanSouSuo',platform_c='成都全搜索')
+
+                # producer.send(topic='1101_STREAM_SPIDER',value={'data':data},key=result_file,updatetime=data['spider_time'])
 
                 # comsumer=Consumer('topic', host, 'll')
                 # what=comsumer.poll()

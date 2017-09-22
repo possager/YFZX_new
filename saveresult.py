@@ -171,7 +171,7 @@ def get_result_name(plantform_e,plantform_c,date_time,urlOruid,newsidOrtid,datat
                 return
 
         except Exception as e:
-            print e
+            # print e
             print
     elif len(date_time) == 10 or (len(date_time) >= 13 and len(date_time) < 17) or '.' in date_time:
         date_time_strip = str(date_time.split('.')[0])

@@ -29,7 +29,8 @@ from datetime import timedelta
 from KafkaConnector import RemoteProducer,Consumer
 from saveresult import get_result_name
 from get_proxy_from_XMX import get_proxy_couple
-
+from get_proxy_from_TG import getSqliteProxy
+from sava_data_to_MongoDB import save_data_to_mongodb
 
 
 
@@ -130,22 +131,50 @@ class scjjrb():
 
         self.global_status_num_content=0
 
-    def visit_page_in_class_post(self,url,data=None):
-        session1 = requests.session()
+    def visit_page_in_class_post(self,url,data=None,headers=None,charset=None):
+        # session1 = requests.session()
+        timeout_value=5
+        if headers:
+            this_headers = headers
+        else:
+            this_headers = {
+                'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
+                'Connection': 'close'
+            }
         while True:
             try:
-                # proxy1 = get_proxy_from_redis()
-                proxy1=get_proxy_couple(random.randint(1,40))
+                # proxies_from_db = get_proxy_couple(random.randint(0, 50))
 
-                session1.proxies = {'http': 'http://' + proxy1}
-                response_1 = session1.request(method='get', url=url, headers=self.headers, timeout=10,data=data)
-                if response_1.status_code in range(200, 300):
+                # proxy1 = get_proxy_from_redis()
+                # proxy1=get_proxy_couple(random.randint(1,40))
+                #
+                # session1.proxies = {'http': 'http://' + proxy1}
+                # response_1 = session1.request(method='get', url=url, headers=self.headers, timeout=10,data=data)
+
+
+
+                # proxies1 = {'http': 'http://' + proxies_from_db,
+                #             'https': 'https://' + proxies_from_db}  # 反正实在try里边，过限了自然会回去。
+
+                proxies1=getSqliteProxy()
+
+
+                response_in_function = requests.get(url=url, headers=headers, proxies=proxies1,
+                                                    timeout=timeout_value)
+                if charset:
+                    response_in_function.encoding = charset
+                response_in_function_text = response_in_function.text
+
+
+
+                if response_in_function.status_code in range(200, 300):
                     break
             except Exception as e:
-                print e
-        proxy_sendback(proxy1)
-        session1.close()
-        return response_1
+                # print e
+                pass
+        # proxy_sendback(proxies_from_db)
+        # session1.close()
+        return response_in_function
 
     def get_content(self):
         Re_find_img_url = re.compile(r' src="(.*?)"')
@@ -200,22 +229,24 @@ class scjjrb():
         def save_result(data):
             # Save_result(plantform='scjj', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
             #             datatype='news', full_data=data)
-
-
-            host = '182.150.63.40'
-            port = '12308'
-            username = 'silence'
-            password = 'silence'
-
-            producer = RemoteProducer(host=host, port=port, username=username, password=password)
+            #
+            # host = '182.150.63.40'
+            # port = '12308'
+            # username = 'silence'
+            # password = 'silence'
+            #
+            # producer = RemoteProducer(host=host, port=port, username=username, password=password)
             result_file = get_result_name(plantform_e='SCjingji', plantform_c='四川经济网',
                                           date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                                           datatype='forum', full_data=data)
 
-            print result_file
+            print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'--------',result_file
 
-            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
-                          updatetime=data['spider_time'])
+
+            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='SCjingji',platform_c='四川经济网',)
+            #
+            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
+            #               updatetime=data['spider_time'])
 
         threadlist = []
         while self.global_status_num_result > 0 or self.result_data_list:
