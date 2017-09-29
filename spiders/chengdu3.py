@@ -28,6 +28,7 @@ from visit_page3 import get_response_and_text
 from KafkaConnector import RemoteProducer,Consumer
 import sqlite3
 from sava_data_to_MongoDB import save_data_to_mongodb
+import Queue
 
 
 class chengdu:
@@ -58,6 +59,8 @@ class chengdu:
         self.content_data_list = []  # 下次需要获得的content链接，不是content内容
         self.comments_url_list = []  # 下次需要获得的comment链接，不是comment内容
         self.result_list = []  # 这个存储的是已经跑完了的内容
+
+        self.cache_data_list=Queue.Queue()
 
     def get_Index(self):
         need_continue=True
@@ -347,7 +350,7 @@ class chengdu:
                 print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'--------', result_file
 
 
-                save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='ChengDuQuanSouSuo',platform_c='成都全搜索')
+                save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='ChengDuQuanSouSuo',platform_c='成都全搜索',cache_data_list=self.cache_data_list)
 
                 # producer.send(topic='1101_STREAM_SPIDER',value={'data':data},key=result_file,updatetime=data['spider_time'])
 

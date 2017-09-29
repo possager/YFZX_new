@@ -34,6 +34,7 @@ import redis
 from KafkaConnector import RemoteProducer,Consumer
 from visit_page3 import get_response_and_text
 from sava_data_to_MongoDB import save_data_to_mongodb
+import Queue
 
 
 #特殊之处：再最后存数据处增加一个发言人的记录代码。存入数据库，之后遍历这些发言人，从他们的发言记录中找到所有的主贴，再爬取主贴
@@ -96,58 +97,67 @@ class people:
         self.result_data_list = []  # 这个存储的是已经跑完了的内容
         self.publish_user_url_need_to_visit=[]
 
+        self.cache_data_list=Queue.Queue()
+
     def get_Index(self):
         def get_index(url):
-            error_num=5#又是请求过于频繁，会出现eof错误
+            charge_to_stop=1
             while True:
-                response1=get_response_and_text(url=url)
-                response_in_function=response1['response_in_function']
-                response_in_function_text=response1['response_in_function_text']
-                print response_in_function_text
+                error_num=5#又是请求过于频繁，会出现eof错误
+                while True:
+                    response1=get_response_and_text(url=url)
+                    response_in_function=response1['response_in_function']
+                    response_in_function_text=response1['response_in_function_text']
+                    # print response_in_function_text
 
-                try:
-                    datajson=json.loads(response_in_function_text)
-                    #成功访问一次就重置error_num
-                    error_num=5
-                    if not datajson['elements']:
-                        break#没有数据了，请求完了
-                    for one_data in datajson['elements']:
-                        title=one_data['title']
-                        reply_count=one_data['replyCount']
-                        publish_user=one_data['usernick']
-                        read_count=one_data['readCount']
-                        like_count=one_data['like']
-                        url_index=one_data['url']
-                        id=one_data['id']
-                        publish_time=u'2017-'+one_data['createTime'].replace(u'月',u'-').replace(u'日',u'')+u':00'
+                    try:
+                        datajson=json.loads(response_in_function_text)
+                        #成功访问一次就重置error_num
+                        error_num=5
+                        if not datajson['elements']:
+                            charge_to_stop = 0
+                            break#没有数据了，请求完了
 
-                        this_index_info={
-                            'title':title,
-                            'reply_count':reply_count,
-                            'publish_user':publish_user,
-                            'read_count':read_count,
-                            'like_count':like_count,
-                            'url':u'http://bbs1.people.com.cn'+url_index,
-                            'id':id,
-                            'publish_time':publish_time,
-                            'reply_nodes':[],
-                            'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                        }
-                        self.content_data_list.append(this_index_info)
 
-                    urlsplit=url.split('pageNo=')
-                    url=urlsplit[0]+'pageNo='+str(int(urlsplit[1])+1)
-                except Exception as e:
-                    print e
-                    print 'mark1'
-                    error_num-=1
-                    if error_num<0:
-                        break
-                    time.sleep(3)
+                        for one_data in datajson['elements']:
+                            title=one_data['title']
+                            reply_count=one_data['replyCount']
+                            publish_user=one_data['usernick']
+                            read_count=one_data['readCount']
+                            like_count=one_data['like']
+                            url_index=one_data['url']
+                            id=one_data['id']
+                            publish_time=u'2017-'+one_data['createTime'].replace(u'月',u'-').replace(u'日',u'')+u':00'
 
-            url_split=response_in_function.url.split('pageNo=')
-            urlnext=url_split[0]+'pageNo='+str(int(url_split[1]) + 1 )
-            get_index(url=urlnext)
+                            this_index_info={
+                                'title':title,
+                                'reply_count':reply_count,
+                                'publish_user':publish_user,
+                                'read_count':read_count,
+                                'like_count':like_count,
+                                'url':u'http://bbs1.people.com.cn'+url_index,
+                                'id':id,
+                                'publish_time':publish_time,
+                                'reply_nodes':[],
+                                'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                            }
+                            self.content_data_list.append(this_index_info)
+
+                        urlsplit=url.split('pageNo=')
+                        url=urlsplit[0]+'pageNo='+str(int(urlsplit[1])+1)
+                    except Exception as e:
+                        # print e
+                        # print 'mark1'
+                        error_num-=1
+                        if error_num<0:
+                            break
+                        time.sleep(3)
+                if charge_to_stop==0:
+                    break
+                else:
+                    url_split=response_in_function.url.split('pageNo=')
+                    urlnext=url_split[0]+'pageNo='+str(int(url_split[1]) + 1 )
+                    get_index(url=urlnext)
 
 
         self.index_data_list2=self.index_data_list
@@ -160,8 +170,9 @@ class people:
                 while len(threadlist) < CONTENT_THREADING_NUM and self.index_data_list2:
                     data_in_while = self.index_data_list2.pop()
                     thread_in_while = threading.Thread(target=get_index, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
+                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
+                    thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
             time.sleep(600)
             self.index_data_list2=self.index_data_list
@@ -179,8 +190,9 @@ class people:
                 publish_time=datasoup2.select('.replayInfo .float_l.mT10')[0].text.split(u'\xa0')[-1]
                 data['publish_time']=publish_time
             except Exception as e:
-                print e
-                print 'mark1'
+                # print e
+                # print 'mark1'
+                pass
 
 
             response_in_function=response1['response_in_function']
@@ -198,7 +210,7 @@ class people:
                     for i in range(len(img_list)):
                         if 'http' not in img_list[i]:
                             img_list[i]='http://bbs1.people.com.cn'+img_list[i]
-                            print img_list[i]
+                            # print img_list[i]
                 else:
                     img_list=[]
                 data['content']=content_text
@@ -216,8 +228,9 @@ class people:
                 while len(threadlist) < CONTENT_THREADING_NUM and self.content_data_list:
                     data_in_while = self.content_data_list.pop()
                     thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
+                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
+                    thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
 
     def get_comments(self):
@@ -249,8 +262,8 @@ class people:
                         comment_list.append(one_comment)
                     page_num+=1
                 except Exception as e:
-                    print e
-                    print 'mark3'
+                    # print e
+                    # print 'mark3'
                     error_time-=1
                     if error_time<0:
                         break
@@ -270,58 +283,28 @@ class people:
                 while len(threadlist) < CONTENT_THREADING_NUM and self.comments_data_list:
                     data_in_while = self.comments_data_list.pop()
                     thread_in_while = threading.Thread(target=get_comment_inside, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
+                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
+                    thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
 
     def save_result(self):
         def save_result(data):
             save_user_to_redis(data)
 
-            # host = '182.150.63.40'
-            # port = '12308'
-            # username = 'silence'
-            # password = 'silence'
-            #
-            # producer = RemoteProducer(host=host, port=port, username=username, password=password)
             result_file = get_result_name(plantform_e='people', plantform_c='人民网强国社区',
                                           date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                                           datatype='forum', full_data=data)
             print datetime.datetime.now(),'--------',result_file
 
 
-            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='people',platform_c='人民网强国社区')
+            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='people',platform_c='人民网强国社区',cache_data_list=self.cache_data_list)
 
             # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
             #               updatetime=data['spider_time'])
 
             pass
 
-
-            # host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
-            # producer = Producer(hosts=host)
-            # result_file = get_result_name(plantform_c='澎湃新闻',plantform_e='thepaper', date_time=data['publish_time'], urlOruid=data['url'],
-            #                               newsidOrtid=data['id'],
-            #                               datatype='news', full_data=data)
-            # producer.send(topic='topic', value={'data': data}, key=result_file, updatetime=data['spider_time'])
-            #
-            # comsumer = Consumer('topic', host, 'll')
-            # what = comsumer.poll()
-            # for i in what:
-            #     # topic = i.topic
-            #     # partition = i.partition
-            #     # offset = i.offset
-            #     # key = i.key
-            #     value = i.value
-            #
-            #
-            #     Save_result(plantform='xilu', date_time=data['publish_time'], urlOruid=data['url'],
-            #                 newsidOrtid=data['id'],
-            #                 datatype='news', full_data=value['content'])
-
-            # Save_result(plantform='people', date_time=data['publish_time'], urlOruid=data['url'],
-            #             newsidOrtid=data['id'],
-            #             datatype='forum', full_data=data)
 
 
         def save_user_to_redis(data):
@@ -337,11 +320,10 @@ class people:
                     if not threadi.is_alive():
                         threadlist.remove(threadi)
                 while len(threadlist) < CONTENT_THREADING_NUM and self.result_data_list:
-                    print len(self.result_data_list)
                     data_in_while = self.result_data_list.pop()
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
                     thread_in_while.start()
+                    thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
 
 

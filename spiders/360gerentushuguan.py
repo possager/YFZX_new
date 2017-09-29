@@ -40,6 +40,9 @@ from get_proxy_from_TG import getSqliteProxy
 from visit_page3 import get_response_and_text
 from sava_data_to_MongoDB import save_data_to_mongodb
 
+import Queue
+from sava_data_to_MongoDB import save_data_to_mongodb_new
+
 
 
 class gerentushuguan360:
@@ -82,6 +85,9 @@ class gerentushuguan360:
         self.content_data_list = []  # 下次需要获得的content链接，不是content内容
         self.comments_data_list = []  # 下次需要获得的comment链接，不是comment内容
         self.result_list = []  # 这个存储的是已经跑完了的内容
+
+
+        self.cache_data_list=Queue.Queue()
 
         #http://www.360doc.com/ajax/ReadingRoom/getZCData.json?artNum=20&classId=9&subClassId=0&iIscream=0&iSort=1&nPage=3&nType=11
         #http://www.360doc.com/ajax/ReadingRoom/getZCData.json?artNum=20&classId=9&subClassId=0&iIscream=0&iSort=1&nPage=298&nType=11
@@ -362,7 +368,8 @@ class gerentushuguan360:
 
 
 
-            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='360gerentushuguan',platform_c='360个人图书馆')
+            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='360gerentushuguan',platform_c='360个人图书馆',cache_data_list=self.cache_data_list)
+
             # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
             #               updatetime=data['spider_time'])
 
@@ -373,7 +380,7 @@ class gerentushuguan360:
                     if not threadi.is_alive():
                         threadlist.remove(threadi)
                 while len(threadlist) < CONTENT_THREADING_NUM and self.result_list:
-                    print len(self.result_list)
+                    # print len(self.result_list)
                     data_in_while = self.result_list.pop()
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
                     thread_in_while.setDaemon(True)

@@ -31,7 +31,7 @@ from saveresult import get_result_name
 from get_proxy_from_XMX import get_proxy_couple
 from get_proxy_from_TG import getSqliteProxy
 from sava_data_to_MongoDB import save_data_to_mongodb
-
+import Queue
 
 
 class scjjrb():
@@ -68,16 +68,19 @@ class scjjrb():
         self.comments_url_list = []  # 下次需要获得的comment链接，不是comment内容
         self.result_data_list = []  # 这个存储的是已经跑完了的内容
 
+        self.cache_data_list=Queue.Queue()
+
     def get_Index(self):
         def get_index_inside(url):
             url_debug=url
+            next_page_num=2
+
             while True:
 
-                # response1=get_response_and_text(url=url_debug)
-                # response_in_function=response1['response_in_function']
-                # response_in_function_text=response1['response_in_function_text']
 
                 response1 = self.visit_page_in_class_post(url=url_debug)
+                if not response1:
+                    break
                 response1.encoding='gb2312'
                 response_in_function_text = response1.text
                 datasoup=BeautifulSoup(response_in_function_text,'lxml')
@@ -90,7 +93,6 @@ class scjjrb():
                         title = i.select('h4.nlc_tit a')[0].get('title')  # title
                         href = i.select('h4.nlc_tit a')[0].get('href')  # href
                         publish_time = i.select('p.nlc_time')[0].text.split(u' ')[0]  # publish_time
-                        # print i.select('p.nlc_info')[0].text
                         this_index = {
                             'title': title,
                             'url': href,
@@ -110,30 +112,44 @@ class scjjrb():
                     next_url=next_a[1].get('href')
                     if next_url not in ['javascript:;']:
                         url_debug=url.split('?')[0]+next_url
+                        next_page_num-=1
+                        if next_page_num<1:
+                            break
+
                     else:
                         break
                 except:
                     break
 
         threadlist=[]
+        num_print=0
         self.index_data_list=self.index_data_list2
         while self.index_data_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
             while self.index_data_list or threadlist:
+                num_print+=1
+                if num_print>10000:
+                    # print '获取content_url_list的线程队列的长度是----',len(threadlist)
+                    num_print=0
                 for threadi in threadlist:
                     if not threadi.is_alive():
                         threadlist.remove(threadi)
                 while len(threadlist) < CONTENT_THREADING_NUM and self.index_data_list:
                     data_in_while = self.index_data_list.pop()
                     thread_in_while = threading.Thread(target=get_index_inside, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
+                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
+                    thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
-
-        self.global_status_num_content=0
+        while True:
+            self.global_status_num_content=0
+            time.sleep(5)
+            if self.global_status_num_content==0:
+                break
 
     def visit_page_in_class_post(self,url,data=None,headers=None,charset=None):
         # session1 = requests.session()
         timeout_value=5
+        wrong_time_error_time=0
         if headers:
             this_headers = headers
         else:
@@ -143,18 +159,7 @@ class scjjrb():
             }
         while True:
             try:
-                # proxies_from_db = get_proxy_couple(random.randint(0, 50))
 
-                # proxy1 = get_proxy_from_redis()
-                # proxy1=get_proxy_couple(random.randint(1,40))
-                #
-                # session1.proxies = {'http': 'http://' + proxy1}
-                # response_1 = session1.request(method='get', url=url, headers=self.headers, timeout=10,data=data)
-
-
-
-                # proxies1 = {'http': 'http://' + proxies_from_db,
-                #             'https': 'https://' + proxies_from_db}  # 反正实在try里边，过限了自然会回去。
 
                 proxies1=getSqliteProxy()
 
@@ -171,7 +176,9 @@ class scjjrb():
                     break
             except Exception as e:
                 # print e
-                pass
+                wrong_time_error_time+=1
+                if wrong_time_error_time>10:
+                    return
         # proxy_sendback(proxies_from_db)
         # session1.close()
         return response_in_function
@@ -184,7 +191,10 @@ class scjjrb():
             # response_in_function=response1['response_in_function']
             # response_in_function_text=response1['response_in_function_text']
             response1=self.visit_page_in_class_post(url=url_debug)
+            if not response1:
+                return
             response1.encoding = 'gb2312'
+
             response_in_function_text=response1.text
             datasoup=BeautifulSoup(response_in_function_text,'lxml')
 
@@ -219,23 +229,20 @@ class scjjrb():
                 while len(threadlist) < CONTENT_THREADING_NUM and self.content_data_list:
                     data_in_while = self.content_data_list.pop()
                     thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
+                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
+                    thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
-
-        self.global_status_num_result=0
+        while True:
+            print 'get_content执行完毕'
+            self.global_status_num_result=0
+            time.sleep(5)
+            if self.global_status_num_result==0:
+                break
 
     def save_result(self):
         def save_result(data):
-            # Save_result(plantform='scjj', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
-            #             datatype='news', full_data=data)
-            #
-            # host = '182.150.63.40'
-            # port = '12308'
-            # username = 'silence'
-            # password = 'silence'
-            #
-            # producer = RemoteProducer(host=host, port=port, username=username, password=password)
+
             result_file = get_result_name(plantform_e='SCjingji', plantform_c='四川经济网',
                                           date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                                           datatype='forum', full_data=data)
@@ -243,8 +250,8 @@ class scjjrb():
             print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'--------',result_file
 
 
-            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='SCjingji',platform_c='四川经济网',)
-            #
+            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='SCjingji',platform_c='四川经济网',cache_data_list=self.cache_data_list)
+
             # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
             #               updatetime=data['spider_time'])
 
@@ -255,14 +262,18 @@ class scjjrb():
                     if not threadi.is_alive():
                         threadlist.remove(threadi)
                 while len(threadlist) < CONTENT_THREADING_NUM and self.result_data_list:
-                    print len(self.result_data_list)
+                    # print len(self.result_data_list)
                     data_in_while = self.result_data_list.pop()
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
                     thread_in_while.start()
+                    thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
 
-        self.global_status_finish=0
+        while True:
+            self.global_status_finish=0
+            time.sleep(10)
+            if self.global_status_finish==0:
+                break
 
 
 
@@ -274,7 +285,70 @@ class scjjrb():
 
             thread4 = threading.Thread(target=self.save_result, args=())
             thread4.start()
-            pass
+            # while self.global_status_num_content>0:
+            #     print '有新闻列表--',len(self.content_data_list),'  个需要访问'
+            #     print 'content_data_list--',len(self.content_data_list)
+            #     print 'result_data_list--',len(self.result_data_list)
+            #     print 'index_data_list--',len(self.index_data_list)
+            #     print 'global_status_index--',self.global_status_num_index
+            #     print 'global_status_content--',self.global_status_num_content
+            #     print 'global_status_comment--',self.global_status_num_comments
+            #     print 'global_status_result--',self.global_status_num_result
+            #     print 'global_status_finish--',self.global_status_finish
+            #     print '-------------sleep---------------------'
+            #     time.sleep(2)
+            #
+            # while self.global_status_num_result >0:
+            #     print '有新闻内容----',len(self.result_data_list),'  个需要访问'
+            #     print 'content_data_list--', len(self.content_data_list)
+            #     print 'result_data_list--', len(self.result_data_list)
+            #     print 'index_data_list--', len(self.index_data_list)
+            #     print 'global_status_index--', self.global_status_num_index
+            #     print 'global_status_content--', self.global_status_num_content
+            #     print 'global_status_comment--', self.global_status_num_comments
+            #     print 'global_status_result--', self.global_status_num_result
+            #     print 'global_status_finish--',self.global_status_finish
+            #     time.sleep(2)
+            # while self.global_status_finish > 0:
+            #     print '有结果需要存储'
+
+            thread1.join(6*60*60)
+            thread2.join(6*60*60)
+            thread4.join(6*60*60)
+
+
+            while self.global_status_num_content != 0:
+                print 'index没有获取完'
+                print '--------the global status num content--', self.global_status_num_content
+                print '------the global status num comment--', self.global_status_num_comments
+                print '----the global status num result--', self.global_status_num_result
+                print '--the global status finish--', self.global_status_finish
+                print '========len of content========', len(self.content_data_list)
+                time.sleep(2)
+
+            # while self.global_status_num_comments != 0:
+            #     print 'content没有获取完'
+            #     print '--------the global status num content--', self.global_status_num_content
+            #     print '------the global status num comment--', self.global_status_num_comments
+            #     print '----the global status num result--', self.global_status_num_result
+            #     print '--the global status finish--', self.global_status_finish
+            #     print '=======len of comment========', len(self.comments_url_list)
+            #     time.sleep(2)
+
+            while self.global_status_num_result != 0:
+                print 'result没有获取完'
+                print '--------the global status num content--', self.global_status_num_content
+                print '------the global status num comment--', self.global_status_num_comments
+                print '----the global status num result--', self.global_status_num_result
+                print '--the global status finish--', self.global_status_finish
+                print '=======len of result========', len(self.result_data_list)
+                time.sleep(2)
+
+            while self.global_status_finish != 0:
+                print '正在等待finish变为0'
+                time.sleep(2)
+
+            print '执行完了'
 
 if __name__ == '__main__':
     while True:
@@ -286,5 +360,6 @@ if __name__ == '__main__':
                 runthrod=10
                 time.sleep(6) # 因为在类里边实在是不好写定时启动任务了，所以写在这里。。。。。
             runthrod-=1
+        print '正在等待着600秒'
         #后来增加的防时间等待模块
         time.sleep(600)

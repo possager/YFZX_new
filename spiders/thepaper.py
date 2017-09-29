@@ -15,11 +15,17 @@ import re
 import logging
 # from visit_page import get_response_and_text
 from datetime import datetime,timedelta
-from visit_page2 import get_response_and_text
+# from visit_page2 import get_response_and_text
 from KafkaConnector import RemoteProducer,Consumer
 from saveresult import get_result_name
 
 
+
+from visit_page3 import get_response_and_text
+from sava_data_to_MongoDB import save_data_to_mongodb
+
+
+import Queue
 
 
 class thepaper:
@@ -50,6 +56,8 @@ class thepaper:
         self.comments_url_list = []  # 下次需要获得的comment链接，不是comment内容
         self.result_list = []  # 这个存储的是已经跑完了的内容
 
+        self.cache_data_list=Queue.Queue()
+
     def get_Index(self):
         while True:
             thisurls_list=[]
@@ -57,12 +65,11 @@ class thepaper:
                 response1=get_response_and_text(url=url)
                 response_in_function=response1['response_in_function']
                 response_in_function_text=response1['response_in_function_text']
-                Re_pattern = re.compile(r'data.*?\:.*?\".*?Math\.random\b')
+                Re_pattern = re.compile(r'data	:	\"(.*?)\".*?Math\.random\b')
                 datare = Re_pattern.findall(response_in_function_text)
                 try:
-                    url_in_content = datare[0].split('"')[1]
+                    url_in_content=datare[0]
                 except Exception as e:
-                    # print e
                     continue
                 if 'http://m.thepaper.cn/channel_26916' in url:
                     nexturl = 'http://www.thepaper.cn/load_index.jsp?' + url_in_content#发现手机端的数据获得地更多一些,电脑端http://m.thepaper.cn/load_channel.jsp?
@@ -205,24 +212,24 @@ class thepaper:
 
             threadlist=[]
             # self.index_url_list=self.index_url_list.reverse()
-            while self.index_url_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
-                while self.index_url_list or threadlist:
+            the_index_url_list_here=self.index_url_list#每次到这里就从新从self.index_url_list
+            while the_index_url_list_here:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
+                while the_index_url_list_here or threadlist:
                     for threadi in threadlist:
                         if not threadi.is_alive():
                             threadlist.remove(threadi)
-                    while len(threadlist) < CONTENT_THREADING_NUM and self.index_url_list:
-                        data_in_while = self.index_url_list.pop()
+                    while len(threadlist) < CONTENT_THREADING_NUM and the_index_url_list_here:
+                        data_in_while = the_index_url_list_here.pop()
                         if 'http://www.thepaper.cn/load_index.jsp?' in data_in_while:
                             thread_in_while = threading.Thread(target=get_index_inside_movie, args=(data_in_while,))
                         else:
                             thread_in_while=threading.Thread(target=get_index_inside_wenben,args=(data_in_while,))
-                        thread_in_while.setDaemon(True)
                         thread_in_while.start()
                         threadlist.append(thread_in_while)
 
-        # self.global_status_num_index=0
 
-            time.sleep(300)
+            print '正在index中等待那600秒'
+            time.sleep(1800)
 
     def get_content(self):
         def get_content_inside(data):
@@ -369,6 +376,9 @@ class thepaper:
 
     def get_comments(self):
         def get_comment_inside(data):#这种写法可能有问题
+
+
+
             data['source']=data['source'].strip()
             isFirst_req = True
             start_id = 0
@@ -482,8 +492,8 @@ class thepaper:
                         pass
                     self.result_list.append(data)
                     break
-                else:
-                    get_comment_inside(data)
+                # else:
+                #     get_comment_inside(data)
 
 
 
@@ -505,26 +515,20 @@ class thepaper:
 
     def save_result(self):
         def save_result(data):
-            # print 'deal result'
+
             try:
                 del data['is_movie']
             except Exception as e:
                 print e
-            host = '182.150.63.40'
-            port = '12308'
-            username = 'silence'
-            password = 'silence'
 
-            # producer = Producer(hosts=host)
-            producer = RemoteProducer(host=host, port=port, username=username, password=password)
             result_file = get_result_name(plantform_e='PengPai', plantform_c='澎湃新闻', date_time=data['publish_time'],
                                           urlOruid=data['url'],
                                           newsidOrtid=data['id'],
                                           datatype='news', full_data=data)
-            print result_file
+            print datetime.now(),'---',result_file
 
-            producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
-                          updatetime=data['spider_time'])
+
+            # save_data_to_mongodb(data={'data':data},item_id=result_file,platform_c='澎湃新闻',platform_e='PengPai',cache_data_list=self.cache_data_list)
 
         threadlist = []
         while self.global_status_num_comments > 0 or self.result_list:

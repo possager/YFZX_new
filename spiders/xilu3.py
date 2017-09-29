@@ -34,13 +34,14 @@ from KafkaConnector1 import Producer,Consumer
 
 
 # from visit_page2 import get_response_and_text
-from visit_page3 import get_response_and_text
+# from visit_page3 import get_response_and_text
+from visit_page4 import get_response_and_text
 from KafkaConnector import RemoteProducer,Consumer
 from saveresult import get_result_name
 from sava_data_to_MongoDB import save_data_to_mongodb
-from get_proxy_from_TG import getSqliteProxy
-
-
+# from get_proxy_from_TG import getSqliteProxy
+from get_proxy_from_XMX import get_proxy_couple
+import Queue
 
 
 class xilu:
@@ -73,6 +74,8 @@ class xilu:
         self.global_status_num_comments = 3
         self.global_status_num_result = 4
 
+        self.global_status_finish=5
+
         self.session1 = requests.session()
         self.cookies = cookielib.MozillaCookieJar()
 
@@ -80,17 +83,23 @@ class xilu:
         self.comments_url_list = []  # 下次需要获得的comment链接，不是comment内容
         self.result_list = []  # 这个存储的是已经跑完了的内容
 
+        self.cache_data_list=Queue.Queue()
+
 
     def get_Index(self):
-        while True:
-            for url_to_get_index in self.urls:
-                for i in range(300):
+        # while True:
+        for url_to_get_index in self.urls:
+                for i in range(300):#原来是300
                     try:  # SyntaxError: unexpected EOF while parsing
-                        # self.session1.proxies = {'http': 'http://' + get_proxy_from_redis()}
-                        # response1 = self.session1.post(url=url_to_get_index, headers=self.headers, data={'page': i})
-                        # response1=get_response_and_text(url=url_to_get_index,headers=self.headers,)
-                        proxies1=getSqliteProxy()
-                        response1=requests.post(url=url_to_get_index,headers=self.headers,proxies=proxies1,data={'page': str(i)})
+
+                        # proxies1=getSqliteProxy()
+
+                        proxies_xmx=get_proxy_couple(random.randint(0,30))
+                        proxies1={'http':'http://'+proxies_xmx,
+                                  'https':'https://'+proxies_xmx}
+
+
+                        response1=requests.post(url=url_to_get_index,headers=self.headers,proxies=proxies1,data={'page': str(i)},timeout=5)
                         # self.session1.close()
                         response_text = response1.text.encode('utf-8')
                         # print response_text
@@ -122,10 +131,14 @@ class xilu:
                     except Exception as e:
                         # print e
                         pass
-                    # print '\n\n'
-                    time.sleep(10)
-            # self.global_status_num_index = 0
-            time.sleep(600)
+
+
+        while True:
+            self.global_status_num_content=0
+            time.sleep(5)
+            if self.global_status_num_content==0:
+                break
+
 
     def get_content(self):
         # print 'hello in get_content'
@@ -252,50 +265,64 @@ class xilu:
                 headers = {
                     'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
                 }
-                response1=get_response_and_text(url=url,headers=headers)
-                response_in_function=response1['response_in_function']
-                response_in_function_text=response1['response_in_function_text']
-
-                datasoup = BeautifulSoup(response_in_function_text, 'lxml')
-                content1 = ''
-                for i in datasoup.select('body > div.scrollBox.mt10 > div.article > div.art_co.sau > p'):
-                    content1 += i.text
-                content += content1
-                # 8-3
-                Re_find_img_url = re.compile(r'src=".*?"/\>')
-                content_part_data = datasoup.select('div.article')
-                if content_part_data:
-                    data_find_by_re = Re_find_img_url.findall(str(content_part_data[0]))
-                    img_urls2=[]
-                    for url_img_re in data_find_by_re:
-                        imgurl=url_img_re.split('"')[1]
-                        img_urls2.append(imgurl)
-                    for url_without_http in img_urls2:
-                        if 'http' not in url_without_http:
-                            url_without_http='http:'+url_without_http
-                            img_urls.append(url_without_http)
-                            pass
-                else:
-                    # print 'wrong'
-                    # a=response_in_function_text.decoding('utf-8')
-                    get_content_inside_next_page(data)
-
-                # 8-3
+                wrong_time=5
 
 
-                next_page_selector = datasoup.select(
-                    'body > div.scrollBox.mt10 > div.article > div.mb10.mt5.fs14 > a.page-next.ml5')
-                if next_page_selector:
-                    next_page_html = next_page_selector[0].get('href')
-                    if next_page_html and len(next_page_html) > 3:
-                        next_page_url = next_page_html
-                        next_url = 'http://m.xilu.com' + next_page_url
-                        content_result = get_content_inside_next_page(
-                            {'content': content, 'nexturl': next_url, 'img_urls': img_urls})
-                        return content_result
-                    else:
-                        return {'content': content, 'img_urls': img_urls}
+                while True:
+                    try:
+                        response1=get_response_and_text(url=url,headers=headers)
+                        response_in_function=response1['response_in_function']
+                        response_in_function_text=response1['response_in_function_text']
 
+                        datasoup = BeautifulSoup(response_in_function_text, 'lxml')
+                        content1 = ''
+                        for i in datasoup.select('body > div.scrollBox.mt10 > div.article > div.art_co.sau > p'):
+                            content1 += i.text
+                        content += content1
+                        # 8-3
+                        Re_find_img_url = re.compile(r'src=".*?"/\>')
+                        content_part_data = datasoup.select('div.article')
+                        if content_part_data:
+                            data_find_by_re = Re_find_img_url.findall(str(content_part_data[0]))
+                            img_urls2=[]
+                            for url_img_re in data_find_by_re:
+                                imgurl=url_img_re.split('"')[1]
+                                img_urls2.append(imgurl)
+                            for url_without_http in img_urls2:
+                                if 'http' not in url_without_http:
+                                    url_without_http='http:'+url_without_http
+                                    if '.js' not in url_without_http:
+                                        img_urls.append(url_without_http)
+                                    pass
+                        else:
+
+                            pass#9-28日发现这里可能是个bug ，这里不应该有下一页请求访问
+
+
+                        next_page_selector = datasoup.select(
+                            'body > div.scrollBox.mt10 > div.article > div.mb10.mt5.fs14 > a.page-next.ml5')
+                        if next_page_selector:
+                            next_page_html = next_page_selector[0].get('href')
+                            if next_page_html and len(next_page_html) > 3:
+                                next_page_url = next_page_html
+                                next_url = 'http://m.xilu.com' + next_page_url
+                                url=next_url
+                                wrong_time=5
+
+                        else:
+                            wrong_time-=1
+                            if wrong_time<1:
+                                break
+
+                    except Exception as e:
+                        pass
+
+
+                content_result = {'content': content, 'img_urls': img_urls}
+
+                return content_result
+                        # else:
+                        #     return {'content': content, 'img_urls': img_urls}
             except Exception as e:
                 # print e
                 pass
@@ -317,7 +344,7 @@ class xilu:
             publish_time=publish_time_without_split[1]+'-'+publish_time_without_split[2]+'-'+publish_time_without_split[3]+' 00:00:00'
             return {'img_urls': img_urls, 'content': content,'publish_time':publish_time}
 
-        while self.global_status_num_index > 0 or self.content_data_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
+        while self.global_status_num_content > 0 or self.content_data_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
             while self.content_data_list or threadlist:
                 for threadi in threadlist:
                     if not threadi.is_alive():
@@ -325,14 +352,17 @@ class xilu:
                 while len(threadlist) < CONTENT_THREADING_NUM and self.content_data_list:
                     data_in_while = self.content_data_list.pop()
                     thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
+                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
+                    thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
-                    # print 'len of threadlist in content---', len(threadlist)
-                    # print 'len of content_data_list in content is ---', len(self.content_data_list)
-                    # time.sleep(1)
 
-        self.global_status_num_content = 0
+        # self.global_status_num_content = 0
+        while True:
+            self.global_status_num_comments=0
+            time.sleep(5)
+            if self.global_status_num_comments==0:
+                break
 
     def get_comments(self):
         def get_comment_inside(data):
@@ -412,12 +442,17 @@ class xilu:
                 while len(threadlist) < CONTENT_THREADING_NUM and self.comments_url_list:
                     data_in_while = self.comments_url_list.pop()
                     thread_in_while = threading.Thread(target=get_comment_inside, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
+                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
+                    thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
-                    # print len(threadlist)
-                    # print len(self.comments_url_list)
-        self.global_status_num_comments = 0
+
+        # self.global_status_num_comments = 0
+        while True:
+            self.global_status_num_result=0
+            time.sleep(5)
+            if self.global_status_num_result==0:
+                break
 
 
 
@@ -439,45 +474,10 @@ class xilu:
 
             print datetime.datetime.now(),'--------',result_file
 
-            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='xilu',platform_c='西陆网')
-
-
-            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
+            # save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='xilu',platform_c='西陆网',cache_data_list=self.cache_data_list)
 
 
 
-
-
-            # print 'deal result'
-            # host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
-            # producer = Producer(hosts=host)
-            # result_file = get_result_name(plantform_c='西陆网',plantform_e='xilu', date_time=data['publish_time'], urlOruid=data['url'],
-            #                               newsidOrtid=data['id'],
-            #                               datatype='news', full_data=data)
-            #
-            # producer.send(topic='topic', value={'data': data}, key=result_file, updatetime=data['spider_time'])
-            #
-            # comsumer = Consumer('topic', host, 'll')
-            # what = comsumer.poll()
-            # # for i in comsumer.poll():
-            # #     print i.topic
-            # for i in what:
-            #     # print i.topic,i.partition,i.offset,i.key,i.value
-            #     topic = i.topic
-            #     partition = i.partition
-            #     offset = i.offset
-            #     key = i.key
-            #     value = i.value
-            #     # datalist=enumerate(what)
-            #
-            #
-            #     Save_result(plantform='xilu', date_time=data['publish_time'], urlOruid=data['url'],
-            #                 newsidOrtid=data['id'],
-            #                 datatype='news', full_data=value['content'])
-
-
-            # Save_result(plantform='xilu', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
-            #             datatype='news', full_data=data)
 
         threadlist = []
         while self.global_status_num_comments > 0 or self.result_list:
@@ -486,15 +486,17 @@ class xilu:
                     if not threadi.is_alive():
                         threadlist.remove(threadi)
                 while len(threadlist) < CONTENT_THREADING_NUM and self.result_list:
-                    # print len(self.result_list)
                     data_in_while = self.result_list.pop()
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
+                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
+                    thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
-                    # print len(threadlist)
-                    # print len(self.result_list)
-        self.global_status_num_comments = 0
+        while True:
+            self.global_status_finish = 0
+            time.sleep(5)
+            if self.global_status_finish==0:
+                break
 
     def run(self):
         thread1 = threading.Thread(target=self.get_Index, args=())
@@ -509,8 +511,57 @@ class xilu:
         thread4.start()
         pass
 
+        thread1.join(timeout=6*60*60)
+        thread2.join(timeout=6*60*60)
+        thread3.join(timeout=6*60*60)
+        thread4.join(timeout=6*60*60)
+
+
+        while self.global_status_num_content!=0:
+            print 'index没有获取完'
+            print '--------the global status num content--',self.global_status_num_content
+            print '------the global status num comment--',self.global_status_num_comments
+            print '----the global status num result--',self.global_status_num_result
+            print '--the global status finish--',self.global_status_finish
+            print '========len of content========',len(self.content_data_list)
+            time.sleep(2)
+
+        while self.global_status_num_comments!=0:
+            print 'content没有获取完'
+            print '--------the global status num content--',self.global_status_num_content
+            print '------the global status num comment--',self.global_status_num_comments
+            print '----the global status num result--',self.global_status_num_result
+            print '--the global status finish--',self.global_status_finish
+            print '=======len of comment========',len(self.comments_url_list)
+            time.sleep(2)
+
+
+        # while self.global_status_num_result!=0:
+        #     print 'result没有获取完'
+        #     print '--------the global status num content--',self.global_status_num_content
+        #     print '------the global status num comment--',self.global_status_num_comments
+        #     print '----the global status num result--',self.global_status_num_result
+        #     print '--the global status finish--',self.global_status_finish
+        #     print '=======len of result========',len(self.result_list)
+        #     time.sleep(2)
+
+        while self.global_status_finish!=0:
+            print '正在等待finish变为0'
+            time.sleep(2)
+
+        print '执行完了'
+
 
 if __name__ == '__main__':
-    thisclass = xilu()
-    # thisclass.get_Index()
-    thisclass.run()
+    while True:
+        runthrod=10
+        thisclass=xilu()
+        thisclass.run()
+        while runthrod>1:
+            while runthrod and thisclass.global_status_finish==5:
+                runthrod=10
+                time.sleep(6) # 因为在类里边实在是不好写定时启动任务了，所以写在这里。。。。。
+            runthrod-=1
+        print '正在等待着600秒'
+        #后来增加的防时间等待模块
+        time.sleep(600)

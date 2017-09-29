@@ -28,19 +28,24 @@ import datetime
 
 
 # from visit_page2 import get_response_and_text
-from visit_page3 import get_response_and_text
+# from visit_page3 import get_response_and_text
 from sava_data_to_MongoDB import save_data_to_mongodb
 # from KafkaConnector1 import Producer,Consumer
 from KafkaConnector import RemoteProducer,Consumer
 from saveresult import get_result_name
-
-
+import Queue
+from visit_page4 import get_response_and_text
 
 
 class sohu:
     def __init__(self):
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1',
+            'Accept': '*/*',
+            'Accept-Encoding': 'gzip, deflate',
+            'Accept-Language': 'zh-CN,zh;q=0.8',
+            'Host': 'v2.sohu.com',
+            'Proxy-Connection': 'closed',
         }
         self.urls = [
             'http://v2.sohu.com/public-api/feed?scene=CHANNEL&sceneId=8&page=',#1&size=20
@@ -59,64 +64,86 @@ class sohu:
         self.comments_url_list = []  # 下次需要获得的comment链接，不是comment内容
         self.result_list = []  # 这个存储的是已经跑完了的内容
 
+
+        self.global_status_finish=5
+        self.cache_data_list=Queue.Queue()
+
     def get_Index(self):
         url_to_get_index1=self.urls[0]
-        while True:
-            for i in range(1,900):
-                response1=get_response_and_text(url=url_to_get_index1+str(i)+'&size=20',headers=self.headers)
-                response_in_function=response1['response_in_function']
-                response_in_function_text=response1['response_in_function_text']
+        for i in range(1,300):
+            response1=get_response_and_text(url=url_to_get_index1+str(i)+'&size=20',headers=self.headers)
+            response_in_function=response1['response_in_function']
+            response_in_function_text=response1['response_in_function_text']
+            try:
                 datajson=json.loads(response_in_function_text)
-                this_url_index_list=[]#专为获取评论浏览数量而设计
-                for i in datajson:
-                    try:
-                        url_index='https://m.sohu.com/a/'+str(i['id'])+'_'+str(i['authorId'])
-                    except Exception as e:
-                        # print e
-                        pass
+            except Exception as e:
+                e
+                pass
+                continue
+            this_url_index_list=[]#专为获取评论浏览数量而设计
+            for i in datajson:
+                try:
+                    url_index='https://m.sohu.com/a/'+str(i['id'])+'_'+str(i['authorId'])
+                except Exception as e:
+                    # print e
+                    pass
+                try:
                     publish_time=i['publicTime']
-                    publish_time = int(publish_time) / 1000
-                    time_format = '%Y-%m-%d %H:%M:%S'
-                    publish_time_stamp_9 = time.localtime(float(publish_time))
-                    publish_time = time.strftime(time_format, publish_time_stamp_9)
-                    data_index={
-                        'publish_user':i['authorName'],
-                        'title':i['title'],
-                        'publish_time':publish_time,
-                        'id':i['id'],
-                        'url':url_index,
-                        'cmsid':i['cmsId'],
-                        'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                             }
-                    this_url_index_list.append(data_index)
-                    # self.content_data_list.append(data_index)#因为获得浏览量是单独的一个请求，所以
-                    # break
-                viewernum_url='https://v2.sohu.com/public-api/articles/pv?articleIds='
-                for viewernum_id in this_url_index_list:
-                    viewernum_url=viewernum_url+','+str(viewernum_id['id'])
-                viewernum_url=viewernum_url.replace('articleIds=,','articleIds=')
-                viewernum_info=requests.get(url=viewernum_url,headers=self.headers)
-                viewernum_info_json=json.loads(viewernum_info.text)
-                data_index_list_temp=[]#8-22日临时添加
-                for data_index_no_viewer in this_url_index_list:
-                    noviewer_id=data_index_no_viewer['id']
-                    # print noviewer_id
-                    data_index_no_viewer['read_count']=viewernum_info_json['%s' %(str(noviewer_id))]#这里逻辑错误，从列表里边取出来的那个不是原来的那个，而是新的那个。
-                    #8-23日添加
-                    data_index_list_temp.append(data_index_no_viewer)#把结果存起来
-
-
-                self.content_data_list=self.content_data_list+data_index_list_temp
-
-
-
-
+                except Exception as e:
+                    e
+                    pass
+                    continue
+                publish_time = int(publish_time) / 1000
+                time_format = '%Y-%m-%d %H:%M:%S'
+                publish_time_stamp_9 = time.localtime(float(publish_time))
+                publish_time = time.strftime(time_format, publish_time_stamp_9)
+                data_index={
+                    'publish_user':i['authorName'],
+                    'title':i['title'],
+                    'publish_time':publish_time,
+                    'id':i['id'],
+                    'url':url_index,
+                    'cmsid':i['cmsId'],
+                    'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                         }
+                this_url_index_list.append(data_index)
+                # self.content_data_list.append(data_index)#因为获得浏览量是单独的一个请求，所以
                 # break
-                time.sleep(1)
+            viewernum_url='https://v2.sohu.com/public-api/articles/pv?articleIds='
+            for viewernum_id in this_url_index_list:
+                viewernum_url=viewernum_url+','+str(viewernum_id['id'])
+            viewernum_url=viewernum_url.replace('articleIds=,','articleIds=')
+            while True:
+                try:
+                    viewernum_info=requests.get(url=viewernum_url,headers=self.headers)
+                    break
+                except Exception as e:
+                    print e
+            viewernum_info_json=json.loads(viewernum_info.text)
+            data_index_list_temp=[]#8-22日临时添加
+            for data_index_no_viewer in this_url_index_list:
+                noviewer_id=data_index_no_viewer['id']
+                # print noviewer_id
+                data_index_no_viewer['read_count']=viewernum_info_json['%s' %(str(noviewer_id))]#这里逻辑错误，从列表里边取出来的那个不是原来的那个，而是新的那个。
+                #8-23日添加
+                data_index_list_temp.append(data_index_no_viewer)#把结果存起来
 
-            time.sleep(600)
 
-        # self.global_status_num_index=0
+            self.content_data_list=self.content_data_list+data_index_list_temp
+
+
+
+
+            # break
+            time.sleep(1)
+
+        while True:
+            self.global_status_num_index=0
+            time.sleep(3)
+            if self.global_status_num_result==0:
+                break
+
+
 
     def get_content(self):
 
@@ -175,12 +202,17 @@ class sohu:
                 while len(threadlist) < CONTENT_THREADING_NUM and self.content_data_list:
                     data_in_while = self.content_data_list.pop()
                     thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
+                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
+                    thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
 
 
-        self.global_status_num_content = 0
+        while True:
+            self.global_status_num_content = 0
+            time.sleep(5)
+            if self.global_status_num_content==0:
+                break
 
     def get_comments(self):
         def get_comment_inside(data):#这里的下一页请求只需要在cmspagenum上加1即可。
@@ -303,47 +335,28 @@ class sohu:
                 while len(threadlist) < CONTENT_THREADING_NUM and self.comments_url_list:
                     data_in_while = self.comments_url_list.pop()
                     thread_in_while = threading.Thread(target=get_comment_inside, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
+                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
+                    thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
-        self.global_status_num_comments = 0
+        while True:
+            self.global_status_num_comments = 0
+            time.sleep(5)
+            if self.global_status_num_comments==0:
+                break
 
     def save_result(self):
         def save_result(data):
 
-            # host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
-            # host = '182.150.63.40'
-            # port = '12308'
-            # username = 'silence'
-            # password = 'silence'
-            #
-            # # producer = Producer(hosts=host)
-            # producer=RemoteProducer(host=host,port=port,username=username,password=password)
+
             result_file = get_result_name(plantform_e='sohu',plantform_c='搜狐新闻', date_time=data['publish_time'], urlOruid=data['url'],
                                           newsidOrtid=data['id'],
                                           datatype='news', full_data=data)
             print datetime.datetime.now(),'--------',result_file
 
-            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='sohu',platform_c='搜狐新闻')
-
-            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
-
-            # comsumer = Consumer('topic', host, 'll')
-            # what = comsumer.poll()
-            # # for i in comsumer.poll():
-            # #     print i.topic
-            # for i in what:
-            #     topic = i.topic
-            #     partition = i.partition
-            #     offset = i.offset
-            #     key = i.key
-            #     value = i.value
-
-                # Save_result(plantform='toutiao', date_time=data['publish_time'], urlOruid=data['url'],
-                #             newsidOrtid=data['id'], datatype='news', full_data=value['content'])
+            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='sohu',platform_c='搜狐新闻',cache_data_list=self.cache_data_list)
 
 
-                # Save_result(plantform='sohu',date_time=data['publish_time'],urlOruid=data['url'],newsidOrtid=data['id'],datatype='news',full_data=data)
         threadlist = []
         while self.global_status_num_comments > 0 or self.result_list:
             while self.result_list or threadlist:
@@ -353,10 +366,17 @@ class sohu:
                 while len(threadlist) < CONTENT_THREADING_NUM and self.result_list:
                     data_in_while = self.result_list.pop()
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
                     thread_in_while.start()
+                    thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
-        self.global_status_num_comments = 0
+
+        # self.global_status_num_comments = 0
+        while True:
+            self.global_status_finish=0
+            self.global_status_num_result=0
+            time.sleep(5)
+            if self.global_status_finish==0:
+                break
 
 
 
@@ -375,6 +395,53 @@ class sohu:
         thread4.start()
         pass
 
+        while self.global_status_num_content!=0:
+            print 'index没有获取完'
+            print '--------the global status num content--',self.global_status_num_content
+            print '------the global status num comment--',self.global_status_num_comments
+            print '----the global status num result--',self.global_status_num_result
+            print '--the global status finish--',self.global_status_finish
+            print '========len of content========',len(self.content_data_list)
+            time.sleep(2)
+
+        while self.global_status_num_comments!=0:
+            print 'content没有获取完'
+            print '--------the global status num content--',self.global_status_num_content
+            print '------the global status num comment--',self.global_status_num_comments
+            print '----the global status num result--',self.global_status_num_result
+            print '--the global status finish--',self.global_status_finish
+            print '=======len of comment========',len(self.comments_url_list)
+            time.sleep(2)
+
+
+        # while self.global_status_num_result!=0:
+        #     print 'result没有获取完'
+        #     print '--------the global status num content--',self.global_status_num_content
+        #     print '------the global status num comment--',self.global_status_num_comments
+        #     print '----the global status num result--',self.global_status_num_result
+        #     print '--the global status finish--',self.global_status_finish
+        #     print '=======len of result========',len(self.result_list)
+        #     time.sleep(2)
+
+        while self.global_status_finish!=0:
+            print '正在等待finish变为0'
+            time.sleep(2)
+
+        print '执行完了'
+
 if __name__ == '__main__':
-    thisclass=sohu()
-    thisclass.run()
+    # thisclass=sohu()
+    # thisclass.run()
+
+    while True:
+        runthrod=10
+        thisclass=sohu()
+        thisclass.run()
+        while runthrod>1:
+            while runthrod and thisclass.global_status_finish==5:
+                runthrod=10
+                time.sleep(6) # 因为在类里边实在是不好写定时启动任务了，所以写在这里。。。。。
+            runthrod-=1
+        print '正在等待着600秒'
+        #后来增加的防时间等待模块
+        time.sleep(600)

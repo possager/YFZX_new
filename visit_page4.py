@@ -25,10 +25,11 @@ def get_response_and_text(url,headers=None,needupdate=False,update_info=None,cha
                 'Connection':'close'
             }
     num_reply=5
-    error_time=5#上边是访问成功后，状态结果是204的重复次数，这里是其他任何类型错误的重复次数
+    error_time=8#上边是访问成功后，状态结果是204的重复次数，这里是其他任何类型错误的重复次数
     while True:  # 强制请求
         try:
-            proxies1=getSqliteProxy()
+            proxy_from_xmx=get_proxy_couple(random.randint(0,50))
+            proxies1={'http': 'http://' + proxy_from_xmx,'https':'https://'+proxy_from_xmx}
 
 
             if headers:
@@ -57,6 +58,9 @@ def get_response_and_text(url,headers=None,needupdate=False,update_info=None,cha
         except Exception as e:
             # print e
             # if hasattr(e,'status_code'):
+            error_time-=1
+            if error_time<1:
+                break
             if isinstance(e,ProxyError):
                 continue
             if isinstance(e,ConnectTimeout):

@@ -30,17 +30,11 @@ from KafkaConnector import RemoteProducer,Consumer
 
 from visit_page3 import get_response_and_text
 from sava_data_to_MongoDB import save_data_to_mongodb
+import Queue
 
 
 
 
-
-# logger_toutiao=logging.getLogger()
-# logger_toutiao.setLevel(logging.WARNING)
-# filehandler=logging.FileHandler(BASIC_FILE+'/toutiao/debug.text')
-# logger_toutiao.addHandler(filehandler)
-# formatter=logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-# filehandler.setFormatter(formatter)
 
 
 timeoutdefault=20
@@ -96,10 +90,12 @@ class toutiao:
         self.comments_url_list = []  # 下次需要获得的comment链接，不是comment内容
         self.result_list = []  # 这个存储的是已经跑完了的内容
 
+        self.cache_data_list=Queue.Queue()
+
     def get_Index(self):
         while True:
             for url_to_get_index in self.urls:
-                for i in range(1):
+                for i in range(10):
                     try:
                         response1=get_response_and_text(url=url_to_get_index)
                         response_in_function=response1['response_in_function']
@@ -198,7 +194,7 @@ class toutiao:
                                                              data=data)
                         return
                     else:
-                        print chineseTag,'is gonging to get_content_news'
+                        # print chineseTag,'is gonging to get_content_news'
                         content_time_img = get_content_news({'response_in_function': response_in_function,
                                                              'response_in_function_text': response_in_function_text})
                 except Exception as e:
@@ -253,13 +249,15 @@ class toutiao:
             img_urls = []
             try:
                 # text_content = htmldata.text.split('artilceInfo:')[1].split('commentInfo')[0]
-                print '9-21--------------------------0'
+                # print '9-21--------------------------0'
                 try:
                     text_content = htmldata['response_in_function_text'].split('articleInfo:')[1].split('commentInfo')[0]
-                    print '9-21---------------------------1'
+                    # print '9-21---------------------------1'
                 except Exception as e:
-                    print e
+                    # print e
+                    # print htmldata['response_in_function'].url
                     print htmldata['response_in_function'].url
+                    return
                 Re_find_content = re.compile(r"content: '(.*?)'\.replace")
                 Re_find_time2 = re.compile(r"time: '(.*?)'")
                 content = Re_find_content.findall(text_content)[0]
@@ -285,8 +283,9 @@ class toutiao:
                     img_urls.append(img_url_split)
 
                 publish_time = Re_find_time2.findall(htmldata['response_in_function_text'])[0] + ':00'
-                print publish_time
+                # print publish_time
                 return {'content': content, 'img_urls': img_urls, 'publish_time': publish_time}
+                print '在get_content_news中处理成功了一个'
             except Exception as e:
                 # logger_toutiao.log(msg={'msg':e.message+'在get_content_news中出了问题','content':htmldata['response_in_function_text']},level=logging.WARNING)
                 print e, '在get_content_news中出了问题'
@@ -745,20 +744,14 @@ class toutiao:
                 pass
             try:
 
-                # host = '182.150.63.40'
-                # port = '12308'
-                # username = 'silence'
-                # password = 'silence'
-                #
-                # # producer = Producer(hosts=host)
-                # producer = RemoteProducer(host=host, port=port, username=username, password=password)
+
                 result_file = get_result_name(plantform_e='toutiao', plantform_c='今日头条', date_time=data['publish_time'],
                                               urlOruid=data['url'],
                                               newsidOrtid=data['id'],
                                               datatype='news', full_data=data)
                 print datetime.datetime.now(),'--------',result_file
 
-                save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='toutiao',platform_c='今日头条')
+                save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='toutiao',platform_c='今日头条',cache_data_list=self.cache_data_list)
 
                 # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
                 pass

@@ -23,8 +23,18 @@ import json
 from saveresult import BASIC_FILE
 import datetime
 from KafkaConnector1 import Producer,Consumer
-from visit_page2 import get_response_and_text
+# from visit_page2 import get_response_and_text
 from KafkaConnector import RemoteProducer,Consumer
+
+
+from visit_page3 import get_response_and_text
+from sava_data_to_MongoDB import save_data_to_mongodb
+import Queue
+
+
+#setting
+COMMENTS_THREADING_NUM=50
+CONTENT_THREADING_NUM=50
 
 
 
@@ -48,15 +58,19 @@ class chengshiluntan:
         self.session1 = requests.session()
         self.cookies = cookielib.MozillaCookieJar()
 
+
+
         self.index_data_list = []
         self.content_data_list = []  # 下次需要获得的content链接，不是content内容
         self.comments_data_list = []  # 下次需要获得的comment链接，不是comment内容
         self.result_data_list = []  # 这个存储的是已经跑完了的内容
         self.publish_user_url_need_to_visit = []
 
+        self.cache_data_list=Queue.Queue()
+
     def get_Index(self):
         def get_index_inside():
-            for i in range(5941000,10000000):
+            for i in range(17503,6358411):
                 if self.global_status_num_index==0:
                     return #用来判断何时停止
                 while True:
@@ -103,7 +117,7 @@ class chengshiluntan:
                     try:
                         data['title']=datasoup.select('#thread_subject')[0].text
                     except Exception as e:
-                        print e
+                        # print e
                         return #有些帖子是没有的
                         # print data['url']
                     data['reply_count']= datasoup.select('#postlist > div.bm_h.comiis_snvbt > span.y.comiis_hfs > strong')[0].text
@@ -115,11 +129,11 @@ class chengshiluntan:
                         data['publish_user_id']=datasoup.select('#postlist div[id] .pls .avatar.comiis_zxtx a')[0].get('href').split('/')[-1]
                         data['id']=datasoup.select('#postlist div[id]')[0].get('id')
                     except Exception as e:
-                        print e
+                        # print e
                         data['publish_user_photo']=''
                         data['id']=''
                         data['publish_user_id']=''
-                        print '用户已被删除，所以没有头像'
+                        # print '用户已被删除，所以没有头像'
                     content_div=datasoup.select('#postlist > div[id] div.t_fsz > div.t_f')[0]
                     content_div_this=datasoup.select('#postlist > div[id]')[0]
                     content_div_str=str(content_div_this)
@@ -191,7 +205,7 @@ class chengshiluntan:
                                 'src')  # publish_user_photo
                             # publish_user_id= one_reply.select('td.pls > div.pls div.m.z div[id]')[0].get('id')  # publish_user_id
                         except Exception as e:
-                            print e
+                            # print e
                             id=''
                             publish_user_photo=''
                             publish_user_id=''
@@ -209,7 +223,8 @@ class chengshiluntan:
                         }
                         data['reply_nodes'].append(this_comment_node)
                     except Exception as e:
-                        print e
+                        # print e
+                        pass
                 url_next_div=datasoup.select('a.nxt')
                 if url_next_div:
                     url_next=url_next_div[0].get('href')
@@ -229,7 +244,7 @@ class chengshiluntan:
                     if not threadi.is_alive():
                         threadlist.remove(threadi)
                 while len(threadlist) < CONTENT_THREADING_NUM and self.content_data_list:
-                    print len(self.content_data_list)
+                    # print len(self.content_data_list)
                     data_in_while = self.content_data_list.pop()
                     thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
                     thread_in_while.setDaemon(True)
@@ -238,8 +253,8 @@ class chengshiluntan:
 
     def save_result(self):
         def save_result(data):
-            Save_result(plantform='chengshiluntan', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
-                        datatype='forum', full_data=data)
+            # Save_result(plantform='chengshiluntan', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+            #             datatype='forum', full_data=data)
 
             # host = '182.150.63.40'
             # port = '12308'
@@ -255,6 +270,15 @@ class chengshiluntan:
             #               updatetime=data['spider_time'])
 
 
+            result_file = get_result_name(plantform_e='chengshiluntan', plantform_c='城市论坛',
+                                          date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+                                          datatype='forum', full_data=data)
+
+            print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '--------', result_file
+
+            save_data_to_mongodb(data={'data': data}, platform_c='城市论坛', platform_e='chengshiluntan', item_id=result_file,cache_data_list=self.cache_data_list)
+
+
 
 
         threadlist=[]
@@ -264,14 +288,14 @@ class chengshiluntan:
                     if not threadi.is_alive():
                         threadlist.remove(threadi)
                 while len(threadlist) < CONTENT_THREADING_NUM and self.result_data_list:
-                    print len(self.result_data_list)
+                    # print len(self.result_data_list)
                     data_in_while = self.result_data_list.pop()
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
                     thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
-                    print len(threadlist)
-                    print len(self.result_data_list)
+                    # print len(threadlist)
+                    # print len(self.result_data_list)
 
 
 

@@ -23,12 +23,20 @@ from datetime import timedelta
 from KafkaConnector import RemoteProducer,Consumer
 
 
-from visit_page2 import get_response_and_text
+# from visit_page2 import get_response_and_text
 # from visit_page2 import get_response_and_text
 from KafkaConnector1 import Producer,Consumer
 from saveresult import get_result_name
 from saveresult import Save_result
 import redis
+
+# from visit_page3 import get_response_and_text
+from sava_data_to_MongoDB import save_data_to_mongodb
+from visit_page4 import get_response_and_text
+import Queue
+
+# CONTENT_THREADING_NUM=2
+# COMMENTS_THREADING_NUM=2
 
 
 
@@ -38,6 +46,13 @@ class jifeng:
     def __init__(self):
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+            'Accept-Encoding': 'gzip, deflate',
+            'Accept-Language': 'zh-CN,zh;q=0.8',
+            'Cache-Control': 'max-age=0',
+            'Host': 'bbs.gfan.com',
+            'Upgrade-Insecure-Requests': '1',
+            'Proxy-Connection': 'closed'
         }
 
         self.connectpool = redis.ConnectionPool(host='localhost', port=6379)
@@ -58,8 +73,12 @@ class jifeng:
         self.result_data_list = []  # 这个存储的是已经跑完了的内容
         self.publish_user_url_need_to_visit = []
 
+        self.cache_data_list=Queue.Queue()
+
     def get_Index(self):
         def get_index_inside(url_get_index):
+            next_page_num=0
+            next_page_num_error=0#因为网络原因会导致下一页判断出错，这个变量来设置重访次数
             while True:
                 response1=get_response_and_text(url=url_get_index,headers=self.headers)
                 respnse_in_function=response1['response_in_function']
@@ -94,16 +113,25 @@ class jifeng:
 
                         }
                         self.content_data_list.append(this_reply_node)
+                        next_page_num_error+=3#既然这里都有列表了，说明网页访问没有问题，就给这个值设置大一些，免得最后一页重复访问太多次。
                     except Exception as e:
                         pass
-                        print e
+                        # print e
 
                 next_page_url=datasoup.select('.nxt')
+
                 if next_page_url:
+                    next_page_num+=1
                     next_url=next_page_url[0].get('href')
                     url_get_index=next_url
-                else:
-                    break
+                    next_page_num_error=0#这里一定要重置
+
+                else:#为什么这里会提前停止？很有可能是下一页的数据获取的时候网页因为网络原因导致没有解析出下一页，所以这里改成请求次数的这种
+                    if next_page_num_error>5:
+                        break
+                    else:
+                        print respnse_in_function.status_code
+                        next_page_num_error+=1
 
         # get_index_inside('http://bbs.gfan.com/forum-1660-1.html')
 
@@ -138,18 +166,10 @@ class jifeng:
         def get_content_inside(data):
 
             url_for_debug=data['url']
-            url_for_debug='http://bbs.gfan.com/android-9181149-1-1.html'
-            # url_for_debug='http://bbs.gfan.com/android-156778-1-1.html'
-            # url_for_debug='http://bbs.gfan.com/android-2977331-1-4.html'
-            # url_for_debug='http://bbs.gfan.com/android-313174-1-3.html'
+
 
             is_first=1
-            print url_for_debug
-            # url_for_debug='http://bbs.gfan.com/android-6962850-1-2.html'
-            # url_for_debug='http://bbs.gfan.com/android-8246690-1-1.html'
-            # url_for_debug='http://bbs.gfan.com/android-7572817-1-4.html'
-            # url_for_debug='http://bbs.gfan.com/android-8076050-1-11.html'
-            # url_for_debug='http://bbs.gfan.com/android-8126289-1-4.html'
+
             reply_nodes = []
             error_times=5
 
@@ -183,7 +203,7 @@ class jifeng:
                             main_img_urls_list2.append(img_url_dealed1)
 
                     except Exception as e:
-                        print e
+                        # print e
                         return
                     try:
                         main_publish_user_photo=main_div.select('div.avatar a img')[0].get('src')#有可能被删除了
@@ -205,7 +225,7 @@ class jifeng:
                 try:
                     datasoup.select('.plc .pct .pcb')[0].text.strip()
                 except Exception as e:
-                    print e
+                    # print e
                     #因为网络原因，导致下一页数据可能获取不完全
                     error_times-=1
                     if error_times>1:
@@ -229,7 +249,7 @@ class jifeng:
                         try:
                             publish_user_photo= one_div.select('div.avatar a img')[0].get('src')  # publish_user_photo#因为会有用户删除这种情况，导致不能正常获取对应的图片
                         except Exception as e:
-                            print e
+                            # print e
                             publish_user_photo=''
                         # if data['publish_user_photo']=='None':#功能有冲突不过也能用
                         #     data['publish_user_photo']=publish_user_photo
@@ -259,14 +279,15 @@ class jifeng:
 
                         # print one_div.select('.t_fsz')[0].text
                     except Exception as e:
-                        print e, '这里楼层数据被删除了'
+                        # print e, '这里楼层数据被删除了'
+                        pass
 
                 next_page_url_raw=datasoup.select('.nxt')
                 if next_page_url_raw:
                     is_first=0
                     next_url=next_page_url_raw[0]
                     url_for_debug=next_url.get('href')
-                    print 'is going to deal next page-------------',url_for_debug
+                    # print 'is going to deal next page-------------',url_for_debug
                 else:
 
                     data['reply_nodes']=reply_nodes
@@ -290,22 +311,17 @@ class jifeng:
 
     def save_result(self):
         def save_result(data):
-            Save_result(plantform='jifengluntan', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
-                        datatype='forum', full_data=data)
 
-            # host = '182.150.63.40'
-            # port = '12308'
-            # username = 'silence'
-            # password = 'silence'
-            #
-            # producer = RemoteProducer(host=host, port=port, username=username, password=password)
-            # result_file = get_result_name(plantform_e='jifeng', plantform_c='机锋论坛',
-            #                               date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
-            #                               datatype='forum', full_data=data)
-            #
-            # print result_file
-            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
-            #               updatetime=data['spider_time'])
+            result_file = get_result_name(plantform_e='jifengluntan', plantform_c='机锋论坛',
+                                          date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
+                                          datatype='forum', full_data=data)
+
+            print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '--------', result_file
+
+            save_data_to_mongodb(data={'data': data}, platform_c='机锋论坛', platform_e='jifengluntan',
+                                 item_id=result_file,cache_data_list=self.cache_data_list)
+
+
         threadlist=[]
         while self.global_status_num_comments > 0 or self.result_data_list:
             while self.result_data_list or threadlist:
@@ -313,14 +329,14 @@ class jifeng:
                     if not threadi.is_alive():
                         threadlist.remove(threadi)
                 while len(threadlist) < CONTENT_THREADING_NUM and self.result_data_list:
-                    print len(self.result_data_list)
+                    # print len(self.result_data_list)
                     data_in_while = self.result_data_list.pop()
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
                     thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
-                    print len(threadlist)
-                    print len(self.result_data_list)
+                    # print len(threadlist)
+                    # print len(self.result_data_list)
 
 
 

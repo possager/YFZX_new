@@ -4,13 +4,12 @@ import datetime
 import time
 from KafkaConnector import RemoteProducer,Consumer
 import threading
+import datetime
 # from multiprocessing import Pool
 
 
 
-Client=pymongo.MongoClient('localhost',27017)
-Col=Client['1101_all_data']
-Doc=Col['data_all']
+
 
 
 List_outside=[]
@@ -30,10 +29,16 @@ class data_to_mongo:
 
 
 
-# Doc.create_index('item_id')
 
 
-def save_data_to_mongodb(data,item_id,platform_e,platform_c):
+
+
+def save_data_to_mongodb(data,item_id,platform_e,platform_c,cache_data_list):
+    # Client = pymongo.MongoClient('localhost', 27017)
+    # Col = Client['1101_all_data']
+    # Doc = Col['data_all']
+
+
     data_insert={
         'item_id':item_id,
         'data':data,
@@ -41,31 +46,46 @@ def save_data_to_mongodb(data,item_id,platform_e,platform_c):
         'platform_e':platform_e,
         'platform_c':platform_c
     }
-    while True:
-        try:
-            Doc.insert(data_insert)
-            break
-        except Exception as e:
-            print e
+    cache_data_list.put(data_insert)
+    print cache_data_list.qsize()
+    # while True:
+    #     try:
+    #         Doc.insert(data_insert)
+    #         Client.close()
+    #         break
+    #     except Exception as e:
+    #         print e
+    if cache_data_list.qsize()>50:
+        save_data_to_mongodb_new(cache_data_list)
 
 
 
 
 def send_data_from_list_kafka(i):
+    Client = pymongo.MongoClient('localhost', 27017)
+    Col = Client['1101_all_data']
+    Doc = Col['data_all']
+
 
     while True:
         try:
             content = i['data']
             item_id = i['item_id']
             print item_id
-            producer.send(topic='1101_STREAM_SPIDER', value=content, key=item_id, updatetime=content['data']['spider_time'])
+            producer.send(topic='1101_STREAM_SPIDER', value=content, key=item_id, updatetime=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
             Doc.delete_one({'item_id': item_id})
+            Client.close()
             break
         except Exception as e:
             print e
 
 
 def send_data_from_mongo_to_list():
+    Client = pymongo.MongoClient('localhost', 27017)
+    Col = Client['1101_all_data']
+    Doc = Col['data_all']
+
+
     while True:
         try:
             for i in Doc.find({'been_pushed':0}).limit(30):
@@ -76,10 +96,46 @@ def send_data_from_mongo_to_list():
                 else:
                     time.sleep(1)
 
+            # Client.close()
+
         except:
             pass
 
 
+def save_data_to_mongodb_new(dataqueue):
+    Client = pymongo.MongoClient('localhost', 27017)
+    Col = Client['1101_all_data']
+    Doc = Col['data_all']
+
+    while not dataqueue.empty():
+        error_num=0
+        while True:
+            try:
+                thisdata = dataqueue.get()
+
+                data = thisdata['data']
+                item_id = thisdata['item_id']
+                platform_c = thisdata['platform_c']
+                platform_e = thisdata['platform_e']
+
+                data_insert = {
+                    'item_id': item_id,
+                    'data': data,
+                    'been_pushed': 0,
+                    'platform_e': platform_e,
+                    'platform_c': platform_c
+                }
+                Doc.insert(data_insert)
+                break
+            except Exception as e:
+                print e
+                if error_num<5:
+                    error_num+=1
+                else:
+                    break
+
+    Client.close()
+        # print filename
 
 
 

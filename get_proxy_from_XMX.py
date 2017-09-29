@@ -36,12 +36,15 @@ url_proxy='http://172.16.1.5:8899/'#yuancheng
 
 def save_proxy():
     while True:
-        response = requests.get(url_proxy)
-        jsondata = json.loads(response.text)
-        file1 = BASIC_FILE + '/proxy.txt'
-        with open(file1, 'w') as fl:
-            json.dump(jsondata, fl, encoding='utf-8')
-        time.sleep(30)
+        try:
+            response = requests.get(url_proxy)
+            jsondata = json.loads(response.text)
+            file1 = BASIC_FILE + '/proxy.txt'
+            with open(file1, 'w') as fl:
+                json.dump(jsondata, fl, encoding='utf-8')
+            time.sleep(30)
+        except Exception as e:
+            pass
 
 def get_proxy_couple(num):
     file1 = BASIC_FILE + '/proxy.txt'

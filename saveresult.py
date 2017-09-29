@@ -184,18 +184,19 @@ def get_result_name(plantform_e,plantform_c,date_time,urlOruid,newsidOrtid,datat
         try:
             result_file = plantform_e + '_' + str(date_time_strip) + '_' + str(
                 hashlib.md5(urlOruid).hexdigest())  # 7-27日发现这里的文件夹的名字可能是时间戳
+
+            ###############################################################  7-27 日  ########################################################
+            timeArray2 = time.localtime(float(date_time_strip)/1000)
+            dt_new = time.strftime("%Y-%m-%d %H:%M:%S", timeArray2)
+            ###############################################################  7-27 日  ########################################################
+            '''
+            1501470240000_腾讯新闻_speeches_2017-07-31_
+    TencentXinWen_1501470240000_251c583f2cb31d9f636c2f71b2b12ba1
+    
+            '''
         except Exception as e:
             print e
             print '时间戳错了，这里常出错，所以这里----', date_time
-        ###############################################################  7-27 日  ########################################################
-        timeArray2 = time.localtime(float(date_time_strip)/1000)
-        dt_new = time.strftime("%Y-%m-%d %H:%M:%S", timeArray2)
-        ###############################################################  7-27 日  ########################################################
-        '''
-        1501470240000_腾讯新闻_speeches_2017-07-31_
-TencentXinWen_1501470240000_251c583f2cb31d9f636c2f71b2b12ba1
-
-        '''
 
         # file_path = basic_file + '/' + str(plantform) + '/' + 'speeches' + '/' + str(dt_new.split(' ')[0])
         # file = file_path + '/' + result_file
@@ -207,7 +208,7 @@ TencentXinWen_1501470240000_251c583f2cb31d9f636c2f71b2b12ba1
         try:
             result_file=plantform_e+'_'+str(date_time_strip)+'_'+str(hashlib.md5(urlOruid).hexdigest())+'_'+str(newsidOrtid)
         except Exception as e:
-            print e
+                print e
 
 
         try:
