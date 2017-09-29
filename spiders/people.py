@@ -57,6 +57,9 @@ class people:
         self.global_status_num_comments = 3
         self.global_status_num_result = 4
 
+        self.global_status_finish=5
+
+
         self.session1 = requests.session()
         self.cookies = cookielib.MozillaCookieJar()
 
@@ -118,7 +121,6 @@ class people:
                             charge_to_stop = 0
                             break#没有数据了，请求完了
 
-
                         for one_data in datajson['elements']:
                             title=one_data['title']
                             reply_count=one_data['replyCount']
@@ -146,8 +148,6 @@ class people:
                         urlsplit=url.split('pageNo=')
                         url=urlsplit[0]+'pageNo='+str(int(urlsplit[1])+1)
                     except Exception as e:
-                        # print e
-                        # print 'mark1'
                         error_num-=1
                         if error_num<0:
                             break
@@ -157,25 +157,31 @@ class people:
                 else:
                     url_split=response_in_function.url.split('pageNo=')
                     urlnext=url_split[0]+'pageNo='+str(int(url_split[1]) + 1 )
-                    get_index(url=urlnext)
+                    # get_index(url=urlnext)
+                    url=urlnext
 
 
         self.index_data_list2=self.index_data_list
+        # while True:
+        threadlist=[]
+        while self.index_data_list2 or threadlist:
+            for threadi in threadlist:
+                if not threadi.is_alive():
+                    threadlist.remove(threadi)
+            while len(threadlist) < CONTENT_THREADING_NUM and self.index_data_list2:
+                data_in_while = self.index_data_list2.pop()
+                thread_in_while = threading.Thread(target=get_index, args=(data_in_while,))
+                # thread_in_while.setDaemon(True)
+                thread_in_while.start()
+                thread_in_while.join(timeout=600)
+                threadlist.append(thread_in_while)
+
+
         while True:
-            threadlist=[]
-            while self.index_data_list2 or threadlist:
-                for threadi in threadlist:
-                    if not threadi.is_alive():
-                        threadlist.remove(threadi)
-                while len(threadlist) < CONTENT_THREADING_NUM and self.index_data_list2:
-                    data_in_while = self.index_data_list2.pop()
-                    thread_in_while = threading.Thread(target=get_index, args=(data_in_while,))
-                    # thread_in_while.setDaemon(True)
-                    thread_in_while.start()
-                    thread_in_while.join(timeout=600)
-                    threadlist.append(thread_in_while)
-            time.sleep(600)
-            self.index_data_list2=self.index_data_list
+            self.global_status_num_content=0
+            time.sleep(5)
+            if self.global_status_num_content==0:
+                break
 
     def get_content(self):
         def get_content_inside(data):
@@ -220,7 +226,7 @@ class people:
 
 
         threadlist=[]
-        while self.global_status_num_index or self.content_data_list:
+        while self.global_status_num_content or self.content_data_list:
             while self.content_data_list or threadlist:
                 for threadi in threadlist:
                     if not threadi.is_alive():
@@ -228,10 +234,15 @@ class people:
                 while len(threadlist) < CONTENT_THREADING_NUM and self.content_data_list:
                     data_in_while = self.content_data_list.pop()
                     thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
-                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
+
+        while True:
+            self.global_status_num_comments=0
+            time.sleep(5)
+            if self.global_status_num_comments==0:
+                break
 
     def get_comments(self):
         def get_comment_inside(data):
@@ -262,8 +273,7 @@ class people:
                         comment_list.append(one_comment)
                     page_num+=1
                 except Exception as e:
-                    # print e
-                    # print 'mark3'
+
                     error_time-=1
                     if error_time<0:
                         break
@@ -275,7 +285,7 @@ class people:
 
 
         threadlist = []
-        while self.global_status_num_content > 0 or self.comments_data_list:  # content没有完，就别想完，
+        while self.global_status_num_comments > 0 or self.comments_data_list:  # content没有完，就别想完，
             while self.comments_data_list or threadlist:
                 for threadi in threadlist:
                     if not threadi.is_alive():
@@ -283,14 +293,19 @@ class people:
                 while len(threadlist) < CONTENT_THREADING_NUM and self.comments_data_list:
                     data_in_while = self.comments_data_list.pop()
                     thread_in_while = threading.Thread(target=get_comment_inside, args=(data_in_while,))
-                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
 
+        while True:
+            self.global_status_num_result=0
+            time.sleep(5)
+            if self.global_status_num_result==0:
+                break
+
     def save_result(self):
         def save_result(data):
-            save_user_to_redis(data)
+            # save_user_to_redis(data)
 
             result_file = get_result_name(plantform_e='people', plantform_c='人民网强国社区',
                                           date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
@@ -314,7 +329,7 @@ class people:
 
 
         threadlist = []
-        while self.global_status_num_comments > 0 or self.result_data_list:
+        while self.global_status_num_result > 0 or self.result_data_list:
             while self.result_data_list or threadlist:
                 for threadi in threadlist:
                     if not threadi.is_alive():
@@ -325,9 +340,13 @@ class people:
                     thread_in_while.start()
                     thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
+        while True:
+            self.global_status_finish=0
+            time.sleep(5)
+            if self.global_status_finish==0:
+                break
 
-
-        self.global_status_num_comments = 0
+        # self.global_status_num_comments = 0
 
     def create_new_forum_from_redis(self):
         def get_user_from_redis():
@@ -360,9 +379,23 @@ class people:
         thread4.start()
         # thread5=threading.Thread(target=self.create_new_forum_from_redis,args=())
         # thread5.start()
+
+
+        thread1.join(timeout=6*60*60)
+        thread2.join(timeout=6*60*60)
+        thread3.join(timeout=6*60*60)
+        thread4.join(timeout=6*60*60)
         pass
 if __name__ == '__main__':
     while True:
-        thisclass=people()
+        runthrod = 10
+        thisclass = people()
         thisclass.run()
-        break
+        while runthrod > 1:
+            while runthrod and thisclass.global_status_finish == 5:
+                runthrod = 10
+                time.sleep(6)  # 因为在类里边实在是不好写定时启动任务了，所以写在这里。。。。。
+            runthrod -= 1
+        print '正在等待着600秒'
+        # 后来增加的防时间等待模块
+        time.sleep(600)

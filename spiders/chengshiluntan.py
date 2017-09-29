@@ -253,21 +253,7 @@ class chengshiluntan:
 
     def save_result(self):
         def save_result(data):
-            # Save_result(plantform='chengshiluntan', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
-            #             datatype='forum', full_data=data)
 
-            # host = '182.150.63.40'
-            # port = '12308'
-            # username = 'silence'
-            # password = 'silence'
-            #
-            # producer = RemoteProducer(host=host, port=port, username=username, password=password)
-            # result_file = get_result_name(plantform_e='csdn', plantform_c='城市论坛',
-            #                               date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
-            #                               datatype='forum', full_data=data)
-            #
-            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
-            #               updatetime=data['spider_time'])
 
 
             result_file = get_result_name(plantform_e='chengshiluntan', plantform_c='城市论坛',
@@ -275,6 +261,8 @@ class chengshiluntan:
                                           datatype='forum', full_data=data)
 
             print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '--------', result_file
+
+            data['spider_time']=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
             save_data_to_mongodb(data={'data': data}, platform_c='城市论坛', platform_e='chengshiluntan', item_id=result_file,cache_data_list=self.cache_data_list)
 

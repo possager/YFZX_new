@@ -318,6 +318,8 @@ class jifeng:
 
             print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '--------', result_file
 
+            data['spider_time']=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
             save_data_to_mongodb(data={'data': data}, platform_c='机锋论坛', platform_e='jifengluntan',
                                  item_id=result_file,cache_data_list=self.cache_data_list)
 

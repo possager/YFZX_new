@@ -349,6 +349,7 @@ class chengdu:
 
                 print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'--------', result_file
 
+                data['spider_time'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
                 save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='ChengDuQuanSouSuo',platform_c='成都全搜索',cache_data_list=self.cache_data_list)
 

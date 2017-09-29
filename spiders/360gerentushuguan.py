@@ -366,10 +366,11 @@ class gerentushuguan360:
                                           datatype='news', full_data=data)
             print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'--------',result_file
 
-
+            data['spider_time']=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
             save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='360gerentushuguan',platform_c='360个人图书馆',cache_data_list=self.cache_data_list)
 
+            pass
             # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file,
             #               updatetime=data['spider_time'])
 

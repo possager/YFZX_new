@@ -90,10 +90,7 @@ class xilu:
         # while True:
         for url_to_get_index in self.urls:
                 for i in range(300):#原来是300
-                    try:  # SyntaxError: unexpected EOF while parsing
-
-                        # proxies1=getSqliteProxy()
-
+                    try:
                         proxies_xmx=get_proxy_couple(random.randint(0,30))
                         proxies1={'http':'http://'+proxies_xmx,
                                   'https':'https://'+proxies_xmx}
@@ -359,7 +356,8 @@ class xilu:
 
         # self.global_status_num_content = 0
         while True:
-            self.global_status_num_comments=0
+            if len(self.content_data_list)==0:
+                self.global_status_num_comments=0
             time.sleep(5)
             if self.global_status_num_comments==0:
                 break
@@ -434,7 +432,10 @@ class xilu:
             self.result_list.append(data)
 
         threadlist = []
-        while self.global_status_num_content > 0 or self.comments_url_list:  # content没有完，就别想完，
+
+
+        while self.global_status_num_comments > 0 or self.comments_url_list:  # content没有完，就别想完，
+
             while self.comments_url_list or threadlist:
                 for threadi in threadlist:
                     if not threadi.is_alive():
@@ -449,9 +450,9 @@ class xilu:
 
         # self.global_status_num_comments = 0
         while True:
-            self.global_status_num_result=0
+            self.global_status_num_comments=0
             time.sleep(5)
-            if self.global_status_num_result==0:
+            if self.global_status_num_comments==0:
                 break
 
 
@@ -474,7 +475,7 @@ class xilu:
 
             print datetime.datetime.now(),'--------',result_file
 
-            # save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='xilu',platform_c='西陆网',cache_data_list=self.cache_data_list)
+            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='xilu',platform_c='西陆网',cache_data_list=self.cache_data_list)
 
 
 
