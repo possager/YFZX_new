@@ -9,6 +9,7 @@ import sys
 from get_proxy_from_XMX import get_proxy_couple
 from get_proxy_from_TG import getSqliteProxy
 from requests.exceptions import ProxyError,ConnectTimeout,ReadTimeout,ConnectionError
+from exceptions import IndexError
 
 
 
@@ -26,10 +27,10 @@ def get_response_and_text(url,headers=None,needupdate=False,update_info=None,cha
             }
     num_reply=5
     error_time=8#上边是访问成功后，状态结果是204的重复次数，这里是其他任何类型错误的重复次数
-    while True:  # 强制请求
+    while True: # 强制请求
         try:
             proxy_from_xmx=get_proxy_couple(random.randint(0,50))
-            proxies1={'http': 'http://' + proxy_from_xmx,'https':'https://'+proxy_from_xmx}
+            proxies1={'http': 'http://' + proxy_from_xmx,'https':'http://'+proxy_from_xmx}
 
 
             if headers:
@@ -61,6 +62,8 @@ def get_response_and_text(url,headers=None,needupdate=False,update_info=None,cha
             error_time-=1
             if error_time<1:
                 break
+            if isinstance(e,IndexError):
+                break
             if isinstance(e,ProxyError):
                 continue
             if isinstance(e,ConnectTimeout):
@@ -88,11 +91,11 @@ def get_response_and_text(url,headers=None,needupdate=False,update_info=None,cha
                     error_time-=1
 
 
-    proxy_here = proxies1.values()[0].split('//')[1]
+    # proxy_here = proxies1.values()[0].split('//')[1]
     try:
         if response_in_function.status_code==204:
             return {'response_in_function':None,'response_in_function_text':{}}
         return {'response_in_function':response_in_function,'response_in_function_text':response_in_function_text}
     except Exception as e:
-        print e
+        # print e
         return {'response_in_function': None, 'response_in_function_text': {}}

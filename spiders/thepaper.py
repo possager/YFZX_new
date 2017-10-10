@@ -528,7 +528,7 @@ class thepaper:
             print datetime.now(),'---',result_file
 
 
-            # save_data_to_mongodb(data={'data':data},item_id=result_file,platform_c='澎湃新闻',platform_e='PengPai',cache_data_list=self.cache_data_list)
+            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_c='澎湃新闻',platform_e='PengPai',cache_data_list=self.cache_data_list)
 
         threadlist = []
         while self.global_status_num_comments > 0 or self.result_list:

@@ -39,6 +39,7 @@ from KafkaConnector import RemoteProducer,Consumer
 from get_proxy_from_TG import getSqliteProxy
 from visit_page3 import get_response_and_text
 from sava_data_to_MongoDB import save_data_to_mongodb
+from sava_data_to_MongoDB import save_data_to_mongodb_without_full
 
 import Queue
 from sava_data_to_MongoDB import save_data_to_mongodb_new
@@ -215,9 +216,15 @@ class gerentushuguan360:
                 while len(threadlist) < CONTENT_THREADING_NUM and self.index_data_list:
                     data_in_while = self.index_data_list.pop()
                     thread_in_while = threading.Thread(target=get_index_inside, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
+                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
+
+        while True:
+            self.global_status_num_content = 0
+            time.sleep(5)
+            if self.global_status_num_content==0:
+                break
 
     def get_content(self):
         Re_find_img_url = re.compile(r' src="(.*?)"')
@@ -226,7 +233,10 @@ class gerentushuguan360:
             response1=get_response_and_text(url_debug)
             response_in_function=response1['response_in_function']
             response_in_function_text=response1['response_in_function_text']
-            datasoup=BeautifulSoup(response_in_function_text,'lxml')
+            try:
+                datasoup=BeautifulSoup(response_in_function_text,'lxml')
+            except Exception as e:
+                return
 
             img_list = []#会报错，从try中提出来
             result_read_count=0
@@ -271,9 +281,15 @@ class gerentushuguan360:
                 while len(threadlist) < CONTENT_THREADING_NUM and self.content_data_list:
                     data_in_while = self.content_data_list.pop()
                     thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
+                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
+
+        while True:
+            self.global_status_num_comments = 0
+            time.sleep(5)
+            if self.global_status_num_comments==0:
+                break
 
     def get_comments(self):
         def get_comment_inside(data):
@@ -310,7 +326,7 @@ class gerentushuguan360:
             self.result_list.append(data)
 
         threadlist = []
-        while self.global_status_num_index > 0 or self.comments_data_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
+        while self.global_status_num_comments > 0 or self.comments_data_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
             while self.comments_data_list or threadlist:
                 for threadi in threadlist:
                     if not threadi.is_alive():
@@ -318,48 +334,18 @@ class gerentushuguan360:
                 while len(threadlist) < CONTENT_THREADING_NUM and self.comments_data_list:
                     data_in_while = self.comments_data_list.pop()
                     thread_in_while = threading.Thread(target=get_comment_inside, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
+                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
+        while True:
+            self.global_status_num_result = 0
+            time.sleep(5)
+            if self.global_status_num_result==0:
+                break
 
     def save_result(self):
         def save_result(data):
-            # print 'deal result'
-            # host = '192.168.6.187:9092,192.168.6.188:9092,192.168.6.229:9092,192.168.6.230:9092'
-            # producer = Producer(hosts=host)
-            # result_file = get_result_name(plantform_c='350gerentushuguan',plantform_e='360个人图书馆', date_time=data['publish_time'], urlOruid=data['url'],
-            #                               newsidOrtid=data['id'],
-            #                               datatype='news', full_data=data)
-            #
-            # producer.send(topic='1101_STREAM_SPIDER', value={'data': data}, key=result_file, updatetime=data['spider_time'])
-            #
-            # comsumer = Consumer('topic', host, 'll')
-            # what = comsumer.poll()
-            # for i in comsumer.poll():
-            #     print i.topic
-            # for i in what:
-            #     # print i.topic,i.partition,i.offset,i.key,i.value
-            #     topic = i.topic
-            #     partition = i.partition
-            #     offset = i.offset
-            #     key = i.key
-            #     value = i.value
-            #     # datalist=enumerate(what)
 
-
-                # Save_result(plantform='xilu', date_time=data['publish_time'], urlOruid=data['url'],
-                #             newsidOrtid=data['id'],
-                #             datatype='news', full_data=value['content'])
-            # Save_result(plantform='360gerentushuguan', date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
-            #             datatype='news', full_data=data)
-
-            # host = '182.150.63.40'
-            # port = '12308'
-            # username = 'silence'
-            # password = 'silence'
-
-            # producer = Producer(hosts=host)
-            # producer = RemoteProducer(host=host, port=port, username=username, password=password)
             result_file = get_result_name(plantform_e='360gerentushuguan', plantform_c='360个人图书馆', date_time=data['publish_time'],
                                           urlOruid=data['url'],
                                           newsidOrtid=data['id'],
@@ -375,7 +361,7 @@ class gerentushuguan360:
             #               updatetime=data['spider_time'])
 
         threadlist = []
-        while self.global_status_num_comments > 0 or self.result_list:
+        while self.global_status_num_result > 0 or self.result_list:
             while self.result_list or threadlist:
                 for threadi in threadlist:
                     if not threadi.is_alive():
@@ -384,12 +370,17 @@ class gerentushuguan360:
                     # print len(self.result_list)
                     data_in_while = self.result_list.pop()
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
+                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
                     # print len(threadlist)
                     # print len(self.result_list)
-        self.global_status_num_comments = 0
+        # self.global_status_num_comments = 0
+        while True:
+            self.global_status_finish = 0
+            time.sleep(5)
+            if self.global_status_finish==0:
+                break
 
     def run(self):
         thread1 = threading.Thread(target=self.get_Index, args=())
@@ -405,17 +396,46 @@ class gerentushuguan360:
         pass
 
 
-        time.sleep(1800)
-        while True:
-            if thread1.is_alive():
-                time.sleep(10)
-            else:
-                time.sleep(10)
-                thread1.run()
+        thread1.join(timeout=3*60*60)
+        thread2.join(timeout=3*60*60)
+        thread3.join(timeout=3*60*60)
+        thread4.join(timeout=3*60*60)
+
+        save_data_to_mongodb_without_full(cache_data_list=self.cache_data_list)
+
+
+        self.global_status_num_result=0
+        self.global_status_num_comments=0
+        self.global_status_num_content=0
+        self.global_status_num_index=0
+        self.global_status_finish=0
+
+
+
+        # time.sleep(1800)
+        # while True:
+        #     if thread1.is_alive():
+        #         time.sleep(10)
+        #     else:
+        #         time.sleep(10)
+        #         thread1.run()
 
 
 
 if __name__ == '__main__':
-    thisclass=gerentushuguan360()
+    # thisclass=gerentushuguan360()
+    #
+    # thisclass.run()
 
-    thisclass.run()
+    while True:
+        runthrod=10
+        thisclass=gerentushuguan360()
+        thisclass.run()
+        while runthrod>1:
+            while runthrod and thisclass.global_status_finish==5:
+                runthrod=10
+                time.sleep(6) # 因为在类里边实在是不好写定时启动任务了，所以写在这里。。。。。
+            runthrod-=1
+        print '正在等待着600秒'
+        #后来增加的防时间等待模块
+        time.sleep(600)

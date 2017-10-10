@@ -83,8 +83,13 @@ class jifeng:
                 response1=get_response_and_text(url=url_get_index,headers=self.headers)
                 respnse_in_function=response1['response_in_function']
                 respnse_in_function_text=response1['response_in_function_text']
+                if not respnse_in_function:
+                    continue
 
-                datasoup=BeautifulSoup(respnse_in_function_text,'lxml')
+                try:
+                    datasoup=BeautifulSoup(respnse_in_function_text,'lxml')
+                except Exception as e:
+                    print e
                 for one_forum in datasoup.select('#moderate  tbody')[1:]:
                     try:
                         title= one_forum.select('th > a')[0].text  # title
@@ -130,7 +135,7 @@ class jifeng:
                     if next_page_num_error>5:
                         break
                     else:
-                        print respnse_in_function.status_code
+                        # print respnse_in_function.status_code
                         next_page_num_error+=1
 
         # get_index_inside('http://bbs.gfan.com/forum-1660-1.html')
@@ -143,14 +148,17 @@ class jifeng:
             while len(threadlist) < CONTENT_THREADING_NUM and self.urls:
                 data_in_while = self.urls.pop()
                 thread_in_while = threading.Thread(target=get_index_inside, args=(data_in_while,))
-                thread_in_while.setDaemon(True)
+                # thread_in_while.setDaemon(True)
                 thread_in_while.start()
                 threadlist.append(thread_in_while)
 
     def get_content(self):
         def handle_content(content):
             Re_sub_publish_time = re.compile(r'<i class="pstatus">.*?<\/i>')
-            content = Re_sub_publish_time.sub('', content)
+            try:
+                content = Re_sub_publish_time.sub('', content)
+            except Exception as e:
+                print e
 
             Re_sub_style = re.compile(r'<style.*?>[\s|\S]*?<\/style>')
             content = Re_sub_style.sub('', content)
@@ -167,7 +175,6 @@ class jifeng:
 
             url_for_debug=data['url']
 
-
             is_first=1
 
             reply_nodes = []
@@ -177,6 +184,8 @@ class jifeng:
                 response1=get_response_and_text(url=url_for_debug,headers=self.headers,charset='utf-8')
                 response_in_function=response1['response_in_function']
                 response_in_function_text=response1['response_in_function_text']
+                if not response_in_function:#10-9，因为返回经常会有空的，网络不好。
+                    return
                 # response_in_function_text=response_in_function_text.decode('utf-8').encode('utf-8')
 
                 img_may_no_user = ['http://image.gfan.com/static/image/common/rright.gif',
@@ -305,7 +314,7 @@ class jifeng:
                 while len(threadlist) < CONTENT_THREADING_NUM and self.content_data_list:
                     data_in_while = self.content_data_list.pop()
                     thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
+                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
 
@@ -334,7 +343,7 @@ class jifeng:
                     # print len(self.result_data_list)
                     data_in_while = self.result_data_list.pop()
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
+                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
                     # print len(threadlist)

@@ -34,6 +34,7 @@ import redis
 from KafkaConnector import RemoteProducer,Consumer
 from visit_page3 import get_response_and_text
 from sava_data_to_MongoDB import save_data_to_mongodb
+from sava_data_to_MongoDB import save_data_to_mongodb_without_full
 import Queue
 
 
@@ -173,8 +174,10 @@ class people:
                 thread_in_while = threading.Thread(target=get_index, args=(data_in_while,))
                 # thread_in_while.setDaemon(True)
                 thread_in_while.start()
-                thread_in_while.join(timeout=600)
+                # thread_in_while.join(timeout=600)
                 threadlist.append(thread_in_while)
+            for childthread in threadlist:
+                childthread.join(600)
 
 
         while True:
@@ -235,8 +238,10 @@ class people:
                     data_in_while = self.content_data_list.pop()
                     thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
                     thread_in_while.start()
-                    thread_in_while.join(timeout=600)
+                    # thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
+                for childthread in threadlist:
+                    childthread.join(600)
 
         while True:
             self.global_status_num_comments=0
@@ -283,7 +288,6 @@ class people:
             self.result_data_list.append(data)
 
 
-
         threadlist = []
         while self.global_status_num_comments > 0 or self.comments_data_list:  # content没有完，就别想完，
             while self.comments_data_list or threadlist:
@@ -294,8 +298,10 @@ class people:
                     data_in_while = self.comments_data_list.pop()
                     thread_in_while = threading.Thread(target=get_comment_inside, args=(data_in_while,))
                     thread_in_while.start()
-                    thread_in_while.join(timeout=600)
+                    # thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
+                for childthread in threadlist:
+                    childthread.join(600)
 
         while True:
             self.global_status_num_result=0
@@ -338,8 +344,10 @@ class people:
                     data_in_while = self.result_data_list.pop()
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
                     thread_in_while.start()
-                    thread_in_while.join(timeout=600)
+                    # thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
+                for childthread in threadlist:
+                    childthread.join(600)
         while True:
             self.global_status_finish=0
             time.sleep(5)
@@ -385,6 +393,8 @@ class people:
         thread2.join(timeout=6*60*60)
         thread3.join(timeout=6*60*60)
         thread4.join(timeout=6*60*60)
+        self.global_status_finish=0
+        save_data_to_mongodb_without_full(self.cache_data_list)
         pass
 if __name__ == '__main__':
     while True:

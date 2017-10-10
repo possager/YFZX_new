@@ -6,6 +6,7 @@ import requests
 import json
 import time
 from saveresult import BASIC_FILE
+import random
 
 
 
@@ -52,6 +53,7 @@ def get_proxy_couple(num):
         datajson=json.load(fl,encoding='utf-8')
     if datajson:
         # return (str(datajson[num]['ip']),str(datajson[num]['port']))
+        num=random.randint(0,len(datajson))
         return str(datajson[num]['ip'])+':'+str(datajson[num]['port'])
 
 

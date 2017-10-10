@@ -61,6 +61,13 @@ def save_data_to_mongodb(data,item_id,platform_e,platform_c,cache_data_list):
 
 
 
+def save_data_to_mongodb_without_full(cache_data_list):
+    if cache_data_list.qsize()>0:
+        save_data_to_mongodb_new(cache_data_list)
+
+
+
+
 def send_data_from_list_kafka(i):
     Client = pymongo.MongoClient('localhost', 27017)
     Col = Client['1101_all_data']

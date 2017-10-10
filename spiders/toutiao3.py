@@ -30,6 +30,7 @@ from KafkaConnector import RemoteProducer,Consumer
 
 from visit_page3 import get_response_and_text
 from sava_data_to_MongoDB import save_data_to_mongodb
+from sava_data_to_MongoDB import save_data_to_mongodb_without_full
 import Queue
 
 
@@ -165,6 +166,8 @@ class toutiao:
             response1=get_response_and_text(url=url,headers=headers)
             response_in_function=response1['response_in_function']
             response_in_function_text=response1['response_in_function_text']
+            if not response_in_function:
+                return
             real_url = response_in_function.url
             if 'toutiao' not in real_url:
                 # logger_toutiao.log(level=logging.WARNING, msg='toutiao was not in thisurl---------' + real_url)

@@ -29,8 +29,6 @@ def get_response_and_text(url,headers=None,needupdate=False,update_info=None,cha
     while True:  # 强制请求
         try:
             proxies1=getSqliteProxy()
-
-
             if headers:
                 response_in_function=requests.get(url=url,headers=headers,proxies=proxies1,timeout=timeout_value)
             else:
@@ -57,31 +55,35 @@ def get_response_and_text(url,headers=None,needupdate=False,update_info=None,cha
         except Exception as e:
             # print e
             # if hasattr(e,'status_code'):
-            if isinstance(e,ProxyError):
+            error_time -= 1
+            if error_time < 1:
+                break
+            if isinstance(e, IndexError):
+                break
+            if isinstance(e, ProxyError):
                 continue
-            if isinstance(e,ConnectTimeout):
+            if isinstance(e, ConnectTimeout):
                 continue
-            if isinstance(e,ReadTimeout):
+            if isinstance(e, ReadTimeout):
                 continue
-            if isinstance(e,ConnectionError):
+            if isinstance(e, ConnectionError):
                 continue
-                #这后边的东西可能没用
+                # 这后边的东西可能没用
             try:
-                if e.status_code in [404,400]:
-
+                if e.status_code in [404, 400]:
 
                     sys.exit()
-                elif e.status_code==[204,403]:#可能是有数据的，但是被屏蔽了
-                    num_reply-=1
+                elif e.status_code == [204, 403]:  # 可能是有数据的，但是被屏蔽了
+                    num_reply -= 1
 
-                    if num_reply<1:
+                    if num_reply < 1:
                         sys.exit()
             except Exception as e:
                 print e
-                if error_time<1:
+                if error_time < 1:
                     break
                 else:
-                    error_time-=1
+                    error_time -= 1
 
 
     proxy_here = proxies1.values()[0].split('//')[1]

@@ -136,7 +136,6 @@ class xilu:
             if self.global_status_num_content==0:
                 break
 
-
     def get_content(self):
         # print 'hello in get_content'
         threadlist = []
@@ -351,8 +350,10 @@ class xilu:
                     thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
                     # thread_in_while.setDaemon(True)
                     thread_in_while.start()
-                    thread_in_while.join(timeout=600)
+                    # thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
+                for childthread in threadlist:
+                    childthread.join(600)
 
         # self.global_status_num_content = 0
         while True:
@@ -445,8 +446,10 @@ class xilu:
                     thread_in_while = threading.Thread(target=get_comment_inside, args=(data_in_while,))
                     # thread_in_while.setDaemon(True)
                     thread_in_while.start()
-                    thread_in_while.join(timeout=600)
+                    # thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
+                for childthread in threadlist:
+                    childthread.join(600)
 
         # self.global_status_num_comments = 0
         while True:
@@ -454,10 +457,6 @@ class xilu:
             time.sleep(5)
             if self.global_status_num_comments==0:
                 break
-
-
-
-
 
     def save_result(self):
         def save_result(data):
@@ -491,8 +490,10 @@ class xilu:
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
                     # thread_in_while.setDaemon(True)
                     thread_in_while.start()
-                    thread_in_while.join(timeout=600)
+                    # thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
+                for childthread in threadlist:
+                    childthread.join(600)
         while True:
             self.global_status_finish = 0
             time.sleep(5)
@@ -546,9 +547,14 @@ class xilu:
         #     print '=======len of result========',len(self.result_list)
         #     time.sleep(2)
 
-        while self.global_status_finish!=0:
-            print '正在等待finish变为0'
-            time.sleep(2)
+        # while self.global_status_finish!=0:
+        #     print '正在等待finish变为0'
+        #     time.sleep(2)
+        #发现这里莫名其妙地执行不完。
+
+        self.global_status_finish=0
+
+
 
         print '执行完了'
 

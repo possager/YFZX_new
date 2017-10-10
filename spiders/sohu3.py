@@ -30,12 +30,13 @@ import datetime
 # from visit_page2 import get_response_and_text
 # from visit_page3 import get_response_and_text
 from sava_data_to_MongoDB import save_data_to_mongodb
+from sava_data_to_MongoDB import save_data_to_mongodb_without_full
 # from KafkaConnector1 import Producer,Consumer
 from KafkaConnector import RemoteProducer,Consumer
 from saveresult import get_result_name
 import Queue
-from visit_page4 import get_response_and_text
-
+# from visit_page4 import get_response_and_text
+from visit_page3 import get_response_and_text
 
 class sohu:
     def __init__(self):
@@ -148,47 +149,50 @@ class sohu:
     def get_content(self):
 
         def get_content_inside(data):
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
-            }
-            url_for_debug=data['url']
-            response1=get_response_and_text(url=url_for_debug,headers=headers)
-            response_in_function=response1['response_in_function']
-            response_in_function_text=response1['response_in_function_text']
-
-
-
-            img_urls=[]
-            content=''
-            datasoup=BeautifulSoup(response_in_function_text,'lxml')
-            if datasoup.select('#articleContent > div.display-content > p'):
-                for i in datasoup.select('#articleContent > div.display-content > p'):
-                    content+= i.text
-            else:
-                for i in datasoup.select('#articleContent > div.display-content'):
-                    content+=i.text
-
             try:
-                content_data=str(datasoup.select('#articleContent')[0])
-            except Exception as e:
-                # print e
+                headers = {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
+                }
+                url_for_debug=data['url']
+                response1=get_response_and_text(url=url_for_debug,headers=headers)
+                response_in_function=response1['response_in_function']
+                response_in_function_text=response1['response_in_function_text']
+
+
+
+                img_urls=[]
+                content=''
+                datasoup=BeautifulSoup(response_in_function_text,'lxml')
+                if datasoup.select('#articleContent > div.display-content > p'):
+                    for i in datasoup.select('#articleContent > div.display-content > p'):
+                        content+= i.text
+                else:
+                    for i in datasoup.select('#articleContent > div.display-content'):
+                        content+=i.text
+
                 try:
                     content_data=str(datasoup.select('#articleContent')[0])
-                except:
-                    return
-            Re_find_img=re.compile(r'src=".*?"')
-            imgs_find_by_re=Re_find_img.findall(content_data)
-            for img_url in imgs_find_by_re:
-                img_url=img_url.split('"')[1]
-                if 'http' not in img_url:
-                    img_url='https:'+img_url
-                img_urls.append(img_url)
-            data['content']=content
-            data['img_urls']=img_urls
-            data['reply_nodes']=[]
-            data['spider_time']=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                except Exception as e:
+                    # print e
+                    try:
+                        content_data=str(datasoup.select('#articleContent')[0])
+                    except:
+                        return
+                Re_find_img=re.compile(r'src=".*?"')
+                imgs_find_by_re=Re_find_img.findall(content_data)
+                for img_url in imgs_find_by_re:
+                    img_url=img_url.split('"')[1]
+                    if 'http' not in img_url:
+                        img_url='https:'+img_url
+                    img_urls.append(img_url)
+                data['content']=content
+                data['img_urls']=img_urls
+                data['reply_nodes']=[]
+                data['spider_time']=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-            self.comments_url_list.append(data)
+                self.comments_url_list.append(data)
+            except Exception as e:
+                print e
 
 
 
@@ -204,8 +208,10 @@ class sohu:
                     thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
                     # thread_in_while.setDaemon(True)
                     thread_in_while.start()
-                    thread_in_while.join(timeout=600)
+                    # thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
+                for childthread in threadlist:
+                    childthread.join(600)
 
 
         while True:
@@ -233,7 +239,11 @@ class sohu:
                 response1=get_response_and_text(url=comment_url,headers=headers)
                 response_in_function=response1['response_in_function']
                 response_in_function_text=response1['response_in_function_text']
-                data_json = json.loads(response_in_function_text)
+                try:
+                    data_json = json.loads(response_in_function_text)
+                except Exception as e:
+                    print e
+
                 if cmspagenum==1:
                     try:
                         cmspage_taotalnum=data_json['jsonObject']['cmt_sum']
@@ -243,6 +253,7 @@ class sohu:
                             cmspage_taotalnum=data_json['jsonObject']['outer_cmt_sum']
                         except:
                             cmspage_taotalnum=0#因为这里边没有返回这个值
+                            return
                 for one_comment in data_json['jsonObject']['comments']:
                     id=one_comment['comment_id']
                     content=one_comment['content']
@@ -337,8 +348,10 @@ class sohu:
                     thread_in_while = threading.Thread(target=get_comment_inside, args=(data_in_while,))
                     # thread_in_while.setDaemon(True)
                     thread_in_while.start()
-                    thread_in_while.join(timeout=600)
+                    # thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
+                for childthread in threadlist:
+                    childthread.join(600)
         while True:
             self.global_status_num_comments = 0
             time.sleep(5)
@@ -367,8 +380,9 @@ class sohu:
                     data_in_while = self.result_list.pop()
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
                     thread_in_while.start()
-                    thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
+                for childthread in threadlist:
+                    childthread.join(600)
 
         # self.global_status_num_comments = 0
         while True:
@@ -395,6 +409,13 @@ class sohu:
         thread4.start()
         pass
 
+        thread1.join(2*60*60)
+        thread2.join(2*60*60)
+        thread3.join(2*60*60)
+        thread4.join(2*60*60)
+
+        self.global_status_finish=0
+
         while self.global_status_num_content!=0:
             print 'index没有获取完'
             print '--------the global status num content--',self.global_status_num_content
@@ -414,18 +435,12 @@ class sohu:
             time.sleep(2)
 
 
-        # while self.global_status_num_result!=0:
-        #     print 'result没有获取完'
-        #     print '--------the global status num content--',self.global_status_num_content
-        #     print '------the global status num comment--',self.global_status_num_comments
-        #     print '----the global status num result--',self.global_status_num_result
-        #     print '--the global status finish--',self.global_status_finish
-        #     print '=======len of result========',len(self.result_list)
-        #     time.sleep(2)
 
-        while self.global_status_finish!=0:
-            print '正在等待finish变为0'
-            time.sleep(2)
+
+
+        self.global_status_finish=0
+
+        save_data_to_mongodb_without_full(cache_data_list=self.cache_data_list)
 
         print '执行完了'
 

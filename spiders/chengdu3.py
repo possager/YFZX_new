@@ -31,6 +31,10 @@ from sava_data_to_MongoDB import save_data_to_mongodb
 import Queue
 
 
+
+# COMMENTS_THREADING_NUM=2
+# CONTENT_THREADING_NUM=2
+
 class chengdu:
     #这个模式和xilu有点不一样
     #缺少一个停止条件，当满足停止条件是，应当一些参数设置成？
@@ -41,9 +45,9 @@ class chengdu:
         self.headers={
             'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         }
-        # self.page_begain=1699990
-        # self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(self.page_begain,3000000)]#1696951
-        self.urls=[]
+        self.page_begain=1944844
+        self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(self.page_begain,3000000)]#1696951
+        # self.urls=[]
 
         self.global_status_num_index = 1
         self.global_status_num_content = 2
@@ -67,18 +71,20 @@ class chengdu:
 
         while True:
             try:
-                response1=requests.get(url='http://wap.chengdu.cn/?action=category&catid=583',headers=self.headers)
-                datasoup=BeautifulSoup(response1.text,'lxml')
-
-                url_id_set = set()
-                for i in datasoup.select('div.content.more ul li a'):
-                    try:
-                        url_id_set.add(int(i.get('href').split('contentid=')[1]))
-                    except:
-                        pass
-
-                max_url_id= max(list(url_id_set))
-                self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(max_url_id-1000,max_url_id+1000)]
+                # #这里是后来的增量爬去
+                # response1=requests.get(url='http://wap.chengdu.cn/?action=category&catid=583',headers=self.headers)
+                # datasoup=BeautifulSoup(response1.text,'lxml')
+                #
+                # url_id_set = set()
+                # for i in datasoup.select('div.content.more ul li a'):
+                #     try:
+                #         url_id_set.add(int(i.get('href').split('contentid=')[1]))
+                #     except:
+                #         pass
+                #
+                # max_url_id= max(list(url_id_set))
+                # self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(max_url_id-1000,max_url_id+1000)]
+                # #上边的这部分是增量爬去
 
                 while self.urls and need_continue:  # 设置成and为了方便停止
                     while len(self.content_data_list) > LEN_CONTENT_LIST:
@@ -99,7 +105,7 @@ class chengdu:
             #这里就写第一次的代码功能就行
             url = data['url']
             page_num=url.split('/')[-1]
-            response1=get_response_and_text(url=url,needupdate=True,update_info={'page_num':page_num})
+            response1=get_response_and_text(url=url,needupdate=True,update_info={'page_num':page_num},charset='utf-8')
             response_in_function=response1['response_in_function']
             response_in_function_text=response1['response_in_function_text']
             Re_find_sid=re.compile(r'sid=".*"')

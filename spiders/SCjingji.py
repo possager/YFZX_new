@@ -31,6 +31,7 @@ from saveresult import get_result_name
 from get_proxy_from_XMX import get_proxy_couple
 from get_proxy_from_TG import getSqliteProxy
 from sava_data_to_MongoDB import save_data_to_mongodb
+from sava_data_to_MongoDB import save_data_to_mongodb_without_full
 import Queue
 
 
@@ -138,8 +139,10 @@ class scjjrb():
                     thread_in_while = threading.Thread(target=get_index_inside, args=(data_in_while,))
                     # thread_in_while.setDaemon(True)
                     thread_in_while.start()
-                    thread_in_while.join(timeout=600)
+                    # thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
+                for childthread in threadlist:
+                    childthread.join(600)
         while True:
             self.global_status_num_content=0
             time.sleep(5)
@@ -231,8 +234,10 @@ class scjjrb():
                     thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
                     # thread_in_while.setDaemon(True)
                     thread_in_while.start()
-                    thread_in_while.join(timeout=600)
+                    # thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
+                for childthread in threadlist:
+                    childthread.join(600)
         while True:
             print 'get_content执行完毕'
             self.global_status_num_result=0
@@ -266,8 +271,10 @@ class scjjrb():
                     data_in_while = self.result_data_list.pop()
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
                     thread_in_while.start()
-                    thread_in_while.join(timeout=600)
+                    # thread_in_while.join(timeout=600)
                     threadlist.append(thread_in_while)
+                for childthread in threadlist:
+                    childthread.join(600)
 
         while True:
             self.global_status_finish=0
@@ -315,8 +322,9 @@ class scjjrb():
             thread1.join(6*60*60)
             thread2.join(6*60*60)
             thread4.join(6*60*60)
+            self.global_status_finish=0
 
-
+            save_data_to_mongodb_without_full(self.cache_data_list)
             while self.global_status_num_content != 0:
                 print 'index没有获取完'
                 print '--------the global status num content--', self.global_status_num_content
@@ -344,9 +352,9 @@ class scjjrb():
                 print '=======len of result========', len(self.result_data_list)
                 time.sleep(2)
 
-            while self.global_status_finish != 0:
-                print '正在等待finish变为0'
-                time.sleep(2)
+            # while self.global_status_finish != 0:
+            #     print '正在等待finish变为0'
+            #     time.sleep(2)
 
             print '执行完了'
 

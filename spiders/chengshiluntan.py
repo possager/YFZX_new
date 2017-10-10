@@ -70,7 +70,7 @@ class chengshiluntan:
 
     def get_Index(self):
         def get_index_inside():
-            for i in range(17503,6358411):
+            for i in range(88620,6358411):#10-9日修改
                 if self.global_status_num_index==0:
                     return #用来判断何时停止
                 while True:
@@ -247,7 +247,7 @@ class chengshiluntan:
                     # print len(self.content_data_list)
                     data_in_while = self.content_data_list.pop()
                     thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
+                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
 
@@ -279,7 +279,7 @@ class chengshiluntan:
                     # print len(self.result_data_list)
                     data_in_while = self.result_data_list.pop()
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
-                    thread_in_while.setDaemon(True)
+                    # thread_in_while.setDaemon(True)
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
                     # print len(threadlist)
