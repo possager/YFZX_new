@@ -89,8 +89,8 @@ def get_response_and_text(url,headers=None,needupdate=False,update_info=None,cha
     proxy_here = proxies1.values()[0].split('//')[1]
     try:
         if response_in_function.status_code==204:
-            return {'response_in_function':None,'response_in_function_text':{}}
+            return {'response_in_function':None,'response_in_function_text':''}
         return {'response_in_function':response_in_function,'response_in_function_text':response_in_function_text}
     except Exception as e:
         print e
-        return {'response_in_function': None, 'response_in_function_text': {}}
+        return {'response_in_function': None, 'response_in_function_text': ''}

@@ -325,6 +325,9 @@ class jifeng:
                                           date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                                           datatype='forum', full_data=data)
 
+            if not result_file:
+                return
+
             print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'), '--------', result_file
 
             data['spider_time']=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')

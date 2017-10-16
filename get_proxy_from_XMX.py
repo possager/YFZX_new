@@ -12,7 +12,8 @@ import random
 
 
 class Proxy:
-    def __init__(self,url_proxy='http://172.16.2.11:8899/S'):
+    # def __init__(self,url_proxy='http://172.16.2.11:8899'):
+    def __init__(self,url_proxy='http://172.16.1.5:8899/'):
         self.url_proxy=url_proxy
 
     def save_proxy(self):

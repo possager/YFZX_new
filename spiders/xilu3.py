@@ -472,6 +472,11 @@ class xilu:
                                           newsidOrtid=data['id'],
                                           datatype='news', full_data=data)
 
+            if not result_file:
+                return
+
+
+
             print datetime.datetime.now(),'--------',result_file
 
             save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='xilu',platform_c='西陆网',cache_data_list=self.cache_data_list)

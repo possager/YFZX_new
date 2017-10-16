@@ -28,7 +28,8 @@ from saveresult import get_result_name
 from KafkaConnector import RemoteProducer,Consumer
 
 
-from visit_page3 import get_response_and_text
+# from visit_page3 import get_response_and_text
+from visit_page4 import get_response_and_text
 from sava_data_to_MongoDB import save_data_to_mongodb
 from sava_data_to_MongoDB import save_data_to_mongodb_without_full
 import Queue
@@ -752,6 +753,8 @@ class toutiao:
                                               urlOruid=data['url'],
                                               newsidOrtid=data['id'],
                                               datatype='news', full_data=data)
+                if not result_file:
+                    return
                 print datetime.datetime.now(),'--------',result_file
 
                 save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='toutiao',platform_c='今日头条',cache_data_list=self.cache_data_list)

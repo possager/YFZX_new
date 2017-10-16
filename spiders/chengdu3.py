@@ -45,7 +45,7 @@ class chengdu:
         self.headers={
             'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
         }
-        self.page_begain=1944844
+        self.page_begain=1700000
         self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(self.page_begain,3000000)]#1696951
         # self.urls=[]
 
@@ -71,29 +71,33 @@ class chengdu:
 
         while True:
             try:
-                # #这里是后来的增量爬去
-                # response1=requests.get(url='http://wap.chengdu.cn/?action=category&catid=583',headers=self.headers)
-                # datasoup=BeautifulSoup(response1.text,'lxml')
-                #
-                # url_id_set = set()
-                # for i in datasoup.select('div.content.more ul li a'):
-                #     try:
-                #         url_id_set.add(int(i.get('href').split('contentid=')[1]))
-                #     except:
-                #         pass
-                #
-                # max_url_id= max(list(url_id_set))
-                # self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(max_url_id-1000,max_url_id+1000)]
-                # #上边的这部分是增量爬去
+                #这里是后来的增量爬去
+                response1=requests.get(url='http://wap.chengdu.cn/?action=category&catid=583',headers=self.headers)
+                datasoup=BeautifulSoup(response1.text,'lxml')
+
+                url_id_set = set()
+                for i in datasoup.select('div.content.more ul li a'):
+                    try:
+                        url_id_set.add(int(i.get('href').split('contentid=')[1]))
+                    except:
+                        pass
+
+                max_url_id= max(list(url_id_set))
+                self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(max_url_id-10000,max_url_id+10000)]
+                #上边的这部分是增量爬去
 
                 while self.urls and need_continue:  # 设置成and为了方便停止
                     while len(self.content_data_list) > LEN_CONTENT_LIST:
                         time.sleep(1)
                     url = self.urls.pop(1)
                     self.content_data_list.append({'url': url, 'id': url.split('/')[-1]})
-                    # break
+                    if len(self.urls)==0:
+                        break
+
                 # self.global_status_num_index = 0
                 time.sleep(300)
+                # break
+
             except:
                 pass
 
@@ -353,6 +357,9 @@ class chengdu:
                 result_file=get_result_name(plantform_e='ChengDuQuanSouSuo',plantform_c='成都全搜索',date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                         datatype='news', full_data=data)
 
+                if not result_file:
+                    return
+
                 print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'--------', result_file
 
                 data['spider_time'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -415,9 +422,9 @@ class chengdu:
 
     def run(self):
 
-        self.page_begain=self.get_schedule(isread=True)
+        # self.page_begain=self.get_schedule(isread=True)
 
-        self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(int(self.page_begain),3000000)]#1696951
+        # self.urls=['http://wap.chengdu.cn/'+str(i) for i in range(int(self.page_begain),3000000)]#1696951
 
         thread1 = threading.Thread(target=self.get_Index, args=())
         thread1.start()

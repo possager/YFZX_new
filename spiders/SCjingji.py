@@ -77,8 +77,6 @@ class scjjrb():
             next_page_num=2
 
             while True:
-
-
                 response1 = self.visit_page_in_class_post(url=url_debug)
                 if not response1:
                     break
@@ -190,9 +188,6 @@ class scjjrb():
         Re_find_img_url = re.compile(r' src="(.*?)"')
         def get_content_inside(data):
             url_debug=data['url']
-            # response1=get_response_and_text(url=url_debug)
-            # response_in_function=response1['response_in_function']
-            # response_in_function_text=response1['response_in_function_text']
             response1=self.visit_page_in_class_post(url=url_debug)
             if not response1:
                 return
@@ -251,6 +246,9 @@ class scjjrb():
             result_file = get_result_name(plantform_e='SCjingji', plantform_c='四川经济网',
                                           date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                                           datatype='forum', full_data=data)
+
+            if not result_file:
+                return
 
             print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'--------',result_file
 

@@ -197,6 +197,7 @@ def get_result_name(plantform_e,plantform_c,date_time,urlOruid,newsidOrtid,datat
         except Exception as e:
             print e
             print '时间戳错了，这里常出错，所以这里----', date_time
+            return None
 
         # file_path = basic_file + '/' + str(plantform) + '/' + 'speeches' + '/' + str(dt_new.split(' ')[0])
         # file = file_path + '/' + result_file

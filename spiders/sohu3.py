@@ -365,6 +365,10 @@ class sohu:
             result_file = get_result_name(plantform_e='sohu',plantform_c='搜狐新闻', date_time=data['publish_time'], urlOruid=data['url'],
                                           newsidOrtid=data['id'],
                                           datatype='news', full_data=data)
+
+            if not result_file:
+                return
+
             print datetime.datetime.now(),'--------',result_file
 
             save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='sohu',platform_c='搜狐新闻',cache_data_list=self.cache_data_list)
@@ -414,31 +418,34 @@ class sohu:
         thread3.join(2*60*60)
         thread4.join(2*60*60)
 
+        # self.global_status_finish=0
+
+        # while self.global_status_num_content!=0:
+        #     print 'index没有获取完'
+        #     print '--------the global status num content--',self.global_status_num_content
+        #     print '------the global status num comment--',self.global_status_num_comments
+        #     print '----the global status num result--',self.global_status_num_result
+        #     print '--the global status finish--',self.global_status_finish
+        #     print '========len of content========',len(self.content_data_list)
+        #     time.sleep(2)
+        #
+        # while self.global_status_num_comments!=0:
+        #     print 'content没有获取完'
+        #     print '--------the global status num content--',self.global_status_num_content
+        #     print '------the global status num comment--',self.global_status_num_comments
+        #     print '----the global status num result--',self.global_status_num_result
+        #     print '--the global status finish--',self.global_status_finish
+        #     print '=======len of comment========',len(self.comments_url_list)
+        #     time.sleep(2)
+
+
+
+
+        self.global_status_num_content=0
+        self.global_status_num_comments=0
+        self.global_status_num_result=0
         self.global_status_finish=0
 
-        while self.global_status_num_content!=0:
-            print 'index没有获取完'
-            print '--------the global status num content--',self.global_status_num_content
-            print '------the global status num comment--',self.global_status_num_comments
-            print '----the global status num result--',self.global_status_num_result
-            print '--the global status finish--',self.global_status_finish
-            print '========len of content========',len(self.content_data_list)
-            time.sleep(2)
-
-        while self.global_status_num_comments!=0:
-            print 'content没有获取完'
-            print '--------the global status num content--',self.global_status_num_content
-            print '------the global status num comment--',self.global_status_num_comments
-            print '----the global status num result--',self.global_status_num_result
-            print '--the global status finish--',self.global_status_finish
-            print '=======len of comment========',len(self.comments_url_list)
-            time.sleep(2)
-
-
-
-
-
-        self.global_status_finish=0
 
         save_data_to_mongodb_without_full(cache_data_list=self.cache_data_list)
 

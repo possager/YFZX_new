@@ -206,8 +206,10 @@ class people:
 
             response_in_function=response1['response_in_function']
             response_in_function_text=response1['response_in_function_text']
-
-            datasoup=BeautifulSoup(response_in_function_text,'lxml')
+            try:
+                datasoup=BeautifulSoup(response_in_function_text,'lxml')
+            except Exception as e:
+                return
 
             # content=datasoup.select('div.artCont .content-text')
             content=datasoup.select('div.artCont')
@@ -317,6 +319,9 @@ class people:
                                           date_time=data['publish_time'], urlOruid=data['url'], newsidOrtid=data['id'],
                                           datatype='forum', full_data=data)
             print datetime.datetime.now(),'--------',result_file
+
+            if not result_file:
+                return
 
 
             save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='people',platform_c='人民网强国社区',cache_data_list=self.cache_data_list)
