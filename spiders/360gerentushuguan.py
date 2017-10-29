@@ -22,12 +22,13 @@ from saveresult import Save_result
 import re
 import logging
 # from visit_page import get_response_and_text
-from visit_page2 import get_response_and_text
+# from visit_page2 import get_response_and_text
 import datetime
 from datetime import timedelta
 from KafkaConnector1 import Producer,Consumer
 # from saveresult import get_result_name
 
+from get_proxy_from_XMX import get_proxy_couple
 
 # from visit_page2 import get_response_and_text
 # from KafkaConnector1 import Producer,Consumer
@@ -37,7 +38,7 @@ from KafkaConnector import RemoteProducer,Consumer
 
 
 from get_proxy_from_TG import getSqliteProxy
-from visit_page3 import get_response_and_text
+from visit_page4 import get_response_and_text
 from sava_data_to_MongoDB import save_data_to_mongodb
 from sava_data_to_MongoDB import save_data_to_mongodb_without_full
 
@@ -111,10 +112,11 @@ class gerentushuguan360:
     def visit_page_in_class(self,url):
         # session1=requests.session()
         while True:
-            # proxy1=get_proxy_from_redis()
-            # proxy1=get_proxy_couple(random.randint(1,50))
-            # session1.proxies={'http': 'http://' + proxy1}
-            proxies1=getSqliteProxy()
+            # proxies1=getSqliteProxy()
+
+            proxy_from_xmx = get_proxy_couple(random.randint(0, 50))
+            proxies1 = {'http': 'http://' + proxy_from_xmx, 'https': 'http://' + proxy_from_xmx}
+
             try:
                 # response_1=session1.request(method='get',url=url,headers=self.headers,timeout=10)
                 response_1=requests.get(url=url,headers=self.headers,proxies=proxies1,timeout=10)
@@ -151,7 +153,11 @@ class gerentushuguan360:
         while True:
             try:
                 while True:
-                    proxy = getSqliteProxy()
+                    # proxy = getSqliteProxy()
+
+                    proxy_from_xmx = get_proxy_couple(random.randint(0, 50))
+                    proxy = {'http': 'http://' + proxy_from_xmx, 'https': 'http://' + proxy_from_xmx}
+
                     if proxy:
                         break
                 while True:
@@ -170,7 +176,8 @@ class gerentushuguan360:
     def get_Index(self):
 
         for urllist in self.urls:
-            self.index_data_list=self.index_data_list+urllist
+            for url_one_post in urllist:
+                self.index_data_list.put(url_one_post)
         pass
         def get_index_inside(url):
             response1=self.visit_page_in_class(url)
@@ -192,7 +199,7 @@ class gerentushuguan360:
                 reproduce_num= i['StrSaverNum']  # 转载数量
                 id= i['StrArtideid']
                 # print '--------------------------------------------------------------'
-                self.content_data_list.append(
+                self.content_data_list.put(
                     {
                         'title':title,
                         'publish_time':publish_time,
@@ -208,13 +215,13 @@ class gerentushuguan360:
                 )
 
         threadlist=[]
-        while self.global_status_num_index > 0 or self.index_data_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
-            while self.index_data_list or threadlist:
+        while self.global_status_num_index > 0 or not self.index_data_list.empty():  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
+            while not self.index_data_list.empty() or threadlist:
                 for threadi in threadlist:
                     if not threadi.is_alive():
                         threadlist.remove(threadi)
-                while len(threadlist) < CONTENT_THREADING_NUM and self.index_data_list:
-                    data_in_while = self.index_data_list.pop()
+                while len(threadlist) < CONTENT_THREADING_NUM and not self.index_data_list.empty():
+                    data_in_while = self.index_data_list.get()
                     thread_in_while = threading.Thread(target=get_index_inside, args=(data_in_while,))
                     # thread_in_while.setDaemon(True)
                     thread_in_while.start()
@@ -269,17 +276,17 @@ class gerentushuguan360:
             data['img_urls']=img_list
             data['video_urls']=video_urls
 
-            self.comments_data_list.append(data)
+            self.comments_data_list.put(data)
 
 
         threadlist = []
-        while self.global_status_num_index > 0 or self.content_data_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
-            while self.content_data_list or threadlist:
+        while self.global_status_num_index > 0 or not self.content_data_list.empty():  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
+            while not self.content_data_list.empty() or threadlist:
                 for threadi in threadlist:
                     if not threadi.is_alive():
                         threadlist.remove(threadi)
-                while len(threadlist) < CONTENT_THREADING_NUM and self.content_data_list:
-                    data_in_while = self.content_data_list.pop()
+                while len(threadlist) < CONTENT_THREADING_NUM and not self.content_data_list.empty():
+                    data_in_while = self.content_data_list.get()
                     thread_in_while = threading.Thread(target=get_content_inside, args=(data_in_while,))
                     # thread_in_while.setDaemon(True)
                     thread_in_while.start()
@@ -323,16 +330,16 @@ class gerentushuguan360:
                     }
                     data['reply_nodes'].append(thiscomment)
             data['reply_count']=len(data['reply_nodes'])
-            self.result_list.append(data)
+            self.result_list.put(data)
 
         threadlist = []
-        while self.global_status_num_comments > 0 or self.comments_data_list:  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
-            while self.comments_data_list or threadlist:
+        while self.global_status_num_comments > 0 or not self.comments_data_list.empty():  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
+            while not self.comments_data_list.empty() or threadlist:
                 for threadi in threadlist:
                     if not threadi.is_alive():
                         threadlist.remove(threadi)
-                while len(threadlist) < CONTENT_THREADING_NUM and self.comments_data_list:
-                    data_in_while = self.comments_data_list.pop()
+                while len(threadlist) < CONTENT_THREADING_NUM and not self.comments_data_list.empty():
+                    data_in_while = self.comments_data_list.get()
                     thread_in_while = threading.Thread(target=get_comment_inside, args=(data_in_while,))
                     # thread_in_while.setDaemon(True)
                     thread_in_while.start()
@@ -364,14 +371,14 @@ class gerentushuguan360:
             #               updatetime=data['spider_time'])
 
         threadlist = []
-        while self.global_status_num_result > 0 or self.result_list:
-            while self.result_list or threadlist:
+        while self.global_status_num_result > 0 or not self.result_list.empty():
+            while not self.result_list.empty() or threadlist:
                 for threadi in threadlist:
                     if not threadi.is_alive():
                         threadlist.remove(threadi)
-                while len(threadlist) < CONTENT_THREADING_NUM and self.result_list:
+                while len(threadlist) < CONTENT_THREADING_NUM and not self.result_list.empty():
                     # print len(self.result_list)
-                    data_in_while = self.result_list.pop()
+                    data_in_while = self.result_list.get()
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
                     # thread_in_while.setDaemon(True)
                     thread_in_while.start()
