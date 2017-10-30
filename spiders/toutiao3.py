@@ -20,8 +20,7 @@ from proxy_to_redis import redis1
 import urllib2
 # import logging
 from saveresult import BASIC_FILE
-# from visit_page import get_response_and_text
-# from visit_page2 import get_response_and_text
+
 import datetime
 from KafkaConnector1 import Producer,Consumer
 from saveresult import get_result_name
@@ -33,6 +32,9 @@ from visit_page4 import get_response_and_text
 from sava_data_to_MongoDB import save_data_to_mongodb
 from sava_data_to_MongoDB import save_data_to_mongodb_without_full
 import Queue
+import random
+
+
 
 
 
@@ -99,7 +101,8 @@ class toutiao:
             for url_to_get_index in self.urls:
                 for i in range(10):
                     try:
-                        response1=get_response_and_text(url=url_to_get_index)
+                        needproxy=int(random.randint(1,10)/7)
+                        response1=get_response_and_text(url=url_to_get_index,needproxy=needproxy)
                         response_in_function=response1['response_in_function']
                         response_in_function_text=response1['response_in_function_text']
                         response_text=response_in_function_text.decode('utf-8')
@@ -164,7 +167,9 @@ class toutiao:
             headers={
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
             }
-            response1=get_response_and_text(url=url,headers=headers)
+            needproxy = int(random.randint(1, 10) / 7)
+
+            response1=get_response_and_text(url=url,headers=headers,needproxy=needproxy)
             response_in_function=response1['response_in_function']
             response_in_function_text=response1['response_in_function_text']
             if not response_in_function:
@@ -421,12 +426,17 @@ class toutiao:
                 if not id_replynodes['next_comment_url']:
                     url_comments_more = 'https://www.wukong.com/wenda/web/comment/brow/?ansid=' + \
                                         id_replynodes['id'] + '&count=10&offset=0'
-                    response1=get_response_and_text(url=url_comments_more)
+
+                    needproxy = int(random.randint(1, 10) / 7)
+
+                    response1=get_response_and_text(url=url_comments_more,needproxy=needproxy)
                     response_in_function=response1['response_in_function']
                     response_in_function_text=response1['response_in_function_text']
 
                 else:
-                    response1=get_response_and_text(url=id_replynodes['next_comment_url'],headers=headers)
+                    needproxy = int(random.randint(1, 10) / 7)
+
+                    response1=get_response_and_text(url=id_replynodes['next_comment_url'],headers=headers,needproxy=needproxy)
                     response_in_function=response1['response_in_function']
                     response_in_function_text=response1['response_in_function_text']
 
@@ -585,7 +595,9 @@ class toutiao:
                     # print data
                     comment_url = 'http://www.toutiao.com/api/comment/list/?group_id=' + str(
                         data['id']) + '&item_id=' + str(data['item_id']) + '&offset=0&count=20'
-                    response1=get_response_and_text(url=comment_url)
+                    needproxy = int(random.randint(1, 10) / 7)
+
+                    response1=get_response_and_text(url=comment_url,needproxy=needproxy)
                     response_in_function=response1['response_in_function']
                     response_in_function_text=response1['response_in_function_text']
 

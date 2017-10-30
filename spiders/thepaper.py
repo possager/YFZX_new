@@ -63,7 +63,7 @@ class thepaper:
         # while True:
         thisurls_list=[]
         for url in self.urls:
-            response1=get_response_and_text(url=url)
+            response1=get_response_and_text(url=url,needproxy=False)
             response_in_function=response1['response_in_function']
             response_in_function_text=response1['response_in_function_text']
             if not response_in_function_text:
@@ -109,6 +109,18 @@ class thepaper:
                         date_now2=date_now-timedelta(days=int(publish_time_date))
                         publish_time_date=date_now2
                         publish_time_date=str(publish_time_date.strftime('%Y-%m-%d %H:%M'))
+                    elif u'小时前' in publish_time_date:
+                        publish_time_date = publish_time_date.replace(u'小时前', '')
+                        date_now = datetime.now()
+                        date_now2 = date_now - timedelta(hours=int(publish_time_date))
+                        publish_time_date = date_now2
+                        publish_time_date = str(publish_time_date.strftime('%Y-%m-%d %M:%H:%S'))
+                    elif u'分钟前' in publish_time_date:
+                        publish_time_date = publish_time_date.replace(u'分钟前', '')
+                        date_now = datetime.now()
+                        date_now2 = date_now - timedelta(minutes=int(publish_time_date))
+                        publish_time_date = date_now2
+                        publish_time_date = str(publish_time_date.strftime('%Y-%m-%d %M:%H:%S'))
                 except Exception as e:
                     # print e
                     pass
@@ -162,6 +174,8 @@ class thepaper:
             response1 = get_response_and_text(url=url,headers=headers)
             response_in_function=response1['response_in_function']
             response_in_function_text=response1['response_in_function_text']
+            if not response_in_function:
+                return
             datasoup = BeautifulSoup(response_in_function_text, 'lxml')
             for div_content in datasoup.select('body > div'):
                 try:
@@ -253,6 +267,8 @@ class thepaper:
                 response1=get_response_and_text(url=url_for_debug)
                 response_in_function=response1['response_in_function']
                 response_in_function_text=response1['response_in_function_text']
+                if not response_in_function:
+                    return
                 datasoup=BeautifulSoup(response_in_function_text,'lxml')
                 Re_find_content = re.compile(r'desc: \'(.*)\'')
                 content_data=Re_find_content.findall(response_in_function_text)
@@ -289,8 +305,6 @@ class thepaper:
                 data['like_count']=like_count_value
                 data['video_urls']=vedio_urls
                 data['source']=source
-                # read_count=datasoup.select('body > div.video_main.pad60.nav_container > div.video_bo > div > div.video_txt_l > div > div.video_info > span.reply')
-                # data['read_count']=read_count[0].text
                 self.comments_url_list.append(data)
 
             def get_content_inside_no_movie(data):
@@ -299,11 +313,15 @@ class thepaper:
                 respons1=get_response_and_text(url=url_for_debug)
                 response_in_function=respons1['response_in_function']
                 response_in_function_text=respons1['response_in_function_text']
+                if not response_in_function:
+                    return
                 Re_find_img=re.compile(r'src=".*?"')
                 datasoup=BeautifulSoup(response_in_function_text,'lxml')
                 content=''
                 img_urls=[]
                 for content_in_soup in datasoup.select('#v3cont_id > div.news_content > div.news_part'):
+                    content+=content_in_soup.text
+                for content_in_soup in datasoup.select('#v3cont_id > div.news_content > div.news_part_father > div.news_part.news_part_limit > div'):
                     content+=content_in_soup.text
                 try:
                     title=datasoup.select('#v3cont_id > div.news_content > h1')[0].text

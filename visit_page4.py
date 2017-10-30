@@ -1,6 +1,5 @@
 #_*_coding:utf-8_*_
 import requests
-
 import random
 import cookielib
 import time
@@ -17,7 +16,7 @@ timeout_value=10
 proxy_time_threshold=5
 
 
-def get_response_and_text(url,headers=None,needupdate=False,update_info=None,charset=None):
+def get_response_and_text(url,headers=None,needupdate=False,update_info=None,charset=None,needproxy=True):
     if headers:
         this_headers=headers
     else:
@@ -34,11 +33,19 @@ def get_response_and_text(url,headers=None,needupdate=False,update_info=None,cha
 
 
             if headers:
-                response_in_function=requests.get(url=url,headers=headers,proxies=proxies1,timeout=timeout_value)
+                if needproxy:
+                    response_in_function=requests.get(url=url,headers=headers,proxies=proxies1,timeout=timeout_value)
+                else:
+                    response_in_function=requests.get(url=url,headers=headers,timeout=timeout_value)
             else:
-                response_in_function=requests.get(url=url,headers=this_headers,proxies=proxies1,timeout=timeout_value)
+                if needproxy:
+                    response_in_function=requests.get(url=url,headers=this_headers,proxies=proxies1,timeout=timeout_value)
+                else:
+                    response_in_function=requests.get(url=url,headers=this_headers,timeout=timeout_value)
+
             if charset:
                 response_in_function.encoding=charset
+            response_in_function.close()
             response_in_function_text = response_in_function.text
             if response_in_function.status_code ==204:
                 num_reply-=1
@@ -75,8 +82,6 @@ def get_response_and_text(url,headers=None,needupdate=False,update_info=None,cha
                 #这后边的东西可能没用
             try:
                 if e.status_code in [404,400]:
-
-
                     sys.exit()
                 elif e.status_code==[204,403]:#可能是有数据的，但是被屏蔽了
                     num_reply-=1

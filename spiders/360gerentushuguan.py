@@ -82,10 +82,10 @@ class gerentushuguan360:
         self.session1 = requests.session()
         self.cookies = cookielib.MozillaCookieJar()
 
-        self.index_data_list=[]
-        self.content_data_list = []  # 下次需要获得的content链接，不是content内容
-        self.comments_data_list = []  # 下次需要获得的comment链接，不是comment内容
-        self.result_list = []  # 这个存储的是已经跑完了的内容
+        self.index_data_list=Queue.Queue()
+        self.content_data_list = Queue.Queue()  # 下次需要获得的content链接，不是content内容
+        self.comments_data_list = Queue.Queue()  # 下次需要获得的comment链接，不是comment内容
+        self.result_list = Queue.Queue()  # 这个存储的是已经跑完了的内容
 
 
         self.cache_data_list=Queue.Queue()

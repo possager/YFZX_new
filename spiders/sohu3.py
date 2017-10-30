@@ -36,7 +36,7 @@ from KafkaConnector import RemoteProducer,Consumer
 from saveresult import get_result_name
 import Queue
 # from visit_page4 import get_response_and_text
-from visit_page3 import get_response_and_text
+from visit_page4 import get_response_and_text
 
 class sohu:
     def __init__(self):
@@ -72,7 +72,7 @@ class sohu:
     def get_Index(self):
         url_to_get_index1=self.urls[0]
         for i in range(1,300):
-            response1=get_response_and_text(url=url_to_get_index1+str(i)+'&size=20',headers=self.headers)
+            response1=get_response_and_text(url=url_to_get_index1+str(i)+'&size=20',headers=self.headers,needproxy=False)
             response_in_function=response1['response_in_function']
             response_in_function_text=response1['response_in_function_text']
             try:
@@ -154,7 +154,7 @@ class sohu:
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
                 }
                 url_for_debug=data['url']
-                response1=get_response_and_text(url=url_for_debug,headers=headers)
+                response1=get_response_and_text(url=url_for_debug,headers=headers,)
                 response_in_function=response1['response_in_function']
                 response_in_function_text=response1['response_in_function_text']
 
@@ -357,6 +357,7 @@ class sohu:
             time.sleep(5)
             if self.global_status_num_comments==0:
                 break
+
 
     def save_result(self):
         def save_result(data):

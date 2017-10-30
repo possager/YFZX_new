@@ -7,13 +7,13 @@ import json
 import time
 from saveresult import BASIC_FILE
 import random
-
+import datetime
 
 
 
 class Proxy:
     # def __init__(self,url_proxy='http://172.16.2.11:8899'):
-    def __init__(self,url_proxy='http://172.16.1.5:8899/'):
+    def __init__(self,url_proxy='http://172.16.1.4:8899/'):
         self.url_proxy=url_proxy
 
     def save_proxy(self):
@@ -34,7 +34,7 @@ class Proxy:
 
 
 # url_proxy='http://192.168.8.52:8899/'
-url_proxy='http://172.16.1.5:8899/'#yuancheng
+url_proxy='http://172.16.1.4:8899/'#yuancheng
 
 def save_proxy():
     while True:
@@ -44,6 +44,7 @@ def save_proxy():
             file1 = BASIC_FILE + '/proxy.txt'
             with open(file1, 'w') as fl:
                 json.dump(jsondata, fl, encoding='utf-8')
+            print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             time.sleep(30)
         except Exception as e:
             pass

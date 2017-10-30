@@ -182,6 +182,7 @@ def get_result_name(plantform_e,plantform_c,date_time,urlOruid,newsidOrtid,datat
 
     if datatype == 'news':  # 如果是新闻,格式是:平台名称（或者英文）_ 言论发布时间戳 _ 新闻URL的MD5码
         try:
+            date_time_strip=date_time_strip.strip()
             result_file = plantform_e + '_' + str(date_time_strip) + '_' + str(
                 hashlib.md5(urlOruid).hexdigest())  # 7-27日发现这里的文件夹的名字可能是时间戳
 
