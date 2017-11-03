@@ -72,7 +72,7 @@ class gerentushuguan360:
             ['http://www.360doc.com/ajax/ReadingRoom/getZCData.json?artNum=20&classId=3&subClassId=0&iIscream=0&iSort=1&nPage=%s&nType=11'%str(i) for i in range(500)],#职场
             ['http://www.360doc.com/ajax/ReadingRoom/getZCData.json?artNum=20&classId=440&subClassId=0&iIscream=0&iSort=1&nPage=%s&nType=11'%str(i) for i in range(500)],#财经
             ['http://www.360doc.com/ajax/ReadingRoom/getZCData.json?artNum=20&classId=5&subClassId=0&iIscream=0&iSort=1&nPage=%s&nType=11'%str(i) for i in range(500)],#娱乐
-            ['http://www.360doc.com/ajax/ReadingRoom/getZCData.json?artNum=20&classId=1&subClassId=0&iIscream=0&iSort=1&nPage=%s&nType=11'%str(i) for i in range(500)],#艺术
+            ['http://www.360doc.com/ajax/ReadingRoom/ge分配日子ata.json?artNum=20&classId=1&subClassId=0&iIscream=0&iSort=1&nPage=%s&nType=11'%str(i) for i in range(500)],#艺术
             ['http://www.360doc.com/ajax/ReadingRoom/getZCData.json?artNum=20&classId=12&subClassId=0&iIscream=0&iSort=1&nPage=%s&nType=11'%str(i) for i in range(500)],#上网
         ]
         self.global_status_num_index = 1

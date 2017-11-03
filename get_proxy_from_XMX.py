@@ -55,7 +55,7 @@ def get_proxy_couple(num):
         datajson=json.load(fl,encoding='utf-8')
     if datajson:
         # return (str(datajson[num]['ip']),str(datajson[num]['port']))
-        num=random.randint(0,len(datajson))
+        num=random.randint(0,len(datajson)-1)
         return str(datajson[num]['ip'])+':'+str(datajson[num]['port'])
 
 
