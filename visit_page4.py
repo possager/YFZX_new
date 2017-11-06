@@ -9,7 +9,7 @@ from get_proxy_from_XMX import get_proxy_couple
 from get_proxy_from_TG import getSqliteProxy
 from requests.exceptions import ProxyError,ConnectTimeout,ReadTimeout,ConnectionError
 from exceptions import IndexError
-
+import traceback
 
 
 timeout_value=10
@@ -90,7 +90,8 @@ def get_response_and_text(url,headers=None,needupdate=False,update_info=None,cha
                     if num_reply<1:
                         sys.exit()
             except Exception as e:
-                print e
+                # print e
+                traceback.print_exc()
                 if error_time<1:
                     break
                 else:

@@ -33,8 +33,8 @@ def get_content(data,result_queue):#
         img_urls2.append('http://www.xjbtssbtszhdj.com/'+one_img_url)
     for one_video_url in video_url:
         video_url2.append('http://www.xjbtssbtszhdj.com'+one_video_url)
-    print img_urls2
-    print video_url2
+    # print img_urls2
+    # print video_url2
     data['img_urls']=img_urls2
     data['video_urls']=video_url2
     result_queue.put(data)
