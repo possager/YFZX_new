@@ -77,7 +77,9 @@ class beitun:
 
 
     def get_index(self):
-        get_index(self.content_data_Queue)
+        while True:
+            get_index(self.content_data_Queue)
+            time.sleep(10*60)
 
     def get_content(self):
         threadlist = []
@@ -103,10 +105,6 @@ class beitun:
             print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'--------',result_file
             data['spider_time']=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-            # print '#############################################################'
-            # print data
-            # print result_file
-            # print '####################################################################\n\n\n\n'
 
             save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='xjbtssbtszhdj',platform_c='第十师北屯市智慧党建',cache_data_list=self.cache_data_list)
 

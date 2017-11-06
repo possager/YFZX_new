@@ -9,8 +9,8 @@ def visit_page_in_class_post(url, data=None, charset='utf-8', headers=None):
             while True:
                 # proxy = getSqliteProxy()
 
-                # proxy_from_xmx = get_proxy_couple(random.randint(0, 50))
-                proxy_from_xmx='192.168.6.105:8080'
+                proxy_from_xmx = get_proxy_couple(random.randint(0, 50))
+                # proxy_from_xmx='192.168.6.105:8080'
                 proxy = {'http': 'http://' + proxy_from_xmx, 'https': 'http://' + proxy_from_xmx}
 
                 if proxy:

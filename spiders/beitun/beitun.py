@@ -84,12 +84,12 @@ class beitun:
         self.cache_data_Queue = Queue.Queue()
 
     def get_index(self):
-
-        for url in self.urls:
-            get_index(url=url,content_queue=self.content_data_Queue)
+        while True:
+            for url in self.urls:
+                get_index(url=url,content_queue=self.content_data_Queue)
+            time.sleep(10*60)
 
     def get_content(self):
-
         threadlist = []
         while self.global_status_num_index > 0 or not self.content_data_Queue.empty():  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
             while not self.content_data_Queue.empty() or threadlist:
