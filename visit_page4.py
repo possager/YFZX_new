@@ -29,6 +29,7 @@ def get_response_and_text(url,headers=None,needupdate=False,update_info=None,cha
     while True: # 强制请求
         try:
             proxy_from_xmx=get_proxy_couple(random.randint(0,50))
+            # proxy_from_xmx='192.168.6.105:8080'
             proxies1={'http': 'http://' + proxy_from_xmx,'https':'http://'+proxy_from_xmx}
 
 
