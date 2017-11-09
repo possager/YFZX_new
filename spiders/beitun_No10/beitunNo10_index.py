@@ -24,7 +24,7 @@ def get_index(content_queue):
     }
 
 
-    # host='http://www.xjbtssbtszhdj.com/'
+
 
     index_list2=[
         'http://www.xjbtssbtszhdj.com/courier.frontAllList.in?pageNum=',#党情速递

@@ -22,22 +22,20 @@ import datetime
 from datetime import timedelta
 from KafkaConnector import RemoteProducer,Consumer
 
-
-# from visit_page2 import get_response_and_text
-# from visit_page2 import get_response_and_text
 from KafkaConnector1 import Producer,Consumer
 from saveresult import get_result_name
 from saveresult import Save_result
 import redis
 
-# from visit_page3 import get_response_and_text
 from sava_data_to_MongoDB import save_data_to_mongodb
 from visit_page4 import get_response_and_text
 import Queue
 
 
-from beitunNo10_index import get_index
-from beitunNo10_content import get_content
+
+from beitunShengHuo_index import get_index
+from beitunShengHuo_content import get_content
+
 
 class beitun:
     def __init__(self):
@@ -49,16 +47,7 @@ class beitun:
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36',
         }
         self.urls = [
-            'http://www.nssbt.com/index.php?m=content&c=index&a=lists&catid=651',
-            'http://www.nssbt.com/index.php?m=content&c=index&a=lists&catid=652',
-            'http://www.nssbt.com/index.php?m=content&c=index&a=lists&catid=670',
-            'http://www.nssbt.com/index.php?m=content&c=index&a=lists&catid=654',
-            'http://www.nssbt.com/index.php?m=content&c=index&a=lists&catid=653',
-            'http://www.nssbt.com/index.php?m=content&c=index&a=lists&catid=665',
-            'http://www.nssbt.com/index.php?m=content&c=index&a=lists&catid=664',
-            'http://www.nssbt.com/index.php?m=content&c=index&a=lists&catid=660',
-            'http://www.nssbt.com/index.php?m=content&c=index&a=lists&catid=656',
-            'http://www.nssbt.com/index.php?m=content&c=index&a=lists&catid=666',
+            'http://www.ibeitun.net/xinxi/s0_a0_m0_p1.html'
         ]
         self.global_status_num_index = 1
         self.global_status_num_content = 2
@@ -75,28 +64,18 @@ class beitun:
 
         self.cache_data_Queue = Queue.Queue()
 
-
     def get_index(self):
-        while True:
-            get_index(self.content_data_Queue)
-            time.sleep(10*60)
+        get_index(self.content_data_Queue)
+
 
     def get_content(self):
-        threadlist = []
-        while self.global_status_num_index > 0 or not self.content_data_Queue.empty():  # 如果index中的任务完了,content_url_list中是空的的时候，就停止
-            while not self.content_data_Queue.empty() or threadlist:
-                for threadi in threadlist:
-                    if not threadi.is_alive():
-                        threadlist.remove(threadi)
-                while len(threadlist) < CONTENT_THREADING_NUM and not self.content_data_Queue.empty():
-                    data_in_while = self.content_data_Queue.get()
-                    thread_in_while = threading.Thread(target=get_content, args=(data_in_while, self.result_Queue))
-                    thread_in_while.start()
-                    threadlist.append(thread_in_while)
+        while not self.content_data_Queue.empty():
+            one_content_data=self.content_data_Queue.get()
+            get_content(data=one_content_data,result_queue=self.result_Queue)
 
     def save_result(self):
         def save_result(data):
-            result_file = get_result_name(plantform_e='xjbtssbtszhdj', plantform_c='第十师北屯市智慧党建', date_time=data['publish_time'],
+            result_file = get_result_name(plantform_e='BeiTunShengHuoTong', plantform_c='北屯生活通', date_time=data['publish_time'],
                                           urlOruid=data['url'],
                                           newsidOrtid=data['id'],
                                           datatype='news', full_data=data)
@@ -104,9 +83,6 @@ class beitun:
                 return
             print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'--------',result_file
             data['spider_time']=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-
-            # save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='xjbtssbtszhdj',platform_c='第十师北屯市智慧党建',cache_data_list=self.cache_data_Queue)
 
         threadlist = []
         while self.global_status_num_content > 0 or not self.result_Queue.empty():
@@ -124,13 +100,14 @@ class beitun:
     def run(self):
         thread1=threading.Thread(target=self.get_index,args=())
         thread1.start()
+        time.sleep(10)
         thread2=threading.Thread(target=self.get_content,args=())
         thread2.start()
+        time.sleep(10)
         thread3=threading.Thread(target=self.save_result,args=())
         thread3.start()
 
 
-
 if __name__ == '__main__':
-    beitunNo10class=beitun()
-    beitunNo10class.run()
+    beitunclass=beitun()
+    beitunclass.run()
