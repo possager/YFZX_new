@@ -35,7 +35,7 @@ import Queue
 
 from beitunShengHuo_index import get_index
 from beitunShengHuo_content import get_content
-
+from beitunShengHuo_index import get_index2
 
 class beitun:
     def __init__(self):
@@ -66,6 +66,9 @@ class beitun:
 
     def get_index(self):
         get_index(self.content_data_Queue)
+        while True:
+            get_index2(index_queue=self.content_data_Queue)
+
 
 
     def get_content(self):
