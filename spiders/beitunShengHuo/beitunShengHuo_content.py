@@ -42,8 +42,8 @@ def get_content(data,result_queue):
         data['publish_time']=str(publish_time)+' 00:00:00'
         result_queue.put(data)
     except Exception as e:
-        print 'the error pages url is ------>',url
-        traceback.print_exc()
+        # print 'the error pages url is ------>',url
+        # traceback.print_exc()
         return
 
 
