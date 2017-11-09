@@ -69,9 +69,11 @@ class beitun:
 
 
     def get_content(self):
-        while not self.content_data_Queue.empty():
-            one_content_data=self.content_data_Queue.get()
-            get_content(data=one_content_data,result_queue=self.result_Queue)
+        while True:
+            while not self.content_data_Queue.empty():
+                one_content_data=self.content_data_Queue.get()
+                get_content(data=one_content_data,result_queue=self.result_Queue)
+            time.sleep(10)
 
     def save_result(self):
         def save_result(data):
@@ -85,17 +87,20 @@ class beitun:
             data['spider_time']=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
         threadlist = []
-        while self.global_status_num_content > 0 or not self.result_Queue.empty():
-            while not self.result_Queue.empty() or threadlist:
-                for threadi in threadlist:
-                    if not threadi.is_alive():
-                        threadlist.remove(threadi)
-                while len(threadlist) < CONTENT_THREADING_NUM and not self.result_Queue.empty():
-                    data_in_while = self.result_Queue.get()
-                    thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
-                    thread_in_while.start()
-                    threadlist.append(thread_in_while)
-        self.global_status_num_comments = 0
+        while True:
+
+            while self.global_status_num_content > 0 or not self.result_Queue.empty():
+                while not self.result_Queue.empty() or threadlist:
+                    for threadi in threadlist:
+                        if not threadi.is_alive():
+                            threadlist.remove(threadi)
+                    while len(threadlist) < CONTENT_THREADING_NUM and not self.result_Queue.empty():
+                        data_in_while = self.result_Queue.get()
+                        thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
+                        thread_in_while.start()
+                        threadlist.append(thread_in_while)
+            time.sleep(10)
+        # self.global_status_num_comments = 0
 
     def run(self):
         thread1=threading.Thread(target=self.get_index,args=())
