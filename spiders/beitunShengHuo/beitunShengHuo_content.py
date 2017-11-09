@@ -16,7 +16,7 @@ def get_content(data,result_queue):
     response_in_function=response1['response_in_function']
     response_in_function_text=response1['response_in_function_text']
     if not response_in_function:
-        return 
+        return
     datasoup=BeautifulSoup(response_in_function_text,'lxml')
     # print str(datasoup)
     try:
