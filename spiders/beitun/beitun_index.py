@@ -13,7 +13,10 @@ def get_index(url,content_queue):
     response1=get_response_and_text(url=url,headers=headers)
     response_in_function=response1['response_in_function']
     response_in_function_text=response1['response_in_function_text']
-    datasoup=BeautifulSoup(response_in_function_text,'lxml')
+    try:
+        datasoup=BeautifulSoup(response_in_function_text,'lxml')
+    except Exception as e:
+        return 
     for i in datasoup.select('body > div.content > div.shishiimportantnews > div.left > ul > li'):
         publish_time= i.select('span')[0].text
         url= i.select('a')[0].get('href')
