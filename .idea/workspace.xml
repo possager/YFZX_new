@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ee7aa450-d5e3-49ed-bdfb-89405505369d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo.py" afterPath="$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -203,8 +202,8 @@
       <file leaf-file-name="beitunShengHuo.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="88" column="102" lean-forward="false" selection-start-line="88" selection-start-column="84" selection-end-line="88" selection-end-column="102" />
+            <state relative-caret-position="123">
+              <caret line="82" column="50" lean-forward="true" selection-start-line="82" selection-start-column="50" selection-end-line="82" selection-end-column="50" />
               <folding>
                 <element signature="e#21#31#0" expanded="true" />
               </folding>
@@ -844,13 +843,6 @@
       <option name="presentableId" value="Default" />
       <updated>1501611762506</updated>
     </task>
-    <task id="LOCAL-00010" summary="8-7">
-      <created>1502681781088</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1502681781088</updated>
-    </task>
     <task id="LOCAL-00011" summary="8-7">
       <created>1502681810848</created>
       <option name="number" value="00011" />
@@ -1187,7 +1179,14 @@
       <option name="project" value="LOCAL" />
       <updated>1510253150273</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <task id="LOCAL-00059" summary="添加北屯生活通网站的爬虫11-10">
+      <created>1510253364338</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1510253364338</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -2071,8 +2070,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="88" column="102" lean-forward="false" selection-start-line="88" selection-start-column="84" selection-end-line="88" selection-end-column="102" />
+        <state relative-caret-position="123">
+          <caret line="82" column="50" lean-forward="true" selection-start-line="82" selection-start-column="50" selection-end-line="82" selection-end-column="50" />
           <folding>
             <element signature="e#21#31#0" expanded="true" />
           </folding>
