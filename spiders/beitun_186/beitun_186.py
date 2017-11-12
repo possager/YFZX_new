@@ -28,6 +28,7 @@ from saveresult import Save_result
 import redis
 
 from sava_data_to_MongoDB import save_data_to_mongodb
+from sava_data_to_MongoDB import save_data_to_mongodb_without_full
 from visit_page4 import get_response_and_text
 import Queue
 
@@ -49,9 +50,9 @@ class beitun:
             'connection':'close',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36',
         }
-        self.urls = [
-            'http://www.ibeitun.net/xinxi/s0_a0_m0_p1.html'
-        ]
+        # self.urls = [
+        #     'http://www.ibeitun.net/xinxi/s0_a0_m0_p1.html'
+        # ]
         self.global_status_num_index = 1
         self.global_status_num_content = 2
         self.global_status_num_comments = 3
@@ -88,7 +89,7 @@ class beitun:
             print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'--------',result_file
             data['spider_time']=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='BeiTunShengHuoTong',platform_c='北屯生活通',cache_data_list=self.cache_data_Queue)
+            # save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='BeiTunShengHuoTong',platform_c='北屯生活通',cache_data_list=self.cache_data_Queue)
 
 
         threadlist = []
@@ -103,6 +104,7 @@ class beitun:
                         thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
                         thread_in_while.start()
                         threadlist.append(thread_in_while)
+            save_data_to_mongodb_without_full(self.result_Queue)
             time.sleep(10)
 
 

@@ -5,8 +5,9 @@ import re
 
 
 
-def get_content(content_queue,data):
-    url='http://186t.ibeitun.net/shownews.aspx?mid=340'
+def get_content(result_queue,data):
+    # url='http://186t.ibeitun.net/shownews.aspx?mid=340'
+    url=data['url']
 
 
     Re_find_img = re.compile(r'src\=\"(.*?)\"')
@@ -32,7 +33,7 @@ def get_content(content_queue,data):
     # data['publish_time']=publish_time
     data['publish_user']=publish_user
 
-    content_queue.put(data)
+    result_queue.put(data)
 
 
 
