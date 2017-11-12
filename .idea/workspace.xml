@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ee7aa450-d5e3-49ed-bdfb-89405505369d" name="Default" comment="">
+    <list default="true" id="ee7aa450-d5e3-49ed-bdfb-89405505369d" name="Default" comment="添加北屯生活通网站的爬虫11-10">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spiders/beitun_186/beitun_186.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spiders/beitun_186/beitun_186_content.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spiders/beitun_186/beitun_186_index.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo.py" afterPath="$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo_content.py" afterPath="$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo_content.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo_index.py" afterPath="$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo_index.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_module/test.py" afterPath="$PROJECT_DIR$/test_module/test.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -27,7 +28,7 @@
     <SUITE FILE_PATH="coverage/YFZX_new$test_chengshiluntan.coverage" NAME="test_chengshiluntan Coverage Results" MODIFIED="1504689371942" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test_module" />
     <SUITE FILE_PATH="coverage/YFZX_new$Unittests_in_testthepaper2_py.coverage" NAME="Unittests in testthepaper2.py Coverage Results" MODIFIED="1504234128589" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/YFZX_new$test_scjj_2.coverage" NAME="test_scjj_2 Coverage Results" MODIFIED="1504707038487" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test_module" />
-    <SUITE FILE_PATH="coverage/YFZX_new$test.coverage" NAME="test Coverage Results" MODIFIED="1509903991295" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test_module" />
+    <SUITE FILE_PATH="coverage/YFZX_new$test.coverage" NAME="test Coverage Results" MODIFIED="1510513061964" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test_module" />
     <SUITE FILE_PATH="coverage/YFZX_new$testes2.coverage" NAME="testes2 Coverage Results" MODIFIED="1504506175736" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/YFZX_new$testlog.coverage" NAME="testlog Coverage Results" MODIFIED="1504770589069" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test_module" />
     <SUITE FILE_PATH="coverage/YFZX_new$beitunShengHuo_content.coverage" NAME="beitunShengHuo_content Coverage Results" MODIFIED="1510250288960" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders/beitunShengHuo" />
@@ -44,6 +45,7 @@
     <SUITE FILE_PATH="coverage/YFZX_new$360gerentushuguan.coverage" NAME="360gerentushuguan Coverage Results" MODIFIED="1504678833778" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders" />
     <SUITE FILE_PATH="coverage/YFZX_new$Unittests_in_testurllib3_py.coverage" NAME="Unittests in testurllib3.py Coverage Results" MODIFIED="1504084005706" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/YFZX_new$visit_page_post.coverage" NAME="visit_page_post Coverage Results" MODIFIED="1509922891527" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders/beitun_No10" />
+    <SUITE FILE_PATH="coverage/YFZX_new$beitun_186_content.coverage" NAME="beitun_186_content Coverage Results" MODIFIED="1510514127588" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders/beitun_186" />
     <SUITE FILE_PATH="coverage/YFZX_new$test_scjj.coverage" NAME="test_scjj Coverage Results" MODIFIED="1504707065585" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/test_module" />
     <SUITE FILE_PATH="coverage/YFZX_new$Unittests_in_test360gerentushuguan_py.coverage" NAME="Unittests in test360gerentushuguan.py Coverage Results" MODIFIED="1504507470026" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/YFZX_new$testzhihu.coverage" NAME="testzhihu Coverage Results" MODIFIED="1503913627702" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -73,6 +75,7 @@
     <SUITE FILE_PATH="coverage/YFZX_new$toutiao.coverage" NAME="toutiao Coverage Results" MODIFIED="1502313361350" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders" />
     <SUITE FILE_PATH="coverage/YFZX_new$Unittests_in_testpaper3_py.coverage" NAME="Unittests in testpaper3.py Coverage Results" MODIFIED="1504234961744" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/YFZX_new$test360gerentushuguan2.coverage" NAME="test360gerentushuguan2 Coverage Results" MODIFIED="1504590425191" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/YFZX_new$beitun_186_index.coverage" NAME="beitun_186_index Coverage Results" MODIFIED="1510513382674" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders/beitun_186" />
     <SUITE FILE_PATH="coverage/YFZX_new$toutiao2.coverage" NAME="toutiao2 Coverage Results" MODIFIED="1502872556453" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spiders" />
   </component>
   <component name="DatabaseView">
@@ -168,31 +171,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="visit_page_post.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spiders/beitun_No10/visit_page_post.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="15" column="51" lean-forward="false" selection-start-line="15" selection-start-column="51" selection-end-line="15" selection-end-column="51" />
-              <folding>
-                <element signature="e#20#35#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="beitun.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spiders/beitun/beitun.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2442">
-              <caret line="117" column="0" lean-forward="false" selection-start-line="110" selection-start-column="12" selection-end-line="117" selection-end-column="0" />
-              <folding>
-                <element signature="e#21#31#0" expanded="true" />
-                <element signature="e#1123#1434#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="beitun_index.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spiders/beitun/beitun_index.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -218,8 +196,8 @@
       <file leaf-file-name="beitunShengHuo.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1614">
-              <caret line="109" column="0" lean-forward="false" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+            <state relative-caret-position="143">
+              <caret line="110" column="0" lean-forward="false" selection-start-line="110" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
               <folding>
                 <element signature="e#21#31#0" expanded="true" />
               </folding>
@@ -227,24 +205,65 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="beitunShengHuo_content.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo_content.py">
+      <file leaf-file-name="beitun_186.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/spiders/beitun_186/beitun_186.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="638">
-              <caret line="35" column="38" lean-forward="true" selection-start-line="35" selection-start-column="38" selection-end-line="35" selection-end-column="38" />
+            <state relative-caret-position="451">
+              <caret line="122" column="20" lean-forward="true" selection-start-line="122" selection-start-column="20" selection-end-line="122" selection-end-column="20" />
               <folding>
-                <element signature="e#20#65#0" expanded="true" />
+                <element signature="e#21#31#0" expanded="true" />
+                <element signature="e#2307#3812#0" expanded="false" />
+                <element signature="e#2342#3058#0" expanded="false" />
+                <element signature="e#3208#3785#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="testzhihu.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test_module/testzhihu.py">
+      <file leaf-file-name="beitun_186_content.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spiders/beitun_186/beitun_186_content.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="429">
+              <caret line="38" column="26" lean-forward="true" selection-start-line="38" selection-start-column="26" selection-end-line="38" selection-end-column="26" />
+              <folding>
+                <element signature="e#20#35#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="beitun_186_index.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spiders/beitun_186/beitun_186_index.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="286">
+              <caret line="31" column="42" lean-forward="false" selection-start-line="31" selection-start-column="42" selection-end-line="31" selection-end-column="42" />
+              <folding>
+                <element signature="e#0#45#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test_module/test.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="35">
+              <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="30" selection-end-column="11" />
+              <folding>
+                <element signature="e#20#35#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="beitunShengHuo_content.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo_content.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="308">
+              <caret line="20" column="25" lean-forward="false" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
+              <folding>
+                <element signature="e#20#65#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -258,21 +277,6 @@
                 <element signature="e#21#31#0" expanded="true" />
                 <element signature="e#1074#1385#0" expanded="false" />
                 <element signature="e#1406#2237#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="beitunNo10_index.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spiders/beitun_No10/beitunNo10_index.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="616">
-              <caret line="46" column="25" lean-forward="false" selection-start-line="46" selection-start-column="25" selection-end-line="46" selection-end-column="25" />
-              <folding>
-                <element signature="e#20#65#0" expanded="true" />
-                <element signature="e#241#389#0" expanded="false" />
-                <element signature="e#405#693#0" expanded="false" />
-                <element signature="e#714#1161#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -361,9 +365,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/9bd541a2-c81e-46cd-8e8e-ddb330aaefd2/console.sql" />
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/4ef37bbd-dd60-4ab0-b2b3-f0a70f0bd3a0/console.sql" />
-        <option value="$PROJECT_DIR$/test_module/test_sqlite.py" />
         <option value="$PROJECT_DIR$/test_module/test_chengshiluntan.py" />
         <option value="$PROJECT_DIR$/test_module/test_scjj_2.py" />
         <option value="$PROJECT_DIR$/test_module/test_scjj.py" />
@@ -396,7 +397,6 @@
         <option value="$PROJECT_DIR$/spiders/beitun/get_index.py" />
         <option value="$PROJECT_DIR$/spiders/beitun/__init__.py" />
         <option value="$PROJECT_DIR$/test_module/delete_mongodb_chengdu.py" />
-        <option value="$PROJECT_DIR$/test_module/test.py" />
         <option value="$PROJECT_DIR$/spiders/beitun/beitun_content.py" />
         <option value="$PROJECT_DIR$/spiders/360gerentushuguan.py" />
         <option value="$PROJECT_DIR$/test_module/test2.py" />
@@ -412,6 +412,10 @@
         <option value="$PROJECT_DIR$/visit_page4.py" />
         <option value="$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo.py" />
         <option value="$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo_content.py" />
+        <option value="$PROJECT_DIR$/test_module/test.py" />
+        <option value="$PROJECT_DIR$/spiders/beitun_186/beitun_186_content.py" />
+        <option value="$PROJECT_DIR$/spiders/beitun_186/beitun_186_index.py" />
+        <option value="$PROJECT_DIR$/spiders/beitun_186/beitun_186.py" />
       </list>
     </option>
   </component>
@@ -464,20 +468,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="test_module" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="YFZX_new" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="YFZX_new" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="spiders" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -497,6 +487,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="beitunShengHuo" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="YFZX_new" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="YFZX_new" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="spiders" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="beitun_186" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -539,64 +547,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.beitunShengHuo_index">
-    <configuration default="false" name="beitunNo10_index" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spiders/beitun_No10" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="YFZX_new" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spiders/beitun_No10/beitunNo10_index.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="beitunNo10" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spiders/beitun_No10" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="YFZX_new" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spiders/beitun_No10/beitunNo10.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
-    <configuration default="false" name="beitunShengHuo_content" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spiders/beitunShengHuo" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="YFZX_new" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo_content.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python.beitun_186_content">
     <configuration default="false" name="beitunShengHuo" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -630,6 +581,63 @@
       <module name="YFZX_new" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo_index.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test_module" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="YFZX_new" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_module/test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="beitun_186_index" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spiders/beitun_186" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="YFZX_new" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spiders/beitun_186/beitun_186_index.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <method />
+    </configuration>
+    <configuration default="false" name="beitun_186_content" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spiders/beitun_186" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="YFZX_new" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spiders/beitun_186/beitun_186_content.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -792,19 +800,19 @@
       <method />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.beitunNo10_index" />
-      <item index="1" class="java.lang.String" itemvalue="Python.beitunNo10" />
-      <item index="2" class="java.lang.String" itemvalue="Python.beitunShengHuo_content" />
-      <item index="3" class="java.lang.String" itemvalue="Python.beitunShengHuo" />
-      <item index="4" class="java.lang.String" itemvalue="Python.beitunShengHuo_index" />
+      <item index="0" class="java.lang.String" itemvalue="Python.beitunShengHuo" />
+      <item index="1" class="java.lang.String" itemvalue="Python.beitunShengHuo_index" />
+      <item index="2" class="java.lang.String" itemvalue="Python.test" />
+      <item index="3" class="java.lang.String" itemvalue="Python.beitun_186_index" />
+      <item index="4" class="java.lang.String" itemvalue="Python.beitun_186_content" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.beitunShengHuo_index" />
-        <item index="1" class="java.lang.String" itemvalue="Python.beitunShengHuo" />
-        <item index="2" class="java.lang.String" itemvalue="Python.beitunShengHuo_content" />
-        <item index="3" class="java.lang.String" itemvalue="Python.beitunNo10" />
-        <item index="4" class="java.lang.String" itemvalue="Python.beitunNo10_index" />
+        <item index="0" class="java.lang.String" itemvalue="Python.beitun_186_content" />
+        <item index="1" class="java.lang.String" itemvalue="Python.beitun_186_index" />
+        <item index="2" class="java.lang.String" itemvalue="Python.test" />
+        <item index="3" class="java.lang.String" itemvalue="Python.beitunShengHuo_index" />
+        <item index="4" class="java.lang.String" itemvalue="Python.beitunShengHuo" />
       </list>
     </recent_temporary>
   </component>
@@ -821,13 +829,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1501611762506</updated>
-    </task>
-    <task id="LOCAL-00014" summary="8-7">
-      <created>1502854884169</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1502854884169</updated>
     </task>
     <task id="LOCAL-00015" summary="8-7">
       <created>1502868461119</created>
@@ -1165,7 +1166,14 @@
       <option name="project" value="LOCAL" />
       <updated>1510264670735</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="添加北屯生活通网站的爬虫11-10">
+      <created>1510264688028</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1510264688029</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1223,7 +1231,7 @@
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17963752" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.14978679" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40130153" sideWeight="0.49361023" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40130153" sideWeight="0.49361023" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1604,6 +1612,11 @@
           <line>9</line>
           <option name="timeStamp" value="823" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/test_module/test.py</url>
+          <line>28</line>
+          <option name="timeStamp" value="824" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -1615,14 +1628,11 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="824" />
+      <option name="time" value="827" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://F:/python27/Lib/site-packages/urllib3/connection.py" />
-    <entry file="file://F:/python27/Lib/site-packages/bs4/builder/_lxml.py" />
-    <entry file="file://F:/python27/Lib/httplib.py" />
     <entry file="file://$PROJECT_DIR$/spiders/csdn.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="392">
@@ -1764,13 +1774,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="25" column="4" lean-forward="false" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_module/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="10" column="20" lean-forward="true" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -1954,10 +1957,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spiders/beitun_No10/visit_page_post.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
+        <state relative-caret-position="264">
           <caret line="15" column="51" lean-forward="false" selection-start-line="15" selection-start-column="51" selection-end-line="15" selection-end-column="51" />
           <folding>
-            <element signature="e#20#35#0" expanded="true" />
+            <element signature="e#20#35#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1967,7 +1970,7 @@
         <state relative-caret-position="616">
           <caret line="46" column="25" lean-forward="false" selection-start-line="46" selection-start-column="25" selection-end-line="46" selection-end-column="25" />
           <folding>
-            <element signature="e#20#65#0" expanded="true" />
+            <element signature="e#20#65#0" expanded="false" />
             <element signature="e#241#389#0" expanded="false" />
             <element signature="e#405#693#0" expanded="false" />
             <element signature="e#714#1161#0" expanded="false" />
@@ -1980,7 +1983,7 @@
         <state relative-caret-position="2442">
           <caret line="117" column="0" lean-forward="false" selection-start-line="110" selection-start-column="12" selection-end-line="117" selection-end-column="0" />
           <folding>
-            <element signature="e#21#31#0" expanded="true" />
+            <element signature="e#21#31#0" expanded="false" />
             <element signature="e#1123#1434#0" expanded="false" />
           </folding>
         </state>
@@ -1994,31 +1997,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo_index.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="902">
-          <caret line="41" column="19" lean-forward="false" selection-start-line="41" selection-start-column="17" selection-end-line="41" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spiders/beitun/beitun_index.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="16" column="21" lean-forward="false" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/visit_page4.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="30" column="65" lean-forward="false" selection-start-line="30" selection-start-column="65" selection-end-line="30" selection-end-column="65" />
-          <folding>
-            <element signature="e#20#35#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2034,22 +2017,85 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo.py">
+    <entry file="file://$PROJECT_DIR$/visit_page4.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1614">
-          <caret line="109" column="0" lean-forward="false" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
+        <state relative-caret-position="660">
+          <caret line="30" column="65" lean-forward="false" selection-start-line="30" selection-start-column="65" selection-end-line="30" selection-end-column="65" />
           <folding>
-            <element signature="e#21#31#0" expanded="true" />
+            <element signature="e#20#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo_index.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="902">
+          <caret line="41" column="19" lean-forward="false" selection-start-line="41" selection-start-column="17" selection-end-line="41" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_module/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="35">
+          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="30" selection-end-column="11" />
+          <folding>
+            <element signature="e#20#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo_content.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="638">
-          <caret line="35" column="38" lean-forward="true" selection-start-line="35" selection-start-column="38" selection-end-line="35" selection-end-column="38" />
+        <state relative-caret-position="308">
+          <caret line="20" column="25" lean-forward="false" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
           <folding>
             <element signature="e#20#65#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/beitun_186/beitun_186_index.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="31" column="42" lean-forward="false" selection-start-line="31" selection-start-column="42" selection-end-line="31" selection-end-column="42" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/beitun_186/beitun_186_content.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="429">
+          <caret line="38" column="26" lean-forward="true" selection-start-line="38" selection-start-column="26" selection-end-line="38" selection-end-column="26" />
+          <folding>
+            <element signature="e#20#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="143">
+          <caret line="110" column="0" lean-forward="false" selection-start-line="110" selection-start-column="0" selection-end-line="119" selection-end-column="0" />
+          <folding>
+            <element signature="e#21#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/beitun_186/beitun_186.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="451">
+          <caret line="122" column="20" lean-forward="true" selection-start-line="122" selection-start-column="20" selection-end-line="122" selection-end-column="20" />
+          <folding>
+            <element signature="e#21#31#0" expanded="true" />
+            <element signature="e#2307#3812#0" expanded="false" />
+            <element signature="e#2342#3058#0" expanded="false" />
+            <element signature="e#3208#3785#0" expanded="false" />
           </folding>
         </state>
       </provider>
