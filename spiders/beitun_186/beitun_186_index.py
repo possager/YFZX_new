@@ -2,6 +2,8 @@ from visit_page4 import get_response_and_text
 from bs4 import BeautifulSoup
 import json
 import requests
+import datetime
+
 
 
 def get_index(content_queue):
@@ -30,6 +32,7 @@ def get_index(content_queue):
                 'publish_time':publish_time,
                 'title':title,
                 'id':url.split('mid=')[1],
+                'spider_time':datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             }
             content_queue.put(one_dict)
 

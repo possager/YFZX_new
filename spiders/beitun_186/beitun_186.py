@@ -89,7 +89,7 @@ class beitun:
             print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'--------',result_file
             data['spider_time']=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
-            # save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='BeiTunShengHuoTong',platform_c='北屯生活通',cache_data_list=self.cache_data_Queue)
+            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='BeiTunShengHuoTong',platform_c='北屯生活通',cache_data_list=self.cache_data_Queue)
 
 
         threadlist = []
@@ -105,7 +105,7 @@ class beitun:
                         thread_in_while.start()
                         threadlist.append(thread_in_while)
             save_data_to_mongodb_without_full(self.result_Queue)
-            time.sleep(10)
+            time.sleep(5*60*60)
 
 
     def run(self):
