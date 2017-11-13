@@ -15,6 +15,8 @@ def get_content(data,result_queue):
     response1=get_response_and_text(url=url,headers=headers)
     response_in_function=response1['response_in_function']
     response_in_function_text=response1['response_in_function_text']
+    if not response_in_function:
+        return
     datasoup=BeautifulSoup(response_in_function_text,'lxml')
     # print str(datasoup)
     try:
@@ -42,8 +44,8 @@ def get_content(data,result_queue):
         data['publish_time']=str(publish_time)+' 00:00:00'
         result_queue.put(data)
     except Exception as e:
-        print 'the error pages url is ------>',url
-        traceback.print_exc()
+        # print 'the error pages url is ------>',url
+        # traceback.print_exc()
         return
 
 

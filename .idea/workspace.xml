@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ee7aa450-d5e3-49ed-bdfb-89405505369d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/YFZX_new.iml" afterPath="$PROJECT_DIR$/.idea/YFZX_new.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spiders/beitun_186/beitun_186.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spiders/beitun_186/beitun_186_content.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spiders/beitun_186/beitun_186_index.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo.py" afterPath="$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo_content.py" afterPath="$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo_content.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo_index.py" afterPath="$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo_index.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test_module/test.py" afterPath="$PROJECT_DIR$/test_module/test.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -188,18 +192,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="beitun_content.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spiders/beitun/beitun_content.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="245">
-              <caret line="40" column="70" lean-forward="false" selection-start-line="40" selection-start-column="70" selection-end-line="40" selection-end-column="70" />
-              <folding>
-                <element signature="e#20#65#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="beitun.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spiders/beitun/beitun.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -211,18 +203,6 @@
                 <element signature="e#3069#3217#0" expanded="false" />
                 <element signature="e#3254#3994#0" expanded="false" />
                 <element signature="e#5512#5771#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="beitunShengHuo_index.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo_index.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="13" column="84" lean-forward="false" selection-start-line="13" selection-start-column="84" selection-end-line="13" selection-end-column="84" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -287,14 +267,46 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="beitunShengHuo.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="beitunShengHuo.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="433">
-              <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
+            <state relative-caret-position="187">
+              <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
               <folding>
                 <element signature="e#21#31#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="beitun_186.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/spiders/beitun_186/beitun_186.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="594">
+              <caret line="107" column="31" lean-forward="true" selection-start-line="107" selection-start-column="31" selection-end-line="107" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="beitun_186_index.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spiders/beitun_186/beitun_186_index.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="34" column="81" lean-forward="false" selection-start-line="34" selection-start-column="81" selection-end-line="34" selection-end-column="81" />
+              <folding>
+                <element signature="e#0#45#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="beitun_186_content.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/spiders/beitun_186/beitun_186_content.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="168">
+              <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -370,8 +382,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/9bd541a2-c81e-46cd-8e8e-ddb330aaefd2/console.sql" />
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/4ef37bbd-dd60-4ab0-b2b3-f0a70f0bd3a0/console.sql" />
         <option value="$PROJECT_DIR$/test_module/test_sqlite.py" />
         <option value="$PROJECT_DIR$/test_module/test_chengshiluntan.py" />
         <option value="$PROJECT_DIR$/test_module/test_scjj_2.py" />
@@ -421,6 +431,8 @@
         <option value="$PROJECT_DIR$/visit_page4.py" />
         <option value="$PROJECT_DIR$/spiders/beitun/beitun_index.py" />
         <option value="$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo.py" />
+        <option value="$PROJECT_DIR$/spiders/beitun_186/beitun_186_index.py" />
+        <option value="$PROJECT_DIR$/spiders/beitun_186/beitun_186.py" />
       </list>
     </option>
   </component>
@@ -435,6 +447,9 @@
     <option name="y" value="-8" />
     <option name="width" value="1936" />
     <option name="height" value="1056" />
+  </component>
+  <component name="ProjectReloadState">
+    <option name="STATE" value="1" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -469,13 +484,7 @@
               <item name="YFZX_new" type="b2602c69:ProjectViewProjectNode" />
               <item name="YFZX_new" type="462c0819:PsiDirectoryNode" />
               <item name="spiders" type="462c0819:PsiDirectoryNode" />
-              <item name="beitun" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="YFZX_new" type="b2602c69:ProjectViewProjectNode" />
-              <item name="YFZX_new" type="462c0819:PsiDirectoryNode" />
-              <item name="spiders" type="462c0819:PsiDirectoryNode" />
-              <item name="beitunShengHuo" type="462c0819:PsiDirectoryNode" />
+              <item name="beitun_186" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -491,17 +500,17 @@
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="SQL Server (jTds)&#10;Sqlite (Xerial)" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\project\YFZX_new\spiders\beitun" />
+      <recent name="F:\project\YFZX_new\test_module" />
+      <recent name="F:\project\YFZX_new" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\YFZX_new\YFZX_new" />
       <recent name="C:\YFZX_new\YFZX_new\spiders" />
       <recent name="F:\project\YFZX_new" />
       <recent name="F:\project\YFZX_new\spiders" />
       <recent name="G:\project\YFZX_new" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="F:\project\YFZX_new\spiders\beitun" />
-      <recent name="F:\project\YFZX_new\test_module" />
-      <recent name="F:\project\YFZX_new" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -516,7 +525,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.beitunShengHuo">
+  <component name="RunManager" selected="Python.beitun_186">
     <configuration default="true" type="tests" factoryName="Doctests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -688,24 +697,6 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
-    <configuration name="beitunNo10_content" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spiders/beitun_No10" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="YFZX_new" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spiders/beitun_No10/beitunNo10_content.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-    </configuration>
     <configuration name="beitunNo10_index" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -760,20 +751,38 @@
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
     </configuration>
+    <configuration name="beitun_186" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spiders/beitun_186" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="YFZX_new" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spiders/beitun_186/beitun_186.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+    </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Python.beitunNo10_index" />
-      <item index="1" class="java.lang.String" itemvalue="Python.beitunNo10_content" />
-      <item index="2" class="java.lang.String" itemvalue="Python.beitunNo10" />
-      <item index="3" class="java.lang.String" itemvalue="Python.beitunShengHuo_content" />
-      <item index="4" class="java.lang.String" itemvalue="Python.beitunShengHuo" />
+      <item index="1" class="java.lang.String" itemvalue="Python.beitunNo10" />
+      <item index="2" class="java.lang.String" itemvalue="Python.beitunShengHuo_content" />
+      <item index="3" class="java.lang.String" itemvalue="Python.beitunShengHuo" />
+      <item index="4" class="java.lang.String" itemvalue="Python.beitun_186" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.beitunShengHuo" />
-        <item index="1" class="java.lang.String" itemvalue="Python.beitunShengHuo_content" />
-        <item index="2" class="java.lang.String" itemvalue="Python.beitunNo10" />
-        <item index="3" class="java.lang.String" itemvalue="Python.beitunNo10_index" />
-        <item index="4" class="java.lang.String" itemvalue="Python.beitunNo10_content" />
+        <item index="0" class="java.lang.String" itemvalue="Python.beitun_186" />
+        <item index="1" class="java.lang.String" itemvalue="Python.beitunShengHuo" />
+        <item index="2" class="java.lang.String" itemvalue="Python.beitunShengHuo_content" />
+        <item index="3" class="java.lang.String" itemvalue="Python.beitunNo10" />
+        <item index="4" class="java.lang.String" itemvalue="Python.beitunNo10_index" />
       </list>
     </recent_temporary>
   </component>
@@ -1184,15 +1193,15 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18064517" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329718" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37542662" sideWeight="0.5107527" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37542662" sideWeight="0.2139785" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287827" sideWeight="0.49247313" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329718" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37542662" sideWeight="0.48924732" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37542662" sideWeight="0.78602153" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973376" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Mongo Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.42087913" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329718" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40130153" sideWeight="0.49361023" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.40045506" sideWeight="0.49361023" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329718" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1610,6 +1619,11 @@
           <line>9</line>
           <option name="timeStamp" value="823" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/spiders/beitun_186/beitun_186_content.py</url>
+          <line>35</line>
+          <option name="timeStamp" value="824" />
+        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -1621,14 +1635,11 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="824" />
+      <option name="time" value="826" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://F:/python27/Lib/site-packages/requests/api.py" />
-    <entry file="file://F:/python27/Lib/site-packages/urllib3/connection.py" />
-    <entry file="file://F:/python27/Lib/site-packages/bs4/builder/_lxml.py" />
     <entry file="file://F:/python27/Lib/httplib.py" />
     <entry file="file://$PROJECT_DIR$/spiders/csdn.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -1910,7 +1921,7 @@
         <state relative-caret-position="245">
           <caret line="40" column="70" lean-forward="false" selection-start-line="40" selection-start-column="70" selection-end-line="40" selection-end-column="70" />
           <folding>
-            <element signature="e#20#65#0" expanded="true" />
+            <element signature="e#20#65#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1931,18 +1942,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo_content.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1144">
-          <caret line="52" column="42" lean-forward="false" selection-start-line="52" selection-start-column="38" selection-end-line="52" selection-end-column="42" />
+        <state relative-caret-position="540">
+          <caret line="34" column="35" lean-forward="false" selection-start-line="34" selection-start-column="35" selection-end-line="34" selection-end-column="35" />
+          <folding>
+            <element signature="e#20#65#0" expanded="true" />
+            <marker date="1510552437368" expanded="true" signature="151:1857" ph="..." />
+            <marker date="1510552437368" expanded="true" signature="1820:1842" ph="..." />
+            <marker date="1510552437368" expanded="true" signature="1820:1857" ph="..." />
+            <marker date="1510552437368" expanded="true" signature="1887:1961" ph="..." />
+            <marker date="1510552437368" expanded="true" signature="1905:1959" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo_index.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="13" column="84" lean-forward="false" selection-start-line="13" selection-start-column="84" selection-end-line="13" selection-end-column="84" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="135">
+          <caret line="9" column="39" lean-forward="false" selection-start-line="9" selection-start-column="39" selection-end-line="9" selection-end-column="39" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2043,17 +2060,42 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="54">
           <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spiders/beitunShengHuo/beitunShengHuo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="433">
-          <caret line="93" column="0" lean-forward="false" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
+        <state relative-caret-position="187">
+          <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
           <folding>
             <element signature="e#21#31#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/beitun_186/beitun_186_index.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="34" column="81" lean-forward="false" selection-start-line="34" selection-start-column="81" selection-end-line="34" selection-end-column="81" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/beitun_186/beitun_186_content.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spiders/beitun_186/beitun_186.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="107" column="31" lean-forward="true" selection-start-line="107" selection-start-column="31" selection-end-line="107" selection-end-column="31" />
+          <folding />
         </state>
       </provider>
     </entry>
