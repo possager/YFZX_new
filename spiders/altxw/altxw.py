@@ -21,6 +21,7 @@ import logging
 import datetime
 from datetime import timedelta
 from KafkaConnector import RemoteProducer,Consumer
+from sava_data_to_MongoDB import save_data_to_mongodb_without_full
 
 
 
@@ -67,7 +68,9 @@ class altxw(object):
 
 
     def get_index(self):
-        get_index(self.content_data_Queue)
+        while True:
+            get_index(self.content_data_Queue)
+            time.sleep(1*60*60)
 
     def get_content(self):
         # data=self.content_data_Queue.get()
@@ -100,7 +103,7 @@ class altxw(object):
                         newsidOrtid=data['id'],
                         datatype='news', full_data=data)
 
-            # save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='BeiTunXinWen',platform_c='北屯新闻',cache_data_list=self.cache_data_Queue)
+            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='BeiTunXinWen',platform_c='北屯新闻',cache_data_list=self.cache_data_Queue)
 
         threadlist = []
         while self.global_status_num_content > 0 or not self.result_Queue.empty():
@@ -113,6 +116,8 @@ class altxw(object):
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
+
+            save_data_to_mongodb_without_full(cache_data_list=self.cache_data_list)
         self.global_status_num_comments = 0
 
 

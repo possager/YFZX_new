@@ -32,6 +32,7 @@ import redis
 from sava_data_to_MongoDB import save_data_to_mongodb
 from visit_page4 import get_response_and_text
 import Queue
+from sava_data_to_MongoDB import save_data_to_mongodb_without_full
 
 
 
@@ -68,7 +69,9 @@ class bts(object):
 
 
     def get_index(self):
-        get_index(self.content_data_Queue)
+        while True:
+            get_index(self.content_data_Queue)
+            time.sleep(1*60*60)
 
 
     def get_content(self):
@@ -93,14 +96,14 @@ class bts(object):
             if not result_file:
                 return
             print datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'--------',result_file
-            # data['spider_time']=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            data['spider_time']=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             #
             #
             Save_result(plantform='bts', date_time=data['publish_time'],
                                           urlOruid=data['url'],
                                           newsidOrtid=data['id'],
                                           datatype='news', full_data=data)
-            # save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='bts',platform_c='第十师北屯市',cache_data_list=self.cache_data_Queue)
+            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='bts',platform_c='第十师北屯市',cache_data_list=self.cache_data_Queue)
 
         threadlist = []
         while self.global_status_num_content > 0 or not self.result_Queue.empty():
@@ -113,6 +116,7 @@ class bts(object):
                     thread_in_while = threading.Thread(target=save_result, args=(data_in_while,))
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
+            save_data_to_mongodb_without_full(cache_data_list=self.cache_data_list)
         # self.global_status_num_comments = 0
 
 
