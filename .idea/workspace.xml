@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ee7aa450-d5e3-49ed-bdfb-89405505369d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/BTS/bts.py" afterPath="$PROJECT_DIR$/spiders/BTS/bts.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/altxw/altxw.py" afterPath="$PROJECT_DIR$/spiders/altxw/altxw.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -893,13 +891,6 @@
       <option name="presentableId" value="Default" />
       <updated>1501611762506</updated>
     </task>
-    <task id="LOCAL-00013" summary="8-7">
-      <created>1502729774020</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1502729774020</updated>
-    </task>
     <task id="LOCAL-00014" summary="8-7">
       <created>1502854884169</created>
       <option name="number" value="00014" />
@@ -1236,7 +1227,14 @@
       <option name="project" value="LOCAL" />
       <updated>1511504710544</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="添加北屯网的两个爬虫。">
+      <created>1511505034881</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1511505034881</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TestHistory">
