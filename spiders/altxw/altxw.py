@@ -117,7 +117,7 @@ class altxw(object):
                     thread_in_while.start()
                     threadlist.append(thread_in_while)
 
-            save_data_to_mongodb_without_full(cache_data_list=self.cache_data_list)
+            # save_data_to_mongodb_without_full(cache_data_list=self.cache_data_list)
         self.global_status_num_comments = 0
 
 

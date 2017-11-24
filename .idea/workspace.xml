@@ -5,7 +5,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/BTS/bts.py" afterPath="$PROJECT_DIR$/spiders/BTS/bts.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/altxw/altxw.py" afterPath="$PROJECT_DIR$/spiders/altxw/altxw.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/spiders/beitun_No10/beitunNo10.py" afterPath="$PROJECT_DIR$/spiders/beitun_No10/beitunNo10.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -210,11 +209,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="altxw.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="altxw.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/spiders/altxw/altxw.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="814">
-              <caret line="114" column="59" lean-forward="true" selection-start-line="114" selection-start-column="59" selection-end-line="114" selection-end-column="59" />
+            <state relative-caret-position="1386">
+              <caret line="120" column="43" lean-forward="true" selection-start-line="120" selection-start-column="43" selection-end-line="120" selection-end-column="43" />
               <folding>
                 <element signature="e#21#31#0" expanded="true" />
                 <element signature="e#997#1309#0" expanded="false" />
@@ -275,11 +274,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="bts.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="bts.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/spiders/BTS/bts.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="469">
-              <caret line="73" column="24" lean-forward="false" selection-start-line="73" selection-start-column="24" selection-end-line="73" selection-end-column="24" />
+            <state relative-caret-position="381">
+              <caret line="119" column="45" lean-forward="true" selection-start-line="119" selection-start-column="45" selection-end-line="119" selection-end-column="45" />
               <folding>
                 <element signature="e#21#31#0" expanded="true" />
                 <element signature="e#993#1305#0" expanded="false" />
@@ -421,8 +420,8 @@
         <option value="$PROJECT_DIR$/spiders/BTS/bts_index.py" />
         <option value="$PROJECT_DIR$/spiders/altxw/altxw_index.py" />
         <option value="$PROJECT_DIR$/spiders/beitun_No10/beitunNo10.py" />
-        <option value="$PROJECT_DIR$/spiders/BTS/bts.py" />
         <option value="$PROJECT_DIR$/spiders/altxw/altxw.py" />
+        <option value="$PROJECT_DIR$/spiders/BTS/bts.py" />
       </list>
     </option>
   </component>
@@ -894,13 +893,6 @@
       <option name="presentableId" value="Default" />
       <updated>1501611762506</updated>
     </task>
-    <task id="LOCAL-00012" summary="8-7">
-      <created>1502728769713</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1502728769713</updated>
-    </task>
     <task id="LOCAL-00013" summary="8-7">
       <created>1502729774020</created>
       <option name="number" value="00013" />
@@ -1237,7 +1229,14 @@
       <option name="project" value="LOCAL" />
       <updated>1511502452256</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="添加北屯网的两个爬虫。">
+      <created>1511504710544</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1511504710544</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -2158,24 +2157,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/BTS/bts.py">
+    <entry file="file://$PROJECT_DIR$/spiders/altxw/altxw.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="469">
-          <caret line="73" column="24" lean-forward="false" selection-start-line="73" selection-start-column="24" selection-end-line="73" selection-end-column="24" />
+        <state relative-caret-position="1386">
+          <caret line="120" column="43" lean-forward="true" selection-start-line="120" selection-start-column="43" selection-end-line="120" selection-end-column="43" />
           <folding>
             <element signature="e#21#31#0" expanded="true" />
-            <element signature="e#993#1305#0" expanded="false" />
+            <element signature="e#997#1309#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spiders/altxw/altxw.py">
+    <entry file="file://$PROJECT_DIR$/spiders/BTS/bts.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="814">
-          <caret line="114" column="59" lean-forward="true" selection-start-line="114" selection-start-column="59" selection-end-line="114" selection-end-column="59" />
+        <state relative-caret-position="381">
+          <caret line="119" column="45" lean-forward="true" selection-start-line="119" selection-start-column="45" selection-end-line="119" selection-end-column="45" />
           <folding>
             <element signature="e#21#31#0" expanded="true" />
-            <element signature="e#997#1309#0" expanded="false" />
+            <element signature="e#993#1305#0" expanded="false" />
           </folding>
         </state>
       </provider>
