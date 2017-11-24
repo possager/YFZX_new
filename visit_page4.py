@@ -28,8 +28,8 @@ def get_response_and_text(url,headers=None,needupdate=False,update_info=None,cha
     error_time=8#上边是访问成功后，状态结果是204的重复次数，这里是其他任何类型错误的重复次数
     while True: # 强制请求
         try:
-            proxy_from_xmx=get_proxy_couple(random.randint(0,50))
-            # proxy_from_xmx='192.168.6.105:8080'
+            # proxy_from_xmx=get_proxy_couple(random.randint(0,50))
+            proxy_from_xmx='192.168.6.105:8080'
             proxies1={'http': 'http://' + proxy_from_xmx,'https':'http://'+proxy_from_xmx}
 
 
