@@ -11,10 +11,9 @@ def get_index(queue):
         'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
     }
 
-    urls1=['http://www.altxw.com/news/system/count//0012002/000000000000/000/001/c0012002000000000000_0000012{}.shtml'.format(str(i)) for i in range(39,56)]#
-    urls2=['http://www.altxw.com/news/node_2031_{}.htm'.format(str(i)) for i in range(1,9)]
+    urls1=['http://www.altxw.com/news/system/count//0012002/000000000000/000/001/c0012002000000000000_0000012{}.shtml'.format(str(i)) for i in range(55,58)]#
+    urls2=['http://www.altxw.com/news/node_2031.htm']
     urls3=urls1+urls2
-    urls3.append('http://www.altxw.com/gblw/system/count//0003000/000000000000/000/000/c0003000000000000000_000000065.shtml')
     urls3.append('http://www.altxw.com/gblw/index.shtml')
 
     for url in urls3:
@@ -35,8 +34,12 @@ def get_index(queue):
             publish_time=one_url_div.select('span')[0].text.strip()
             if len(publish_time.split('-')[0])<4:
                 publish_time='20'+publish_time
-            if len(publish_time.strip(' ')[1])<8:
+            if len(publish_time)<11:
+                publish_time+=' 00:00:00'
+            elif 4<len(publish_time.split(u' ')[1])<8:
                 publish_time=publish_time+':00'
+            if len(publish_time)<18:
+                print publish_time
             spider_time=datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             id=url.split('/')[-1].split('.')[0]
 
@@ -47,6 +50,7 @@ def get_index(queue):
                 'spider_time':spider_time,
                 'id':id,
                 'parent_id':id,
+                'publish_user':''
             }
             queue.put(index_data_dict)
 

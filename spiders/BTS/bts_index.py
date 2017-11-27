@@ -15,17 +15,17 @@ def get_index(contentqueue):
         'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36',
         'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8'
     }
-    urls=['http://bts.gov.cn/xw/gjgn/index_{}.shtml'.format(str(i)) for i in range(2,13)]#国内
-    url2=['http://bts.gov.cn/xw/zdxw/index_{}.shtml'.format(str(i)) for i in range(2,15)]#师事
-    url3=['http://www.bts.gov.cn/zcms/catalog/36384/pc/index_{}.shtml'.format(str(i)) for i in range(2,200)]#部门动态
-    url4=['http://bts.gov.cn/xw/zsjg/index_{}.shtml'.format(str(i)) for i in range(2,3)]#直属单位
-    url5=['http://bts.gov.cn/xw/gjgn/tcdt/index_{}.shtml'.format(str(i)) for i in range(2,100)]
+    urls=['http://bts.gov.cn/xw/gjgn/']#国内
+    url2=['http://bts.gov.cn/xw/zdxw/']#师事
+    url3=['http://www.bts.gov.cn/zcms/']#部门动态
+    url4=['http://bts.gov.cn/xw/zsjg/']#直属单位
+    url5=['http://bts.gov.cn/xw/gjgn/']
     url6=['http://bts.gov.cn/xw/qt/']#其它
-    url7=['http://www.bts.gov.cn/gk/tzgg/index_{}.shtml'.format(str(i)) for i in range(2,3)]#通知公告
-    url9=['http://www.bts.gov.cn/gk/rsxx/index_{}.shtml'.format(str(i)) for i in range(2,3)]#人事信息
-    url10=['http://www.bts.gov.cn/gk/ywgz/index_{}.shtml'.format(str(i)) for i in range(2,34)]#业务工作
-    url11=['http://www.bts.gov.cn/gk/wjzc/index_{}.shtml'.format(str(i)) for i in range(2,13)]#文件政策
-    url12=['http://www.bts.gov.cn/gk/zcjd1/index_{}.shtml'.format(str(i)) for i in range(2,9)]#政策解读
+    url7=['http://www.bts.gov.cn/gk/tzgg/']#通知公告
+    url9=['http://www.bts.gov.cn/gk/rsxx/']#人事信息
+    url10=['http://www.bts.gov.cn/gk/ywgz/']#业务工作
+    url11=['http://www.bts.gov.cn/gk/wjzc/']#文件政策
+    url12=['http://www.bts.gov.cn/gk/zcjd1/']#政策解读
     url13=['http://www.bts.gov.cn/gk/tjxx/']#统计信息
 
 

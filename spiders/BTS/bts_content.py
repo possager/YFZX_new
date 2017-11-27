@@ -53,6 +53,7 @@ def get_content(data,result_queue):
         data['publish_time']=publish_time
         data['img_urls']=img_urls2
         data['source']=source
+        data['publish_user']=''
 
         pass
         result_queue.put(data)

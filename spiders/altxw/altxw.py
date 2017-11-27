@@ -89,7 +89,7 @@ class altxw(object):
 
     def save_result(self):
         def save_result(data):
-            result_file = get_result_name(plantform_e='altxw', plantform_c='阿勒泰新闻', date_time=data['publish_time'],
+            result_file = get_result_name(plantform_e='altxw', plantform_c='阿勒泰新闻网', date_time=data['publish_time'],
                                           urlOruid=data['url'],
                                           newsidOrtid=data['id'],
                                           datatype='news', full_data=data)
@@ -103,7 +103,7 @@ class altxw(object):
                         newsidOrtid=data['id'],
                         datatype='news', full_data=data)
 
-            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='BeiTunXinWen',platform_c='北屯新闻',cache_data_list=self.cache_data_Queue)
+            save_data_to_mongodb(data={'data':data},item_id=result_file,platform_e='altxw',platform_c='阿勒泰新闻网',cache_data_list=self.cache_data_Queue)
 
         threadlist = []
         while self.global_status_num_content > 0 or not self.result_Queue.empty():

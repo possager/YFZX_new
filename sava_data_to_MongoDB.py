@@ -2,7 +2,9 @@ import pymongo
 import json
 import datetime
 import time
-from KafkaConnector import RemoteProducer,Consumer
+# from KafkaConnector import RemoteProducer,Consumer
+# from KafkaPython1 import Kafka_producer,Kafka_consumer
+from KafkaConnector2 import RemoteProducer,Consumer
 import threading
 import datetime
 # from multiprocessing import Pool
@@ -18,9 +20,9 @@ host = '182.150.63.40'
 port = '12308'
 username = 'silence'
 password = 'silence'
-producer = RemoteProducer(host=host, port=port, username=username, password=password)
-
-
+# producer = RemoteProducer(host=host, port=port, username=username, password=password)
+# producer=Kafka_producer()
+producer=RemoteProducer(host='118.112.17.8',port='11010',username='silence',password='silence')#18080
 class data_to_mongo:
     def __init__(self):
         self.clent=pymongo.MongoClient('localhost',27017)

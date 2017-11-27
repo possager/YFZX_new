@@ -44,6 +44,7 @@ def get_content(data,comment_queue):
         data['source']=source
         data['content']=content
         data['img_urls']=img_urls2
+
         comment_queue.put(data)
     except Exception as e:
         print e
